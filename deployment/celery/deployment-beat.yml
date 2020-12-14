@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mcmc-celery-beat
+  labels:
+    deployment: mcmc-database-api-celery-beat
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      pod: mcmc-database-api-celery-beat
+  template:
+    metadata:
+      labels:
+        pod: mcmc-database-api-celery-beat
+    spec:
+      containers:
+        - name: mcmc-database-api-celery-beat
+          image: raziman/mcmc-database-api
+          # celery -A client-appname-api beat -l debug
+          command: ['celery', '-A', 'core', 'beat', '-l', 'debug']
+          envFrom:
+            - secretRef:
+                name: mcmc-database-api-secret

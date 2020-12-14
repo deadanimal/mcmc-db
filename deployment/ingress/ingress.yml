@@ -1,0 +1,28 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: mcmc-database-my-ingress
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    cert-manager.io/cluster-issuer: "mcmc-database-my-prod"
+spec:
+  tls:
+  - hosts:
+    - mcmc-database.pipe.my #guna prototype.com.my untuk prototype
+    - mcmc-database-api.pipe.my
+
+    secretName: mcmc-database-my-prod
+
+  rules:
+  - host: mcmc-database-api.pipe.my
+    http:
+      paths:
+      - backend:
+          serviceName: mcmc-database-api
+          servicePort: 5000    
+  - host: mcmc-database.pipe.my
+    http:
+      paths:
+      - backend:
+          serviceName: mcmc-database-webapp
+          servicePort: 80    

@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mcmc-database-api-redis
+  labels:
+    deployment: mcmc-database-api-redis
+spec:
+  selector:
+    matchLabels:
+      pod: mcmc-database-api-redis
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        pod: mcmc-database-api-redis
+    spec:
+      containers:
+      - name: master
+        image: redis
+        resources:
+          requests:
+            cpu: 50m
+            memory: 50Mi
+        ports:
+        - containerPort: 6379

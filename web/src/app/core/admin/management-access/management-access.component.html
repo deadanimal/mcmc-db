@@ -1,0 +1,245 @@
+<div class="header bg-info pb-6">
+	<div class="container-fluid">
+		<div class="header-body">
+			<div class="row align-items-center py-4">
+				<div class="col-lg-8 col-7">
+					<h6 class="h2 text-white d-inline-block mb-0">Welcome, Ali Imran</h6><br>
+          <h6 class="h3 text-white d-inline-block mb-0">"Registration of Certified Communications Equipment (RECCE)"</h6><br><br>
+          <h6 class="h2 text-white d-inline-block mb-0">Role Based Access Control</h6>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class=" container-fluid mt--6">
+  <div class=" row">
+    <div class=" col-xl-4 col-md-6">
+      <div class=" card bg-gradient-info border-0">
+        <div class=" card-body">
+          <div class=" row">
+            <div class=" col">
+              <h5 class=" card-title text-uppercase text-muted mb-0 text-white">
+                Total Visitors
+              </h5>
+
+              <span class=" h2 font-weight-bold mb-0 text-white"> 30,212 </span>
+
+              <div class=" progress progress-xs mt-3 mb-0">
+                <progressbar type="success" [value]="30"> </progressbar>
+              </div>
+            </div>
+
+            <div class=" col-auto">
+              <div dropdown class="dropdown no-caret">
+                <button
+                  id="button-basic"
+                  dropdownToggle
+                  type="button"
+                  class="btn btn-sm btn-neutral mr-0 dropdown-toggle"
+                  aria-controls="dropdown-basic"
+                >
+                  <i class=" fas fa-ellipsis-h"> </i>
+                </button>
+
+                <div
+                  class="dropdown-menu dropdown-menu-right dropdown-menu-arrow"
+                  *dropdownMenu
+                >
+                  <a class="dropdown-item" href="javascript:void(0)">
+                    Action
+                  </a>
+
+                  <a class="dropdown-item" href="javascript:void(0)">
+                    Another action
+                  </a>
+
+                  <a class="dropdown-item" href="javascript:void(0)">
+                    Something else here
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <p class=" mt-3 mb-0 text-sm">
+            <a
+              class=" text-nowrap text-white font-weight-600"
+              href="javascript:void(0)"
+            >
+              See details
+            </a>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class=" col-xl-4 col-md-6">
+      <div class=" card bg-gradient-primary border-0">
+        <div class=" card-body">
+          <div class=" row">
+            <div class=" col">
+              <h5 class=" card-title text-uppercase text-muted mb-0 text-white">
+                Total Users
+              </h5>
+
+              <span class=" h2 font-weight-bold mb-0 text-white">
+                123
+              </span>
+
+              <div class=" progress progress-xs mt-3 mb-0">
+                <progressbar type="success" [value]="50"> </progressbar>
+              </div>
+            </div>
+
+            <div class=" col-auto">
+              <div dropdown class="dropdown no-caret">
+                <button
+                  id="button-basic"
+                  dropdownToggle
+                  type="button"
+                  class="btn btn-sm btn-neutral mr-0 dropdown-toggle"
+                  aria-controls="dropdown-basic"
+                >
+                  <i class=" fas fa-ellipsis-h"> </i>
+                </button>
+
+                <div
+                  class="dropdown-menu dropdown-menu-right dropdown-menu-arrow"
+                  *dropdownMenu
+                >
+                  <a class="dropdown-item" href="javascript:void(0)">
+                    Action
+                  </a>
+
+                  <a class="dropdown-item" href="javascript:void(0)">
+                    Another action
+                  </a>
+
+                  <a class="dropdown-item" href="javascript:void(0)">
+                    Something else here
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <p class=" mt-3 mb-0 text-sm">
+            <a
+              class=" text-nowrap text-white font-weight-600"
+              href="javascript:void(0)"
+            >
+              See details
+            </a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid">
+  <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-header bg-secondary">
+                    <h3 class="m-0">Edit Role Based</h3>
+                </div>
+                <div class="dataTables_wrapper py-4">
+                    <div class="row">
+                      <div class="col-3 col-md-3 ml-4">
+                        <select class=" form-control" id="exampleFormControlSelect1">
+                          <option> Department </option>
+                          <option> Department 2 </option>
+                          <option> Department 3 </option>
+                          <option> Department 4 </option>
+                          <option> Department 5 </option>
+                        </select>
+                      </div>
+                      <div class="col-3 col-md-3 ">
+
+                        <select class=" form-control" id="exampleFormControlSelect1">
+                          <option> User  </option>
+                          <option> Ali </option>
+                          <option> Amran </option>
+                          <option> Amin </option>
+                          <option> Arif </option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-12 col-md-6 mt-3">
+                            <div class="dataTables_length" id="datatable_length">
+                                <label>
+                                    Show
+                                    <select 
+                                        name="datatable_length"
+                                        aria-controls="datatable"
+                                        class="form-control form-control-sm"
+                                        (change)="entriesChange($event)"
+                                    >
+                                        <option value="10" [selected]="entries==5">5</option>
+                                        <option value="25" [selected]="entries==10">10</option>
+                                        <option value="50" [selected]="entries==15">15</option>
+                                        <option value="-1" [selected]="entries==-1">All</option>
+                                    </select>
+                                    records
+                                </label>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <ngx-datatable 
+                        class="bootstrap selection-cell"
+                        [columnMode]="'force'"
+                        [headerHeight]="50"
+                        [footerHeight]="50" 
+                        [rowHeight]="'auto'"
+                        [limit]="tableEntries != -1 ? tableEntries:undefined"
+                        [rows]="tableTemp" 
+                        (activate)="onActivate($event)"
+                    >
+
+                        <ngx-datatable-column>
+                            <ng-template ngx-datatable-header-template>
+                                <span>User ID</span>
+                            </ng-template>
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+                                {{row.user_id}}
+                            </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="Name"></ngx-datatable-column>
+                        <ngx-datatable-column name="Email"></ngx-datatable-column>
+                        <ngx-datatable-column>
+                            <ng-template ngx-datatable-header-template>
+                                <span>Joined At</span>
+                            </ng-template>
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+                                {{row.joined_at}}
+                            </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column>
+                            <ng-template ngx-datatable-header-template>
+                                <span>User Type</span>
+                            </ng-template>
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+                                {{row.user_type}}
+                            </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column>
+                            <ng-template ngx-datatable-header-template>
+                                <span>Status</span>
+                            </ng-template>
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+                                <span *ngIf="row.is_active == 'Active'" class="badge badge-pill badge-success">Active</span>
+                                <span *ngIf="row.is_active == 'Inactive'" class="badge badge-pill badge-warning">Inactive</span>
+                            </ng-template>
+                        </ngx-datatable-column>
+                    </ngx-datatable>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mcmc-database-api-celery-worker
+  labels:
+    deployment: mcmc-database-api-celery-worker
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      pod: mcmc-database-api-celery-worker
+  template:
+    metadata:
+      labels:
+        pod: mcmc-database-api-celery-worker
+    spec:
+      containers:
+        - name: mcmc-database-api-celery-worker
+          image: raziman/mcmc-database-api
+          # celery -A mcmc-database-api worker -l debug
+          command: ['celery', '-A', 'core', 'worker', '-l', 'info']
+          envFrom:
+            - secretRef:
+                name: mcmc-database-api-secret            

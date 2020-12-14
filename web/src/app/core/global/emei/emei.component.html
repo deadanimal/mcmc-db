@@ -1,0 +1,66 @@
+<ngx-loading-bar></ngx-loading-bar>
+<div class="auth-content">
+  <div class=" header ">
+    <div class=" container-fluid">
+      <div class=" header-body">
+        <div class=" row align-items-center py-4">
+          <div class="col-lg-2">
+              <img class="logo" [src]="imgLogo" style="height:100px">
+          </div>
+          <div class=" col-lg-8 col-7 ml--6">
+              <h1 class="ml-4 text-white"><i>Welcome to </i><br><b>REGISTRY of CERTIFIED COMMUNICATION EQUIPMENT<br>(RECCE)</b></h1>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div> 
+
+  <div class="main-content d-flex align-items-center">
+      <div class="container">
+          <div class="row justify-content-center mt-6">
+
+            <form [formGroup]="searchIMEIForm">
+              <h1 class="text-white text-center">IMEI Enquiry</h1><br>
+              <label class="h1 text-white"  for="fname">IMEI Number:  </label>
+              <input type="text" id="imei" formControlName="IMEI" name="imei" [(ngModel)]="imei"><br><br>
+              <div class="text-center">
+              <button class=" btn btn-sm btn-neutral" (click)="productGeneration()" [disabled]="imei === ''" style="width:100px">
+                Search
+              </button>
+              <input class=" btn btn-sm btn-neutral" type="reset" value="Reset" style="width:100px">
+              <br>
+              <a class=" btn btn-sm btn-neutral mt-1" (click)="navigatePage('menu')" style="width:100px">
+                Main menu
+              </a>
+              </div>
+            </form>
+              
+          </div>
+          <div class="row">
+            <div *ngFor="let data of infoTable">
+              <span>{{data.SLPID}} {{data.TAC}} {{data.ProductRegistrationId}} {{data.regType}}</span> 
+            </div>
+          </div>
+      </div>
+  </div>
+</div>
+
+
+
+<div class="container-fluid mt--5 ">
+		<div class="row align-items-center justify-content-xl-between">
+			<div class="col-xl-8">
+				<div class="copyright text-center text-xl-left text-muted">
+					&copy; {{ test | date: "yyyy" }}
+					All rights reserved © 
+					<a
+						href="https://www.prototype.com.my"
+						class="font-weight-bold ml-1"
+						target="_blank"
+					>
+						Malaysian Communications and Multimedia Commission
+					</a>
+				</div>
+			</div>
+		</div>
+</div>
