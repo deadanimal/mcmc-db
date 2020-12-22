@@ -20,14 +20,14 @@ class ViewListingVariable2(models.Model):
     brandInd = models.CharField(max_length=255, blank=True)
     marketingNameInd = models.CharField(max_length=255, blank=True)
     typeOfProductInd = models.CharField(max_length=255, blank=True)
-    # submissionDateInd = models.CharField(max_length=255, blank=True)
+    submissionDateInd = models.CharField(max_length=255, blank=True)
     activeIndicator = models.CharField(max_length=255, blank=True)
     created_date = models.DateTimeField(auto_now=True)
     modified_date = models.DateTimeField(auto_now=True)
-    # approveDateInd = models.DateTimeField(auto_now=True)
-    # expiryDateInd = models.DateTimeField(auto_now=True)
-    # birth_date = models.DateTimeField(null=True)
-    # nric = models.CharField(max_length=12, default='NA')   
+    approveDateInd = models.DateTimeField(auto_now=True)
+    expiryDateInd = models.DateTimeField(auto_now=True)
+    birth_date = models.DateTimeField(null=True)
+    nric = models.CharField(max_length=12, default='NA')   
 
 
     # USER_TYPE_OPTION = [

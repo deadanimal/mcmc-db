@@ -17,15 +17,17 @@
     <div class="card-body">
       <div class="row">
         <div class="col-lg-3">
-          <div class="form-group">
-            <select class="form-control custom-select" #mySelect style="width:200px">
-            <option hidden selected value="0">Please pick</option>
-            <option value="general">General</option>
-            <option value="account">Account and Billing</option>
-            <option value="owner">Owner/Tenant issues</option>
-            <option value="power">Power Quality</option>
-            </select>
-            <button class=" btn btn-facebook btn-icon-only ml-1" type="button">+</button>
+          <div class="card">
+            <div class="form-group">
+              <select class="form-control custom-select" #mySelect style="width:200px">
+              <option hidden selected value="0">Please pick</option>
+              <option value="general">General</option>
+              <option value="account">Account and Billing</option>
+              <option value="owner">Owner/Tenant issues</option>
+              <option value="power">Power Quality</option>
+              </select>
+              <button class=" btn btn-facebook btn-icon-only ml-1" type="button" (click)="openModal(createTitle)">+</button>
+            </div>
           </div>
         </div>
 
@@ -62,3 +64,71 @@
     </div>
   </div>
 </div>
+
+<ng-template #createTitle>
+    <div class="modal-header bg-default">
+        <h6 class="modal-title text-white my-auto" id="modal-title-default">
+            Create New Title
+        </h6>
+
+        <button
+            aria-label="Close"
+            class="close"
+            data-dismiss="modal"
+            type="button"
+            (click)="closeModal()"
+        >
+            <span aria-hidden="true" class="text-white my-auto"> × </span>
+        </button>
+    </div>
+
+    <div class="modal-body">
+        <form [formGroup]="registerForm">
+            <div class="form-group">
+                <label class="form-control-label">Title</label>
+                <input 
+                  class="form-control"
+                  placeholder="Enter title"
+                  formControlName="title"
+                  type="text"
+                >
+                <ng-container *ngFor="let message of registerFormMessages.name">
+                    <div *ngIf="registerForm.get('name').hasError(message.type) && (registerForm.get('name').dirty || registerForm.get('name').touched)">
+                        <p class="error-message"><span>{{ message.message }}</span></p>
+                    </div>
+                </ng-container>
+
+                <br><label class="form-control-label">Active</label><br>
+                <label class=" custom-toggle custom-toggle-success mr-1">
+                <input checked="checked" type="checkbox" />
+                <span
+                  class=" custom-toggle-slider rounded-circle"
+                  data-label-off="No"
+                  data-label-on="Yes"
+                >
+                </span>
+              </label>
+            </div>
+        </form>
+    </div>
+
+    <div class="modal-footer">
+        <button 
+            class="btn btn-success"
+            type="button"
+            (click)="confirm()"
+            [disabled]="!registerForm.valid"
+        >
+            Create
+        </button>
+
+        <button
+            class="btn btn-outline-danger ml-auto"
+            data-dismiss="modal"
+            type="button"
+            (click)="closeModal()"
+        >
+            Close
+        </button>
+    </div>
+</ng-template>

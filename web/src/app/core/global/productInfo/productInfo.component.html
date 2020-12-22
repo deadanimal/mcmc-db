@@ -19,21 +19,21 @@
     <div class="container">
         <div class="row justify-content-center mt-6">
 
-          <form>
+          <form [formGroup]="searchPRODUCTForm">
             <h1 class="text-white text-center">Model/Brand Enquiry</h1><br>
-            <label class="h1 text-white" for="fname">Brand :  </label>
-            <input type="text" id="fname" name="fname"><br>
+            <label class="h1 text-white" for="product">Brand :  </label>
+            <input type="text" id="product" formControlName="PRODUCT" name="product" [(ngModel)]="product"><br>
             <label class="h1 text-white" for="fname">Model :  </label>
-            <input type="text" id="fname" name="fname"><br>
-            <label class="h1 text-white" for="fname">Search Type :  </label>
-            <input type="text" id="fname" name="fname"><br><br>
+            <input type="text" id="model" name="model"><br>
+            <label class="h1 text-white" for="search">Search Type :  </label>
+            <input type="text" id="search" name="search"><br><br>
             <div class="text-center">
-            <button class=" btn btn-sm btn-neutral" href="javascript:void(0)" style="width:100px">
+            <button class=" btn btn-lg btn-neutral" (click)="productGeneration(); openModal(showResult)" [disabled]="!searchPRODUCTForm.valid" style="width:100px">
               Search
             </button>
-            <input class=" btn btn-sm btn-neutral" type="reset" value="Reset" style="width:100px">
+            <input class=" btn btn-lg btn-neutral" type="reset" value="Reset" style="width:100px">
             <br>
-            <button class=" btn btn-sm btn-neutral mt-1" (click)="navigatePage('menu')" style="width:100px">
+            <button class=" btn btn-lg btn-neutral mt-1 mr-1" (click)="navigatePage('menu')" style="width:202px">
               Main menu
             </button>
             </div>
@@ -61,3 +61,133 @@
 			</div>
 		</div>
 </div>
+
+<ng-template #showResult>
+    <div class="modal-header bg-default">
+        <h6 class="modal-title text-white my-auto" id="modal-title-default">
+            Self Labeling ID
+        </h6>
+        <button
+            aria-label="Close"
+            class="close"
+            data-dismiss="modal"
+            type="button"
+            (click)="closeModal()"
+        >
+            <span aria-hidden="true" class="text-white my-auto"> × </span>
+        </button>
+    </div>
+
+    <div class="modal-body">
+      <div class="dataTables_wrapper py-4">
+              <div class="row">
+                <div class="col-sm-12 col-md-6">
+                  <div class="dataTables_length" id="datatable_length">
+                    <label>
+                      Show
+                      <select
+                        name="datatable_length"
+                        aria-controls="datatable"
+                        class="form-control form-control-sm"
+                        (change)="entriesChange($event)"
+                      >
+                        <option value="5">5</option>
+                        <option value="10">10</option>
+                        <option value="15">15</option>
+                        <option value="-1">All</option>
+                      </select>
+                      records
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <ngx-datatable
+                class="bootstrap selection-cell"
+                [columnMode]="'force'"
+                [headerHeight]="50"
+                [footerHeight]="50"
+                [rowHeight]="'auto'"
+                [limit]="tableEntries != -1 ? tableEntries : undefined"
+                [rows]="infoTable"
+                (activate)="onActivate($event)"
+              >
+                <ngx-datatable-column name="No">
+                  <ng-template
+                    let-rowIndex="rowIndex"
+                    let-row="row"
+                    ngx-datatable-cell-template
+                  >
+                    <strong>{{ rowIndex + 1 }}</strong>
+                  </ng-template>
+                </ngx-datatable-column>
+
+                <ngx-datatable-column>
+                  <ng-template ngx-datatable-header-template>
+                    <span>Applicant Name</span>
+                  </ng-template>
+                  <ng-template let-row="row" ngx-datatable-cell-template>
+                    {{ row.consigneeName }}
+                  </ng-template>
+                </ngx-datatable-column>
+
+                <ngx-datatable-column>
+                  <ng-template ngx-datatable-header-template>
+                    <span>Model Description</span>
+                  </ng-template>
+                  <ng-template let-row="row" ngx-datatable-cell-template>
+                    {{ row.modelDescription }}
+                  </ng-template>
+                </ngx-datatable-column>
+
+                <ngx-datatable-column>
+                  <ng-template ngx-datatable-header-template>
+                    <span>TAC</span>
+                  </ng-template>
+                  <ng-template let-row="row" ngx-datatable-cell-template>
+                    {{ row.TAC }}
+                  </ng-template>
+                </ngx-datatable-column>
+
+                <ngx-datatable-column>
+                  <ng-template ngx-datatable-header-template>
+                    <span>Device Category</span>
+                  </ng-template>
+                  <ng-template let-row="row" ngx-datatable-cell-template>
+                    {{ row.productCategory }}
+                  </ng-template>
+                </ngx-datatable-column>
+
+                <ngx-datatable-column>
+                  <ng-template ngx-datatable-header-template>
+                    <span>Approval Date</span>
+                  </ng-template>
+                  <ng-template let-row="row" ngx-datatable-cell-template>
+                    {{ row.approveDate }}
+                  </ng-template>
+                </ngx-datatable-column>
+
+                <ngx-datatable-column>
+                  <ng-template ngx-datatable-header-template>
+                    <span>Expired Date</span>
+                  </ng-template>
+                  <ng-template let-row="row" ngx-datatable-cell-template>
+                    {{ row.expiryDate }}
+                  </ng-template>
+                </ngx-datatable-column>
+
+              </ngx-datatable>
+            </div>        
+    </div>
+
+    <div class="modal-footer">
+        <button
+            class="btn btn-outline-danger ml-auto"
+            data-dismiss="modal"
+            type="button"
+            (click)="closeModal()"
+        >
+            Close
+        </button>
+    </div>
+</ng-template>

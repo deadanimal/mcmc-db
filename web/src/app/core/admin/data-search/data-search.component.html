@@ -13,7 +13,7 @@
 </div>
 
 <div class="container-fluid mt--6">
-<div class="row">
+    <div class="row">
 				<div class="col-xl-3 col-md-6">
 					<div class="card card-stats">
 						<div class="card-body">
@@ -171,46 +171,101 @@
                         [footerHeight]="50" 
                         [rowHeight]="'auto'"
                         [limit]="tableEntries != -1 ? tableEntries:undefined"
-                        [rows]="tableTemp" 
-                        (activate)="onActivate($event)"
+                        [rows]="infoTable" 
                     >
+                      <ngx-datatable-column name="No">
+                        <ng-template
+                          let-rowIndex="rowIndex"
+                          let-row="row"
+                          ngx-datatable-cell-template
+                        >
+                          <strong>{{ rowIndex + 1 }}</strong>
+                        </ng-template>
+                      </ngx-datatable-column>
 
-                        <ngx-datatable-column>
-                            <ng-template ngx-datatable-header-template>
-                                <span>User ID</span>
-                            </ng-template>
-                            <ng-template let-row="row" ngx-datatable-cell-template>
-                                {{row.user_id}}
-                            </ng-template>
-                        </ngx-datatable-column>
-                        <ngx-datatable-column name="Name"></ngx-datatable-column>
-                        <ngx-datatable-column name="Email"></ngx-datatable-column>
-                        <ngx-datatable-column>
-                            <ng-template ngx-datatable-header-template>
-                                <span>Joined At</span>
-                            </ng-template>
-                            <ng-template let-row="row" ngx-datatable-cell-template>
-                                {{row.joined_at}}
-                            </ng-template>
-                        </ngx-datatable-column>
-                        <ngx-datatable-column>
-                            <ng-template ngx-datatable-header-template>
-                                <span>User Type</span>
-                            </ng-template>
-                            <ng-template let-row="row" ngx-datatable-cell-template>
-                                {{row.user_type}}
-                            </ng-template>
-                        </ngx-datatable-column>
-                        <ngx-datatable-column>
-                            <ng-template ngx-datatable-header-template>
-                                <span>Status</span>
-                            </ng-template>
-                            <ng-template let-row="row" ngx-datatable-cell-template>
-                                <span *ngIf="row.is_active == 'Active'" class="badge badge-pill badge-success">Active</span>
-                                <span *ngIf="row.is_active == 'Inactive'" class="badge badge-pill badge-warning">Inactive</span>
-                            </ng-template>
-                        </ngx-datatable-column>
+                      <ngx-datatable-column>
+                          <ng-template ngx-datatable-header-template>
+                              <span>SLIP ID</span>
+                          </ng-template>
+                          <ng-template let-row="row" ngx-datatable-cell-template>
+                              {{row.SLPID}}
+                          </ng-template>
+                      </ngx-datatable-column>
+
+                      <ngx-datatable-column>
+                          <ng-template ngx-datatable-header-template>
+                              <span>File No.</span>
+                          </ng-template>
+                          <ng-template let-row="row" ngx-datatable-cell-template>
+                              {{row.fileNo}}
+                          </ng-template>
+                      </ngx-datatable-column>
+
+                      <ngx-datatable-column>
+                          <ng-template ngx-datatable-header-template>
+                              <span>TAC</span>
+                          </ng-template>
+                          <ng-template let-row="row" ngx-datatable-cell-template>
+                              {{row.TAC}}
+                          </ng-template>
+                      </ngx-datatable-column>
+
+                      <ngx-datatable-column>
+                          <ng-template ngx-datatable-header-template>
+                              <span>Product Category</span>
+                          </ng-template>
+                          <ng-template let-row="row" ngx-datatable-cell-template>
+                              {{row.productCategory}}
+                          </ng-template>
+                      </ngx-datatable-column>
+
+                      <ngx-datatable-column>
+                          <ng-template ngx-datatable-header-template>
+                              <span>Model ID</span>
+                          </ng-template>
+                          <ng-template let-row="row" ngx-datatable-cell-template>
+                              {{row.modelId}}
+                          </ng-template>
+                      </ngx-datatable-column>
+
+                      <!--<ngx-datatable-column>
+                          <ng-template ngx-datatable-header-template>
+                              <span>Model Description</span>
+                          </ng-template>
+                          <ng-template let-row="row" ngx-datatable-cell-template>
+                              {{row.modelDescription}}
+                          </ng-template>
+                      </ngx-datatable-column>>-->
+
+                      <ngx-datatable-column>
+                          <ng-template ngx-datatable-header-template>
+                              <span>Consignee Name</span>
+                          </ng-template>
+                          <ng-template let-row="row" ngx-datatable-cell-template>
+                              {{row.consigneeName}}
+                          </ng-template>
+                      </ngx-datatable-column>
+
+                      <ngx-datatable-column>
+                          <ng-template ngx-datatable-header-template>
+                              <span>Approve Date</span>
+                          </ng-template>
+                          <ng-template let-row="row" ngx-datatable-cell-template>
+                              {{row.approveDate}}
+                          </ng-template>
+                      </ngx-datatable-column>
+
+                      <ngx-datatable-column>
+                          <ng-template ngx-datatable-header-template>
+                              <span>Expiry Date</span>
+                          </ng-template>
+                          <ng-template let-row="row" ngx-datatable-cell-template>
+                              {{row.expiryDate}}
+                          </ng-template>
+                      </ngx-datatable-column>
+
                     </ngx-datatable>
+                  
                 </div>
             </div>
         </div>
@@ -218,58 +273,19 @@
   <div class=" row">
     <div class=" col-xl-12">
       <div class=" card bg-default">
-        <div class=" card-header bg-transparent">
+        <div class=" card-header">
           <div class=" row align-items-center">
             <div class=" col">
               <h6 class=" text-light text-uppercase ls-1 mb-1">Overview</h6>
 
-              <h5 class=" h3 text-white mb-0">Sales value</h5>
-            </div>
-
-            <div class="col">
-              <ul class="nav nav-pills justify-content-end">
-                <li
-                  class="nav-item mr-2 mr-md-0"
-                  data-toggle="chart"
-                  data-target="#chart-sales"
-                  (click)="data = datasets[0]; updateOptions()"
-                >
-                  <a
-                    href="javascript:void(0)"
-                    class="nav-link py-2 px-3"
-                    [ngClass]="{ active: clicked === true }"
-                    data-toggle="tab"
-                    (click)="clicked = true; clicked1 = false"
-                  >
-                    <span class="d-none d-md-block">Month</span>
-                    <span class="d-md-none">M</span>
-                  </a>
-                </li>
-                <li
-                  class="nav-item"
-                  data-toggle="chart"
-                  data-target="#chart-sales"
-                  (click)="data = datasets[1]; updateOptions()"
-                >
-                  <a
-                    href="javascript:void(0)"
-                    class="nav-link py-2 px-3"
-                    [ngClass]="{ active: clicked1 === true }"
-                    data-toggle="tab"
-                    (click)="clicked = false; clicked1 = true"
-                  >
-                    <span class="d-none d-md-block">Week</span>
-                    <span class="d-md-none">W</span>
-                  </a>
-                </li>
-              </ul>
+              <h5 class=" h3 text-white mb-0">Portal Overview</h5>
             </div>
           </div>
         </div>
 
-        <div class=" card-body">
-          <div class=" chart">
-            <canvas class=" chart-canvas" id="chart-sales-dark"> </canvas>
+        <div class="card-body">
+          <div class="chart">
+            <div class="amchart" id="portalchart"></div>
           </div>
         </div>
       </div>

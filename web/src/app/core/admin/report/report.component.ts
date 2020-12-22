@@ -1,13 +1,23 @@
 import { Component, OnInit, OnDestroy, NgZone, TemplateRef } from '@angular/core';
 import { User } from 'src/assets/mock/admin-user/users.model'
 import { MocksService } from 'src/app/shared/services/mocks/mocks.service';
-
-import * as moment from 'moment';
+import { MasterDataService } from 'src/app/shared/services/masterData/masterData.service';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
+import { UsersService } from 'src/app/shared/services/users/users.service';
 am4core.useTheme(am4themes_animated);
+
+
+export enum SelectionType {
+  single = 'single',
+  multi = 'multi',
+  multiClick = 'multiClick',
+  cell = 'cell',
+  checkbox = 'checkbox'
+}
 
 @Component({
   selector: 'app-report',
@@ -24,6 +34,17 @@ export class ReportComponent implements OnInit, OnDestroy {
   dataChart: any[] = []
   dataChart2: any[] = []
   dataChart3: any[] = []
+  user: any
+
+  tableEntries: number = 5;
+  tableSelected: any[] = [];
+  tableTemp = [];
+  tableActiveRow: any;
+  SelectionType = SelectionType;
+  infoTable = []
+  dataSearchForm: FormGroup
+
+  state: boolean = false;
 
   // Datepicker
   bsDPConfig = { 
@@ -33,9 +54,12 @@ export class ReportComponent implements OnInit, OnDestroy {
 
   constructor(
     private mockService: MocksService,
-    private zone: NgZone
+    private zone: NgZone,
+    private masterDataService: MasterDataService,
+    private usersService: UsersService,
   ) {
     this.getData()
+    this.productGeneration()
   }
 
   ngOnInit() {
@@ -97,6 +121,61 @@ export class ReportComponent implements OnInit, OnDestroy {
       }
     )
   }
+
+  productGeneration() {
+    this.masterDataService.get().subscribe(
+      (res) => {
+        this.infoTable = [...res]
+        console.log("zzzzz = ",this.infoTable)
+
+        this.infoTable = this.infoTable.map((prop, key) => {
+          return {
+            ...prop,
+            id: key
+          };
+        });
+        console.log("xxxxxx = ",this.infoTable)
+      },
+      (err) => {
+        // this.loadingBar.complete();
+        // this.errorMessage();
+        // console.log("HTTP Error", err), this.errorMessage();
+      },
+      () => {
+        console.log("HTTP request completed.")
+      //   this.infoTable = [res]
+      //   console.log("zzzzz = ",this.infoTable)
+      }
+    );
+  }
+
+  // getUser(){
+  //   let urlUserOne = this.urlUser + id + '/'
+  //   this.usersService.getOne(urlUserOne).subscribe(
+  //     (res) => {
+  //       console.log("wewe",this.infoTable);
+  //       console.log("zzzzz = ",this.infoTable)
+
+  //       this.infoTable = this.infoTable.map((prop, key) => {
+  //         return {
+  //           ...prop,
+  //           id: key
+  //         };
+  //       });
+  //       console.log("xxxxxx = ",this.infoTable)
+  //     },
+  //     (err) => {
+  //       // this.loadingBar.complete();
+  //       // this.errorMessage();
+  //       // console.log("HTTP Error", err), this.errorMessage();
+  //     },
+  //     () => {
+  //       console.log("HTTP request completed.")
+  //     //   this.infoTable = [res]
+  //     //   console.log("zzzzz = ",this.infoTable)
+  //     }
+  //   );
+  // }
 
   getCharts() {
     this.zone.runOutsideAngular(() => {
@@ -331,6 +410,14 @@ export class ReportComponent implements OnInit, OnDestroy {
 
     this.chart3 = chart
 
+  }
+
+  isAllowed = (optional) => {
+    return optional === 0 ? true : this.state;
+  }
+  
+  changeState = () => {
+    this.state = !this.state;
   }
 
 }

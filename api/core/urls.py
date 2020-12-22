@@ -74,6 +74,38 @@ dataSearch_router = router.register(
     'dataSearch', dataSearchViewSet
 )
 
+from masterTable.views import (
+    masterTableViewSet
+)
+
+masterTable_router = router.register(
+    'masterTable', masterTableViewSet
+)
+
+from FAQ.views import (
+    FAQViewSet
+)
+
+FAQ_router = router.register(
+    'FAQ', FAQViewSet
+)
+
+from FAQCategory.views import (
+    FAQCategoryViewSet
+)
+
+FAQCategory_router = router.register(
+    'FAQCategory', FAQCategoryViewSet
+)
+
+from FAQTitle.views import (
+    FAQTitleViewSet
+)
+
+FAQCategory_router = router.register(
+    'FAQTitle', FAQTitleViewSet
+)
+
 # from AuditViewListingVariable.views import (
 #     AuditViewListingVariableViewSet
 # )

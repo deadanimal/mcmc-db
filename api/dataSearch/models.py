@@ -26,10 +26,11 @@ class dataSearch(models.Model):
     deviceCategory = models.CharField(max_length=255, blank=True)
     created_date = models.DateTimeField(auto_now=True)
     modified_date = models.DateTimeField(auto_now=True)
+    serialNo = models.CharField(max_length=255, blank=True)
  
 
     class Meta:
-        ordering = ['modified_date']
+        ordering = ['TAC']
 
     def __str__(self):
         return self.Id

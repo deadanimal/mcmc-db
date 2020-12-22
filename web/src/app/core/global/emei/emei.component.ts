@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { ProductGenerationService } from 'src/app/shared/services/ProductRegistration/ProductGeneration.service';
 import { LoadingBarService } from '@ngx-loading-bar/core';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 
 @Component({
   selector: 'app-emei',
@@ -15,16 +16,23 @@ export class EmeiComponent implements OnInit {
   infoTable = []
   searchIMEIForm: FormGroup
 
+  modal: BsModalRef;
+  modalConfig = {
+    keyboard: true,
+    class: "modal-dialog-centered modal-xl"
+  };
+
   constructor(
     private router: Router,
     private productGenerationService: ProductGenerationService,
     private loadingBar: LoadingBarService,
     private formBuilder: FormBuilder,
+    private modalService: BsModalService,
   ) { }
 
   ngOnInit() {
     this.searchIMEIForm = this.formBuilder.group({
-      IMEI: new FormControl(''),
+      IMEI: new FormControl('', Validators.required),
     }) 
     
   }
@@ -37,7 +45,7 @@ export class EmeiComponent implements OnInit {
 
   productGeneration() {
     console.log("HTTP",this.searchIMEIForm.value.IMEI)
-    let datafield = "IMEI="+this.searchIMEIForm.value.IMEI 
+    let datafield = "imeiNo="+this.searchIMEIForm.value.IMEI 
     this.productGenerationService.filter(datafield).subscribe(
       (res) => {
         this.loadingBar.complete();
@@ -54,6 +62,14 @@ export class EmeiComponent implements OnInit {
       },
       () => console.log("HTTP request completed.")
     );
+  }
+
+  openModal(modalRef: TemplateRef<any>) {
+    this.modal = this.modalService.show(modalRef, this.modalConfig);
+  }
+
+  closeModal() {
+    this.modal.hide()
   }
 
 }

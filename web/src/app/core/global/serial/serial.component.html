@@ -19,23 +19,23 @@
       <div class="container">
           <div class="row justify-content-center mt-6">
 
-            <form>
+            <form [formGroup]="searchSERIALForm">
               <h1 class="text-white text-center">Product Serial Number Enquiry</h1><br>
-              <label class="h1 text-white" for="fname">Serial No. :  </label>
-              <input type="text" id="fname" name="fname"><br>
+              <label class="h1 text-white" for="serial">Serial No. :  </label>
+              <input type="text" id="serial" formControlName="SERIAL" name="serial" [(ngModel)]="serial"><br>
               <label class="h1 text-white" for="fname">Model :  </label>
               <input type="text" id="fname" name="fname"><br>
               <label class="h1 text-white" for="fname">Brand :  </label>
               <input type="text" id="fname" name="fname"><br><br>
               <div class="text-center">
-              <button class=" btn btn-sm btn-neutral" href="javascript:void(0)" style="width:100px">
+              <button class=" btn btn-lg btn-neutral" (click)="productGeneration(); openModal(showResult)" [disabled]="!searchSERIALForm.valid" style="width:100px">
                 Search
               </button>
-              <button class=" btn btn-sm btn-neutral" href="javascript:void(0)" style="width:100px">
+              <button class=" btn btn-lg btn-neutral" href="javascript:void(0)" style="width:100px">
                 Reset
               </button>
               <br>
-              <button class=" btn btn-sm btn-neutral mt-1" (click)="navigatePage('menu')" style="width:100px">
+              <button class=" btn btn-lg btn-neutral mt-1 mr-1" (click)="navigatePage('menu')" style="width:202px">
                 Main menu
               </button>
               </div>
@@ -63,3 +63,93 @@
 			</div>
 		</div>
 </div>
+
+<ng-template #showResult>
+    <div class="modal-header bg-default">
+        <h6 class="modal-title text-white my-auto" id="modal-title-default">
+            Serial Number
+        </h6>
+        <button
+            aria-label="Close"
+            class="close"
+            data-dismiss="modal"
+            type="button"
+            (click)="closeModal()"
+        >
+            <span aria-hidden="true" class="text-white my-auto"> × </span>
+        </button>
+    </div>
+
+    <div class="modal-body">
+        <table style="width:80%">
+  <tr>
+    <td>Serial No.</td>
+    <td>
+    <div *ngFor="let data of infoTable">
+    <span>{{data.serialNo}}</span>
+    </div>
+    </td>
+  </tr>
+  <tr>
+    <td>Model</td>
+    <td>
+    <div *ngFor="let data of infoTable">
+    <span>{{data.modelDescription}}</span>
+    </div>
+    </td>
+
+  </tr>
+  <tr>
+    <td>Product Category</td>
+    <td>
+    <div *ngFor="let data of infoTable">
+    <span>{{data.productCategory}}</span>
+    </div>
+    </td>
+  </tr>
+  <tr>
+    <td>SLPID</td>
+    <td>
+    <div *ngFor="let data of infoTable">
+    <span>{{data.SLPID}}</span>
+    </div>
+    </td>
+  </tr>
+  <tr>
+    <td>CERT HOLDER</td>
+    <td>
+    <div *ngFor="let data of infoTable">
+    <span>{{data.consigneeName}}</span>
+    </div>
+    </td>
+  </tr>
+  <tr>
+    <td>TAC</td>
+    <td>
+    <div *ngFor="let data of infoTable">
+    <span>{{data.TAC}}</span>
+    </div>
+    </td>
+  </tr>
+  <tr>
+    <td>Approve Date</td>
+    <td>
+    <div *ngFor="let data of infoTable">
+    <span>{{data.approveDate}}</span>
+    </div>
+    </td>
+  </tr>
+</table>
+    </div>
+
+    <div class="modal-footer">
+        <button
+            class="btn btn-outline-danger ml-auto"
+            data-dismiss="modal"
+            type="button"
+            (click)="closeModal()"
+        >
+            Close
+        </button>
+    </div>
+</ng-template>

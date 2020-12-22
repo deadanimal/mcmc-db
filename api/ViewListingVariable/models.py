@@ -18,14 +18,14 @@ class ViewListingVariable(models.Model):
     fileNoInd = models.CharField(max_length=255, blank=True)
     modelInd = models.CharField(max_length=255, blank=True)
     brandInd = models.CharField(max_length=255, blank=True)
-    # marketingNameInd = models.CharField(max_length=255, blank=True)
-    # expiryDateInd = models.CharField(max_length=255, blank=True)
-    # ROCROBind = models.CharField(max_length=255, blank=True)
-    # approveDateInd = models.DateTimeField(auto_now=True)
-    # submissionDateInd = models.CharField(max_length=255, blank=True)
-    # created_date = models.DateTimeField(auto_now=True)
-    # modified_date = models.DateTimeField(auto_now=True) 
-    # certHolderNameInd = models.CharField(max_length=255, blank=True)
+    marketingNameInd = models.CharField(max_length=255, blank=True)
+    expiryDateInd = models.CharField(max_length=255, blank=True)
+    ROCROBind = models.CharField(max_length=255, blank=True)
+    approveDateInd = models.DateTimeField(auto_now=True)
+    submissionDateInd = models.CharField(max_length=255, blank=True)
+    created_date = models.DateTimeField(auto_now=True)
+    modified_date = models.DateTimeField(auto_now=True) 
+    certHolderNameInd = models.CharField(max_length=255, blank=True)
 
 
     # USER_TYPE_OPTION = [

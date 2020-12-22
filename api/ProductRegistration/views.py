@@ -23,13 +23,12 @@ class ProductRegistrationViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     serializer_class = ProductRegistrationSerializer
     filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
     filterset_fields = [
-        'TAC', 
-        'IMEI',
-        'serialNo',
-        'ProductRegNo',
+        'Id', 
         'SLPID',
-        'regType',
-        'created_date',
+        'imeiNo',
+        'consigneeName',
+        'modelDescription',
+        'modelId',
     ]
 
     def get_permissions(self):
