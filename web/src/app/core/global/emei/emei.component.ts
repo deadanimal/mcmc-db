@@ -15,6 +15,8 @@ export class EmeiComponent implements OnInit {
   imgLogo = 'assets/img/logo/SKMM-MCMC-2014.png'
   infoTable = []
   searchIMEIForm: FormGroup
+  test: Date = new Date();
+  imei
 
   modal: BsModalRef;
   modalConfig = {

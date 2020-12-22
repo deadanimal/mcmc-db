@@ -22,6 +22,8 @@ export class ProductInfoComponent implements OnInit {
   imgLogo = 'assets/img/logo/SKMM-MCMC-2014.png'
   infoTable = []
   searchPRODUCTForm: FormGroup
+  test: Date = new Date();
+  product
 
   tableEntries: number = 5;
   tableSelected: any[] = [];

@@ -15,6 +15,8 @@ export class SerialComponent implements OnInit {
   imgLogo = 'assets/img/logo/SKMM-MCMC-2014.png'
   infoTable = []
   searchSERIALForm: FormGroup
+  test: Date = new Date();
+  serial
 
   modal: BsModalRef;
   modalConfig = {

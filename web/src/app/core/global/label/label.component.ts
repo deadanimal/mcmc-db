@@ -24,6 +24,8 @@ export class LabelComponent implements OnInit {
   imgLogo = 'assets/img/logo/SKMM-MCMC-2014.png'
   infoTable = []
   searchLABELForm: FormGroup
+  test: Date = new Date();
+  label
   
   tableEntries: number = 5;
   tableSelected: any[] = [];

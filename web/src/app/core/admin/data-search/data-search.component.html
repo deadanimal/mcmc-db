@@ -150,12 +150,12 @@
                                         name="datatable_length"
                                         aria-controls="datatable"
                                         class="form-control form-control-sm"
-                                        (change)="entriesChange($event)"
+                                      
                                     >
-                                        <option value="10" [selected]="entries==5">5</option>
-                                        <option value="25" [selected]="entries==10">10</option>
-                                        <option value="50" [selected]="entries==15">15</option>
-                                        <option value="-1" [selected]="entries==-1">All</option>
+                                        <option value="10" [>5</option>
+                                        <option value="25" >10</option>
+                                        <option value="50" >15</option>
+                                        <option value="-1" >All</option>
                                     </select>
                                     records
                                 </label>
@@ -170,7 +170,7 @@
                         [headerHeight]="50"
                         [footerHeight]="50" 
                         [rowHeight]="'auto'"
-                        [limit]="tableEntries != -1 ? tableEntries:undefined"
+                       
                         [rows]="infoTable" 
                     >
                       <ngx-datatable-column name="No">

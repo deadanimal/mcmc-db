@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 export class FaqComponent implements OnInit {
 
   imgLogo = 'assets/img/logo/SKMM-MCMC-2014.png'
+  test: Date = new Date();
 
   constructor(
     private router: Router
