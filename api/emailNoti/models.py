@@ -11,14 +11,12 @@ from simple_history.models import HistoricalRecords
 
 from core.helpers import PathAndRename
 
-class FAQTitle(models.Model):
+class emailNoti(models.Model):
 
-    categoryId = models.CharField(max_length=255, blank=True)
-    titleId = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    active  = models.BooleanField()
-    title  = models.CharField(max_length=255, blank=True)
+    Id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    email  = models.CharField(max_length=255, blank=True)
     createdBy = models.CharField(max_length=255, blank=True)
-    created_date = models.DateTimeField(auto_now_add=True)
+    created_date = models.DateTimeField(auto_now=True)
     modified_date = models.DateTimeField(auto_now=True)
  
 
@@ -26,5 +24,5 @@ class FAQTitle(models.Model):
         ordering = ['modified_date']
 
     def __str__(self):
-        return self.categoryId
+        return self.Id
 

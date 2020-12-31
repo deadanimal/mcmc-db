@@ -10,25 +10,25 @@ from rest_framework_extensions.mixins import NestedViewSetMixin
 
 from django_filters.rest_framework import DjangoFilterBackend
 
-from ProductRegistration.models import (
-    ProductRegistration
+from emailNoti.models import (
+    emailNoti
 )
 
-from ProductRegistration.serializers import (
-    ProductRegistrationSerializer
+from emailNoti.serializers import (
+    emailNotiSerializer
 )
 
-class ProductRegistrationViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
-    queryset = ProductRegistration.objects.all()
-    serializer_class = ProductRegistrationSerializer
+class emailNotiViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
+    queryset = emailNoti.objects.all()
+    serializer_class = emailNotiSerializer
     filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
     filterset_fields = [
-        'Id', 
-        'SLPID',
-        'imeiNo',
-        'consigneeName',
-        'modelDescription',
-        'modelId',
+        'Id',
+        # 'title',
+        # 'Description',
+        # 'ProductRegNo',
+        # 'createdBy',
+        # 'created_date',
     ]
 
     def get_permissions(self):
@@ -41,8 +41,8 @@ class ProductRegistrationViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
 
     
     def get_queryset(self):
-        # queryset = ProductRegistration.objects.all()
-        queryset = ProductRegistration.objects.filter(string__icontains=ProductRegistration.consigneeName)
+        queryset = emailNoti.objects.all()
+        # queryset = CustomUser.objects.filter(string__contains=CustomUser.name)
 
         """
         if self.request.user.is_anonymous:
@@ -60,4 +60,4 @@ class ProductRegistrationViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         """
         return queryset   
 
-# Create your views here.
+

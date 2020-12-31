@@ -5,6 +5,9 @@ import noUiSlider from "nouislider";
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import Quill from "quill";
 import swal from 'sweetalert2';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
+import { FAQTitleService } from 'src/app/shared/services/FAQTitle/FAQTitle.service';
+
 
 export function getAccordionConfig(): AccordionConfig {
   return Object.assign(new AccordionConfig(), { closeOthers: true });
@@ -17,6 +20,9 @@ export function getAccordionConfig(): AccordionConfig {
 })
 export class SystemFaqComponent implements OnInit {
 
+  infoTable = []
+  searchFAQForm: FormGroup
+
   modal: BsModalRef;
   modalConfig = {
     keyboard: true,
@@ -25,7 +31,10 @@ export class SystemFaqComponent implements OnInit {
 
   constructor(
     private modalService: BsModalService,
-  ) { }
+    private FAQTitleService: FAQTitleService,
+  ) {
+    
+   }
 
   ngOnInit() {
     var quill = new Quill("#quill", {
@@ -89,6 +98,44 @@ export class SystemFaqComponent implements OnInit {
         // this.registerForm.reset()
       }
     })
+  }
+
+  productGeneration() {
+    console.log("HTTP",this.searchFAQForm.value.title)
+    let datafield = "title="+this.searchFAQForm.value.title
+    this.FAQTitleService.post(datafield).subscribe(
+      (res) => {
+        this.infoTable = [res]
+        // console.log("zzzzz = ",this.infoTable)
+        // let qweqwe = []
+        // this.infoTable.forEach( function(data){
+        //   console.log('col- - ',data)
+        //   qweqwe.push(data)
+
+        // })
+        // this.chartDataField = qweqwe
+        // console.log('bbbbbbb = ',this.chartDataField)
+        // this.calculateCharts()
+
+        this.infoTable = this.infoTable.map((prop, key) => {
+          return {
+            ...prop,
+            id: key
+          };
+        });
+        // console.log("xxxxxx = ",this.infoTable)
+      },
+      (err) => {
+        // this.loadingBar.complete();
+        // this.errorMessage();
+        // console.log("HTTP Error", err), this.errorMessage();
+      },
+      () => {
+        console.log("HTTP request completed.")
+      //   this.infoTable = [res]
+      //   console.log("zzzzz = ",this.infoTable)
+      }
+    );
   }
 
 

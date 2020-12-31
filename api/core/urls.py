@@ -106,6 +106,14 @@ FAQCategory_router = router.register(
     'FAQTitle', FAQTitleViewSet
 )
 
+from emailNoti.views import (
+    emailNotiViewSet
+)
+
+FAQCategory_router = router.register(
+    'emailNoti', emailNotiViewSet
+)
+
 # from AuditViewListingVariable.views import (
 #     AuditViewListingVariableViewSet
 # )

@@ -2,6 +2,7 @@ import { Component, OnInit, TemplateRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
+import { LoadingBarService } from '@ngx-loading-bar/core';
 import { MasterDataService } from 'src/app/shared/services/masterData/masterData.service';
 
 export enum SelectionType {
@@ -41,6 +42,7 @@ export class ProductInfoComponent implements OnInit {
     private router: Router,
     private masterDataService: MasterDataService,
     private formBuilder: FormBuilder,
+    private loadingBar: LoadingBarService,
     private modalService: BsModalService,
   ) { }
 
@@ -58,12 +60,12 @@ export class ProductInfoComponent implements OnInit {
 
   productGeneration() {
     console.log("HTTP",this.searchPRODUCTForm.value.PRODUCT)
-    let datafield = "modelDescription="+this.searchPRODUCTForm.value.PRODUCT 
+    let datafield = "consigneeName="+this.searchPRODUCTForm.value.PRODUCT
     this.masterDataService.filter(datafield).subscribe(
       (res) => {
         this.infoTable=res
         console.log("wewe",this.infoTable)
-        // this.loadingBar.complete();
+        this.loadingBar.complete();
         // this.successMessage();
         // this.navigatePage("dashboard-admin");
       },

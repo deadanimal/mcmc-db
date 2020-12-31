@@ -22,11 +22,11 @@
             <form [formGroup]="searchSERIALForm">
               <h1 class="text-white text-center">Product Serial Number Enquiry</h1><br>
               <label class="h1 text-white" for="serial">Serial No. :  </label>
-              <input type="text" id="serial" formControlName="SERIAL" name="serial" [(ngModel)]="serial"><br>
+              <input type="text" id="serial" formControlName="SERIAL" name="serial" class="ml-2" style="width:260px"[(ngModel)]="serial"><br>
               <label class="h1 text-white" for="fname">Model :  </label>
-              <input type="text" id="fname" name="fname"><br>
+              <input type="text" id="fname" class="ml-2" name="fname" style="width:300px"><br>
               <label class="h1 text-white" for="fname">Brand :  </label>
-              <input type="text" id="fname" name="fname"><br><br>
+              <input type="text" id="fname" class="ml-2" name="fname" style="width:300px"><br><br>
               <div class="text-center">
               <button class=" btn btn-lg btn-neutral" (click)="productGeneration(); openModal(showResult)" [disabled]="!searchSERIALForm.valid" style="width:100px">
                 Search

@@ -6,6 +6,15 @@ import * as am4charts from "@amcharts/amcharts4/charts";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 import * as moment from 'moment';
 
+
+export enum SelectionType {
+  single = 'single',
+  multi = 'multi',
+  multiClick = 'multiClick',
+  cell = 'cell',
+  checkbox = 'checkbox'
+}
+
 @Component({
   selector: 'app-data-search',
   templateUrl: './data-search.component.html',
@@ -17,6 +26,13 @@ export class DataSearchComponent implements OnInit, OnDestroy {
   dataSearchForm: FormGroup
   
   private categoryAxis: any
+
+  tableEntries: number = 5;
+  tableSelected: any[] = [];
+  tableTemp = [];
+  tableActiveRow: any;
+  SelectionType = SelectionType;
+
   
   // Chart
   chartDataField:any

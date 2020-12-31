@@ -32,25 +32,34 @@
                   <select class="form-control custom-select" #mySelect>
                     <option hidden selected value="0">Please pick</option>
                     <option value="general">General</option>
-                    <option value="account">Account and Billing</option>
-                    <option value="owner">Owner/Tenant issues</option>
+                    <option value="account">Product Serial Number</option>
+                    <option value="owner">IMEI Number</option>
                     <option value="power">Power Quality</option>
                   </select>
                 </div>
-                <div class="card-body" *ngIf="mySelect.value==='general'">
+                <div class="card-body mt--4 mb--4" *ngIf="mySelect.value==='general'">
                   <div class="row">
                     <div class="col-md-12">
-                      <h4 class="text-default">Where is the TNB's Headquarters?</h4>
-                      <p>TNB’s Headquarters is located in Bangsar, Kuala Lumpur. For full address, refer to our Contact Us page.
+                      <h4 class="text-default">What is meant by communications equipment?</h4>
+                      <p>Customer equipment are any equipment used on the customer side of a network service and all types of wireless devices. Examples are fixed-line or cellular phones, fax machine, modem, wireless router and gateway, optical transceiver, satellite receiver, mobile radio or walkie-talkie, smart and digital television, and any equipment or device using wireless technologies such as laptop, tablet, camera, watches, drone, baby monitor, CCTV and others.
                       </p>
                     </div>
                     <div class="col-md-12">
-                      <h4 class="text-default">Where can I find a list of TNB's subsidiaries?</h4>
-                      <p>A complete list can be found at our Subsidiaries page.</p>
+                      <h4 class="text-default">What is meant by certified communications equipment?</h4>
+                      <p>Certified communications equipment refers to equipment which has been confirmed as having complied with the specified standards, technical specifications, technical checklist and/or technical declaration pursuant to the Communications and Multimedia (Technical Standards) Regulations 2000.</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-body mt--4 mb--4" *ngIf="mySelect.value==='account'">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <h4 class="text-default">What is product serial number?</h4>
+                      <p>Customer equipment are any equipment used on the customer side of a network service and all types of wireless devices. Examples are fixed-line or cellular phones, fax machine, modem, wireless router and gateway, optical transceiver, satellite receiver, mobile radio or walkie-talkie, smart and digital television, and any equipment or device using wireless technologies such as laptop, tablet, camera, watches, drone, baby monitor, CCTV and others.
+                      </p>
                     </div>
                     <div class="col-md-12">
-                      <h4 class="text-default">What is TNB's fiscal year?</h4>
-                      <p>TNB's fiscal year is from 1 January to 31 December.</p>
+                      <h4 class="text-default">How can I get my product serial number?</h4>
+                      <p>Certified communications equipment refers to equipment which has been confirmed as having complied with the specified standards, technical specifications, technical checklist and/or technical declaration pursuant to the Communications and Multimedia (Technical Standards) Regulations 2000.</p>
                     </div>
                   </div>
                 </div>

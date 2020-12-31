@@ -10,25 +10,18 @@ from django.utils.timezone import now
 #from api.settings import AWS_S3_ENDPOINT_URL, AWS_STORAGE_BUCKET_NAME
 
 from .models import (
-    FAQTitle
+    emailNoti
 )
 
-class FAQTitleSerializer(serializers.ModelSerializer):
+class emailNotiSerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = FAQTitle
+        model = emailNoti
         fields = (
-            'categoryId',
-            'titleId', 
-            'active',
-            'title',
-            'createdBy',
-            'created_date',
-            'modified_date',
+            'Id', 
+            'email',
 
 
-
-            
             
         )
         # read_only_fields = ('email', 'id', 'TACInd')

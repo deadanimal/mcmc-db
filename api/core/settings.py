@@ -60,6 +60,7 @@ INSTALLED_APPS = [
     'FAQ',
     'FAQCategory',
     'FAQTitle',
+    'emailNoti',
     # 'AuditViewListingVariable',
     # 'fail',
     # 'activity',
