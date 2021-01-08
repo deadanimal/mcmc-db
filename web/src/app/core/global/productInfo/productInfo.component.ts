@@ -24,7 +24,8 @@ export class ProductInfoComponent implements OnInit {
   infoTable = []
   searchPRODUCTForm: FormGroup
   test: Date = new Date();
-  product
+  product = null
+  model = null
 
   tableEntries: number = 5;
   tableSelected: any[] = [];
@@ -49,6 +50,7 @@ export class ProductInfoComponent implements OnInit {
   ngOnInit() {
     this.searchPRODUCTForm = this.formBuilder.group({
       PRODUCT: new FormControl('',Validators.required),
+      MODEL: new FormControl(''),
       })
   }
 
@@ -59,23 +61,34 @@ export class ProductInfoComponent implements OnInit {
   }
 
   productGeneration() {
-    console.log("HTTP",this.searchPRODUCTForm.value.PRODUCT)
+    console.log("form",this.searchPRODUCTForm.value.PRODUCT, this.searchPRODUCTForm.value.MODEL)
     let datafield = "consigneeName="+this.searchPRODUCTForm.value.PRODUCT
+    let datafield2 = "modelDescription="+this.searchPRODUCTForm.value.MODEL
+    console.log("wewe",datafield, "modelDescription="+null)
+    if (datafield2=="modelDescription="+null){
     this.masterDataService.filter(datafield).subscribe(
       (res) => {
-        this.infoTable=res
-        console.log("wewe",this.infoTable)
-        this.loadingBar.complete();
-        // this.successMessage();
-        // this.navigatePage("dashboard-admin");
+        this.infoTable=res;
+        console.log("if loop 1");
       },
       (err) => {
-        // this.loadingBar.complete();
-        // this.errorMessage();
-        // console.log("HTTP Error", err), this.errorMessage();
+        console.log("HTTP Error", err);
       },
       () => console.log("HTTP request completed.")
     );
+    }
+    else {
+      this.masterDataService.filter(datafield2).subscribe(
+        (res) => {
+          this.infoTable=res;
+          console.log("if loop 2");
+        },
+        (err) => {
+          console.log("HTTP Error", err);
+        },
+        () => console.log("HTTP request completed.")
+      );
+      }   
   }
 
   openModal(modalRef: TemplateRef<any>) {

@@ -36,13 +36,21 @@
             [(ngModel)]="product"
           /><br />
           <label class="h1 text-white" for="fname">Model : </label>
-          <input class="ml-2" type="text" id="model" name="model" style="width:310px"><br/>
+          <input
+            class="ml-2"
+            type="text"
+            formControlName="MODEL"
+            id="model"
+            name="model"
+            [(ngModel)]="model"
+            style="width: 310px"
+          /><br />
           <label class="h1 text-white" for="search">Search Type : </label>
-          <select class="ml-2" type="text" style="width:235px" #mySelect>
+          <select class="ml-2" type="text" style="width: 235px" #mySelect>
             <option hidden selected value="0">Please pick</option>
             <option value="exact">Search by exact word</option>
-            <option value="any">Search any combination word</option>
-          </select><br/><br/>
+            <option value="any">Search any combination word</option></select
+          ><br /><br />
           <div class="text-center">
             <button
               class="btn btn-lg btn-neutral"
@@ -80,7 +88,7 @@
         &copy; {{ test | date: "yyyy" }}
         All rights reserved ©
         <a
-          href="https://www.prototype.com.my"
+          href="https://www.mcmc.gov.my/en/home"
           class="font-weight-bold ml-1"
           target="_blank"
         >

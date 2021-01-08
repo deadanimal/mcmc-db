@@ -41,8 +41,8 @@ class ProductRegistrationViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
 
     
     def get_queryset(self):
-        # queryset = ProductRegistration.objects.all()
-        queryset = ProductRegistration.objects.filter(string__icontains=ProductRegistration.consigneeName)
+        queryset = ProductRegistration.objects.all()
+        # queryset = CustomUser.objects.filter(string__contains=CustomUser.name)
 
         """
         if self.request.user.is_anonymous:
@@ -58,6 +58,45 @@ class ProductRegistrationViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
             else:
                 queryset = User.objects.filter(company=company.id)
         """
-        return queryset   
+        return queryset
+
+    @action(methods=['GET'], detail=False)
+    def filter_table_testing(self, request, *args, **kwargs):
+
+        consigneeName = request.GET.get('consigneeName', '')
+        modelDescription = request.GET.get('modelDescription', '')
+
+        result = ProductRegistration.objects.filter(consigneeName__icontains=consigneeName,modelDescription__icontains=modelDescription)
+        serializer = ProductRegistrationSerializer(result, many=True)
+        return Response(serializer.data)   
+
+    # @api_view(['GET', 'POST', 'DELETE'])
+    # def table_list(request):
+    #     # GET list of tutorials, POST a new tutorial, DELETE all tutorials
+    
+    
+    # @api_view(['GET', 'PUT', 'DELETE'])
+    # def tutorial_detail(request, pk):
+    #     # find tutorial by pk (id)
+    #     try: 
+    #         tutorial = Tutorial.objects.get(pk=pk) 
+    #     except Tutorial.DoesNotExist: 
+    #         return JsonResponse({'message': 'The tutorial does not exist'}, status=status.HTTP_404_NOT_FOUND) 
+    
+    #     # GET / PUT / DELETE tutorial
+        
+            
+    # @api_view(['GET'])
+    # def tutorial_list_published(request):
+    #     if request.method == 'GET':
+    #         tutorials = Tutorial.objects.all()
+        
+    #     title = request.GET.get('title', None)
+    #     if title is not None:
+    #         tutorials = tutorials.filter(title__icontains=title)
+        
+    #     tutorials_serializer = ProductRegistrationSerializer(tutorials, many=True)
+    #     return JsonResponse(tutorials_serializer.data, safe=False)
+    #     # 'safe=False' for objects serialization
 
 # Create your views here.

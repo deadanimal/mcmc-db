@@ -61,3 +61,12 @@ class masterTableViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         return queryset   
 
 
+    @action(methods=['GET'], detail=False)
+    def filter_table_testing(self, request, *args, **kwargs):
+
+        consigneeName = request.GET.get('consigneeName', '')
+        modelDescription = request.GET.get('modelDescription', '')
+
+        result = masterTable.objects.filter(consigneeName__icontains=consigneeName,modelDescription__icontains=modelDescription)
+        serializer = masterTableSerializer(result, many=True)
+        return Response(serializer.data)

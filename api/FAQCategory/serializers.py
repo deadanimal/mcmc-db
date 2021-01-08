@@ -19,7 +19,8 @@ class FAQCategorySerializer(serializers.ModelSerializer):
         model = FAQCategory
         fields = (
             'categoryId',
-            'category', 
+            'category',
+            'active', 
             
             
         )
