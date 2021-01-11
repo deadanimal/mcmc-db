@@ -1,0 +1,15 @@
+node_modules
+*env
+misc
+
+*.pyc
+
+*.DS_Store
+*/.DS_Store
+
+Archive.zip
+*/seed
+script/data/original/*.txt
+script/output
+
+*/.env

@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: mcmc-database-api
-        image: raziman/mcmc-database-api:1.0.0 #boleh tambah version
+        image: syafiqpipe/mcmc-database-api:1.0.1 #boleh tambah version
         imagePullPolicy: Always
         ports:
         - containerPort: 5000
