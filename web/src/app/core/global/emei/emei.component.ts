@@ -72,6 +72,7 @@ export class EmeiComponent implements OnInit {
 
   closeModal() {
     this.modal.hide()
+    this.searchIMEIForm.reset()
   }
 
 }

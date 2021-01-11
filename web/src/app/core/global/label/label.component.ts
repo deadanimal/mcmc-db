@@ -85,6 +85,7 @@ export class LabelComponent implements OnInit {
 
   closeModal() {
     this.modal.hide()
+    this.searchLABELForm.reset()
   }
 
   entriesChange($event) {

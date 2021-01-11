@@ -69,6 +69,7 @@ export class SerialComponent implements OnInit {
 
   closeModal() {
     this.modal.hide()
+    this.searchSERIALForm.reset()
   }
 
 }

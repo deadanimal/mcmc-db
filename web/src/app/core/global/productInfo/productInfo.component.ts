@@ -149,7 +149,8 @@ export class ProductInfoComponent implements OnInit {
 
   closeModal() {
     this.modal.hide()
-    
+    this.searchPRODUCTForm.reset()
+
   }
 
   entriesChange($event) {
