@@ -46,7 +46,7 @@
             style="width: 310px"
           /><br />
           <label class="h1 text-white" for="search">Search Type : </label>
-          <select class="ml-2" type="text" style="width: 235px" #mySelect>
+          <select class="ml-2" type="text" style="width: 235px" #mySelect (change)="changeDropdown($event.target.value)">
             <option hidden selected value="0">Please pick</option>
             <option value="exact">Search by exact word</option>
             <option value="any">Search any combination word</option></select
@@ -54,7 +54,7 @@
           <div class="text-center">
             <button
               class="btn btn-lg btn-neutral"
-              (click)="productGeneration(); openModal(showResult)"
+              (click)="openModal(showResult)"
               [disabled]="!searchPRODUCTForm.valid"
               style="width: 100px"
             >

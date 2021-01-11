@@ -39,7 +39,7 @@ export class FAQTitleService {
     let urlPatch = this.url + id + "/";
     return this.http.patch<FAQTitle>(urlPatch, body).pipe(
       tap((res) => {
-        console.log("EmployeeDirectory: ", res);
+        console.log("FAQTitle: ", res);
       })
     );
   }
@@ -48,7 +48,7 @@ export class FAQTitleService {
     let urlDelete = this.url + id + "/";
     return this.http.delete<FAQTitle>(urlDelete).pipe(
       tap((res) => {
-        console.log("EmployeeDirectory: ", res);
+        console.log("FAQTitle: ", res);
       })
     );
   }
@@ -57,7 +57,7 @@ export class FAQTitleService {
     let urlFilter = this.url + "?" + field;
     return this.http.get<FAQTitle[]>(urlFilter).pipe(
       tap((res) => {
-        console.log("EmployeeDirectories: ", res);
+        console.log("FAQTitle: ", res);
       })
     );
   }
@@ -66,7 +66,7 @@ export class FAQTitleService {
     return this.http.get<FAQTitle[]>(this.url + "extended").pipe(
       tap((res) => {
         this.FAQTitle = res;
-        console.log("EmployeeDirectories: ", res);
+        console.log("FAQTitle: ", res);
       })
     );
   }

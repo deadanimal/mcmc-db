@@ -25,7 +25,7 @@ export class ProductInfoComponent implements OnInit {
   searchPRODUCTForm: FormGroup
   test: Date = new Date();
   product = null
-  model = null
+  model = null 
 
   tableEntries: number = 5;
   tableSelected: any[] = [];
@@ -91,12 +91,65 @@ export class ProductInfoComponent implements OnInit {
       }   
   }
 
+  productGeneration2() {
+    console.log("form",this.searchPRODUCTForm.value.PRODUCT, this.searchPRODUCTForm.value.MODEL)
+    let datafield = "consigneeName="+this.searchPRODUCTForm.value.PRODUCT
+    let datafield2 = "modelDescription="+this.searchPRODUCTForm.value.MODEL
+    console.log("wewe",datafield, "modelDescription="+null)
+    if (datafield2=="modelDescription="+null){
+    this.masterDataService.filterMix(datafield).subscribe(
+      (res) => {
+        this.infoTable=res;
+        console.log("if loop 1");
+      },
+      (err) => {
+        console.log("HTTP Error", err);
+      },
+      () => console.log("HTTP request completed.")
+    );
+    }
+    else {
+      this.masterDataService.filterMix(datafield2).subscribe(
+        (res) => {
+          this.infoTable=res;
+          console.log("if loop 2");
+        },
+        (err) => {
+          console.log("HTTP Error", err);
+        },
+        () => console.log("HTTP request completed.")
+      );
+      }   
+  }
+
+  changeDropdown(event){
+    if (event=="any"){
+      this.anySearch()
+      console.log(event,'any loop')
+    }
+    else {
+      this.exactSearch();
+      console.log('exact loop')
+    }
+  }
+
+  anySearch(){
+    console.log('anySearch')
+    this.productGeneration2();
+  }
+
+  exactSearch(){
+    this.productGeneration()
+    console.log('exactSearch')
+  }
+
   openModal(modalRef: TemplateRef<any>) {
     this.modal = this.modalService.show(modalRef, this.modalConfig);
   }
 
   closeModal() {
     this.modal.hide()
+    
   }
 
   entriesChange($event) {

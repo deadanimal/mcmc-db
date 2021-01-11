@@ -62,6 +62,15 @@ filter(field: String): Observable<masterTable[]> {
   );
 }
 
+filterMix(field: String): Observable<masterTable[]> {
+  let urlFilter = this.url+"filter_table_testing/" + "?" + field;
+  return this.http.get<masterTable[]>(urlFilter).pipe(
+    tap((res) => {
+      console.log("EmployeeDirectories: ", res);
+    })
+  );
+}
+
 extended(): Observable<masterTable[]> {
   return this.http.get<masterTable[]>(this.url + "extended").pipe(
     tap((res) => {
