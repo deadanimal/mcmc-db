@@ -6,9 +6,18 @@
     }
 }
 
+video {
+    object-fit: cover;
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
 .auth-content {
     background-color: #172b4d;
-    background-image: url('/assets/img/logo/For razzyman.png');
+    background-image: url('/assets/img/logo/ezgif.com-gif-maker.gif');
     background-repeat: no-repeat;
     -webkit-background-size: cover;
     -moz-background-size: cover;

@@ -7,6 +7,7 @@ import Quill from "quill";
 import swal from 'sweetalert2';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { FAQTitleService } from 'src/app/shared/services/FAQTitle/FAQTitle.service';
+import { FAQCategoriesService } from 'src/app/shared/services/FAQCategories/FAQCategories.service';
 
 
 export function getAccordionConfig(): AccordionConfig {
@@ -32,8 +33,9 @@ export class SystemFaqComponent implements OnInit {
   constructor(
     private modalService: BsModalService,
     private FAQTitleService: FAQTitleService,
+    private FAQCategoriesService: FAQCategoriesService,
   ) {
-    
+    this.productGeneration2()
    }
 
   ngOnInit() {
@@ -106,16 +108,29 @@ export class SystemFaqComponent implements OnInit {
     this.FAQTitleService.post(datafield).subscribe(
       (res) => {
         this.infoTable = [res]
-        // console.log("zzzzz = ",this.infoTable)
-        // let qweqwe = []
-        // this.infoTable.forEach( function(data){
-        //   console.log('col- - ',data)
-        //   qweqwe.push(data)
+        this.infoTable = this.infoTable.map((prop, key) => {
+          return {
+            ...prop,
+            id: key
+          };
+        });
 
-        // })
-        // this.chartDataField = qweqwe
-        // console.log('bbbbbbb = ',this.chartDataField)
-        // this.calculateCharts()
+      },
+      (err) => {
+
+      },
+      () => {
+        console.log("HTTP request completed.")
+
+      }
+    );
+  }
+
+  productGeneration2() {
+    this.FAQCategoriesService.get().subscribe(
+      (res) => {
+        this.infoTable = [...res]
+        console.log("zzzzz2 = ",this.infoTable)
 
         this.infoTable = this.infoTable.map((prop, key) => {
           return {
@@ -123,19 +138,15 @@ export class SystemFaqComponent implements OnInit {
             id: key
           };
         });
-        // console.log("xxxxxx = ",this.infoTable)
-      },
-      (err) => {
-        // this.loadingBar.complete();
-        // this.errorMessage();
-        // console.log("HTTP Error", err), this.errorMessage();
       },
       () => {
         console.log("HTTP request completed.")
-      //   this.infoTable = [res]
-      //   console.log("zzzzz = ",this.infoTable)
       }
     );
+  }
+
+  dropdownFAQ(event){
+    console.log('event = ',event)
   }
 
 

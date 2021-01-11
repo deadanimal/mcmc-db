@@ -17,17 +17,21 @@
     <div class="card-body">
       <div class="row">
         <div class="col-lg-3">
-          <div class="card">
+          <div class="">
             <div class="form-group">
-              <select class="form-control custom-select" #mySelect style="width:200px">
-              <option hidden selected value="0">Please pick</option>
-              <option value="general">General</option>
-              <option value="account">Account and Billing</option>
-              <option value="owner">Owner/Tenant issues</option>
-              <option value="power">Power Quality</option>
-              </select>
-              <button class=" btn btn-facebook btn-icon-only ml-1" type="button" (click)="openModal(createTitle)">+</button>
-            </div>
+                <label class="form-control-label">Choose by Categories</label>
+                <select
+                  class="form-control"
+                  (change)="dropdownFAQ($event.target.value)"
+                >
+                  <option selected hidden>Please select</option>
+                  <option *ngFor="let option of infoTable" value="{{option.category}}">
+                    {{ option.category }}
+                  </option>
+                </select>
+                <button class=" btn btn-facebook  mt-1" type="button" (click)="openModal(createTitle)">Create</button>
+                <button class=" btn btn-facebook  mt-1" type="button" >Reload</button>
+              </div>
           </div>
         </div>
 
