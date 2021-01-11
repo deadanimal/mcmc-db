@@ -1,8 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
-import { ProductGenerationService } from 'src/app/shared/services/ProductRegistration/ProductGeneration.service';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap';
+import { masterTable } from 'src/app/shared/services/masterData/masterData.model';
+import { MasterDataService } from 'src/app/shared/services/masterData/masterData.service';
 
+
+export enum SelectionType {
+  single = 'single',
+  multi = 'multi',
+  multiClick = 'multiClick',
+  cell = 'cell',
+  checkbox = 'checkbox'
+}
 
 @Component({
   selector: 'app-label',
@@ -14,16 +24,32 @@ export class LabelComponent implements OnInit {
   imgLogo = 'assets/img/logo/SKMM-MCMC-2014.png'
   infoTable = []
   searchLABELForm: FormGroup
+  test: Date = new Date();
+  label
+  
+  tableEntries: number = 5;
+  tableSelected: any[] = [];
+  tableTemp = [];
+  tableActiveRow: any;
+  SelectionType = SelectionType;
+
+  modal: BsModalRef;
+  modalConfig = {
+    keyboard: true,
+    class: "modal-dialog-centered modal-lg"
+  };
 
   constructor(
     private router: Router,
-    private productGenerationService: ProductGenerationService,
+    private productGenerationService: MasterDataService,
     private formBuilder: FormBuilder,
+    private modalService: BsModalService,
+    
   ) { }
 
   ngOnInit() {
     this.searchLABELForm = this.formBuilder.group({
-      LABEL: new FormControl(''),
+      LABEL: new FormControl('',Validators.required),
     })
   }
 
@@ -51,6 +77,28 @@ export class LabelComponent implements OnInit {
       },
       () => console.log("HTTP request completed.")
     );
+  }
+
+  openModal(modalRef: TemplateRef<any>) {
+    this.modal = this.modalService.show(modalRef, this.modalConfig);
+  }
+
+  closeModal() {
+    this.modal.hide()
+  }
+
+  entriesChange($event) {
+    this.tableEntries = $event.target.value;
+  }
+
+
+  onSelect({ selected }) {
+    this.tableSelected.splice(0, this.tableSelected.length);
+    this.tableSelected.push(...selected);
+  }
+
+  onActivate(event) {
+    this.tableActiveRow = event.row;
   }
 
 }

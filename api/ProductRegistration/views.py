@@ -23,13 +23,12 @@ class ProductRegistrationViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     serializer_class = ProductRegistrationSerializer
     filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
     filterset_fields = [
-        'TAC', 
-        'IMEI',
-        'serialNo',
-        'ProductRegNo',
+        'Id', 
         'SLPID',
-        'regType',
-        'created_date',
+        'imeiNo',
+        'consigneeName',
+        'modelDescription',
+        'modelId',
     ]
 
     def get_permissions(self):
@@ -59,7 +58,17 @@ class ProductRegistrationViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
             else:
                 queryset = User.objects.filter(company=company.id)
         """
-        return queryset   
+        return queryset
+
+    @action(methods=['GET'], detail=False)
+    def filter_table_testing(self, request, *args, **kwargs):
+
+        consigneeName = request.GET.get('consigneeName', '')
+        modelDescription = request.GET.get('modelDescription', '')
+
+        result = ProductRegistration.objects.filter(consigneeName__icontains=consigneeName,modelDescription__icontains=modelDescription)
+        serializer = ProductRegistrationSerializer(result, many=True)
+        return Response(serializer.data)   
 
     # @api_view(['GET', 'POST', 'DELETE'])
     # def table_list(request):

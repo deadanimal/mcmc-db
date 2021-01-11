@@ -2,7 +2,7 @@ import csv
 import requests
 import json
 
-with open('mcmc.csv', mode='r', encoding='utf-8-sig') as csv_file:
+with open('IMEINoforPrototype.csv', mode='r', encoding='utf-8-sig') as csv_file:
     csv_reader = csv.DictReader(csv_file)
     line_count = 0
     for row in csv_reader:
@@ -10,12 +10,21 @@ with open('mcmc.csv', mode='r', encoding='utf-8-sig') as csv_file:
             # print(f'Column names are {", ".join(row)}')
             line_count += 1
         # print(f'\tworks in the {row["Email Address"]}')
+
+
         account = {
-            'ProductRegNo': row["ProductRegNo"],
-            'SLPID': row["SLPID"],
+            'fileNo': row["FILENO"],
+            'productCategory': row["PRODUCT CATEGORY"],
             'TAC': row["TAC"],
-            'regType': row["RegType"],
-            'IMEI': row["IMEI"]
+            'modelId': row["MODEL ID"],
+            'modelDescription': row["MODEL DESCRIPTION"],
+            'consigneeName': row["CONSIGNEE NAME"],
+            'submissionDate': row["SUBMISSION DATE"],
+            'approveDate': row["APPROVE DATE"],
+            'expiryDate': row["EXPIRY DATE"],
+            'category': row["CATEGORY"],
+            'imeiNo': row["IMEI No"],
+            'SLPID': row["SLP ID"],
         }
         line_count += 1
         #print(json.dumps(account))

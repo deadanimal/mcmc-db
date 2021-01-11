@@ -32,7 +32,7 @@
     "@fullcalendar/daygrid": "4.4.0",
     "@fullcalendar/interaction": "4.4.0",
     "@ngx-loading-bar/core": "^4.2.0",
-    "@swimlane/ngx-datatable": "16.0.3",
+    "@swimlane/ngx-datatable": "^16.0.3",
     "@types/leaflet.markercluster": "^1.4.2",
     "@types/mapbox-gl": "^1.9.1",
     "bootstrap": "4.4.1",

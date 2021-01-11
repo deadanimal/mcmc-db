@@ -10,7 +10,7 @@ import { PresentationComponent } from './examples/presentation/presentation.comp
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'auth/login',
+    redirectTo: 'global/public',
     pathMatch: 'full'
   },
   {

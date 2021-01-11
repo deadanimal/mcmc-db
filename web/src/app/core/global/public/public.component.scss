@@ -6,10 +6,20 @@
     }
 }
 
+video {
+    object-fit: cover;
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
 .auth-content {
-    background-color: #172b4d;
-    background-image: url('/assets/img/logo/1119975.jpg');
-    background-repeat: no-repeat;
+    background-color: #C0C0C0;
+    background-image: url('/assets/img/logo/ezgif.com-gif-maker.gif');
+    // background-repeat: no-repeat;
+    // opacity: 0.1;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;

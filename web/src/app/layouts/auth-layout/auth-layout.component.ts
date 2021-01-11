@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from "@angular/core";
+import { Component, OnInit, OnDestroy, HostListener } from "@angular/core";
 import { Router } from "@angular/router";
 
 @Component({
@@ -9,8 +9,24 @@ import { Router } from "@angular/router";
 export class AuthLayoutComponent implements OnInit, OnDestroy {
   test: Date = new Date();
   public isCollapsed = true;
+  isMobileResolution: boolean;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router) {
+    if (window.innerWidth < 1200) {
+      this.isMobileResolution = true;
+    } else {
+      this.isMobileResolution = false;
+    }
+  }
+
+  @HostListener("window:resize", ["$event"])
+  isMobile(event) {
+    if (window.innerWidth < 1200) {
+      this.isMobileResolution = true;
+    } else {
+      this.isMobileResolution = false;
+    }
+  }
 
   ngOnInit() {
     var html = document.getElementsByTagName("html")[0];

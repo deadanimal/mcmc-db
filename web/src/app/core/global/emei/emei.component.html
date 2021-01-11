@@ -1,66 +1,177 @@
 <ngx-loading-bar></ngx-loading-bar>
 <div class="auth-content">
-  <div class=" header ">
-    <div class=" container-fluid">
-      <div class=" header-body">
-        <div class=" row align-items-center py-4">
+  <div class="header">
+    <div class="container-fluid">
+      <div class="header-body">
+        <div class="row align-items-center py-4">
           <div class="col-lg-2">
-              <img class="logo" [src]="imgLogo" style="height:100px">
+            <img class="logo" [src]="imgLogo" style="height: 100px" />
           </div>
-          <div class=" col-lg-8 col-7 ml--6">
-              <h1 class="ml-4 text-white"><i>Welcome to </i><br><b>REGISTRY of CERTIFIED COMMUNICATION EQUIPMENT<br>(RECCE)</b></h1>
+          <div class="col-lg-8 col-7 ml--6">
+            <h1 class="ml-4 text-white">
+              <i>Welcome to </i><br /><b
+                >REGISTRY of CERTIFIED COMMUNICATION EQUIPMENT<br />(RECCE)</b
+              >
+            </h1>
           </div>
         </div>
       </div>
     </div>
-  </div> 
+  </div>
 
   <div class="main-content d-flex align-items-center">
-      <div class="container">
-          <div class="row justify-content-center mt-6">
-
-            <form [formGroup]="searchIMEIForm">
-              <h1 class="text-white text-center">IMEI Enquiry</h1><br>
-              <label class="h1 text-white"  for="fname">IMEI Number:  </label>
-              <input type="text" id="imei" formControlName="IMEI" name="imei" [(ngModel)]="imei"><br><br>
-              <div class="text-center">
-              <button class=" btn btn-sm btn-neutral" (click)="productGeneration()" [disabled]="imei === ''" style="width:100px">
-                Search
-              </button>
-              <input class=" btn btn-sm btn-neutral" type="reset" value="Reset" style="width:100px">
-              <br>
-              <a class=" btn btn-sm btn-neutral mt-1" (click)="navigatePage('menu')" style="width:100px">
-                Main menu
-              </a>
-              </div>
-            </form>
-              
+    <div class="container">
+      <div class="row justify-content-center mt-6">
+        <form [formGroup]="searchIMEIForm">
+          <h1 class="text-white text-center">IMEI Enquiry</h1>
+          <br />
+          <label class="h1 text-white" for="fname">IMEI Number: </label>
+          <input
+            class="ml-2 form-control"
+            type="text"
+            id="imei"
+            formControlName="IMEI"
+            name="imei"
+            style="width: 300px"
+            [(ngModel)]="imei"
+          /><br /><br />
+          <div class="text-center">
+            <button
+              class="btn btn-lg btn-neutral"
+              (click)="productGeneration(); openModal(showResult)"
+              [disabled]="!searchIMEIForm.valid"
+              style="width: 100px"
+            >
+              Search
+            </button>
+            <input
+              class="btn btn-lg btn-neutral"
+              type="reset"
+              value="Reset"
+              style="width: 100px"
+            />
+            <br />
+            <a
+              class="btn btn-lg btn-neutral mt-1 mr-1"
+              (click)="navigatePage('menu')"
+              style="width: 200px"
+            >
+              Main menu
+            </a>
           </div>
-          <div class="row">
-            <div *ngFor="let data of infoTable">
-              <span>{{data.SLPID}} {{data.TAC}} {{data.ProductRegistrationId}} {{data.regType}}</span> 
-            </div>
-          </div>
+        </form>
       </div>
+    </div>
   </div>
 </div>
 
-
-
-<div class="container-fluid mt--5 ">
-		<div class="row align-items-center justify-content-xl-between">
-			<div class="col-xl-8">
-				<div class="copyright text-center text-xl-left text-muted">
-					&copy; {{ test | date: "yyyy" }}
-					All rights reserved © 
-					<a
-						href="https://www.prototype.com.my"
-						class="font-weight-bold ml-1"
-						target="_blank"
-					>
-						Malaysian Communications and Multimedia Commission
-					</a>
-				</div>
-			</div>
-		</div>
+<div class="container-fluid mt--5">
+  <div class="row align-items-center justify-content-xl-between">
+    <div class="col-xl-8">
+      <div class="copyright text-center text-xl-left text-muted">
+        &copy; {{ test | date: "yyyy" }}
+        All rights reserved ©
+        <a
+          href="https://www.mcmc.gov.my/en/home"
+          class="font-weight-bold ml-1"
+          target="_blank"
+        >
+          Malaysian Communications and Multimedia Commission
+        </a>
+      </div>
+    </div>
+  </div>
 </div>
+
+<ng-template #showResult>
+  <div class="modal-header bg-default">
+    <h6 class="modal-title text-white my-auto" id="modal-title-default">
+      Search IMEI
+    </h6>
+    <button
+      aria-label="Close"
+      class="close"
+      data-dismiss="modal"
+      type="button"
+      (click)="closeModal()"
+    >
+      <span aria-hidden="true" class="text-white my-auto"> × </span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-md-12">
+        <table>
+          <tr>
+            <td>IMEI No.</td>
+            <td>
+              <div *ngFor="let data of infoTable">
+                <span>{{ data.imeiNo }}</span>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>Model</td>
+            <td>
+              <div *ngFor="let data of infoTable">
+                <span>{{ data.modelDescription }}</span>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>Product Category</td>
+            <td>
+              <div *ngFor="let data of infoTable">
+                <span>{{ data.productCategory }}</span>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>Self Labeling ID</td>
+            <td>
+              <div *ngFor="let data of infoTable">
+                <span>{{ data.SLPID }}</span>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>Cert Holder</td>
+            <td>
+              <div *ngFor="let data of infoTable">
+                <span>{{ data.consigneeName }}</span>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>TAC</td>
+            <td>
+              <div *ngFor="let data of infoTable">
+                <span>{{ data.TAC }}</span>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>Approve Date</td>
+            <td>
+              <div *ngFor="let data of infoTable">
+                <span>{{ data.approveDate }}</span>
+              </div>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-footer">
+    <button
+      class="btn btn-outline-danger ml-auto"
+      data-dismiss="modal"
+      type="button"
+      (click)="closeModal()"
+    >
+      Close
+    </button>
+  </div>
+</ng-template>

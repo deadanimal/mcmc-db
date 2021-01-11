@@ -18,6 +18,8 @@ export class PublicComponent implements OnInit {
   imgLogo3 = 'assets/img/icons/MCMC_IMEI.png'
   imgLogo4 = 'assets/img/icons/MCMC_Product Serial Num.png'
   imgLogo5 = 'assets/img/icons/MCMC_Self Labelling ID.png'
+  test: Date = new Date();
+
 
 
 

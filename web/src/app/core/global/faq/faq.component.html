@@ -1,80 +1,108 @@
 <ngx-loading-bar></ngx-loading-bar>
 <div class="auth-content">
-  <div class=" header">
-    <div class=" container-fluid">
-      <div class=" header-body">
-        <div class=" row align-items-center py-4">
+  <div class="header">
+    <div class="container-fluid">
+      <div class="header-body">
+        <div class="row align-items-center py-4">
           <div class="col-lg-2">
-              <img class="logo" [src]="imgLogo" style="height:100px">
+            <img class="logo" [src]="imgLogo" style="height: 100px" />
           </div>
-          <div class=" col-lg-8 col-7 ml--6">
-              <h1 class="ml-4 text-white"><i>Welcome to </i><br><b>REGISTRY of CERTIFIED COMMUNICATION EQUIPMENT<br>(RECCE)</b></h1>
+          <div class="col-lg-8 col-7 ml--6">
+            <h1 class="ml-4 text-white">
+              <i>Welcome to </i><br /><b
+                >REGISTRY of CERTIFIED COMMUNICATION EQUIPMENT<br />(RECCE)</b
+              >
+            </h1>
           </div>
-            <div class=" col-lg-2 col-5 text-right ml--2">
-            <a class=" btn btn-lg btn-neutral" href="javascript:void(0)" (click)="navigatePage('menu')">
-                Back
+          <div class="col-lg-2 col-5 text-right ml--2">
+            <a
+              class="btn btn-lg btn-neutral"
+              href="javascript:void(0)"
+              (click)="navigatePage('menu')"
+            >
+              Back
             </a>
-            </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
 
-<div class="main-content d-flex align-items-center">
+  <div class="main-content d-flex align-items-center">
     <div class="container">
-        <div class="row justify-content-center mt-6">
-          <div class="col">
-            <div class="card">
-              <div class="card-header">
-                <h2>Frequent Answered Question(s)</h2> <br>
-                <div class="form-group">
-                  <label class="form-control-label">Choose by Categories</label>
-                  <select class="form-control custom-select" #mySelect>
-                    <option hidden selected value="0">Please pick</option>
-                    <option value="general">General</option>
-                    <option value="account">Account and Billing</option>
-                    <option value="owner">Owner/Tenant issues</option>
-                    <option value="power">Power Quality</option>
-                  </select>
-                </div>
-                <div class="card-body" *ngIf="mySelect.value==='general'">
-                  <div class="row">
-                    <div class="col-md-12">
-                      <h4 class="text-default">Where is the TNB's Headquarters?</h4>
-                      <p>TNB’s Headquarters is located in Bangsar, Kuala Lumpur. For full address, refer to our Contact Us page.
-                      </p>
-                    </div>
-                    <div class="col-md-12">
-                      <h4 class="text-default">Where can I find a list of TNB's subsidiaries?</h4>
-                      <p>A complete list can be found at our Subsidiaries page.</p>
-                    </div>
-                    <div class="col-md-12">
-                      <h4 class="text-default">What is TNB's fiscal year?</h4>
-                      <p>TNB's fiscal year is from 1 January to 31 December.</p>
-                    </div>
+      <div class="row justify-content-center mt--2">
+        <div class="col">
+          <div class="card">
+            <div class="card-header">
+              <h2>Frequent Answered Question(s)</h2>
+              <br />
+              <div class="form-group">
+                <label class="form-control-label">Choose by Categories</label>
+                <select
+                  class="form-control"
+                  (change)="dropdownFAQ($event.target.value)"
+                >
+                  <option selected hidden>Please select</option>
+                  <option *ngFor="let option of infoTable" value="{{option.category}}">
+                    {{ option.category }}
+                  </option>
+                </select>
+              </div>
+              <div class="card-body mt--4 mb--4">
+                <div class="row">
+                  <div class="col-md-12">
+                    <h4 class="text-default">
+                      What is meant by communications equipment?
+                    </h4>
+                    <p>
+                      Customer equipment are any equipment used on the customer
+                      side of a network service and all types of wireless
+                      devices. Examples are fixed-line or cellular phones, fax
+                      machine, modem, wireless router and gateway, optical
+                      transceiver, satellite receiver, mobile radio or
+                      walkie-talkie, smart and digital television, and any
+                      equipment or device using wireless technologies such as
+                      laptop, tablet, camera, watches, drone, baby monitor, CCTV
+                      and others.
+                    </p>
+                  </div>
+                  <div class="col-md-12">
+                    <h4 class="text-default">
+                      What is meant by certified communications equipment?
+                    </h4>
+                    <p>
+                      Certified communications equipment refers to equipment
+                      which has been confirmed as having complied with the
+                      specified standards, technical specifications, technical
+                      checklist and/or technical declaration pursuant to the
+                      Communications and Multimedia (Technical Standards)
+                      Regulations 2000.
+                    </p>
                   </div>
                 </div>
               </div>
             </div>
-          </div>  
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 </div>
-</div>
-<div class="container-fluid mt--5 ">
-		<div class="row align-items-center justify-content-xl-between">
-			<div class="col-xl-8">
-				<div class="copyright text-center text-xl-left text-muted">
-					&copy; {{ test | date: "yyyy" }}
-					All rights reserved © 
-					<a
-						href="https://www.prototype.com.my"
-						class="font-weight-bold ml-1"
-						target="_blank"
-					>
-						Malaysian Communications and Multimedia Commission
-					</a>
-				</div>
-			</div>
-		</div>
+
+<div class="container-fluid mt--5">
+  <div class=" row align-items-center justify-content-xl-between">
+    <div class="col-xl-8">
+      <div class="copyright text-center text-xl-left text-muted">
+        &copy; {{ test | date: "yyyy" }}
+        All rights reserved ©
+        <a
+          href="https://www.mcmc.gov.my/en/home"
+          class="font-weight-bold ml-1"
+          target="_blank"
+        >
+          Malaysian Communications and Multimedia Commission
+        </a>
+      </div>
+    </div>
+  </div>
 </div>

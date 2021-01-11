@@ -26,6 +26,7 @@ import { ManagementAccessComponent } from './management-access/management-access
 import { UtilityAuditComponent } from './utility-audit/utility-audit.component';
 import { DataSearchComponent } from './data-search/data-search.component';
 import { SystemFaqComponent } from './system-faq/system-faq.component';
+import { CalendarModule } from 'src/app/examples/calendar/calendar.module';
 
 @NgModule({
   declarations: [
@@ -54,7 +55,8 @@ import { SystemFaqComponent } from './system-faq/system-faq.component';
     ReactiveFormsModule,
     LoadingBarModule,
     NgxDatatableModule,
-    RouterModule.forChild(AdminRoutes)
+    RouterModule.forChild(AdminRoutes),
+    CalendarModule,
   ]
 })
 export class AdminModule { }

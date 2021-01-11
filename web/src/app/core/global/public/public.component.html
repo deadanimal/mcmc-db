@@ -1,75 +1,106 @@
 <ngx-loading-bar></ngx-loading-bar>
 <div class="auth-content">
-    <div class=" header ">
-    <div class=" container-fluid">
-        <div class=" header-body">
-        <div class=" row align-items-center py-4">
-            <div class="col-lg-2">
-                <img class="logo" [src]="imgLogo" style="height:100px">
-            </div>
-            <div class=" col-lg-8 col-7 ml--6">
-                <h1 class="ml-4 text-white"><i>Welcome to </i><br><b>REGISTRY of CERTIFIED COMMUNICATION EQUIPMENT<br>(RECCE)</b></h1>
-            </div>
-            <div class=" col-lg-2 col-5 text-right ml--2">
-            <a class=" btn btn-lg btn-neutral" href="javascript:void(0)" (click)="navigatePage('faq')">
-                FAQ
+  <div class="header">
+    <div class="container-fluid">
+      <div class="header-body">
+        <div class="row align-items-center py-4">
+          <div class="col-lg-2">
+            <img class="logo" [src]="imgLogo" style="height: 100px" />
+          </div>
+          <div class="col-lg-8 col-7 ml--6">
+            <h1 class="ml-4 text-white">
+              <i>Welcome to </i><br /><b
+                >REGISTRY of CERTIFIED COMMUNICATION EQUIPMENT<br />(RECCE)</b>
+            </h1>
+          </div>
+          <div class="col-lg-2 col-5 text-right ml--2">
+            <a
+              class="btn btn-lg btn-neutral"
+              href="javascript:void(0)"
+              (click)="navigatePage('faq')"
+            >
+              FAQ
             </a>
-            </div>
+          </div>
         </div>
-        </div>
+      </div>
     </div>
-    </div> 
+  </div>
 
-<div class="main-content d-flex align-items-center">
+  <div class="main-content d-flex align-items-center">
     <div class="container">
-        <div class="row justify-content-center mt-6">
-            <div class="col-md-3">
-                <div class="card bg-secondary border-0 mb-0" (click)="navigatePage('productInfo')">
-                    <img class="logo mt-2 ml-4 text-center" [src]="imgLogo2" style=" width:72%">
-                    <h1 class="text-center ">PRODUCT INFORMATION</h1>
-                </div>
-            </div>
-
-            <div class="col-md-3">
-                <div class="card bg-secondary border-0 mb-0" (click)="navigatePage('imei')">
-                    <img class="logo mt-2 ml-4 text-center" [src]="imgLogo3" style=" width:72%">
-                    <h1 class="text-center mt-1">IMEI <BR>INFORMATION</h1>
-                </div>
-            </div>
-
-            <div class="col-md-3">
-                <div class="card bg-secondary border-0 mb-0" (click)="navigatePage('test')">
-                    <img class="logo mt-1 ml-4" [src]="imgLogo4" style=" width:80%">
-                    <h1 class="text-center mt-1">PRODUCT SERIAL NUMBER</h1>
-                </div>
-            </div>
-
-            <div class="col-md-3">
-                <div class="card bg-secondary border-0 mb-0" (click)="navigatePage('label')">
-                    <img class="logo mt-3 ml-4" [src]="imgLogo5" style=" width:80%">
-                    <h1 class="text-center mt-4">SELF <BR>LABELING ID</h1>
-                </div>
-            </div>
-
+      <div class="row justify-content-center mt-6">
+        <div class="col-md-3 text-center">
+          <div
+            class="card bg-secondary card-lift--hover border-0 mb-0"
+            (click)="navigatePage('productInfo')"
+            style="opacity: 0.9;"
+          >
+            <img
+              class="logo mt-4 ml-auto mr-auto"
+              [src]="imgLogo2"
+              style="width: 45%"
+            />
+            <h1 class="text-center mt-4">PRODUCT INFORMATION</h1>
+          </div>
         </div>
+
+        <div class="col-md-3">
+          <div
+            class="card card-lift--hover bg-secondary border-0 mb-0"
+            (click)="navigatePage('imei')"
+            style="opacity: 0.9;"
+          >
+            <img
+              class="logo mt-4 ml-auto mr-auto"
+              [src]="imgLogo3"
+              style="width: 45%"
+            />
+            <h1 class="text-center mt-4 ">IMEI <BR />INFORMATION</h1>
+          </div>
+        </div>
+
+        <div class="col-md-3 text-center">
+          <div
+            class="card bg-secondary card-lift--hover border-0 mb-0"
+            (click)="navigatePage('test')"
+            style="opacity: 0.9;"
+          >
+            <img class="logo mt-4 ml-auto mr-auto" [src]="imgLogo4" style="width: 50%" />
+            <h1 class="text-center mt-4">PRODUCT SERIAL NUMBER</h1>
+          </div>
+        </div>
+
+        <div class="col-md-3 text-center">
+          <div
+            class="card bg-secondary card-lift--hover border-0 mb-0"
+            (click)="navigatePage('label')" 
+            style="opacity: 0.9;"       
+          >
+            <img class="logo mt-4 ml-auto mr-auto" [src]="imgLogo5" style="width: 60%" />
+            <h1 class="text-center mt-4">SELF <BR />LABELING ID</h1>
+          </div>
+        </div>
+      </div>
     </div>
-</div>
+  </div>
 </div>
 
-<div class="container-fluid mt--5 ">
-		<div class="row align-items-center justify-content-xl-between">
-			<div class="col-xl-8">
-				<div class="copyright text-center text-xl-left text-muted">
-					&copy; {{ test | date: "yyyy" }}
-					All rights reserved © 
-					<a
-						href="https://www.prototype.com.my"
-						class="font-weight-bold ml-1"
-						target="_blank"
-					>
-						Malaysian Communications and Multimedia Commission
-					</a>
-				</div>
-			</div>
-		</div>
+
+<div class="container-fluid mt--5">
+  <div class="row align-items-center justify-content-xl-between">
+    <div class="col-xl-8">
+      <div class="copyright text-center text-xl-left text-muted">
+        &copy; {{ test | date: "yyyy" }}
+        All rights reserved ©
+        <a
+          href="https://www.mcmc.gov.my/en/home"
+          class="font-weight-bold ml-1"
+          target="_blank"
+        >
+          Malaysian Communications and Multimedia Commission
+        </a>
+      </div>
+    </div>
+  </div>
 </div>

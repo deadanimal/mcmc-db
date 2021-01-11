@@ -13,19 +13,19 @@ from core.helpers import PathAndRename
 
 class ProductRegistration(models.Model):
 
-    ProductRegistrationId = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    SLPID = models.CharField(max_length=255, blank=True)
+    Id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    fileNo = models.CharField(max_length=255, blank=True)
     TAC = models.CharField(max_length=255, blank=True)
-    IMEI = models.CharField(max_length=255, blank=True)
-    serialNo = models.CharField(max_length=255, blank=True)
-    ProductRegNo = models.CharField(max_length=255, blank=True)
-    REG_TYPE_OPTION = [
-        ('SN','SerialNo'),
-        ('IMEI','IMEI')
-    ]
-
-    user_type = models.CharField(max_length=2,choices=REG_TYPE_OPTION)
-    regType = models.CharField(max_length=255, blank=True)
+    productCategory  = models.CharField(max_length=255, blank=True)
+    modelId = models.CharField(max_length=255, blank=True)
+    modelDescription = models.CharField(max_length=255, blank=True)
+    consigneeName = models.CharField(max_length=255, blank=True)
+    submissionDate = models.CharField(max_length=255, blank=True)
+    approveDate = models.CharField(max_length=255, blank=True)
+    expiryDate = models.CharField(max_length=255, blank=True)
+    category = models.CharField(max_length=255, blank=True)
+    imeiNo = models.CharField(max_length=255, blank=True)
+    SLPID = models.CharField(max_length=255, blank=True)
     created_date = models.DateTimeField(auto_now=True)
     modified_date = models.DateTimeField(auto_now=True)
  

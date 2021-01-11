@@ -7,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NotificationsComponent implements OnInit {
 
+  test: Date = new Date();
+
   constructor() { }
 
   ngOnInit() {
