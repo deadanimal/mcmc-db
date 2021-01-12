@@ -66,14 +66,17 @@ export class ProductInfoComponent implements OnInit {
     let datafield = "consigneeName="+this.searchPRODUCTForm.value.PRODUCT
     let datafield2 = "modelDescription="+this.searchPRODUCTForm.value.MODEL
     console.log("wewe",datafield, "modelDescription="+null)
+    this.loadingBar.start()
     if (datafield2=="modelDescription="+null){
     this.masterDataService.filter(datafield).subscribe(
       (res) => {
         this.infoTable=res;
         console.log("if loop 1");
+        this.loadingBar.complete();
       },
       (err) => {
         console.log("HTTP Error", err);
+        this.loadingBar.complete();
       },
       () => console.log("HTTP request completed.")
     );
@@ -83,9 +86,11 @@ export class ProductInfoComponent implements OnInit {
         (res) => {
           this.infoTable=res;
           console.log("if loop 2");
+          this.loadingBar.complete();
         },
         (err) => {
           console.log("HTTP Error", err);
+          this.loadingBar.complete();
         },
         () => console.log("HTTP request completed.")
       );
@@ -93,6 +98,7 @@ export class ProductInfoComponent implements OnInit {
   }
 
   productGeneration2() {
+    this.loadingBar.start()
     console.log("form",this.searchPRODUCTForm.value.PRODUCT, this.searchPRODUCTForm.value.MODEL)
     let datafield = "consigneeName="+this.searchPRODUCTForm.value.PRODUCT
     let datafield2 = "modelDescription="+this.searchPRODUCTForm.value.MODEL
@@ -102,6 +108,7 @@ export class ProductInfoComponent implements OnInit {
       (res) => {
         this.infoTable=res;
         console.log("if loop 1");
+        this.loadingBar.complete();
       },
       (err) => {
         console.log("HTTP Error", err);
@@ -117,6 +124,7 @@ export class ProductInfoComponent implements OnInit {
         },
         (err) => {
           console.log("HTTP Error", err);
+          this.loadingBar.complete();
         },
         () => console.log("HTTP request completed.")
       );

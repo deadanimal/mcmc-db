@@ -47,7 +47,8 @@ export class EmeiComponent implements OnInit {
 
   productGeneration() {
     console.log("HTTP",this.searchIMEIForm.value.IMEI)
-    let datafield = "imeiNo="+this.searchIMEIForm.value.IMEI 
+    let datafield = "imeiNo="+this.searchIMEIForm.value.IMEI
+    this.loadingBar.start(); 
     this.productGenerationService.filter(datafield).subscribe(
       (res) => {
         this.loadingBar.complete();

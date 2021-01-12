@@ -2,6 +2,7 @@ import { Component, OnInit, TemplateRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
+import { LoadingBarService } from '@ngx-loading-bar/core';
 import { masterTable } from 'src/app/shared/services/masterData/masterData.model';
 import { MasterDataService } from 'src/app/shared/services/masterData/masterData.service';
 
@@ -43,6 +44,7 @@ export class LabelComponent implements OnInit {
     private router: Router,
     private productGenerationService: MasterDataService,
     private formBuilder: FormBuilder,
+    private loadingBar: LoadingBarService,
     private modalService: BsModalService,
     
   ) { }
@@ -60,18 +62,19 @@ export class LabelComponent implements OnInit {
   }
 
   productGeneration() {
+    this.loadingBar.start();
     console.log("HTTP",this.searchLABELForm.value.LABEL)
     let datafield = "SLPID="+this.searchLABELForm.value.LABEL 
     this.productGenerationService.filter(datafield).subscribe(
       (res) => {
         this.infoTable=res
         console.log("wewe",this.infoTable)
-        // this.loadingBar.complete();
+        this.loadingBar.complete();
         // this.successMessage();
         // this.navigatePage("dashboard-admin");
       },
       (err) => {
-        // this.loadingBar.complete();
+        this.loadingBar.complete();
         // this.errorMessage();
         // console.log("HTTP Error", err), this.errorMessage();
       },
