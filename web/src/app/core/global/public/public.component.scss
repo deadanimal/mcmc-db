@@ -6,6 +6,10 @@
     }
 }
 
+.mt--10 {
+    margin-top: -12rem !important
+}
+
 video {
     object-fit: cover;
     width: 100vw;
@@ -15,11 +19,17 @@ video {
     left: 0;
 }
 
+.path-5 {
+    background-color: transparent;
+    flex-shrink: 0;
+    height: 246px;
+    width: 1923px;
+}
+
 .auth-content {
     background-color: #C0C0C0;
     background-image: url('/assets/img/logo/ezgif.com-gif-maker.gif');
-    // background-repeat: no-repeat;
-    // opacity: 0.1;
+    background-repeat: repeat-y;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;

@@ -4,6 +4,7 @@ import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms'
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { LoadingBarService } from '@ngx-loading-bar/core';
 import { MasterDataService } from 'src/app/shared/services/masterData/masterData.service';
+import { NotifyService } from 'src/app/shared/handler/notify/notify.service';
 
 export enum SelectionType {
   single = 'single',
@@ -26,6 +27,17 @@ export class ProductInfoComponent implements OnInit {
   test: Date = new Date();
   product = null
   model = null 
+  focusUsername
+  focustype
+
+  loginFormMessages = {
+    'PRODUCT': [
+      { type: 'required', message: 'Brand is required' },
+    ],
+    'TYPE': [
+      { type: 'required', message: 'Please choose type' },
+    ]
+  }
 
   tableEntries: number = 5;
   tableSelected: any[] = [];
@@ -39,9 +51,12 @@ export class ProductInfoComponent implements OnInit {
     class: "modal-dialog-centered modal-xl"
   };
 
+  
+
   constructor(
     private router: Router,
     private masterDataService: MasterDataService,
+    private notifyService: NotifyService,
     private formBuilder: FormBuilder,
     private loadingBar: LoadingBarService,
     private modalService: BsModalService,
@@ -49,9 +64,14 @@ export class ProductInfoComponent implements OnInit {
 
   ngOnInit() {
     this.searchPRODUCTForm = this.formBuilder.group({
-      PRODUCT: new FormControl('',Validators.required),
+      PRODUCT: new FormControl('' ,Validators.compose([
+        Validators.required,
+      ])),
       MODEL: new FormControl(''),
-      })
+      TYPE: new FormControl('', Validators.compose([
+        Validators.required,
+      ]))
+    })  
   }
 
   navigatePage(path: String) {
@@ -65,14 +85,17 @@ export class ProductInfoComponent implements OnInit {
     let datafield = "consigneeName="+this.searchPRODUCTForm.value.PRODUCT
     let datafield2 = "modelDescription="+this.searchPRODUCTForm.value.MODEL
     console.log("wewe",datafield, "modelDescription="+null)
+    this.loadingBar.start()
     if (datafield2=="modelDescription="+null){
     this.masterDataService.filter(datafield).subscribe(
       (res) => {
         this.infoTable=res;
         console.log("if loop 1");
+        this.loadingBar.complete();
       },
       (err) => {
         console.log("HTTP Error", err);
+        this.loadingBar.complete();
       },
       () => console.log("HTTP request completed.")
     );
@@ -82,9 +105,11 @@ export class ProductInfoComponent implements OnInit {
         (res) => {
           this.infoTable=res;
           console.log("if loop 2");
+          this.loadingBar.complete();
         },
         (err) => {
           console.log("HTTP Error", err);
+          this.loadingBar.complete();
         },
         () => console.log("HTTP request completed.")
       );
@@ -92,6 +117,7 @@ export class ProductInfoComponent implements OnInit {
   }
 
   productGeneration2() {
+    this.loadingBar.start()
     console.log("form",this.searchPRODUCTForm.value.PRODUCT, this.searchPRODUCTForm.value.MODEL)
     let datafield = "consigneeName="+this.searchPRODUCTForm.value.PRODUCT
     let datafield2 = "modelDescription="+this.searchPRODUCTForm.value.MODEL
@@ -101,6 +127,7 @@ export class ProductInfoComponent implements OnInit {
       (res) => {
         this.infoTable=res;
         console.log("if loop 1");
+        this.loadingBar.complete();
       },
       (err) => {
         console.log("HTTP Error", err);
@@ -116,6 +143,7 @@ export class ProductInfoComponent implements OnInit {
         },
         (err) => {
           console.log("HTTP Error", err);
+          this.loadingBar.complete();
         },
         () => console.log("HTTP request completed.")
       );
@@ -149,7 +177,8 @@ export class ProductInfoComponent implements OnInit {
 
   closeModal() {
     this.modal.hide()
-    
+    this.searchPRODUCTForm.reset()
+
   }
 
   entriesChange($event) {

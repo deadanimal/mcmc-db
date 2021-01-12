@@ -17,6 +17,7 @@ export class FaqComponent implements OnInit {
   test: Date = new Date();
   infoTable = []
   searchFAQForm: FormGroup
+  value = ''
 
   @ViewChild('formRegistration') formRegistration: ElementRef;
   registerForm: FormGroup

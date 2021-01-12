@@ -17,6 +17,13 @@ export class EmeiComponent implements OnInit {
   searchIMEIForm: FormGroup
   test: Date = new Date();
   imei
+  focusImei
+
+  ImeiMessages = {
+    'IMEI': [
+      { type: 'required', message: 'IMEI is required' },
+    ],
+  }
 
   modal: BsModalRef;
   modalConfig = {
@@ -34,7 +41,9 @@ export class EmeiComponent implements OnInit {
 
   ngOnInit() {
     this.searchIMEIForm = this.formBuilder.group({
-      IMEI: new FormControl('', Validators.required),
+      IMEI: new FormControl('' ,Validators.compose([
+        Validators.required,
+      ])),
     }) 
     
   }
@@ -47,18 +56,17 @@ export class EmeiComponent implements OnInit {
 
   productGeneration() {
     console.log("HTTP",this.searchIMEIForm.value.IMEI)
-    let datafield = "imeiNo="+this.searchIMEIForm.value.IMEI 
+    let datafield = "imeiNo="+this.searchIMEIForm.value.IMEI
+    this.loadingBar.start(); 
     this.productGenerationService.filter(datafield).subscribe(
       (res) => {
         this.loadingBar.complete();
         this.infoTable=res;
         console.log("wewe",this.infoTable);
     
-        // this.successMessage();
-        // this.navigatePage("dashboard-admin");
       },
       (err) => {
-        // this.loadingBar.complete();
+        this.loadingBar.complete();
         // this.errorMessage();
         // console.log("HTTP Error", err), this.errorMessage();
       },
@@ -72,6 +80,7 @@ export class EmeiComponent implements OnInit {
 
   closeModal() {
     this.modal.hide()
+    this.searchIMEIForm.reset()
   }
 
 }

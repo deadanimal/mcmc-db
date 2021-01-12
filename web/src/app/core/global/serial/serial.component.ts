@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { MasterDataService } from 'src/app/shared/services/masterData/masterData.service';
+import { LoadingBarService } from '@ngx-loading-bar/core';
 
 
 @Component({
@@ -17,6 +18,13 @@ export class SerialComponent implements OnInit {
   searchSERIALForm: FormGroup
   test: Date = new Date();
   serial
+  focusSerial
+
+  SerialMessages = {
+    'SERIAL': [
+      { type: 'required', message: 'Serial Number is required' },
+    ],
+  }
 
   modal: BsModalRef;
   modalConfig = {
@@ -28,12 +36,15 @@ export class SerialComponent implements OnInit {
     private router: Router,
     private masterDataService: MasterDataService,
     private formBuilder: FormBuilder,
+    private loadingBar: LoadingBarService,
     private modalService: BsModalService,
   ) { }
 
   ngOnInit() {
     this.searchSERIALForm = this.formBuilder.group({
-    SERIAL: new FormControl('',Validators.required),
+      SERIAL: new FormControl('' ,Validators.compose([
+        Validators.required,
+      ])),
     })
   }
 
@@ -45,17 +56,18 @@ export class SerialComponent implements OnInit {
 
   productGeneration() {
     console.log("HTTP",this.searchSERIALForm.value.SERIAL)
-    let datafield = "serialNo="+this.searchSERIALForm.value.SERIAL 
+    let datafield = "serialNo="+this.searchSERIALForm.value.SERIAL
+    this.loadingBar.start(); 
     this.masterDataService.filter(datafield).subscribe(
       (res) => {
         this.infoTable=res
         console.log("wewe",this.infoTable)
-        // this.loadingBar.complete();
+        this.loadingBar.complete();
         // this.successMessage();
         // this.navigatePage("dashboard-admin");
       },
       (err) => {
-        // this.loadingBar.complete();
+        this.loadingBar.complete();
         // this.errorMessage();
         // console.log("HTTP Error", err), this.errorMessage();
       },
@@ -69,6 +81,7 @@ export class SerialComponent implements OnInit {
 
   closeModal() {
     this.modal.hide()
+    this.searchSERIALForm.reset()
   }
 
 }

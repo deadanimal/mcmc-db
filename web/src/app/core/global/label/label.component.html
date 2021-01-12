@@ -3,7 +3,7 @@
   <div class="header">
     <div class="container-fluid">
       <div class="header-body">
-        <div class="row align-items-center py-4">
+        <div class="row align-items-center mx-auto py-4">
           <div class="col-lg-2">
             <img class="logo" [src]="imgLogo" style="height: 100px" />
           </div>
@@ -25,36 +25,46 @@
         <form [formGroup]="searchLABELForm">
           <h1 class="text-white text-center">Self Labeling ID Enquiry</h1>
           <br />
-          <label class="h1 text-white" for="fname">Self Labeling ID : </label>
-          <input
-            class="ml-2"
-            type="text"
-            id="label"
-            formControlName="LABEL"
-            name="label"
-            style="width: 300px"
-            [(ngModel)]="label"
-          /><br /><br />
+          <div class="form-group row">
+                  <label class="h2 text-white col-md-2" for="imei">Labeling:</label>
+                  <div class="col-md-10">
+                    <input
+                      class="ml-2 form-control"
+                      type="text"
+                      id="label"
+                      formControlName="LABEL"
+                      name="label"
+                      style="width: 400px"
+                      [(ngModel)]="label"
+                      (focus)="focusLabel = true" 
+                      (blur)="focusLabel = false"
+                    />
+                    <ng-container *ngFor="let message of LabelMessages.LABEL">
+                                    <div *ngIf="searchLABELForm.get('LABEL').hasError(message.type) && (searchLABELForm.get('LABEL').dirty || searchLABELForm.get('LABEL').touched)">
+                                        <p class="error-message"><span>{{ message.message }}</span></p>
+                                    </div>
+                    </ng-container>
+                  </div>
+                </div>
           <div class="text-center">
             <button
-              class="btn btn-lg btn-neutral"
+              class="btn btn-lg btn-neutral ml--1"
               (click)="productGeneration(); openModal(showResult)"
               [disabled]="!searchLABELForm.valid"
               style="width: 100px"
             >
               Search
             </button>
-            <input
-              class="btn btn-lg btn-neutral"
+            <button
+              class="btn btn-lg btn-neutral mr--1"
               type="reset"
-              value="Reset"
               style="width: 100px"
-            />
+            >Reset</button>
             <br />
             <button
-              class="btn btn-lg btn-neutral mt-1 mr-1"
+              class="btn btn-lg btn-neutral mt-1"
               (click)="navigatePage('menu')"
-              style="width: 202px"
+              style="width: 200px"
             >
               Main menu
             </button>
@@ -64,7 +74,7 @@
     </div>
   </div>
 </div>
-
+<!--
 <div class="container-fluid mt--5">
   <div class="row align-items-center justify-content-xl-between">
     <div class="col-xl-8">
@@ -82,7 +92,7 @@
     </div>
   </div>
 </div>
-
+-->
 <ng-template #showResult>
   <div class="modal-header bg-default">
     <h6 class="modal-title text-white my-auto" id="modal-title-default">
@@ -163,6 +173,15 @@
           </ng-template>
           <ng-template let-row="row" ngx-datatable-cell-template>
             {{ row.expiryDate }}
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column>
+          <ng-template ngx-datatable-header-template>
+            <span>File No.</span>
+          </ng-template>
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            {{ row.fileNo }}
           </ng-template>
         </ngx-datatable-column>
 

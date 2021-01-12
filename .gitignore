@@ -13,3 +13,8 @@ script/data/original/*.txt
 script/output
 
 */.env
+
+# secrets
+
+**/env
+**/secrets.yml
