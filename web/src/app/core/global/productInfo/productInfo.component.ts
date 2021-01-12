@@ -51,6 +51,7 @@ export class ProductInfoComponent implements OnInit {
     this.searchPRODUCTForm = this.formBuilder.group({
       PRODUCT: new FormControl('',Validators.required),
       MODEL: new FormControl(''),
+      TYPE: new FormControl(''),
       })
   }
 

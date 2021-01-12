@@ -1,4 +1,5 @@
 <ngx-loading-bar></ngx-loading-bar>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <div class="auth-content">
   <div class="header">
     <div class="container-fluid">
@@ -19,38 +20,58 @@
     </div>
   </div>
 
-  <div class="main-content d-flex align-items-center">
+  <div class="main-content d-flex">
     <div class="container">
       <div class="row justify-content-center mt-6">
         <form [formGroup]="searchPRODUCTForm">
           <h1 class="text-white text-center">Model/Brand Enquiry</h1>
           <br />
-          <label class="h1 text-white" for="product">Brand : </label>
-          <input
-            class="ml-2"
-            type="text"
-            id="product"
-            formControlName="PRODUCT"
-            name="product"
-            style="width: 313px"
-            [(ngModel)]="product"
-          /><br />
-          <label class="h1 text-white" for="fname">Model : </label>
-          <input
-            class="ml-2"
-            type="text"
-            formControlName="MODEL"
-            id="model"
-            name="model"
-            [(ngModel)]="model"
-            style="width: 310px"
-          /><br />
-          <label class="h1 text-white" for="search">Search Type : </label>
-          <select class="ml-2" type="text" style="width: 235px" #mySelect (change)="changeDropdown($event.target.value)">
-            <option hidden selected value="0">Please pick</option>
-            <option value="exact">Search by exact word</option>
-            <option value="any">Search by any combination word</option></select
-          ><br /><br />
+          <div class="form-group row">
+                  <label class="h2 text-white col-md-2" for="product">Brand:</label>
+                  <div class="col-md-10">
+                    <input
+                      class="ml-2 form-control"
+                      type="text"
+                      id="product"
+                      formControlName="PRODUCT"
+                      name="product"
+                      style="width: 400px"
+                      [(ngModel)]="product"
+                    />
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="h2 text-white col-md-2" for="model">Model:</label>
+                  <div class="col-md-10">
+                    <input
+                      class="ml-2 form-control"
+                      type="text"
+                      id="model"
+                      formControlName="MODEL"
+                      name="model"
+                      style="width: 400px"
+                      [(ngModel)]="model"
+                    />
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="h2 text-white col-md-2" for="search">Type:</label>
+                  <div class="col-md-10">
+                    <select
+                      class="ml-2 form-control"
+                      type="text"
+                      id="search"
+                      formControlName="TYPE"
+                      name="search"
+                      style="width: 400px"
+                      (change)="changeDropdown($event.target.value)"
+                    >
+                    <option hidden selected value="0">Please pick</option>
+                    <option value="exact">Search by exact word</option>
+                    <option value="any">Search by any combination word</option></select>
+                  </div>
+                </div>
+
           <div class="text-center">
             <button
               class="btn btn-lg btn-neutral"
@@ -80,7 +101,7 @@
     </div>
   </div>
 </div>
-
+<!--
 <div class="container-fluid mt--5">
   <div class="row align-items-center justify-content-xl-between">
     <div class="col-xl-8">
@@ -98,7 +119,7 @@
     </div>
   </div>
 </div>
-
+-->
 <ng-template #showResult>
   <div class="modal-header bg-default">
     <h6 class="modal-title text-white my-auto" id="modal-title-default">

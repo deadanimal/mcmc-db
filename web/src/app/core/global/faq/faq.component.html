@@ -41,14 +41,16 @@
                 <select
                   class="form-control"
                   (change)="dropdownFAQ($event.target.value)"
+                  [(ngModel)]="value" [ngModelOptions]="{standalone:true}"
                 >
                   <option selected hidden>Please select</option>
-                  <option *ngFor="let option of infoTable" value="{{option.category}}">
+                  <option *ngFor="let option of infoTable" [value]="option.category">
                     {{ option.category }}
                   </option>
                 </select>
               </div>
-              <div class="card-body mt--4 mb--4">
+
+              <div class="card-body mt--4 mb--4" *ngIf="value==='General'">
                 <div class="row">
                   <div class="col-md-12">
                     <h4 class="text-default">
@@ -81,6 +83,45 @@
                   </div>
                 </div>
               </div>
+              <div class="card-body mt--4 mb--4" *ngIf="value==='IMEI'">
+                <div class="row">
+                  <div class="col-md-12">
+                    <h4 class="text-default">
+                      What is meant by IMEI number?
+                    </h4>
+                    <p>
+                      IMEI (International Mobile Equipment Identity) is a unique number to identify GSM, WCDMA, and iDEN mobile phones, as well as some satellite phones. Mostly phone have one IMEI number, but in dual SIM phones are two.
+                    </p>
+                  </div>
+                  <div class="col-md-12">
+                    <h4 class="text-default">
+                      What is meant by certified communications equipment?
+                    </h4>
+                    <p>
+                      Certified communications equipment refers to equipment
+                      which has been confirmed as having complied with the
+                      specified standards, technical specifications, technical
+                      checklist and/or technical declaration pursuant to the
+                      Communications and Multimedia (Technical Standards)
+                      Regulations 2000.
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="card-body mt--4 mb--4" *ngIf="value==='Serial Number'">
+                <div class="row">
+                  <div class="col-md-12">
+                    <h4 class="text-default">
+                      What is meant by Serial Number?
+                    </h4>
+                    <p>
+                      A serial number is a unique identifier assigned incrementally or sequentially to an item, to uniquely identify it.
+
+Serial numbers need not be strictly numerical. They may contain letters and other typographical symbol, or may consist entirely of a character string.
+                    </p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -88,7 +129,7 @@
     </div>
   </div>
 </div>
-
+<!--
 <div class="container-fluid mt--5">
   <div class=" row align-items-center justify-content-xl-between">
     <div class="col-xl-8">
@@ -106,3 +147,4 @@
     </div>
   </div>
 </div>
+-->

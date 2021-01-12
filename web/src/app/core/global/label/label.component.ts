@@ -36,7 +36,7 @@ export class LabelComponent implements OnInit {
   modal: BsModalRef;
   modalConfig = {
     keyboard: true,
-    class: "modal-dialog-centered modal-lg"
+    class: "modal-dialog-centered modal-xl"
   };
 
   constructor(

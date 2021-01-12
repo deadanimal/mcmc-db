@@ -54,11 +54,9 @@ export class EmeiComponent implements OnInit {
         this.infoTable=res;
         console.log("wewe",this.infoTable);
     
-        // this.successMessage();
-        // this.navigatePage("dashboard-admin");
       },
       (err) => {
-        // this.loadingBar.complete();
+        this.loadingBar.complete();
         // this.errorMessage();
         // console.log("HTTP Error", err), this.errorMessage();
       },
