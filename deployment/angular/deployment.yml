@@ -3,24 +3,24 @@ kind: Deployment
 metadata:
   creationTimestamp: null
   labels:
-    name: client-appname-webapp
-  name: client-appname-webapp
+    name: mcmc-database-webapp
+  name: mcmc-database-webapp
 spec:
   progressDeadlineSeconds: 2147483647
   replicas: 1
   selector:
     matchLabels:
-      app: client-appname-webapp
+      app: mcmc-database-webapp
   template:
     metadata:
       creationTimestamp: null
       labels:
-        app: client-appname-webapp
+        app: mcmc-database-webapp
     spec:
       containers:
-      - image: username/client-appname-webapp:1.0.0
+      - image: syafiqpipe/mcmc-database-webapp:1.0.3
         imagePullPolicy: Always   
-        name: client-appname-webapp
+        name: mcmc-database-webapp
         resources: {}
         terminationMessagePath: /dev/termination-log
         terminationMessagePolicy: File

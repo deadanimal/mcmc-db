@@ -25,16 +25,21 @@
         <form [formGroup]="searchIMEIForm">
           <h1 class="text-white text-center">IMEI Enquiry</h1>
           <br />
-          <label class="h1 text-white" for="fname">IMEI Number: </label>
-          <input
-            class="ml-2 form-control"
-            type="text"
-            id="imei"
-            formControlName="IMEI"
-            name="imei"
-            style="width: 300px"
-            [(ngModel)]="imei"
-          /><br /><br />
+          <div class="form-group row">
+            <label class="h1 text-white col-md-2" for="imei">IMEI</label>
+            <div class="col-md-10">
+              <input
+                class="ml-2 form-control"
+                type="text"
+                id="imei"
+                formControlName="IMEI"
+                name="imei"
+                style="width: 300px"
+                [(ngModel)]="imei"
+              />
+            </div>
+          </div>
+          <br /><br />
           <div class="text-center">
             <button
               class="btn btn-lg btn-neutral"
