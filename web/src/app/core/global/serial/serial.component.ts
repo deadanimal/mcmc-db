@@ -18,6 +18,13 @@ export class SerialComponent implements OnInit {
   searchSERIALForm: FormGroup
   test: Date = new Date();
   serial
+  focusSerial
+
+  SerialMessages = {
+    'SERIAL': [
+      { type: 'required', message: 'Serial Number is required' },
+    ],
+  }
 
   modal: BsModalRef;
   modalConfig = {
@@ -35,7 +42,9 @@ export class SerialComponent implements OnInit {
 
   ngOnInit() {
     this.searchSERIALForm = this.formBuilder.group({
-    SERIAL: new FormControl('',Validators.required),
+      SERIAL: new FormControl('' ,Validators.compose([
+        Validators.required,
+      ])),
     })
   }
 

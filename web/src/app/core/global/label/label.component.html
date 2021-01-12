@@ -36,7 +36,14 @@
                       name="label"
                       style="width: 400px"
                       [(ngModel)]="label"
+                      (focus)="focusLabel = true" 
+                      (blur)="focusLabel = false"
                     />
+                    <ng-container *ngFor="let message of LabelMessages.LABEL">
+                                    <div *ngIf="searchLABELForm.get('LABEL').hasError(message.type) && (searchLABELForm.get('LABEL').dirty || searchLABELForm.get('LABEL').touched)">
+                                        <p class="error-message"><span>{{ message.message }}</span></p>
+                                    </div>
+                    </ng-container>
                   </div>
                 </div>
           <div class="text-center">

@@ -4,6 +4,7 @@ import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms'
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { LoadingBarService } from '@ngx-loading-bar/core';
 import { MasterDataService } from 'src/app/shared/services/masterData/masterData.service';
+import { NotifyService } from 'src/app/shared/handler/notify/notify.service';
 
 export enum SelectionType {
   single = 'single',
@@ -26,6 +27,17 @@ export class ProductInfoComponent implements OnInit {
   test: Date = new Date();
   product = null
   model = null 
+  focusUsername
+  focustype
+
+  loginFormMessages = {
+    'PRODUCT': [
+      { type: 'required', message: 'Brand is required' },
+    ],
+    'TYPE': [
+      { type: 'required', message: 'Please choose type' },
+    ]
+  }
 
   tableEntries: number = 5;
   tableSelected: any[] = [];
@@ -39,9 +51,12 @@ export class ProductInfoComponent implements OnInit {
     class: "modal-dialog-centered modal-xl"
   };
 
+  
+
   constructor(
     private router: Router,
     private masterDataService: MasterDataService,
+    private notifyService: NotifyService,
     private formBuilder: FormBuilder,
     private loadingBar: LoadingBarService,
     private modalService: BsModalService,
@@ -49,10 +64,14 @@ export class ProductInfoComponent implements OnInit {
 
   ngOnInit() {
     this.searchPRODUCTForm = this.formBuilder.group({
-      PRODUCT: new FormControl('',Validators.required),
+      PRODUCT: new FormControl('' ,Validators.compose([
+        Validators.required,
+      ])),
       MODEL: new FormControl(''),
-      TYPE: new FormControl(''),
-      })
+      TYPE: new FormControl('', Validators.compose([
+        Validators.required,
+      ]))
+    })  
   }
 
   navigatePage(path: String) {

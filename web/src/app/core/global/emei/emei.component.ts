@@ -17,6 +17,13 @@ export class EmeiComponent implements OnInit {
   searchIMEIForm: FormGroup
   test: Date = new Date();
   imei
+  focusImei
+
+  ImeiMessages = {
+    'IMEI': [
+      { type: 'required', message: 'IMEI is required' },
+    ],
+  }
 
   modal: BsModalRef;
   modalConfig = {
@@ -34,7 +41,9 @@ export class EmeiComponent implements OnInit {
 
   ngOnInit() {
     this.searchIMEIForm = this.formBuilder.group({
-      IMEI: new FormControl('', Validators.required),
+      IMEI: new FormControl('' ,Validators.compose([
+        Validators.required,
+      ])),
     }) 
     
   }

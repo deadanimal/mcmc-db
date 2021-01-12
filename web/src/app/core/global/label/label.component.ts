@@ -27,6 +27,13 @@ export class LabelComponent implements OnInit {
   searchLABELForm: FormGroup
   test: Date = new Date();
   label
+  focusLabel
+
+  LabelMessages = {
+    'LABEL': [
+      { type: 'required', message: 'Labeling is required' },
+    ],
+  }
   
   tableEntries: number = 5;
   tableSelected: any[] = [];
@@ -51,7 +58,9 @@ export class LabelComponent implements OnInit {
 
   ngOnInit() {
     this.searchLABELForm = this.formBuilder.group({
-      LABEL: new FormControl('',Validators.required),
+      LABEL: new FormControl('' ,Validators.compose([
+        Validators.required,
+      ])),
     })
   }
 
