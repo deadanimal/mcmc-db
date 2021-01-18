@@ -140,6 +140,7 @@ export class ProductInfoComponent implements OnInit {
         (res) => {
           this.infoTable=res;
           console.log("if loop 2");
+          this.loadingBar.complete();
         },
         (err) => {
           console.log("HTTP Error", err);

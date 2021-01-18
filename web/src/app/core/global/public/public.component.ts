@@ -13,7 +13,7 @@ import { NotifyService } from 'src/app/shared/handler/notify/notify.service';
 export class PublicComponent implements OnInit {
 
   // Image
-  imgLogo = 'assets/img/logo/SKMM-MCMC-2014.png'
+  imgLogo = 'assets/img/logo/MCMC New Logo_Colour.png'
   imgLogo2 = 'assets/img/icons/MCMC_ModelBrand Info.png' 
   imgLogo3 = 'assets/img/icons/MCMC_IMEI.png'
   imgLogo4 = 'assets/img/icons/MCMC_Product Serial Num.png'
