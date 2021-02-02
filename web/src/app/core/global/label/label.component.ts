@@ -1,10 +1,11 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { LoadingBarService } from '@ngx-loading-bar/core';
 import { masterTable } from 'src/app/shared/services/masterData/masterData.model';
 import { MasterDataService } from 'src/app/shared/services/masterData/masterData.service';
+import Swal from 'sweetalert2';
 
 
 export enum SelectionType {
@@ -22,7 +23,7 @@ export enum SelectionType {
 })
 export class LabelComponent implements OnInit {
 
-  imgLogo = 'assets/img/logo/SKMM-MCMC-2014.png'
+  @ViewChild('showResult') modalRef: any;
   infoTable = []
   searchLABELForm: FormGroup
   test: Date = new Date();
@@ -79,19 +80,25 @@ export class LabelComponent implements OnInit {
         this.infoTable=res
         console.log("wewe",this.infoTable)
         this.loadingBar.complete();
-        // this.successMessage();
-        // this.navigatePage("dashboard-admin");
+        if (this.infoTable.length == 0){
+          this.errorMessage();
+          this.searchLABELForm.reset()
+        }
+        else{
+          this.openModal(this.modalRef)
+        }
       },
       (err) => {
         this.loadingBar.complete();
-        // this.errorMessage();
-        // console.log("HTTP Error", err), this.errorMessage();
+        this.errorMessage();
+        this.searchLABELForm.reset()
+
       },
       () => console.log("HTTP request completed.")
     );
   }
 
-  openModal(modalRef: TemplateRef<any>) {
+  openModal(modalRef) {
     this.modal = this.modalService.show(modalRef, this.modalConfig);
   }
 
@@ -113,5 +120,15 @@ export class LabelComponent implements OnInit {
   onActivate(event) {
     this.tableActiveRow = event.row;
   }
+
+  errorMessage() {
+    Swal.fire({
+      title: "Oops...",
+      text: "Something went wrong!",
+      type: "error",
+      timer: 3000,
+    })  
+  }
+
 
 }

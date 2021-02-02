@@ -16,6 +16,7 @@ import { RouterModule } from "@angular/router";
 import { CollapseModule } from "ngx-bootstrap/collapse";
 import { DxVectorMapModule } from "devextreme-angular";
 import { BsDropdownModule } from "ngx-bootstrap";
+import { NavbarPublicComponent } from './navbarPublic/navbarPublic.component';
 
 @NgModule({
   imports: [
@@ -30,13 +31,15 @@ import { BsDropdownModule } from "ngx-bootstrap";
     FooterComponent,
     VectorMapComponent1,
     NavbarComponent,
-    SidebarComponent
+    SidebarComponent,
+    NavbarPublicComponent,
   ],
   exports: [
     FooterComponent,
     VectorMapComponent1,
     NavbarComponent,
-    SidebarComponent
+    SidebarComponent,
+    NavbarPublicComponent,
   ],
   providers: [
     {

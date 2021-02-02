@@ -6,6 +6,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component';
 import { PresentationComponent } from './examples/presentation/presentation.component';
+import { PublicLayoutComponent } from './layouts/public-layout/public-layout.component';
 
 const routes: Routes = [
   {
@@ -81,13 +82,19 @@ const routes: Routes = [
         loadChildren: './auth/auth.module#AuthModule'
       },
       {
-        path: 'global',
-        loadChildren: './core/global/global.module#GlobalModule'
-      },
-      {
         path: 'examples',
         loadChildren: './layouts/auth-layout/auth-layout.module#AuthLayoutModule'
       }
+    ]
+  },
+  {
+    path: '',
+    component: PublicLayoutComponent,
+    children: [
+      {
+        path: 'global',
+        loadChildren: './core/global/global.module#GlobalModule'
+      },
     ]
   },
   {

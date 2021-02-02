@@ -53,6 +53,8 @@ export class LoginComponent implements OnInit {
     
   }
 
+  
+
   login() {
     this.loadingBar.start()
     //this.loadingBar.complete()

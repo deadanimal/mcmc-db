@@ -5,6 +5,7 @@ import {
   BsDropdownModule,
   ModalModule,
   ProgressbarModule, 
+  RatingModule, 
   TabsModule,
   TooltipModule
 } from 'ngx-bootstrap';
@@ -51,7 +52,8 @@ import { FaqComponent } from './faq/faq.component';
     ReactiveFormsModule,
     LoadingBarModule,
     NgxDatatableModule,
-    RouterModule.forChild(GlobalRoutes)
+    RouterModule.forChild(GlobalRoutes),
+    RatingModule,
   ]
 })
 export class GlobalModule { }

@@ -6,27 +6,6 @@
     }
 }
 
-video {
-    object-fit: cover;
-    width: 100vw;
-    height: 100vh;
-    position: fixed;
-    top: 0;
-    left: 0;
-}
-
-.auth-content {
-    background-color: #172b4d;
-    background-image: url('/assets/img/logo/ezgif.com-gif-maker.gif');
-    background-repeat: no-repeat;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
-    height: 100vh;
-    overflow: hidden;
-}
-
 .forget-label {
     font-size: 0.875rem;
     cursor: pointer;
@@ -47,4 +26,12 @@ video {
     padding-top: 5px;
     padding-bottom: 0;
     margin-bottom: 0;
+}
+
+.required {
+    color: red;
+}
+
+.mt--250 {
+    margin-top: -250px !important;
 }

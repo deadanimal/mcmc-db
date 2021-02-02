@@ -39,3 +39,60 @@
     padding-bottom: 0;
     margin-bottom: 0;
 }
+
+.required {
+    color: red;
+}
+
+.mt--250 {
+    margin-top: -250px !important;
+}
+
+.pb-400 {
+    padding-bottom: 400px !important;
+}
+
+.mt-100 {
+    margin-top: 100px !important;
+}
+
+.profile-page {
+    .card-profile {
+        margin-top: -150px;
+        .card-profile-image {
+            position: relative;
+            //min-height: 130px;
+            img {
+                max-width: 180px;
+                transform: translate(-50%, -30%);
+                position: absolute;
+                left: 50%;
+                &:hover {
+                    transform: translate(-50%, -33%);
+                }
+            }
+        }
+        .card-profile-stats {
+            padding: 1rem 0;
+            >div {
+                text-align: center;
+                margin-right: 1rem;
+                padding: .875rem;
+                &:last-child {
+                    margin-right: 0;
+                }
+                .heading {
+                    font-size: 1.1rem;
+                    font-weight: bold;
+                    display: block;
+                }
+                .description {
+                    font-size: .875rem;
+                }
+            }
+        }
+        .card-profile-actions {
+            padding: .875rem;
+        }
+    }
+}

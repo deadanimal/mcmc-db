@@ -12521,6 +12521,10 @@ button.bg-translucent-darker:focus {
     background-color: rgba(0, 0, 0, .6) !important;
 }
 
+section {
+    display: block
+}
+
 .section-primary {
     background-color: #f8f9fe !important;
 }
