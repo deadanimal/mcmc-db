@@ -1,112 +1,111 @@
 <ngx-loading-bar></ngx-loading-bar>
-<div class="auth-content">
-  <div class=" header ">
-    <div class=" container-fluid">
-      <div class=" header-body">
-        <div class=" row align-items-center mx-auto py-4">
-          <div class="col-lg-2">
-              <img class="logo" [src]="imgLogo" style="height:100px">
-          </div>
-          <div class=" col-lg-8 col-7 ml--6">
-              <h1 class="ml-4 text-white"><b>Welcome to </b><br><b>REGISTRY of CERTIFIED COMMUNICATIONS EQUIPMENT<br>(RECCE)</b></h1>
+<section class="section section-sm section-shaped pb-250">
+    <!-- Circles background -->
+    <div class="shape shape-style-1 shape-default alpha-4">
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <div class="container py-lg-md d-flex">
+      <div class="col px-0 mt-5">
+        <div class="row">
+          <div class="col-lg-12">
+            <h4 class="display-3 text-white text-center">
+              REGISTRY of CERTIFIED COMMUNICATIONS EQUIPMENT
+              <span><b>(RECCE)</b></span>
+            </h4>
           </div>
         </div>
       </div>
     </div>
-  </div> 
+    <!-- SVG separator -->
+    <div class="separator separator-bottom separator-skew">
+      <svg
+        x="0"
+        y="0"
+        viewBox="0 0 2560 100"
+        preserveAspectRatio="none"
+        version="1.1"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <polygon class="fill-secondary" points="2560 0 2560 100 0 100"></polygon>
+      </svg>
+    </div>
+</section>
 
-  <div class="main-content d-flex align-items-center">
-      <div class="container">
-          <div class="row justify-content-center mt-4">
-
-            <form [formGroup]="searchSERIALForm">
-              <h1 class="text-white text-center">Product Serial Number Enquiry</h1><br>
-                <div class="form-group row">
-                  <label class="h2 text-white col-md-2" for="serial">Serial:</label>
-                  <div class="col-md-10">
-                    <input
-                      class="ml-2 form-control"
-                      type="text"
-                      id="serial"
-                      formControlName="SERIAL"
-                      name="serial"
-                      style="width: 400px"
-                      [(ngModel)]="serial"
-                      (focus)="focusSerial = true" 
-                      (blur)="focusSerial = false"
-                    />
-                    <ng-container *ngFor="let message of SerialMessages.SERIAL">
-                                    <div *ngIf="searchSERIALForm.get('SERIAL').hasError(message.type) && (searchSERIALForm.get('SERIAL').dirty || searchSERIALForm.get('SERIAL').touched)">
-                                        <p class="error-message"><span>{{ message.message }}</span></p>
-                                    </div>
-                    </ng-container>
+<section class="section">
+  <div class="container">
+    <div class="main-content d-flex align-items-center">
+        <div class="container">
+            <div class="rrow text-center card bg-secondary card-profile shadow mt--250">
+              <form [formGroup]="searchSERIALForm">
+                <h3 class="text-center mt-4">Product Serial Number Enquiry</h3><br>
+                  <div class="form-group row">
+                    <label class="h3 text-right col-md-3" for="serial"><span class="required">*</span>Serial:</label>
+                    <div class="col-md-7">
+                      <input
+                        class="ml-2 form-control"
+                        type="text"
+                        id="serial"
+                        formControlName="SERIAL"
+                        name="serial"
+                        placeholder="e.g.:123456789"
+                        [(ngModel)]="serial"
+                        (focus)="focusSerial = true" 
+                        (blur)="focusSerial = false"
+                      />
+                      <ng-container *ngFor="let message of SerialMessages.SERIAL">
+                                      <div *ngIf="searchSERIALForm.get('SERIAL').hasError(message.type) && (searchSERIALForm.get('SERIAL').dirty || searchSERIALForm.get('SERIAL').touched)">
+                                          <p class="error-message"><span><b>{{ message.message }}</b></span></p>
+                                      </div>
+                      </ng-container>
+                    </div>
                   </div>
-                </div>
-                <div class="form-group row">
-                  <label class="h2 text-white col-md-2" for="model">Model:</label>
-                  <div class="col-md-10">
-                    <input
-                      class="ml-2 form-control"
-                      type="text"
-                      id="model"
-                      
-                      name="imei"
-                      style="width: 400px"
-                      
-                    />
+                  <div class="form-group row">
+                    <label class="h3 text-right col-md-3" for="model">Model</label>
+                    <div class="col-md-7">
+                      <input
+                        class="ml-2 form-control"
+                        type="text"
+                        id="model"   
+                        name="model"
+                        placeholder="e.g.:galaxy S9"
+                      />
+                    </div>
                   </div>
-                </div>
-                <div class="form-group row">
-                  <label class="h2 text-white col-md-2" for="imei">Brand:</label>
-                  <div class="col-md-10">
-                    <input
-                      class="ml-2 form-control"
-                      type="text"
-                      id="brand"
-                     
-                      name="brand"
-                      style="width: 400px"
-                      
-                    />
+                  <div class="form-group row">
+                    <label class="h3 text-right col-md-3" for="imei">Brand</label>
+                    <div class="col-md-7">
+                      <input
+                        class="ml-2 form-control"
+                        type="text"
+                        id="brand"
+                        name="brand"
+                        placeholder="e.g.:Samsung"
+                      />
+                    </div>
                   </div>
+                <div class="text-center">
+                <button class=" ml-2 btn btn-lg btn-neutral" (click)="productGeneration()" [disabled]="!searchSERIALForm.valid" style="width:100px">
+                  Search
+                </button>
+                <button class=" mr-2 btn btn-lg btn-neutral" style="width:100px">
+                  Reset
+                </button>
+                <br><br>
                 </div>
-              <div class="text-center">
-              <button class=" ml-2 btn btn-lg btn-neutral" (click)="productGeneration(); openModal(showResult)" [disabled]="!searchSERIALForm.valid" style="width:100px">
-                Search
-              </button>
-              <button class=" mr-2 btn btn-lg btn-neutral" style="width:100px">
-                Reset
-              </button>
-              <br>
-              <button class=" btn btn-lg btn-neutral mt-1 mr-1" (click)="navigatePage('menu')" style="width:202px">
-                Main menu
-              </button>
-              </div>
-            </form>
-              
-          </div>
-      </div>
+              </form>
+                
+            </div>
+        </div>
+    </div>
   </div>
-</div>
-<!--
-<div class="container-fluid mt--5 ">
-		<div class="row align-items-center justify-content-xl-between">
-			<div class="col-xl-8">
-				<div class="copyright text-center text-xl-left text-muted">
-					&copy; {{ test | date: "yyyy" }}
-					All rights reserved © 
-					<a
-						href="https://www.mcmc.gov.my/en/home"
-						class="font-weight-bold ml-1"
-						target="_blank"
-					>
-						Malaysian Communications and Multimedia Commission
-					</a>
-				</div>
-			</div>
-		</div>
-</div>
--->
+</section>
+
 <ng-template #showResult>
     <div class="modal-header bg-default">
         <h6 class="modal-title text-white my-auto" id="modal-title-default">
@@ -126,7 +125,7 @@
     <div class="modal-body">
         <table style="width:80%">
   <tr>
-    <td><b>Serial No.</b></td>
+    <td style="vertical-align:top"><b>Serial No.</b></td>
     <td style="width: 80%;">
     <div *ngFor="let data of infoTable">
     <span>{{data.serialNo}}</span>
@@ -134,7 +133,7 @@
     </td>
   </tr>
   <tr>
-    <td><b>Model</b></td>
+    <td style="vertical-align:top"><b>Model</b></td>
     <td>
     <div *ngFor="let data of infoTable">
     <span>{{data.modelDescription}}</span>
@@ -143,7 +142,7 @@
 
   </tr>
   <tr>
-    <td><b>Product Category</b></td>
+    <td style="vertical-align:top"><b>Product Category</b></td>
     <td>
     <div *ngFor="let data of infoTable">
     <span>{{data.productCategory}}</span>
@@ -151,7 +150,7 @@
     </td>
   </tr>
   <tr>
-    <td><b>SLPID</b></td>
+    <td style="vertical-align:top"><b>SLPID</b></td>
     <td>
     <div *ngFor="let data of infoTable">
     <span>{{data.SLPID}}</span>
@@ -159,7 +158,7 @@
     </td>
   </tr>
   <tr>
-    <td><b>CERT HOLDER</b></td>
+    <td style="vertical-align:top"><b>CERT HOLDER</b></td>
     <td>
     <div *ngFor="let data of infoTable">
     <span>{{data.consigneeName}}</span>
@@ -167,7 +166,7 @@
     </td>
   </tr>
   <tr>
-    <td><b>TAC</b></td>
+    <td style="vertical-align:top"><b>TAC</b></td>
     <td>
     <div *ngFor="let data of infoTable">
     <span>{{data.TAC}}</span>

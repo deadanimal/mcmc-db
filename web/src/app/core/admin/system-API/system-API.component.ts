@@ -14,14 +14,14 @@ export class SystemAPIComponent implements OnInit, OnDestroy {
 
   private chart: any
   private chart1: any
-  chart2: any
-  chart3: any
+  private chart2: any
 
   constructor(
     private zone: NgZone
   ) { }
 
   ngOnInit() {
+    this.getCharts() 
   }
 
   ngOnDestroy() {
@@ -35,67 +35,20 @@ export class SystemAPIComponent implements OnInit, OnDestroy {
       if (this.chart2) {
         this.chart2.dispose()
       }
-      if (this.chart3) {
-        this.chart3.dispose()
-      }
     })
   }
 
   getCharts() {
     this.zone.runOutsideAngular(() => {
-      //this.getChart()
+      this.getChart()
       this.getChart1()
+      this.getChart2()
     })
   }
 
-  /* getChart() {
-    let chart = am4core.create("div", am4charts.PieChart);
+  getChart() {
+    let chart = am4core.create("pie", am4charts.PieChart);
 
-    // Add data
-    chart.data = [ {
-      "country": "Lithuania",
-      "litres": 501.9
-    }, {
-      "country": "Czechia",
-      "litres": 301.9
-    }, {
-      "country": "Ireland",
-      "litres": 201.1
-    }, {
-      "country": "Germany",
-      "litres": 165.8
-    }, {
-      "country": "Australia",
-      "litres": 139.9
-    }, {
-      "country": "Austria",
-      "litres": 128.3
-    }, {
-      "country": "UK",
-      "litres": 99
-    }
-    ];
-    
-    // Add and configure Series
-    let pieSeries = chart.series.push(new am4charts.PieSeries());
-    pieSeries.dataFields.value = "litres";
-    pieSeries.dataFields.category = "country";
-    pieSeries.slices.template.stroke = am4core.color("#fff");
-    pieSeries.slices.template.strokeOpacity = 1;
-    
-    // This creates initial animation
-    pieSeries.hiddenState.properties.opacity = 1;
-    pieSeries.hiddenState.properties.endAngle = -90;
-    pieSeries.hiddenState.properties.startAngle = -90;
-    
-    chart.hiddenState.properties.radius = am4core.percent(0);
-
-    this.chart = chart
-    
-  } */
-
-  getChart1() {
-    let chart = am4core.create("chartdiv1", am4charts.PieChart);
     chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
 
     chart.data = [
@@ -103,22 +56,50 @@ export class SystemAPIComponent implements OnInit, OnDestroy {
         item: "Lights",
         value: 40
       },
-      {
-        item: "Fridge",
-        value: 30
-      },
-      {
-        item: "TV",
-        value: 20
-      },
-      {
-        item: "Washing Machine",
-        value: 16
-      }
+      
     ];
     chart.radius = am4core.percent(70);
     chart.innerRadius = am4core.percent(40);
-    chart.startAngle = 180;
+    chart.startAngle = 0;
+    chart.endAngle = 360;
+
+
+    let series = chart.series.push(new am4charts.PieSeries());
+    series.dataFields.value = "value";
+    series.dataFields.category = "item";
+    series.ticks.template.disabled = true;
+    series.labels.template.disabled = true;
+
+    series.slices.template.cornerRadius = 10;
+    series.slices.template.innerCornerRadius = 7;
+    series.slices.template.draggable = true;
+    series.slices.template.inert = true;
+    series.alignLabels = false;
+
+    series.hiddenState.properties.startAngle = 90;
+    series.hiddenState.properties.endAngle = 90;
+
+    this.chart = chart
+    
+  } 
+
+  getChart1() {
+    let chart = am4core.create("pieChart", am4charts.PieChart);
+    chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
+
+    chart.data = [
+      {
+        item: "Lights",
+        value: 90
+      },
+      {
+        item: "Fridge",
+        value: 10
+      },
+    ];
+    chart.radius = am4core.percent(70);
+    chart.innerRadius = am4core.percent(40);
+    chart.startAngle = 0;
     chart.endAngle = 360;
 
 
@@ -138,7 +119,65 @@ export class SystemAPIComponent implements OnInit, OnDestroy {
     series.hiddenState.properties.endAngle = 90;
 
     //chart.legend = new am4charts.Legend();
-    this.chart1 = chart
+    this.chart1 = chart  
+  }
+
+  getChart2(){
+    let chart = am4core.create("bounce", am4charts.XYChart);
+    chart.paddingRight = 20;
+
+    chart.data = generateChartData();
+
+    let dateAxis = chart.xAxes.push(new am4charts.DateAxis());
+    dateAxis.baseInterval = {
+      "timeUnit": "minute",
+      "count": 1
+    };
+    dateAxis.tooltipDateFormat = "HH:mm, d MMMM";
+
+    let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+    valueAxis.tooltip.disabled = false;
+    // valueAxis.title.text = "Unique visitors";
+
+    let series = chart.series.push(new am4charts.LineSeries());
+    series.dataFields.dateX = "date";
+    series.dataFields.valueY = "visits";
+    series.tooltipText = "Visits: [bold]{valueY}[/]";
+    series.fillOpacity = 0.3;
+
+
+    chart.cursor = new am4charts.XYCursor();
+    chart.cursor.lineY.opacity = 0;
+
+    dateAxis.start = 0.8;
+    dateAxis.keepSelection = true;
+
+
+
+    function generateChartData() {
+        let chartData = [];
+        // current date
+        let firstDate = new Date();
+        // now set 500 minutes back
+        firstDate.setMinutes(firstDate.getDate() - 500);
+
+        // and generate 500 data items
+        let visits = 500;
+        for (var i = 0; i < 500; i++) {
+            let newDate = new Date(firstDate);
+            // each time we add one minute
+            newDate.setMinutes(newDate.getMinutes() + i);
+            // some random number
+            visits += Math.round((Math.random()<0.5?1:-1)*Math.random()*10);
+            // add data item to the array
+            chartData.push({
+                date: newDate,
+                visits: visits
+            });
+        }
+        return chartData;
+    }
+    this.chart2 = chart
   }
 
 }

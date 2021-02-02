@@ -1,30 +1,115 @@
 <ngx-loading-bar></ngx-loading-bar>
-<div class="auth-content">
-  <div class="header">
-    <div class="container-fluid">
-      <div class="header-body">
-        <div class="row align-items-center mx-auto py-4">
-          <div class="col-lg-2">
-            <img class="logo" [src]="imgLogo" style="height: 200px" />
+<main>
+  <div class="position-relative">
+    <!-- shape Hero -->
+    <section class="section section-sm section-shaped pb-250">
+      <div class="shape shape-style-1 shape-default">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <div class="container py-lg-md d-flex">
+        <div class="col px-0 mt-5">
+          <div class="row">
+            <div class="col-lg-12">
+              <h4 class="display-3  text-white text-center">REGISTRY of CERTIFIED COMMUNICATIONS EQUIPMENT
+                <span><b>(RECCE)</b></span>
+              </h4>
+            </div>
           </div>
-          <div class="col-lg-8 col-7 ml--6">
-            <h1 class="ml-4 text-white">
-              <b>Welcome to </b><br /><b
-                >REGISTRY of CERTIFIED COMMUNICATIONS EQUIPMENT<br />(RECCE)</b>
-            </h1>
-          </div>
-          <div class="col-lg-2 col-5 text-right ml-4">
-            <a
-              class="btn btn-lg btn-neutral"
-              (click)="navigatePage('faq')"
-            >
-              FAQ
-            </a>
+        </div>
+      </div>
+      <!-- SVG separator -->
+      <div class="separator separator-bottom separator-skew">
+        <svg x="0" y="0" viewBox="0 0 2560 100" preserveAspectRatio="none" version="1.1" xmlns="http://www.w3.org/2000/svg">
+          <polygon class="fill-secondary" points="2560 0 2560 100 0 100"></polygon>
+        </svg>
+      </div>
+    </section>
+    <!-- 1st Hero Variation -->
+  </div>
+  <section class="section section-lg pt-lg-0 mt--200">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-12">
+          <div class="row row-grid">
+            <div class="col-lg-3">
+              <div class="card hand card-lift--hover shadow border-0" (click)="navigatePage('productInfo')">
+                <div class="card-body py-5 mx-auto">
+                  <div class="text-center mb-4">
+                    <img src="./assets/img/brand/search.png" style="height:100px">
+                  </div>
+                  <h3 class="text-uppercase text-center">Product Info</h3>
+                  <div class="text-center">
+                  <button type="button" 
+                  tooltip="To search for registered communication device based on its brand and model information." 
+                  placement="bottom" class="btn btn-primary mt-4">Explore</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-3">
+              <div class="card hand card-lift--hover shadow border-0" (click)="navigatePage('imei')">
+                <div class="card-body py-5 mx-auto">
+                  <div class="text-center mb-4">
+                    <img src="./assets/img/brand/finger (1).png" style="height:100px">
+                  </div>
+                  <h3 class="text-uppercase text-center">IMEI</h3>
+                  <div class="text-center">
+                  <button type="button" 
+                  tooltip="To search for registered communication device based on IMEI Number." 
+                  placement="bottom" class="btn btn-success mt-4">Explore</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-3">
+              <div class="card hand card-lift--hover shadow border-0" (click)="navigatePage('test')">
+                <div class="card-body py-5 mx-auto">
+                  <div class="text-center mb-4">
+                    <img src="./assets/img/brand/digital (1).png" style="height:100px">
+                  </div>
+                  <h3 class="text-uppercase text-center">Serial Number</h3>
+                  <div class="text-center">
+                  <button type="button" 
+                  tooltip="To search for registered communication device based on Serial Number" 
+                  placement="bottom" class="btn btn-warning mt-4">
+                  Explore
+                  </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-3">
+              <div class="card hand card-lift--hover shadow border-0" (click)="navigatePage('label')">
+                <div class="card-body py-5 mx-auto">
+                  <div class="text-center mb-4">
+                    <img src="./assets/img/brand/Newest Logo MCMC.png" style="height:100px">
+                  </div>
+                  <h3 class="text-uppercase text-center">Self Labelling</h3>
+                  <div class="text-center">
+                  <button type="button" 
+                  tooltip="To search for company information based on Self Labelling ID" 
+                  placement="bottom" class="btn btn-info mt-4">Explore</button>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
+  </section>
+</main>
+
+
+<!--<div class="">
 
   <div class="main-content d-flex align-items-center">
     <div class="container">
@@ -83,23 +168,4 @@
       </div>
     </div>
   </div>
-</div>
-
-
-<div class="container-fluid mt--5">
-  <div class="row align-items-center justify-content-xl-between">
-    <div class="col-xl-8">
-      <div class="copyright text-center text-xl-left text-muted">
-        &copy; {{ test | date: "yyyy" }}
-        All rights reserved ©
-        <a
-          href="https://www.mcmc.gov.my/en/home"
-          class="font-weight-bold ml-1"
-          target="_blank"
-        >
-          Malaysian Communications and Multimedia Commission
-        </a>
-      </div>
-    </div>
-  </div>
-</div>
+</div> -->

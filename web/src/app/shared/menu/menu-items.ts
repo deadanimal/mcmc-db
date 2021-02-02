@@ -84,13 +84,7 @@ export const ROUTES: RouteInfo[] = [
     path: '/global/public',
     title: 'Back to Portal',
     type: 'link',
-    icontype: 'fas fa-people-carry text-blue'
-  },
-  {
-    path: '',
-    title: 'Log Out',
-    type: 'link',
-    icontype: 'fas fa-person-booth text-blue'
+    icontype: 'fas fa-sign-out-alt text-blue'
   },
   /*
   {

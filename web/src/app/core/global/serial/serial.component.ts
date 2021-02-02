@@ -1,9 +1,10 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { MasterDataService } from 'src/app/shared/services/masterData/masterData.service';
 import { LoadingBarService } from '@ngx-loading-bar/core';
+import swal from 'sweetalert2';
 
 
 @Component({
@@ -13,7 +14,7 @@ import { LoadingBarService } from '@ngx-loading-bar/core';
 })
 export class SerialComponent implements OnInit {
 
-  imgLogo = 'assets/img/logo/SKMM-MCMC-2014.png'
+  @ViewChild('showResult') modalRef: any;
   infoTable = []
   searchSERIALForm: FormGroup
   test: Date = new Date();
@@ -63,25 +64,42 @@ export class SerialComponent implements OnInit {
         this.infoTable=res
         console.log("wewe",this.infoTable)
         this.loadingBar.complete();
-        // this.successMessage();
-        // this.navigatePage("dashboard-admin");
+        if (this.infoTable.length == 0){
+          this.errorMessage();
+          this.searchSERIALForm.reset()
+          
+        }
+        else {
+          this.openModal(this.modalRef)
+        }
+
       },
       (err) => {
         this.loadingBar.complete();
-        // this.errorMessage();
-        // console.log("HTTP Error", err), this.errorMessage();
+        this.errorMessage();
+        this.searchSERIALForm.reset()
+
       },
       () => console.log("HTTP request completed.")
     );
   }
 
-  openModal(modalRef: TemplateRef<any>) {
+  openModal(modalRef) {
     this.modal = this.modalService.show(modalRef, this.modalConfig);
   }
 
   closeModal() {
     this.modal.hide()
     this.searchSERIALForm.reset()
+  }
+
+  errorMessage() {
+    swal.fire({
+      title: "Oops...",
+      text: "Something went wrong!",
+      type: "error",
+      timer: 3000,
+    })
   }
 
 }

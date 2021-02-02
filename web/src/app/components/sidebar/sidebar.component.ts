@@ -14,7 +14,7 @@ var misc: any = {
 })
 export class SidebarComponent implements OnInit {
 
-  imgLogo = 'assets/img/logo/SKMM-MCMC-2014.png'
+  imgLogo = 'assets/img/logo/MCMC New Logo_Colour.png'
   
   public menuItems: any[];
   public isCollapsed = true;

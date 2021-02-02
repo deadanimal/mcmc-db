@@ -28,7 +28,7 @@
               </h5>
             </div>
             <div class="chart">
-              <div class="amchart" id="chartdiv1"></div>
+              <div class="amchart align-items-center" id="pieVar"></div>
             </div>
           </div>
 
@@ -53,7 +53,7 @@
               </h5>
             </div>
             <div class="chart">
-              <div class="amchart" id="chartdiv1"></div>
+              <div class="amchart" id="pieChartVar"></div>
             </div>
           </div>
 
@@ -76,16 +76,9 @@
               <h5 class="card-title text-uppercase text-muted mb-0">
                 Bounce Rate
               </h5>
-
-              <span class="h2 font-weight-bold mb-0"> 924 </span>
             </div>
-
-            <div class="col-auto">
-              <div
-                class="icon icon-shape bg-gradient-green text-white rounded-circle shadow"
-              >
-                <i class="ni ni-money-coins"> </i>
-              </div>
+            <div class="chart">
+              <div class="amchart" id="bounceVar"></div>
             </div>
           </div>
 
@@ -100,6 +93,7 @@
       </div>
     </div>
   </div>
+
   <div class="card">
     <div class="card-body">
       <div class="row">
@@ -145,150 +139,72 @@
                   </h6>
                 </div>
               </div>
+              <div class=" table-responsive">
+            <table class=" table  align-items-center table-flush" style="width: 100%">
+              <thead class=" thead-light">
+                <tr>
+                  <th scope="col">Item</th>
+                  <th scope="col">File No.</th>
+                  <th scope="col">TAC</th>
+                  <th scope="col">Model Desc.</th>
+                  <th scope="col">Consignee</th>
+                  <th scope="col">Submission Date</th>
+                  <th scope="col">Approve Date</th>
+                  <th scope="col">Expiry Date</th>
+                  <th scope="col">Category</th>
+                  <th scope="col">SLPID</th>
+                  <th scope="col">IMEI</th>
+                  <th scope="col">Serial No.</th>
+                  <th scope="col">Brand</th>
+                </tr>
+              </thead>
 
-              <ngx-datatable
-                class="bootstrap selection-cell"
-                [columnMode]="'force'"
-                [headerHeight]="50"
-                [footerHeight]="50"
-                [rowHeight]="'auto'"
-           
-              
-              >
-                <ngx-datatable-column name="Items">
-                  <ng-template
-                    let-rowIndex="rowIndex"
-                    let-row="row"
-                    ngx-datatable-cell-template
-                  >
-                    <!--<strong>{{ rowIndex + 1 }}</strong>-->
-                  </ng-template>
-                </ngx-datatable-column>
+              <tbody>
+                <tr>
+                  <td>
+                    Enable/Disable
+                  </td>
 
-                <ngx-datatable-column>
-                  <ng-template ngx-datatable-header-template>
-                    <span>File No.</span>
-                  </ng-template>
-                  <ng-template let-row="row" ngx-datatable-cell-template>
-                    <input
-                      type="checkbox"
-                      class="custom-control-input"
-                      id="customCheck1"
-                    />
-                  </ng-template>
-                </ngx-datatable-column>
-
-                <ngx-datatable-column>
-                  <ng-template ngx-datatable-header-template>
-                    <span>TAC</span>
-                  </ng-template>
-                  <ng-template let-row="row" ngx-datatable-cell-template>
-                    {{ row.fileNo }}
-                  </ng-template>
-                </ngx-datatable-column>
-
-                <ngx-datatable-column>
-                  <ng-template ngx-datatable-header-template>
-                    <span>Category</span>
-                  </ng-template>
-                  <ng-template let-row="row" ngx-datatable-cell-template>
-                    {{ row.productCategory }}
-                  </ng-template>
-                </ngx-datatable-column>
-
-                <ngx-datatable-column>
-                  <ng-template ngx-datatable-header-template>
-                    <span>Model Description</span>
-                  </ng-template>
-                  <ng-template let-row="row" ngx-datatable-cell-template>
-                    {{ row.modelId }}
-                  </ng-template>
-                </ngx-datatable-column>
-
-                <ngx-datatable-column>
-                  <ng-template ngx-datatable-header-template>
-                    <span>Description</span>
-                  </ng-template>
-                  <ng-template let-row="row" ngx-datatable-cell-template>
-                    {{ row.modelDescription }}
-                  </ng-template>
-                </ngx-datatable-column>
-
-                <ngx-datatable-column>
-                  <ng-template ngx-datatable-header-template>
-                    <span>Consignee</span>
-                  </ng-template>
-                  <ng-template let-row="row" ngx-datatable-cell-template>
-                    {{ row.consigneeName }}
-                  </ng-template>
-                </ngx-datatable-column>
-
-                <ngx-datatable-column>
-                  <ng-template ngx-datatable-header-template>
-                    <span>Submission Date</span>
-                  </ng-template>
-                  <ng-template let-row="row" ngx-datatable-cell-template>
-                    {{ row.approveDate }}
-                  </ng-template>
-                </ngx-datatable-column>
-
-                <ngx-datatable-column>
-                  <ng-template ngx-datatable-header-template>
-                    <span>Approve Date</span>
-                  </ng-template>
-                  <ng-template let-row="row" ngx-datatable-cell-template>
-                    {{ row.expiryDate }}
-                  </ng-template>
-                </ngx-datatable-column>
-                <ngx-datatable-column>
-                  <ng-template ngx-datatable-header-template>
-                    <span>Expiry Date</span>
-                  </ng-template>
-                  <ng-template let-row="row" ngx-datatable-cell-template>
-                    {{ row.modelId }}
-                  </ng-template>
-                </ngx-datatable-column>
-                <ngx-datatable-column>
-                  <ng-template ngx-datatable-header-template>
-                    <span>Category</span>
-                  </ng-template>
-                  <ng-template let-row="row" ngx-datatable-cell-template>
-                    {{ row.modelId }}
-                  </ng-template>
-                </ngx-datatable-column>
-                <ngx-datatable-column>
-                  <ng-template ngx-datatable-header-template>
-                    <span>SLP ID</span>
-                  </ng-template>
-                  <ng-template let-row="row" ngx-datatable-cell-template>
-                    {{ row.modelId }}
-                  </ng-template>
-                </ngx-datatable-column>
-                <ngx-datatable-column>
-                  <ng-template ngx-datatable-header-template>
-                    <span>IMEI/Serial</span>
-                  </ng-template>
-                  <ng-template let-row="row" ngx-datatable-cell-template>
-                    {{ row.modelId }}
-                  </ng-template>
-                </ngx-datatable-column>
-                <ngx-datatable-column>
-                  <ng-template ngx-datatable-header-template>
-                    <span>Brand</span>
-                  </ng-template>
-                  <ng-template let-row="row" ngx-datatable-cell-template>
-                    {{ row.modelId }}
-                  </ng-template>
-                </ngx-datatable-column>
-                <ngx-datatable-column>
-                  <ng-template ngx-datatable-header-template>
-                    <span>Commercial</span>
-                  </ng-template>
-                  <ng-template let-row="row" ngx-datatable-cell-template>
-                    {{ row.modelId }}
-                  </ng-template>
-                </ngx-datatable-column>
-              </ngx-datatable>
+                  <td style="width:5%" class="text-center">
+                    <input type="checkbox"/>
+                  </td>
+                  <td style="width:5%" class="text-center">
+                    <input type="checkbox"/>
+                  </td>
+                  <td style="width:5%" class="text-center">
+                    <input type="checkbox"/>
+                  </td>
+                  <td style="width:5%" class="text-center">
+                    <input type="checkbox"/>
+                  </td>
+                  <td style="width:5%" class="text-center">
+                    <input type="checkbox"/>
+                  </td>
+                  <td style="width:5%" class="text-center">
+                    <input type="checkbox"/>
+                  </td>
+                  <td style="width:5%" class="text-center">
+                    <input type="checkbox"/>
+                  </td>
+                  <td style="width:5%" class="text-center">
+                    <input type="checkbox"/>
+                  </td>
+                  <td style="width:5%" class="text-center">
+                    <input type="checkbox"/>
+                  </td>
+                  <td style="width:5%" class="text-center">
+                    <input type="checkbox"/>
+                  </td>
+                  <td style="width:5%" class="text-center">
+                    <input type="checkbox"/>
+                  </td>
+                  <td style="width:5%" class="text-center">
+                    <input type="checkbox"/>
+                  </td>
+                </tr>
+            </tbody>
+          </table>
+        </div>
             </div>
           </div>
         </div>

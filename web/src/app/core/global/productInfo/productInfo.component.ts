@@ -1,10 +1,11 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { LoadingBarService } from '@ngx-loading-bar/core';
 import { MasterDataService } from 'src/app/shared/services/masterData/masterData.service';
 import { NotifyService } from 'src/app/shared/handler/notify/notify.service';
+import Swal from 'sweetalert2';
 
 export enum SelectionType {
   single = 'single',
@@ -21,7 +22,7 @@ export enum SelectionType {
 })
 export class ProductInfoComponent implements OnInit {
 
-  imgLogo = 'assets/img/logo/SKMM-MCMC-2014.png'
+  @ViewChild('showResult') modalRef: any;
   infoTable = []
   searchPRODUCTForm: FormGroup
   test: Date = new Date();
@@ -29,10 +30,11 @@ export class ProductInfoComponent implements OnInit {
   model = null 
   focusUsername
   focustype
+  type:any
 
   loginFormMessages = {
     'PRODUCT': [
-      { type: 'required', message: 'Brand is required' },
+      { type: 'required', message: "Brand is required"},
     ],
     'TYPE': [
       { type: 'required', message: 'Please choose type' },
@@ -83,19 +85,28 @@ export class ProductInfoComponent implements OnInit {
   productGeneration() {
     console.log("form",this.searchPRODUCTForm.value.PRODUCT, this.searchPRODUCTForm.value.MODEL)
     let datafield = "consigneeName="+this.searchPRODUCTForm.value.PRODUCT
-    let datafield2 = "modelDescription="+this.searchPRODUCTForm.value.MODEL
-    console.log("wewe",datafield, "modelDescription="+null)
+    let datafield2 = "consigneeName="+this.searchPRODUCTForm.value.PRODUCT+"&modelDescription="+this.searchPRODUCTForm.value.MODEL
+    console.log("wewe",datafield2)
     this.loadingBar.start()
-    if (datafield2=="modelDescription="+null){
+    if (datafield2=="consigneeName="+this.searchPRODUCTForm.value.PRODUCT+"&modelDescription="+null){
     this.masterDataService.filter(datafield).subscribe(
       (res) => {
         this.infoTable=res;
         console.log("if loop 1");
         this.loadingBar.complete();
+        if (this.infoTable.length == 0){
+          this.errorMessage();
+          this.searchPRODUCTForm.reset()
+        }
+        else{
+          this.openModal(this.modalRef)
+        }
       },
       (err) => {
         console.log("HTTP Error", err);
         this.loadingBar.complete();
+        this.errorMessage();
+        this.searchPRODUCTForm.reset()
       },
       () => console.log("HTTP request completed.")
     );
@@ -106,10 +117,19 @@ export class ProductInfoComponent implements OnInit {
           this.infoTable=res;
           console.log("if loop 2");
           this.loadingBar.complete();
+          if (this.infoTable.length == 0){
+            this.errorMessage();
+            this.searchPRODUCTForm.reset()
+          }
+          else{
+            this.openModal(this.modalRef)
+          }
         },
         (err) => {
           console.log("HTTP Error", err);
           this.loadingBar.complete();
+          this.errorMessage();
+          this.searchPRODUCTForm.reset()
         },
         () => console.log("HTTP request completed.")
       );
@@ -120,17 +140,27 @@ export class ProductInfoComponent implements OnInit {
     this.loadingBar.start()
     console.log("form",this.searchPRODUCTForm.value.PRODUCT, this.searchPRODUCTForm.value.MODEL)
     let datafield = "consigneeName="+this.searchPRODUCTForm.value.PRODUCT
-    let datafield2 = "modelDescription="+this.searchPRODUCTForm.value.MODEL
+    let datafield2 = "consigneeName="+this.searchPRODUCTForm.value.PRODUCT+"&modelDescription="+this.searchPRODUCTForm.value.MODEL
     console.log("wewe",datafield, "modelDescription="+null)
-    if (datafield2=="modelDescription="+null){
+    if (datafield2=="consigneeName="+this.searchPRODUCTForm.value.PRODUCT+"&modelDescription="+null){
     this.masterDataService.filterMix(datafield).subscribe(
       (res) => {
         this.infoTable=res;
         console.log("if loop 1");
         this.loadingBar.complete();
+        if (this.infoTable.length == 0){
+          this.errorMessage();
+          this.searchPRODUCTForm.reset()
+        }
+        else{
+          this.openModal(this.modalRef)
+        }
       },
       (err) => {
         console.log("HTTP Error", err);
+        this.loadingBar.complete();
+        this.errorMessage();
+        this.searchPRODUCTForm.reset()
       },
       () => console.log("HTTP request completed.")
     );
@@ -141,20 +171,42 @@ export class ProductInfoComponent implements OnInit {
           this.infoTable=res;
           console.log("if loop 2");
           this.loadingBar.complete();
+          if (this.infoTable.length == 0){
+            this.errorMessage();
+          }
+          else {
+            this.openModal(this.modalRef)
+          }
+          
         },
         (err) => {
           console.log("HTTP Error", err);
           this.loadingBar.complete();
+          this.errorMessage();
         },
         () => console.log("HTTP request completed.")
       );
       }   
   }
 
+
   changeDropdown(event){
     if (event=="any"){
-      this.anySearch()
+     
       console.log(event,'any loop')
+    }
+    else {
+     
+      console.log('exact loop')
+    }
+  }
+
+  buttonSubmit(){
+    console.log(this.type)
+    console.log('button pressed')
+    if (this.type=="any"){
+      this.anySearch();
+      console.log('any loop')
     }
     else {
       this.exactSearch();
@@ -172,7 +224,7 @@ export class ProductInfoComponent implements OnInit {
     console.log('exactSearch')
   }
 
-  openModal(modalRef: TemplateRef<any>) {
+  openModal(modalRef) {
     this.modal = this.modalService.show(modalRef, this.modalConfig);
   }
 
@@ -194,6 +246,15 @@ export class ProductInfoComponent implements OnInit {
 
   onActivate(event) {
     this.tableActiveRow = event.row;
+  }
+
+  errorMessage() {
+    Swal.fire({
+      title: "Oops...",
+      text: "Something went wrong!",
+      type: "error",
+      timer: 3000,
+    })  
   }
 
 }

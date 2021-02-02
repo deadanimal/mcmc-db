@@ -18,6 +18,7 @@ export class FaqComponent implements OnInit {
   infoTable = []
   searchFAQForm: FormGroup
   value = ''
+  isFirstOpen = true;
 
   @ViewChild('formRegistration') formRegistration: ElementRef;
   registerForm: FormGroup

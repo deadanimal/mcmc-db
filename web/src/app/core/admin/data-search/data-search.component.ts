@@ -86,6 +86,7 @@ export class DataSearchComponent implements OnInit, OnDestroy {
         // this.chartDataField = qweqwe
         // console.log('bbbbbbb = ',this.chartDataField)
         this.calculateCharts()
+        console.log(this.infoTable.length)
 
         this.infoTable = this.infoTable.map((prop, key) => {
           return {

@@ -18,15 +18,13 @@
 // Bootstrap functions
 @import 'bootstrap/functions';
 @import 'bootstrap/mixins';
-
 // Argon functions
 @import 'custom/functions';
 @import 'custom/variables';
 @import 'bootstrap/variables';
-
 // Argon mixins
 @import 'custom/mixins';
-
+@import 'custom/section';
 // Bootstrap components
 @import 'bootstrap/root';
 @import 'bootstrap/reboot';
@@ -60,12 +58,10 @@
 @import 'bootstrap/carousel';
 @import 'bootstrap/utilities';
 @import 'bootstrap/print';
-
 // Argon components
 @import 'custom/components';
 @import 'custom/utilities';
 @import 'custom/vendors';
-
 // Angular changes
 @import 'angular/dropdowns';
 @import 'angular/navbar-vertical';
@@ -78,8 +74,6 @@
 @import 'angular/navbar-vertical';
 @import 'angular/vector-map';
 //@import '~ngx-toastr/toastr-bs4-alert';
-
 // Pipeline
 @import '~ngx-toastr/toastr';
 @import 'custom/pipeline';
-

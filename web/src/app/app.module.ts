@@ -18,6 +18,7 @@ import { PresentationModule } from './examples/presentation/presentation.module'
 import { RouterModule } from '@angular/router';
 import { AppRoutingModule } from './app-routing.module';
 import { ComponentsModule } from './components/components.module';
+import { PublicLayoutComponent } from './layouts/public-layout/public-layout.component';
 
 @NgModule({
   imports: [
@@ -42,7 +43,8 @@ import { ComponentsModule } from './components/components.module';
   declarations: [
     AppComponent, 
     AdminLayoutComponent, 
-    AuthLayoutComponent
+    AuthLayoutComponent,
+    PublicLayoutComponent
   ],
   providers: [
     /* Uncomment this to use interceptor
