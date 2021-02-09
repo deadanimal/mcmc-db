@@ -18,3 +18,5 @@ script/output
 
 **/env
 **/secrets.yml
+
+web/dist
