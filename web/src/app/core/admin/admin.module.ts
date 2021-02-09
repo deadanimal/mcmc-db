@@ -27,6 +27,7 @@ import { UtilityAuditComponent } from './utility-audit/utility-audit.component';
 import { DataSearchComponent } from './data-search/data-search.component';
 import { SystemFaqComponent } from './system-faq/system-faq.component';
 import { CalendarModule } from 'src/app/examples/calendar/calendar.module';
+import { NgxPrintModule } from 'ngx-print';
 
 @NgModule({
   declarations: [
@@ -57,6 +58,7 @@ import { CalendarModule } from 'src/app/examples/calendar/calendar.module';
     NgxDatatableModule,
     RouterModule.forChild(AdminRoutes),
     CalendarModule,
+    NgxPrintModule,
   ]
 })
 export class AdminModule { }

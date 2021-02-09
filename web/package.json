@@ -43,6 +43,7 @@
     "devextreme": "19.2.6",
     "devextreme-angular": "19.2.6",
     "dropzone": "5.5.1",
+    "file-saver": "^2.0.5",
     "fullcalendar": "3.10.1",
     "leaflet": "^1.6.0",
     "leaflet.markercluster": "^1.4.1",
@@ -62,6 +63,7 @@
     "stream": "0.0.2",
     "sweetalert2": "8.16.3",
     "tslib": "1.11.0",
+    "xlsx": "^0.16.9",
     "zone.js": "0.10.2"
   },
   "devDependencies": {

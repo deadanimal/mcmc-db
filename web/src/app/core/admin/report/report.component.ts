@@ -8,6 +8,7 @@ import * as am4charts from "@amcharts/amcharts4/charts";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { UsersService } from 'src/app/shared/services/users/users.service';
+import * as XLSX from 'xlsx'; 
 am4core.useTheme(am4themes_animated);
 
 
@@ -45,6 +46,8 @@ export class ReportComponent implements OnInit, OnDestroy {
   dataSearchForm: FormGroup
 
   state: boolean = false;
+  isSummaryTableHidden: boolean = true
+  fileName= 'MasterTable.xlsx'; 
 
   // Datepicker
   bsDPConfig = { 
@@ -396,6 +399,33 @@ export class ReportComponent implements OnInit, OnDestroy {
   
   changeState = () => {
     this.state = !this.state;
+  }
+
+  entryChange($event) {
+    this.tableEntries = $event.target.value;
+  }
+
+  onSelect({ selected }) {
+    this.tableSelected.splice(0, this.tableSelected.length);
+    this.tableSelected.push(...selected);
+  }
+
+  onActivate(event) {
+    this.tableActiveRow = event.row;
+  }
+
+  exportexcel() {
+     /* table id is passed over here */   
+     let element = document.getElementById('excel-table'); 
+     const ws: XLSX.WorkSheet =XLSX.utils.table_to_sheet(element);
+     console.log("export",element)
+     /* generate workbook and add the worksheet */
+     const wb: XLSX.WorkBook = XLSX.utils.book_new();
+     XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+     /* save to file */
+     XLSX.writeFile(wb, this.fileName);
+    
   }
 
 }

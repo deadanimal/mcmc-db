@@ -28,6 +28,7 @@ class ProductRegistration(models.Model):
     SLPID = models.CharField(max_length=255, blank=True)
     created_date = models.DateTimeField(auto_now=True)
     modified_date = models.DateTimeField(auto_now=True)
+    serialNo = models.CharField(max_length=255, blank=True)
  
 
     class Meta:

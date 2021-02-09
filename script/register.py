@@ -29,5 +29,5 @@ with open('serial.csv', mode='r', encoding='utf-8-sig') as csv_file:
         }
         line_count += 1
         #print(json.dumps(account))
-        requests.post('http://127.0.0.1:8000/v1/masterTable/', data=account)
+        requests.post('http://127.0.0.1:8000/v1/ProductRegistration/', data=account)
     print(f'Processed {line_count} lines.')

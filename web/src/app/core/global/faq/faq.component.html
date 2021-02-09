@@ -48,7 +48,7 @@
                 <br />
                 <accordion [isAnimated]="true" [closeOthers]="true">
                   <accordion-group class="mt--4" *ngFor="let option of infoTable" [heading]="option.category">
-                    <textarea class="form-control" style="height:100px" disable="true">{{ option.content }}</textarea>
+                    <textarea class="form-control" style="height:100px" disabled>{{ option.content }}</textarea>
                   </accordion-group>
                 </accordion>
 

@@ -9,6 +9,7 @@ import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { TagInputModule } from 'ngx-chips';
 import { ToastrModule } from 'ngx-toastr';
+import { NgxPrintModule } from 'ngx-print'
 
 import { AppComponent } from './app.component';
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
@@ -38,7 +39,8 @@ import { PublicLayoutComponent } from './layouts/public-layout/public-layout.com
       positionClass: 'toast-top-right'
     }),
     LeafletModule,
-    PresentationModule
+    PresentationModule,
+    NgxPrintModule,
   ],
   declarations: [
     AppComponent, 
