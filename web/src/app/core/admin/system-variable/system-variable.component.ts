@@ -2,6 +2,8 @@ import { Component, OnInit, OnDestroy, NgZone } from '@angular/core';
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
+import swal from 'sweetalert2';
+import * as XLSX from 'xlsx';
 
 am4core.useTheme(am4themes_animated);
 
@@ -15,6 +17,8 @@ export class SystemVariableComponent implements OnInit {
   private chart: any
   private chart1: any
   private chart2: any
+
+  fileName= 'MasterTable.xlsx'; 
 
   constructor(
     private zone: NgZone
@@ -34,6 +38,20 @@ export class SystemVariableComponent implements OnInit {
       }
       if (this.chart2) {
         this.chart2.dispose()
+      }
+    })
+  }
+
+  editMessage() {
+    swal.fire({
+      title: "Success",
+      text: "Data editor has been save!",
+      type: "success",
+      buttonsStyling: false,
+      confirmButtonClass: "btn btn-success",
+      confirmButtonText: "Close"
+    }).then((result) => {
+      if (result.value) {
       }
     })
   }
@@ -179,5 +197,19 @@ export class SystemVariableComponent implements OnInit {
     }
     this.chart2 = chart
   }
+
+  exportexcel() {
+    /* table id is passed over here */   
+    let element = document.getElementById('excel-table'); 
+    const ws: XLSX.WorkSheet =XLSX.utils.table_to_sheet(element);
+    console.log("export",element)
+    /* generate workbook and add the worksheet */
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+    /* save to file */
+    XLSX.writeFile(wb, this.fileName);
+   
+ }
 
 }

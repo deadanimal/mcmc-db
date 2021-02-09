@@ -30,6 +30,8 @@ class ProductRegistrationViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         'modelDescription',
         'modelId',
         'productCategory',
+        'serialNo',
+        
     ]
 
     def get_permissions(self):
@@ -70,13 +72,16 @@ class ProductRegistrationViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         SLPID = request.GET.get('SLPID','')
         imeiNo = request.GET.get('imeiNo','')
         modelId = request.GET.get('modelId','')
+        serialNo = request.GET.get('serialNo','')
 
         result = ProductRegistration.objects.filter(consigneeName__icontains=consigneeName,
                                                     modelDescription__icontains=modelDescription,
                                                     productCategory__icontains=productCategory,
                                                     SLPID__icontains=SLPID,
                                                     imeiNo__icontains=imeiNo,
-                                                    modelId__icontains=modelId)
+                                                    modelId__icontains=modelId,
+                                                    serialNo__icontains=serialNo)
+
         serializer = ProductRegistrationSerializer(result, many=True)
         return Response(serializer.data)   
 

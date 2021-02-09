@@ -201,6 +201,29 @@ export class DataSearchComponent implements OnInit, OnDestroy {
     );
   }
 
+  filterTableSerial($event) {
+    let val = $event.target.value;
+    let datafield = "serialNo="+val
+    console.log(datafield)
+    this.productGenerationService.filterMix(datafield).subscribe(
+      (res) => {
+        this.infoTable=res; 
+
+        this.infoTable = this.infoTable.map((prop, key) => {
+          return {
+            ...prop,
+            id: key
+          };
+        });
+      },
+      (err) => {
+      },
+      () => {
+        console.log("HTTP request completed.")
+      }
+    );
+  }
+
   filterTableSLPID($event) {
     let val = $event.target.value;
     let datafield = "SLPID="+val
@@ -403,6 +426,19 @@ export class DataSearchComponent implements OnInit, OnDestroy {
 
     this.chart = chart
 
+  }
+
+  entryChange($event) {
+    this.tableEntries = $event.target.value;
+  }
+
+  onSelect({ selected }) {
+    this.tableSelected.splice(0, this.tableSelected.length);
+    this.tableSelected.push(...selected);
+  }
+
+  onActivate(event) {
+    this.tableActiveRow = event.row;
   }
 
 }

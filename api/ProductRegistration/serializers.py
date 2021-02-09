@@ -31,6 +31,7 @@ class ProductRegistrationSerializer(serializers.ModelSerializer):
             'category',
             'imeiNo',
             'SLPID',
+            'serialNo',
             
         )
         # read_only_fields = ('email', 'id', 'TACInd')

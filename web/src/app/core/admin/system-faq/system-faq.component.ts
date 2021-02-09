@@ -110,12 +110,6 @@ export class SystemFaqComponent implements OnInit {
     console.log(this.titleFAQForm.value.categoryId)
     this.FAQCategoriesService.delete(this.titleFAQForm.value.categoryId).subscribe(
       () => {
-        // Success
-        // this.isLoading = false
-        // this.successMessage();
-        // this.loadingBar.complete();
-        // this.successAlert("create project");
-        // window.location.reload();
         this.productGeneration2()
         console.log("success")
       },
@@ -131,6 +125,7 @@ export class SystemFaqComponent implements OnInit {
   editTitle() {
     console.log("qqqq");
     console.log(this.titleFAQForm.value.categoryId)
+    this.editMessage()
     this.FAQCategoriesService.update(this.titleFAQForm.value.categoryId,this.titleFAQForm.value).subscribe(
       () => {
         // Success
@@ -163,7 +158,7 @@ export class SystemFaqComponent implements OnInit {
   confirm() {
     swal.fire({
       title: "Confirmation",
-      text: "Are you sure to create this new title?",
+      text: "Are you sure to delete this title?",
       type: "info",
       buttonsStyling: false,
       confirmButtonClass: "btn btn-info",
@@ -173,7 +168,8 @@ export class SystemFaqComponent implements OnInit {
       cancelButtonText: "Cancel"
     }).then((result) => {
       if (result.value) {
-        this.register()
+        this.deleteTitle()
+        this.deleteMessage()
       }
     })
   }
@@ -182,6 +178,40 @@ export class SystemFaqComponent implements OnInit {
     swal.fire({
       title: "Success",
       text: "A new title has been created!",
+      type: "success",
+      buttonsStyling: false,
+      confirmButtonClass: "btn btn-success",
+      confirmButtonText: "Close"
+    }).then((result) => {
+      if (result.value) {
+        this.modal.hide()
+        this.productGeneration()
+        this.titleFAQForm.reset()
+      }
+    })
+  }
+
+  deleteMessage() {
+    swal.fire({
+      title: "Success",
+      text: "A title has been deleted!",
+      type: "success",
+      buttonsStyling: false,
+      confirmButtonClass: "btn btn-success",
+      confirmButtonText: "Close"
+    }).then((result) => {
+      if (result.value) {
+        this.modal.hide()
+        this.productGeneration()
+        this.titleFAQForm.reset()
+      }
+    })
+  }
+
+  editMessage() {
+    swal.fire({
+      title: "Success",
+      text: "A title has been save!",
       type: "success",
       buttonsStyling: false,
       confirmButtonClass: "btn btn-success",
