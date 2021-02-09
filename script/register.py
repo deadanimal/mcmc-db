@@ -2,7 +2,7 @@ import csv
 import requests
 import json
 
-with open('IMEINoforPrototype.csv', mode='r', encoding='utf-8-sig') as csv_file:
+with open('serial.csv', mode='r', encoding='utf-8-sig') as csv_file:
     csv_reader = csv.DictReader(csv_file)
     line_count = 0
     for row in csv_reader:
@@ -13,20 +13,21 @@ with open('IMEINoforPrototype.csv', mode='r', encoding='utf-8-sig') as csv_file:
 
 
         account = {
-            'fileNo': row["FILENO"],
-            'productCategory': row["PRODUCT CATEGORY"],
+         #  database: file(xlsx/csv)
+            'fileNo': row["ProductRegNo"],
+            'productCategory': row["productCategory"],
             'TAC': row["TAC"],
-            'modelId': row["MODEL ID"],
-            'modelDescription': row["MODEL DESCRIPTION"],
-            'consigneeName': row["CONSIGNEE NAME"],
-            'submissionDate': row["SUBMISSION DATE"],
-            'approveDate': row["APPROVE DATE"],
-            'expiryDate': row["EXPIRY DATE"],
-            'category': row["CATEGORY"],
-            'imeiNo': row["IMEI No"],
-            'SLPID': row["SLP ID"],
+            'modelId': row["modelID"],
+            'modelDescription': row["modelDescription"],
+            'consigneeName': row["consigneeName"],
+            # 'submissionDate': row["SUBMISSION DATE"],
+            # 'approveDate': row["APPROVE DATE"],
+            # 'expiryDate': row["EXPIRY DATE"],
+            'category': row["RegType"],
+            'serialNo': row["SerialNo"],
+            'SLPID': row["SLPID"],
         }
         line_count += 1
         #print(json.dumps(account))
-        requests.post('http://127.0.0.1:8000/v1/ProductRegistration/', data=account)
+        requests.post('http://127.0.0.1:8000/v1/masterTable/', data=account)
     print(f'Processed {line_count} lines.')

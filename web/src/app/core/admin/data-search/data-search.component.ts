@@ -22,8 +22,10 @@ export enum SelectionType {
 })
 export class DataSearchComponent implements OnInit, OnDestroy {
 
+  entries: number = 10;
   infoTable = []
   dataSearchForm: FormGroup
+  searchForm : FormGroup
   
   private categoryAxis: any
 
@@ -31,7 +33,7 @@ export class DataSearchComponent implements OnInit, OnDestroy {
   tableSelected: any[] = [];
   tableTemp = [];
   tableActiveRow: any;
-  SelectionType = SelectionType;
+  SelectionType = SelectionType; 
 
   
   // Chart
@@ -70,6 +72,156 @@ export class DataSearchComponent implements OnInit, OnDestroy {
         }
       }
     )
+  }
+
+  filterTable(){
+    let datafield = "consigneeName="+this.searchForm.value.brand
+    console.log(datafield)
+    this.productGenerationService.filter(datafield).subscribe(
+      (res) => {
+        this.infoTable=res
+      },
+      (err) => {
+      },
+      () => console.log("HTTP request completed.")
+    );
+  }
+
+  entriesChange($event) {
+    this.entries = $event.target.value;
+  } 
+
+  filterTableModel($event) {
+    let val = $event.target.value;
+    let datafield = "modelId="+val
+    console.log(datafield)
+    this.productGenerationService.filterMix(datafield).subscribe(
+      (res) => {
+        this.infoTable=res; 
+
+        this.infoTable = this.infoTable.map((prop, key) => {
+          return {
+            ...prop,
+            id: key
+          };
+        });
+        // console.log("xxxxxx = ",this.infoTable)
+      },
+      (err) => {
+        // this.loadingBar.complete();
+        // this.errorMessage();
+        // console.log("HTTP Error", err), this.errorMessage();
+      },
+      () => {
+        console.log("HTTP request completed.")
+      //   this.infoTable = [res]
+      //   console.log("zzzzz = ",this.infoTable)
+      }
+    );
+  }
+
+  filterTableImei($event) {
+    let val = $event.target.value;
+    let datafield = "imeiNo="+val
+    console.log(datafield)
+    this.productGenerationService.filterMix(datafield).subscribe(
+      (res) => {
+        this.infoTable=res; 
+
+        this.infoTable = this.infoTable.map((prop, key) => {
+          return {
+            ...prop,
+            id: key
+          };
+        });
+        // console.log("xxxxxx = ",this.infoTable)
+      },
+      (err) => {
+        // this.loadingBar.complete();
+        // this.errorMessage();
+        // console.log("HTTP Error", err), this.errorMessage();
+      },
+      () => {
+        console.log("HTTP request completed.")
+      //   this.infoTable = [res]
+      //   console.log("zzzzz = ",this.infoTable)
+      }
+    );
+  }
+
+  filterTableConsignee($event) {
+    let val = $event.target.value;
+    let datafield = "consigneeName="+val
+    console.log(datafield)
+    this.productGenerationService.filterMix(datafield).subscribe(
+      (res) => {
+        this.infoTable=res; 
+
+        this.infoTable = this.infoTable.map((prop, key) => {
+          return {
+            ...prop,
+            id: key
+          };
+        });
+        // console.log("xxxxxx = ",this.infoTable)
+      },
+      (err) => {
+        // this.loadingBar.complete();
+        // this.errorMessage();
+        // console.log("HTTP Error", err), this.errorMessage();
+      },
+      () => {
+        console.log("HTTP request completed.")
+      //   this.infoTable = [res]
+      //   console.log("zzzzz = ",this.infoTable)
+      }
+    );
+  }
+
+  filterTableCategory($event) {
+    let val = $event.target.value;
+    let datafield = "productCategory="+val
+    console.log(datafield)
+    this.productGenerationService.filterMix(datafield).subscribe(
+      (res) => {
+        this.infoTable=res; 
+
+        this.infoTable = this.infoTable.map((prop, key) => {
+          return {
+            ...prop,
+            id: key
+          };
+        });
+      },
+      (err) => {
+      },
+      () => {
+        console.log("HTTP request completed.")
+      }
+    );
+  }
+
+  filterTableSLPID($event) {
+    let val = $event.target.value;
+    let datafield = "SLPID="+val
+    console.log(datafield)
+    this.productGenerationService.filterMix(datafield).subscribe(
+      (res) => {
+        this.infoTable=res; 
+
+        this.infoTable = this.infoTable.map((prop, key) => {
+          return {
+            ...prop,
+            id: key
+          };
+        });
+      },
+      (err) => {
+      },
+      () => {
+        console.log("HTTP request completed.")
+      }
+    );
   }
 
   productGeneration() {

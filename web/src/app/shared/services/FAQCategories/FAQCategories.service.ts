@@ -34,8 +34,17 @@ export class FAQCategoriesService {
       })
     );
   }
+
+  getOne(id: string): Observable<FAQCategories> {
+    let urlID = this.url + id + "/";
+    return this.http.get<FAQCategories>(urlID).pipe(
+      tap((res: FAQCategories) => {
+        // this.amodel = res;
+      })
+    );
+  }
   
-  update(body, id: string): Observable<FAQCategories> {
+  update(id,body: string): Observable<FAQCategories> {
     let urlPatch = this.url + id + "/";
     return this.http.patch<FAQCategories>(urlPatch, body).pipe(
       tap((res) => {

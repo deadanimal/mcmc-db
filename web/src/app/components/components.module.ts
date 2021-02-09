@@ -17,6 +17,7 @@ import { CollapseModule } from "ngx-bootstrap/collapse";
 import { DxVectorMapModule } from "devextreme-angular";
 import { BsDropdownModule } from "ngx-bootstrap";
 import { NavbarPublicComponent } from './navbarPublic/navbarPublic.component';
+import { FooterPublicComponent } from './footerPublic/footerPublic.component';
 
 @NgModule({
   imports: [
@@ -33,6 +34,7 @@ import { NavbarPublicComponent } from './navbarPublic/navbarPublic.component';
     NavbarComponent,
     SidebarComponent,
     NavbarPublicComponent,
+    FooterPublicComponent,
   ],
   exports: [
     FooterComponent,
@@ -40,6 +42,7 @@ import { NavbarPublicComponent } from './navbarPublic/navbarPublic.component';
     NavbarComponent,
     SidebarComponent,
     NavbarPublicComponent,
+    FooterPublicComponent,
   ],
   providers: [
     {

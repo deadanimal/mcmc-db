@@ -1,214 +1,336 @@
 <div class="header bg-info pb-6">
-    <div class="container-fluid">
-        <div class="header-body">
-            <div class="row align-items-center py-4">
-                <div class="col-lg-6 col-7">
-                    <h6 class="h2 text-dark d-inline-block mb-0">User</h6>
-
-                    <nav aria-label="breadcrumb" class=" d-none d-md-inline-block ml-md-4">
-                        <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
-                            <li class=" breadcrumb-item">
-                                <a href="javascript:void(0)"> <i class="fas fa-file-invoice text-dark"> </i> </a>
-                            </li>
-                            <li class="breadcrumb-item">
-                                <a href="javascript:void(0)" class="text-dark"> Management </a>
-                            </li>
-                            <li aria-current="page" class="breadcrumb-item active">
-                                User
-                            </li>
-                        </ol>
-                    </nav>
-                </div>
-
-                <div class="col-lg-6 col-5 text-right">
-					<a class="btn btn-sm btn-neutral" (click)="openModal(createUser)">
-						Create
-					</a>
-				</div>
-            </div>
+  <div class="container-fluid">
+    <div class="header-body">
+      <div class="row align-items-center py-4">
+        <div class="col-lg-8 col-7">
+          <h6 class="h2 text-white d-inline-block mb-0">Welcome</h6>
+          <br />
+          <h6 class="h3 text-white d-inline-block mb-0">
+            "Registration of Certified Communications Equipment (RECCE)"
+          </h6>
+          <br /><br />
+          <h6 class="h2 text-white d-inline-block mb-0">User Configuration</h6>
         </div>
+      </div>
     </div>
+  </div>
 </div>
 
 <div class="container-fluid mt--6">
-    <div class="row">
-        <div class="col">
-            <div class="card">
-                <div class="card-header bg-secondary">
-                    <h3 class="m-0">Registered User by Month</h3>
-                </div>
-                <div class="card-body">
-                    <div class="chart">
-                        <div class="amchart" id="chartdiv"></div>
-                    </div>
-                </div>
-            </div>
+  <div class="row">
+    <div class="col">
+      <div class="card">
+        <div class="card-header bg-secondary">
+          <h3 class="m-0">Assign User</h3>
         </div>
-    </div>
-
-    <div class="row">
-        <div class="col">
-            <div class="card">
-                <div class="card-header bg-secondary">
-                    <h3 class="m-0">User List</h3>
-                </div>
-                <div class="dataTables_wrapper py-4">
-                    <div class="row">
-                        <div class="col-sm-12 col-md-6">
-                            <div class="dataTables_length" id="datatable_length">
-                                <label>
-                                    Show
-                                    <select 
-                                        name="datatable_length"
-                                        aria-controls="datatable"
-                                        class="form-control form-control-sm"
-                                        
-                                    >
-                                        <option value="10" >5</option>
-                                        <option value="25" >10</option>
-                                        <option value="50" >15</option>
-                                        <option value="-1" >All</option>
-                                    </select>
-                                    records
-                                </label>
-                            </div>
-                        </div>
-                        <div class="col-sm-12 col-md-6">
-                            <div id="datatable_filter" class="dataTables_filter">
-                                <label>
-                                    <input 
-                                        type="search"
-                                        class="form-control form-control-sm"
-                                        placeholder="Search records"
-                                        aria-controls="datatable"
-                                 
-                                    />
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <ngx-datatable 
-                        class="bootstrap selection-cell"
-                        [columnMode]="'force'"
-                        [headerHeight]="50"
-                        [footerHeight]="50" 
-                        [rowHeight]="'auto'"
-                        [limit]="tableEntries != -1 ? tableEntries:undefined"
-                        [rows]="tableTemp" 
-                        
-                    >
-
-                        <ngx-datatable-column>
-                            <ng-template ngx-datatable-header-template>
-                                <span>User ID</span>
-                            </ng-template>
-                            <ng-template let-row="row" ngx-datatable-cell-template>
-                                {{row.user_id}}
-                            </ng-template>
-                        </ngx-datatable-column>
-                        <ngx-datatable-column name="Name"></ngx-datatable-column>
-                        <ngx-datatable-column name="Email"></ngx-datatable-column>
-                        <ngx-datatable-column>
-                            <ng-template ngx-datatable-header-template>
-                                <span>Joined At</span>
-                            </ng-template>
-                            <ng-template let-row="row" ngx-datatable-cell-template>
-                                {{row.joined_at}}
-                            </ng-template>
-                        </ngx-datatable-column>
-                        <ngx-datatable-column>
-                            <ng-template ngx-datatable-header-template>
-                                <span>User Type</span>
-                            </ng-template>
-                            <ng-template let-row="row" ngx-datatable-cell-template>
-                                {{row.user_type}}
-                            </ng-template>
-                        </ngx-datatable-column>
-                        <ngx-datatable-column>
-                            <ng-template ngx-datatable-header-template>
-                                <span>Status</span>
-                            </ng-template>
-                            <ng-template let-row="row" ngx-datatable-cell-template>
-                                <span *ngIf="row.is_active == 'Active'" class="badge badge-pill badge-success">Active</span>
-                                <span *ngIf="row.is_active == 'Inactive'" class="badge badge-pill badge-warning">Inactive</span>
-                            </ng-template>
-                        </ngx-datatable-column>
-                    </ngx-datatable>
-                </div>
+        <div class="card-body">
+          <div class="row m-0">
+            <input class="mr-2" type="checkbox" />
+            <h5>Active Directory</h5>
+          </div>
+          <div class="row ml--5">
+            <div class="col-3 col-md-3 ml-4">
+              <select class="form-control" id="exampleFormControlSelect1">
+                <option>Department</option>
+                <option>Department 2</option>
+                <option>Department 3</option>
+                <option>Department 4</option>
+                <option>Department 5</option>
+              </select>
             </div>
+            <div class="col-3 col-md-3">
+              <select class="form-control" id="exampleFormControlSelect1">
+                <option>User</option>
+                <option>Ali</option>
+                <option>Amran</option>
+                <option>Amin</option>
+                <option>Arif</option>
+              </select>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <div class="card">
+        <div class="card-header bg-secondary">
+          <h3 class="m-0">User Information</h3>
+        </div>
+        <div class="card-body">
+          <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="form-control-label" for="example2cols1Input">
+              User Name
+            </label>
+
+            <input
+              class="form-control"
+              id="example2cols1Input"
+              placeholder="ali.imran"
+              type="text"
+            />
+
+            <label class="form-control-label mt-2" for="example2cols1Input">
+              First Name
+            </label>
+
+            <input
+              class="form-control"
+              id="example2cols1Input"
+              placeholder="Ali"
+              type="text"
+            />
+
+            <label class="form-control-label mt-2" for="example2cols1Input">
+              Position
+            </label>
+
+            <input
+              class="form-control"
+              id="example2cols1Input"
+              placeholder="Operation"
+              type="text"
+            />
+
+            <label class="form-control-label mt-2" for="example2cols1Input">
+              Department
+            </label>
+
+            <input
+              class="form-control"
+              id="example2cols1Input"
+              placeholder="Operation"
+              type="text"
+            />
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="form-control-label" for="example2cols2Input">
+              Email Address
+            </label>
+
+            <input
+              class="form-control"
+              id="example2cols2Input"
+              placeholder="ali.imran@mail.com"
+              type="text"
+            />
+            <label class="form-control-label" for="example2cols2Input">
+              Last Name
+            </label>
+
+            <input
+              class="form-control"
+              id="example2cols2Input"
+              placeholder="Imran"
+              type="text"
+            />
+            <label class="form-control-label" for="example2cols2Input">
+              Contact No.
+            </label>
+
+            <input
+              class="form-control"
+              id="example2cols2Input"
+              placeholder="+6012345678"
+              type="text"
+            />
+          </div>
+        </div>
+      </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--<div class="row">
+    <div class="col">
+      <div class="card">
+        <div class="card-header bg-secondary">
+          <h3 class="m-0">User List</h3>
+        </div>
+        <div class="dataTables_wrapper py-4">
+          <div class="row">
+            <div class="col-sm-12 col-md-6">
+              <div class="dataTables_length" id="datatable_length">
+                <label>
+                  Show
+                  <select
+                    name="datatable_length"
+                    aria-controls="datatable"
+                    class="form-control form-control-sm"
+                  >
+                    <option value="10">5</option>
+                    <option value="25">10</option>
+                    <option value="50">15</option>
+                    <option value="-1">All</option>
+                  </select>
+                  records
+                </label>
+              </div>
+            </div>
+            <div class="col-sm-12 col-md-6">
+              <div id="datatable_filter" class="dataTables_filter">
+                <label>
+                  <input
+                    type="search"
+                    class="form-control form-control-sm"
+                    placeholder="Search records"
+                    aria-controls="datatable"
+                  />
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <ngx-datatable
+            class="bootstrap selection-cell"
+            [columnMode]="'force'"
+            [headerHeight]="50"
+            [footerHeight]="50"
+            [rowHeight]="'auto'"
+            [limit]="tableEntries != -1 ? tableEntries : undefined"
+            [rows]="tableTemp"
+          >
+            <ngx-datatable-column>
+              <ng-template ngx-datatable-header-template>
+                <span>User ID</span>
+              </ng-template>
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.user_id }}
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Name"></ngx-datatable-column>
+            <ngx-datatable-column name="Email"></ngx-datatable-column>
+            <ngx-datatable-column>
+              <ng-template ngx-datatable-header-template>
+                <span>Joined At</span>
+              </ng-template>
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.joined_at }}
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column>
+              <ng-template ngx-datatable-header-template>
+                <span>User Type</span>
+              </ng-template>
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.user_type }}
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column>
+              <ng-template ngx-datatable-header-template>
+                <span>Status</span>
+              </ng-template>
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                <span
+                  *ngIf="row.is_active == 'Active'"
+                  class="badge badge-pill badge-success"
+                  >Active</span
+                >
+                <span
+                  *ngIf="row.is_active == 'Inactive'"
+                  class="badge badge-pill badge-warning"
+                  >Inactive</span
+                >
+              </ng-template>
+            </ngx-datatable-column>
+          </ngx-datatable>
+        </div>
+      </div>
+    </div>
+  </div>-->
 </div>
 
-
 <ng-template #createUser>
-    <div class="modal-header bg-default">
-        <h6 class="modal-title text-white my-auto" id="modal-title-default">
-            Create New User
-        </h6>
+  <div class="modal-header bg-default">
+    <h6 class="modal-title text-white my-auto" id="modal-title-default">
+      Create New User
+    </h6>
 
-        <button
-            aria-label="Close"
-            class="close"
-            data-dismiss="modal"
-            type="button"
-            (click)="closeModal()"
-        >
-            <span aria-hidden="true" class="text-white my-auto"> × </span>
-        </button>
-    </div>
+    <button
+      aria-label="Close"
+      class="close"
+      data-dismiss="modal"
+      type="button"
+      (click)="closeModal()"
+    >
+      <span aria-hidden="true" class="text-white my-auto"> × </span>
+    </button>
+  </div>
 
-    <div class="modal-body">
-        <form [formGroup]="registerForm">
-            <div class="form-group">
-                <label class="form-control-label">Name</label>
-                <input 
-                  class="form-control"
-                  placeholder="Enter name"
-                  formControlName="name"
-                  type="text"
-                >
-                <ng-container *ngFor="let message of registerFormMessages.name">
-                    <div *ngIf="registerForm.get('name').hasError(message.type) && (registerForm.get('name').dirty || registerForm.get('name').touched)">
-                        <p class="error-message"><span>{{ message.message }}</span></p>
-                    </div>
-                </ng-container>
-            </div>
-            <div class="form-group">
-                <label class="form-control-label">Email</label>
-                <input 
-                  class="form-control"
-                  placeholder="Enter email"
-                  formControlName="email"
-                  type="text"
-                >
-                <ng-container *ngFor="let message of registerFormMessages.email">
-                    <div *ngIf="registerForm.get('email').hasError(message.type) && (registerForm.get('email').dirty || registerForm.get('email').touched)">
-                        <p class="error-message"><span>{{ message.message }}</span></p>
-                    </div>
-                </ng-container>
-            </div>
-        </form>
-    </div>
+  <div class="modal-body">
+    <form [formGroup]="registerForm">
+      <div class="form-group">
+        <label class="form-control-label">Name</label>
+        <input
+          class="form-control"
+          placeholder="Enter name"
+          formControlName="name"
+          type="text"
+        />
+        <ng-container *ngFor="let message of registerFormMessages.name">
+          <div
+            *ngIf="
+              registerForm.get('name').hasError(message.type) &&
+              (registerForm.get('name').dirty ||
+                registerForm.get('name').touched)
+            "
+          >
+            <p class="error-message">
+              <span>{{ message.message }}</span>
+            </p>
+          </div>
+        </ng-container>
+      </div>
+      <div class="form-group">
+        <label class="form-control-label">Email</label>
+        <input
+          class="form-control"
+          placeholder="Enter email"
+          formControlName="email"
+          type="text"
+        />
+        <ng-container *ngFor="let message of registerFormMessages.email">
+          <div
+            *ngIf="
+              registerForm.get('email').hasError(message.type) &&
+              (registerForm.get('email').dirty ||
+                registerForm.get('email').touched)
+            "
+          >
+            <p class="error-message">
+              <span>{{ message.message }}</span>
+            </p>
+          </div>
+        </ng-container>
+      </div>
+    </form>
+  </div>
 
-    <div class="modal-footer">
-        <button 
-            class="btn btn-success"
-            type="button"
-            (click)="confirm()"
-            [disabled]="!registerForm.valid"
-        >
-            Create
-        </button>
+  <div class="modal-footer">
+    <button
+      class="btn btn-success"
+      type="button"
+      (click)="confirm()"
+      [disabled]="!registerForm.valid"
+    >
+      Create
+    </button>
 
-        <button
-            class="btn btn-outline-danger ml-auto"
-            data-dismiss="modal"
-            type="button"
-            (click)="closeModal()"
-        >
-            Close
-        </button>
-    </div>
+    <button
+      class="btn btn-outline-danger ml-auto"
+      data-dismiss="modal"
+      type="button"
+      (click)="closeModal()"
+    >
+      Close
+    </button>
+  </div>
 </ng-template>

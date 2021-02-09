@@ -44,10 +44,17 @@
           <div class="col">
             <div class="card">
               <div class="card card-header bg-secondary card-profile shadow">
-                <h2 class="text-center">Frequent Asked Question(s)</h2>
+                <h2 class="text-center mb-4">Frequent Asked Question(s)</h2>
                 <br />
                 <accordion [isAnimated]="true" [closeOthers]="true">
+                  <accordion-group class="mt--4" *ngFor="let option of infoTable" [heading]="option.category">
+                    <textarea class="form-control" style="height:100px" disable="true">{{ option.content }}</textarea>
+                  </accordion-group>
+                </accordion>
+
+                <!--<accordion [isAnimated]="true" [closeOthers]="true">
                   <accordion-group [isOpen]="isFirstOpen" heading="General">
+                  <textarea class="form-control">
                     <h4 class="text-default">
                         What is meant by communications equipment?
                     </h4>
@@ -73,6 +80,7 @@
                         Communications and Multimedia (Technical Standards)
                         Regulations 2000.
                     </p>
+                  </textarea>
                   </accordion-group>
                   <accordion-group class="mt--4"  heading="IMEI">
                     <div class="col-md-12">

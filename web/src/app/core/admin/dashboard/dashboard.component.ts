@@ -63,19 +63,19 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     chart.data = [
       {
-        item: "Lights",
+        item: "IMEI",
         value: 40
       },
       {
-        item: "Fridge",
+        item: "Product",
         value: 30
       },
       {
-        item: "TV",
+        item: "Serial No",
         value: 20
       },
       {
-        item: "Washing Machine",
+        item: "Self Labelling",
         value: 16
       }
     ];
