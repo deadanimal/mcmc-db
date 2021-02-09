@@ -64,8 +64,12 @@ export class SystemNotiComponent implements OnInit {
 
     chart.data = [
       {
-        item: "Lights",
-        value: 40
+        item: "used",
+        value: 45
+      },
+      {
+        item: "Unused",
+        value: 55
       },
       
     ];
@@ -100,13 +104,10 @@ export class SystemNotiComponent implements OnInit {
 
     chart.data = [
       {
-        item: "Lights",
-        value: 90
+        item: "Performance",
+        value: 100
       },
-      {
-        item: "Fridge",
-        value: 10
-      },
+      
     ];
     chart.radius = am4core.percent(70);
     chart.innerRadius = am4core.percent(40);

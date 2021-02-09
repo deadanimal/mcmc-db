@@ -21,6 +21,7 @@ class FAQCategorySerializer(serializers.ModelSerializer):
             'categoryId',
             'category',
             'active', 
+            'content',
             
             
         )

@@ -53,8 +53,12 @@ export class SystemVariableComponent implements OnInit {
 
     chart.data = [
       {
-        item: "Lights",
-        value: 40
+        item: "used",
+        value: 45
+      },
+      {
+        item: "Unused",
+        value: 55
       },
       
     ];
@@ -90,11 +94,7 @@ export class SystemVariableComponent implements OnInit {
     chart.data = [
       {
         item: "Lights",
-        value: 90
-      },
-      {
-        item: "Fridge",
-        value: 10
+        value: 100
       },
     ];
     chart.radius = am4core.percent(70);

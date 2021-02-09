@@ -55,7 +55,7 @@
                     id="imei"
                     formControlName="IMEI"
                     name="imei"
-                    placeholder="E.g.:123456789"
+                    placeholder="EG:123456789"
                     [(ngModel)]="imei"
                     (focus)="focusImei = true" 
                     (blur)="focusImei = false"
@@ -129,10 +129,10 @@
             </td>
           </tr>
           <tr>
-            <td style="vertical-align:top"><b>Product Category</b></td>
+            <td style="vertical-align:top"><b>Product Register No.</b></td>
             <td>
               <div *ngFor="let data of infoTable">
-                <span>{{ data.productCategory }}</span>
+                <span>{{ data.fileNo }}</span>
               </div>
             </td>
           </tr>

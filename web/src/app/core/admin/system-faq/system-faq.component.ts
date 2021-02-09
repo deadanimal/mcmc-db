@@ -1,7 +1,5 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { AccordionConfig } from 'ngx-bootstrap/accordion';
-import am4themes_animated from "@amcharts/amcharts4/themes/animated";
-import noUiSlider from "nouislider";
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import Quill from "quill";
 import swal from 'sweetalert2';
@@ -22,7 +20,11 @@ export function getAccordionConfig(): AccordionConfig {
 export class SystemFaqComponent implements OnInit {
 
   infoTable = []
-  searchFAQForm: FormGroup
+  editFAQ = {category:"",categoryId:""}
+  titleFAQForm: FormGroup
+  categoryForm: FormGroup
+  registerForm: FormGroup
+  title
 
   modal: BsModalRef;
   modalConfig = {
@@ -34,6 +36,7 @@ export class SystemFaqComponent implements OnInit {
     private modalService: BsModalService,
     private FAQTitleService: FAQTitleService,
     private FAQCategoriesService: FAQCategoriesService,
+    private formBuilder: FormBuilder,
   ) {
     this.productGeneration2()
    }
@@ -57,6 +60,95 @@ export class SystemFaqComponent implements OnInit {
       placeholder: "Quill WYSIWYG",
       theme: "snow"
     });
+
+    this.registerForm = this.formBuilder.group({
+      categoryId: new FormControl(""),
+      category: new FormControl(""),
+      active: new FormControl(""),
+      content: new FormControl(""),
+    });
+
+    this.titleFAQForm = this.formBuilder.group({
+      categoryId: new FormControl(""),
+      category: new FormControl(""),
+      active: new FormControl(""),
+      content: new FormControl(""),
+    });
+
+  }
+
+  newTitle() {
+    console.log("qqqq");
+    console.log(this.registerForm.value)
+    this.FAQCategoriesService.post(this.registerForm.value).subscribe(
+      () => {
+        // Success
+        // this.isLoading = false
+        // this.successMessage();
+        // this.loadingBar.complete();
+        // this.successAlert("create project");
+        this.register()
+        this.productGeneration2()
+        console.log("success")
+      },
+      () => {
+        // Failed
+        // this.isLoading = false
+        // this.successMessage();
+        // this.errorAlert("edit");
+      },
+      () => {
+        // After
+        // this.notifyService.openToastr("Success", "Welcome back");
+        // this.navigateHomePage();
+      }
+    );
+  }
+
+  deleteTitle(){
+    console.log("qqqq");
+    console.log(this.titleFAQForm.value.categoryId)
+    this.FAQCategoriesService.delete(this.titleFAQForm.value.categoryId).subscribe(
+      () => {
+        // Success
+        // this.isLoading = false
+        // this.successMessage();
+        // this.loadingBar.complete();
+        // this.successAlert("create project");
+        // window.location.reload();
+        this.productGeneration2()
+        console.log("success")
+      },
+      () => {
+
+      },
+      () => {
+
+      }
+    );
+  }
+
+  editTitle() {
+    console.log("qqqq");
+    console.log(this.titleFAQForm.value.categoryId)
+    this.FAQCategoriesService.update(this.titleFAQForm.value.categoryId,this.titleFAQForm.value).subscribe(
+      () => {
+        // Success
+        // this.isLoading = false
+        // this.successMessage();
+        // this.loadingBar.complete();
+        // this.successAlert("create project");
+        // window.location.reload();
+        this.productGeneration2()
+        console.log("success")
+      },
+      () => {
+
+      },
+      () => {
+
+      }
+    );
   }
 
   openModal(modalRef: TemplateRef<any>) {
@@ -65,7 +157,7 @@ export class SystemFaqComponent implements OnInit {
 
   closeModal() {
     this.modal.hide()
-    // this.registerForm.reset()
+    this.titleFAQForm.reset()
   }
 
   confirm() {
@@ -97,33 +189,34 @@ export class SystemFaqComponent implements OnInit {
     }).then((result) => {
       if (result.value) {
         this.modal.hide()
-        // this.registerForm.reset()
+        this.productGeneration()
+        this.titleFAQForm.reset()
       }
     })
   }
 
   productGeneration() {
-    console.log("HTTP",this.searchFAQForm.value.title)
-    let datafield = "title="+this.searchFAQForm.value.title
-    this.FAQTitleService.post(datafield).subscribe(
-      (res) => {
-        this.infoTable = [res]
-        this.infoTable = this.infoTable.map((prop, key) => {
-          return {
-            ...prop,
-            id: key
-          };
-        });
+    console.log("HTTP",this.titleFAQForm.value.title)
+    // let datafield = "title="+this.titleFAQForm.value.title
+    // this.FAQTitleService.post(datafield).subscribe(
+    //   (res) => {
+    //     this.infoTable = [res]
+    //     this.infoTable = this.infoTable.map((prop, key) => {
+    //       return {
+    //         ...prop,
+    //         id: key
+    //       };
+    //     });
 
-      },
-      (err) => {
+    //   },
+    //   (err) => {
 
-      },
-      () => {
-        console.log("HTTP request completed.")
+    //   },
+    //   () => {
+    //     console.log("HTTP request completed.")
 
-      }
-    );
+    //   }
+    // );
   }
 
   productGeneration2() {
@@ -144,11 +237,35 @@ export class SystemFaqComponent implements OnInit {
       }
     );
   }
+  
 
   dropdownFAQ(event){
     console.log('event = ',event)
+    this.FAQCategoriesService.getOne(event).subscribe(
+      (res) => {
+        // this.editFAQ.category = res.category
+        // this.editFAQ.categoryId = res.categoryId
+        this.titleFAQForm.patchValue(res)
+        console.log(res)
+        // this.infoTable = [...res]
+        // console.log("zzzzz2 = ",this.infoTable)
+
+        // this.infoTable = this.infoTable.map((prop, key) => {
+        //   return {
+        //     ...prop,
+        //     id: key
+        //   };
+        // });
+      },
+      () => {
+        console.log("HTTP request completed.")
+      }
+    );
   }
 
+  newTitle2(){
+    console.log("newTitle()",this.registerForm.value.TITLE)
+  }
 
 }
 

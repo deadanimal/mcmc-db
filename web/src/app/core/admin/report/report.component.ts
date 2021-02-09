@@ -215,8 +215,6 @@ export class ReportComponent implements OnInit, OnDestroy {
     chart.cursor.lineX.fill = chart.colors.getIndex(2);
     chart.cursor.lineX.fillOpacity = 0.1;
 
-    chart.scrollbarX = new am4core.Scrollbar();
-
     this.chart = chart
   }
 
@@ -261,7 +259,7 @@ export class ReportComponent implements OnInit, OnDestroy {
 
     chart.cursor = new am4charts.XYCursor();
     chart.cursor.xAxis = dateAxis;
-    chart.scrollbarX = new am4core.Scrollbar();
+
 
     this.chart1 = chart
   }
@@ -342,9 +340,6 @@ export class ReportComponent implements OnInit, OnDestroy {
       { "value": 12, "value2": 19 }
     ];
 
-    //scrollbars
-    chart.scrollbarX = new am4core.Scrollbar();
-    chart.scrollbarY = new am4core.Scrollbar();
 
     this.chart2 = chart
   }

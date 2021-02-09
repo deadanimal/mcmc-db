@@ -62,6 +62,15 @@ export class ProductGenerationService {
         })
       );
     }
+
+    filterMix(field: String): Observable<ProductRegistration[]> {
+      let urlFilter = this.url+"filter_table_testing/" + "?" + field;
+      return this.http.get<ProductRegistration[]>(urlFilter).pipe(
+        tap((res) => {
+          console.log("EmployeeDirectories: ", res);
+        })
+      );
+    }
   
     extended(): Observable<ProductRegistration[]> {
       return this.http.get<ProductRegistration[]>(this.url + "extended").pipe(

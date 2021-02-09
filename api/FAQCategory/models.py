@@ -14,11 +14,12 @@ from core.helpers import PathAndRename
 class FAQCategory(models.Model):
 
     categoryId = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    active = models.CharField(max_length=255, blank=True)
+    active  = models.BooleanField()
     category  = models.CharField(max_length=255, blank=True)
     createdBy = models.CharField(max_length=255, blank=True)
     created_date = models.DateTimeField(auto_now=True)
     modified_date = models.DateTimeField(auto_now=True)
+    content = models.CharField(max_length=10000, blank=True)
  
 
     class Meta:
