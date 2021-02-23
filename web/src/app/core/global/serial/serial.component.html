@@ -1,95 +1,110 @@
 <ngx-loading-bar></ngx-loading-bar>
 <section class="section section-sm section-shaped pb-250">
-    <!-- Circles background -->
-    <div class="shape shape-style-1 shape-default alpha-4">
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-    </div>
-    <div class="container py-lg-md d-flex">
-      <div class="col px-0 mt-5">
-        <div class="row">
-          <div class="col-lg-12">
-            <h4 class="display-3 text-white text-center">
-              REGISTRY of CERTIFIED COMMUNICATIONS EQUIPMENT
-              <span><b>(RECCE)</b></span>
-            </h4>
-          </div>
+  <!-- Circles background -->
+  <div class="shape shape-style-1 shape-default alpha-4">
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+  <div class="container py-lg-md d-flex">
+    <div class="col px-0 mt-5">
+      <div class="row">
+        <div class="col-lg-12">
+          <h4 class="display-3 text-white text-center">
+            REGISTRY of CERTIFIED COMMUNICATIONS EQUIPMENT
+            <span><b>(RECCE)</b></span>
+          </h4>
         </div>
       </div>
     </div>
-    <!-- SVG separator -->
-    <div class="separator separator-bottom separator-skew">
-      <svg
-        x="0"
-        y="0"
-        viewBox="0 0 2560 100"
-        preserveAspectRatio="none"
-        version="1.1"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <polygon class="fill-secondary" points="2560 0 2560 100 0 100"></polygon>
-      </svg>
-    </div>
+  </div>
+  <!-- SVG separator -->
+  <div class="separator separator-bottom separator-skew">
+    <svg
+      x="0"
+      y="0"
+      viewBox="0 0 2560 100"
+      preserveAspectRatio="none"
+      version="1.1"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <polygon class="fill-secondary" points="2560 0 2560 100 0 100"></polygon>
+    </svg>
+  </div>
 </section>
 
 <section class="section">
   <div class="container">
     <div class="main-content d-flex align-items-center">
-        <div class="container">
-            <div class="rrow text-center card bg-secondary card-profile shadow mt--250">
-              <form [formGroup]="searchSERIALForm">
-                <h3 class="text-center mt-4">Product Serial Number Enquiry</h3><br>
-                  <div class="form-group row">
-                    <label class="h3 text-right col-md-3" for="serial"><span class="required">*</span>Serial</label>
-                    <div class="col-md-7">
-                      <input
-                        class="ml-2 form-control"
-                        type="text"
-                        id="serial"
-                        formControlName="SERIAL"
-                        name="serial"
-                        placeholder="EG:123456789"
-                        [(ngModel)]="serial"
-                        (focus)="focusSerial = true" 
-                        (blur)="focusSerial = false"
-                      />
-                      <ng-container *ngFor="let message of SerialMessages.SERIAL">
-                                      <div *ngIf="searchSERIALForm.get('SERIAL').hasError(message.type) && (searchSERIALForm.get('SERIAL').dirty || searchSERIALForm.get('SERIAL').touched)">
-                                          <p class="error-message"><span><b>{{ message.message }}</b></span></p>
-                                      </div>
-                      </ng-container>
-                    </div>
+      <div class="container">
+        <div
+          class="rrow text-center card bg-secondary card-profile shadow mt--250"
+        >
+          <form [formGroup]="searchSERIALForm">
+            <h3 class="text-center mt-4">Product Serial Number Enquiry</h3>
+            <br />
+            <div class="form-group row">
+              <label class="h3 text-right col-md-3" for="serial"
+                ><span class="required">*</span>Serial</label
+              >
+              <div class="col-md-7">
+                <input
+                  class="ml-2 form-control"
+                  type="text"
+                  id="serial"
+                  formControlName="SERIAL"
+                  name="serial"
+                  placeholder="EG:123456789"
+                  [(ngModel)]="serial"
+                  (focus)="focusSerial = true"
+                  (blur)="focusSerial = false"
+                />
+                <ng-container *ngFor="let message of SerialMessages.SERIAL">
+                  <div
+                    *ngIf="
+                      searchSERIALForm.get('SERIAL').hasError(message.type) &&
+                      (searchSERIALForm.get('SERIAL').dirty ||
+                        searchSERIALForm.get('SERIAL').touched)
+                    "
+                  >
+                    <p class="error-message">
+                      <span
+                        ><b>{{ message.message }}</b></span
+                      >
+                    </p>
                   </div>
-                  <div class="form-group row">
-                    <label class="h3 text-right col-md-3" for="model">Model</label>
-                    <div class="col-md-7">
-                      <input
-                        class="ml-2 form-control"
-                        type="text"
-                        id="model"   
-                        name="model"
-                        placeholder="EG:GALAXY S9"
-                      />
-                    </div>
-                  </div>
-                  <div class="form-group row">
-                    <label class="h3 text-right col-md-3" for="imei">Brand</label>
-                    <div class="col-md-7">
-                      <input
-                        class="ml-2 form-control"
-                        type="text"
-                        id="brand"
-                        name="brand"
-                        placeholder="EG:SAMSUNG"
-                      />
-                    </div>
-                  </div>
-                  <div class="form-group">
+                </ng-container>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="h3 text-right col-md-3" for="model">Model</label>
+              <div class="col-md-7">
+                <input
+                  class="ml-2 form-control"
+                  type="text"
+                  id="model"
+                  name="model"
+                  placeholder="EG:GALAXY S9"
+                />
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="h3 text-right col-md-3" for="imei">Brand</label>
+              <div class="col-md-7">
+                <input
+                  class="ml-2 form-control"
+                  type="text"
+                  id="brand"
+                  name="brand"
+                  placeholder="EG:SAMSUNG"
+                />
+              </div>
+            </div>
+            <div class="form-group">
               <div class="d-flex justify-content-center">
                 <ngx-recaptcha2
                   #captchaElem
@@ -109,109 +124,112 @@
                 </ngx-recaptcha2>
               </div>
             </div>
-                <div class="text-center">
-                <button class=" ml-2 btn btn-lg btn-neutral" (click)="productGeneration()" [disabled]="!searchSERIALForm.valid" style="width:100px">
-                  Search
-                </button>
-                <button class=" mr-2 btn btn-lg btn-neutral" style="width:100px">
-                  Reset
-                </button>
-                <br><br>
-                </div>
-              </form>
-                
+            <div class="text-center">
+              <button
+                class="ml-2 btn btn-lg btn-neutral"
+                (click)="productGeneration()"
+                [disabled]="!searchSERIALForm.valid"
+                style="width: 100px"
+              >
+                Search
+              </button>
+              <button class="mr-2 btn btn-lg btn-neutral" style="width: 100px">
+                Reset
+              </button>
+              <br /><br />
             </div>
+          </form>
         </div>
+      </div>
     </div>
   </div>
 </section>
 
 <ng-template #showResult>
-    <div class="modal-header bg-default">
-        <h6 class="modal-title text-white my-auto" id="modal-title-default">
-            Serial Number
-        </h6>
-        <button
-            aria-label="Close"
-            class="close"
-            data-dismiss="modal"
-            type="button"
-            (click)="closeModal()"
-        >
-            <span aria-hidden="true" class="text-white my-auto"> × </span>
-        </button>
-    </div>
+  <div class="modal-header bg-default">
+    <h6 class="modal-title text-white my-auto" id="modal-title-default">
+      Serial Number
+    </h6>
+    <button
+      aria-label="Close"
+      class="close"
+      data-dismiss="modal"
+      type="button"
+      (click)="closeModal()"
+    >
+      <span aria-hidden="true" class="text-white my-auto"> × </span>
+    </button>
+  </div>
 
-    <div class="modal-body">
-        <table style="width:80%">
-  <tr>
-    <td style="vertical-align:top"><b>Serial No.</b></td>
-    <td style="width: 80%;">
-    <div *ngFor="let data of infoTable">
-    <span>{{data.serialNo}}</span>
-    </div>
-    </td>
-  </tr>
-  <tr>
-    <td style="vertical-align:top"><b>Model</b></td>
-    <td>
-    <div *ngFor="let data of infoTable">
-    <span>{{data.modelDescription}}</span>
-    </div>
-    </td>
+  <div class="modal-body">
+    <table style="width: 80%">
+      <tr>
+        <td style="vertical-align: top"><b>Serial No.</b></td>
+        <td style="width: 80%">
+          <div *ngFor="let data of infoTable">
+            <span>{{ data.serialNo }}</span>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td style="vertical-align: top"><b>Model</b></td>
+        <td>
+          <div *ngFor="let data of infoTable">
+            <span>{{ data.modelDescription }}</span>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td style="vertical-align: top"><b>Product Category</b></td>
+        <td>
+          <div *ngFor="let data of infoTable">
+            <span>{{ data.productCategory }}</span>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td style="vertical-align: top"><b>SLPID</b></td>
+        <td>
+          <div *ngFor="let data of infoTable">
+            <span>{{ data.SLPID }}</span>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td style="vertical-align: top"><b>CERT HOLDER</b></td>
+        <td>
+          <div *ngFor="let data of infoTable">
+            <span>{{ data.consigneeName }}</span>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td style="vertical-align: top"><b>TAC</b></td>
+        <td>
+          <div *ngFor="let data of infoTable">
+            <span>{{ data.TAC }}</span>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td><b>Approve Date</b></td>
+        <td>
+          <div *ngFor="let data of infoTable">
+            <span>{{ data.approveDate }}</span>
+          </div>
+        </td>
+      </tr>
+    </table>
+  </div>
 
-  </tr>
-  <tr>
-    <td style="vertical-align:top"><b>Product Category</b></td>
-    <td>
-    <div *ngFor="let data of infoTable">
-    <span>{{data.productCategory}}</span>
-    </div>
-    </td>
-  </tr>
-  <tr>
-    <td style="vertical-align:top"><b>SLPID</b></td>
-    <td>
-    <div *ngFor="let data of infoTable">
-    <span>{{data.SLPID}}</span>
-    </div>
-    </td>
-  </tr>
-  <tr>
-    <td style="vertical-align:top"><b>CERT HOLDER</b></td>
-    <td>
-    <div *ngFor="let data of infoTable">
-    <span>{{data.consigneeName}}</span>
-    </div>
-    </td>
-  </tr>
-  <tr>
-    <td style="vertical-align:top"><b>TAC</b></td>
-    <td>
-    <div *ngFor="let data of infoTable">
-    <span>{{data.TAC}}</span>
-    </div>
-    </td>
-  </tr>
-  <tr>
-    <td><b>Approve Date</b></td>
-    <td>
-    <div *ngFor="let data of infoTable">
-    <span>{{data.approveDate}}</span>
-    </div>
-    </td>
-  </tr>
-</table>
-    </div>
-
-    <div class="modal-footer">
-        <button
-            class="btn btn-outline-danger ml-auto"
-            data-dismiss="modal"
-            type="button"
-            (click)="closeModal()"
-        >
-            Close
-        </button>
-    </div>
+  <div class="modal-footer">
+    <button
+      class="btn btn-outline-danger ml-auto"
+      data-dismiss="modal"
+      type="button"
+      (click)="closeModal()"
+    >
+      Close
+    </button>
+  </div>
 </ng-template>
