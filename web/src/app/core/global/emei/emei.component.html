@@ -1,53 +1,60 @@
 <ngx-loading-bar></ngx-loading-bar>
 <main class="profile-page">
   <section class="section section-sm section-shaped pb-250">
-      <!-- Circles background -->
-      <div class="shape shape-style-1 shape-default alpha-4">
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-      </div>
-      <div class="container py-lg-md d-flex">
-        <div class="col px-0 mt-5">
-          <div class="row">
-            <div class="col-lg-12">
-              <h4 class="display-3 text-white text-center">
-                REGISTRY of CERTIFIED COMMUNICATIONS EQUIPMENT
-                <span><b>(RECCE)</b></span>
-              </h4>
-            </div>
+    <!-- Circles background -->
+    <div class="shape shape-style-1 shape-default alpha-4">
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <div class="container py-lg-md d-flex">
+      <div class="col px-0 mt-5">
+        <div class="row">
+          <div class="col-lg-12">
+            <h4 class="display-3 text-white text-center">
+              REGISTRY of CERTIFIED COMMUNICATIONS EQUIPMENT
+              <span><b>(RECCE)</b></span>
+            </h4>
           </div>
         </div>
       </div>
-      <!-- SVG separator -->
-      <div class="separator separator-bottom separator-skew">
-        <svg
-          x="0"
-          y="0"
-          viewBox="0 0 2560 100"
-          preserveAspectRatio="none"
-          version="1.1"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <polygon class="fill-secondary" points="2560 0 2560 100 0 100"></polygon>
-        </svg>
-      </div>
+    </div>
+    <!-- SVG separator -->
+    <div class="separator separator-bottom separator-skew">
+      <svg
+        x="0"
+        y="0"
+        viewBox="0 0 2560 100"
+        preserveAspectRatio="none"
+        version="1.1"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <polygon
+          class="fill-secondary"
+          points="2560 0 2560 100 0 100"
+        ></polygon>
+      </svg>
+    </div>
   </section>
 
   <section class="section">
     <div class="container">
       <div class="main-content d-flex align-items-center">
         <div class="container">
-          <div class="row text-center card bg-secondary card-profile shadow mt--250">
+          <div
+            class="row text-center card bg-secondary card-profile shadow mt--250"
+          >
             <form [formGroup]="searchIMEIForm">
               <h3 class="mt-4 text-center">IMEI Enquiry</h3>
               <br />
               <div class="form-group row">
-                <label class="h3 col-md-3 text-right" for="imei"><span class="required">*</span>IMEI</label>
+                <label class="h3 col-md-3 text-right" for="imei"
+                  ><span class="required">*</span>IMEI</label
+                >
                 <div class="col-md-7">
                   <input
                     class="form-control"
@@ -57,14 +64,44 @@
                     name="imei"
                     placeholder="EG:123456789"
                     [(ngModel)]="imei"
-                    (focus)="focusImei = true" 
+                    (focus)="focusImei = true"
                     (blur)="focusImei = false"
                   />
                   <ng-container *ngFor="let message of ImeiMessages.IMEI">
-                                        <div *ngIf="searchIMEIForm.get('IMEI').hasError(message.type) && (searchIMEIForm.get('IMEI').dirty || searchIMEIForm.get('IMEI').touched)">
-                                            <p class="error-message"><span><b>{{ message.message }}</b></span></p>
-                                        </div>
-                        </ng-container>
+                    <div
+                      *ngIf="
+                        searchIMEIForm.get('IMEI').hasError(message.type) &&
+                        (searchIMEIForm.get('IMEI').dirty ||
+                          searchIMEIForm.get('IMEI').touched)
+                      "
+                    >
+                      <p class="error-message">
+                        <span
+                          ><b>{{ message.message }}</b></span
+                        >
+                      </p>
+                    </div>
+                  </ng-container>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="d-flex justify-content-center">
+                  <ngx-recaptcha2
+                    #captchaElem
+                    [siteKey]="siteKey"
+                    (reset)="handleReset()"
+                    (expire)="handleExpire()"
+                    (load)="handleLoad()"
+                    (success)="handleSuccess($event)"
+                    [useGlobalDomain]="false"
+                    [size]="size"
+                    [hl]="lang"
+                    [theme]="theme"
+                    [type]="type"
+                    formControlName="recaptcha"
+                    class="text-center"
+                  >
+                  </ngx-recaptcha2>
                 </div>
               </div>
               <div class="text-center">
@@ -80,9 +117,10 @@
                   class="btn btn-lg btn-neutral mr--1"
                   type="reset"
                   style="width: 100px"
-                >Reset</button>
-                <br><br>
-                
+                >
+                  Reset
+                </button>
+                <br /><br />
               </div>
             </form>
           </div>
@@ -113,15 +151,15 @@
       <div class="col-md-12">
         <table>
           <tr>
-            <td style="vertical-align:top"><b>IMEI No.</b></td>
-            <td style="width: 80%;">
+            <td style="vertical-align: top"><b>IMEI No.</b></td>
+            <td style="width: 80%">
               <div *ngFor="let data of infoTable">
                 <span>{{ data.imeiNo }}</span>
               </div>
             </td>
           </tr>
           <tr>
-            <td style="vertical-align:top"><b>Model</b></td>
+            <td style="vertical-align: top"><b>Model</b></td>
             <td>
               <div *ngFor="let data of infoTable">
                 <span>{{ data.modelDescription }}</span>
@@ -129,7 +167,7 @@
             </td>
           </tr>
           <tr>
-            <td style="vertical-align:top"><b>Product Register No.</b></td>
+            <td style="vertical-align: top"><b>Product Register No.</b></td>
             <td>
               <div *ngFor="let data of infoTable">
                 <span>{{ data.fileNo }}</span>
@@ -137,7 +175,7 @@
             </td>
           </tr>
           <tr>
-            <td style="vertical-align:top"><b>Self Labeling ID</b></td>
+            <td style="vertical-align: top"><b>Self Labeling ID</b></td>
             <td>
               <div *ngFor="let data of infoTable">
                 <span>{{ data.SLPID }}</span>
@@ -145,7 +183,7 @@
             </td>
           </tr>
           <tr>
-            <td style="vertical-align:top"><b>Cert Holder</b></td>
+            <td style="vertical-align: top"><b>Cert Holder</b></td>
             <td>
               <div *ngFor="let data of infoTable">
                 <span>{{ data.consigneeName }}</span>
@@ -153,7 +191,7 @@
             </td>
           </tr>
           <tr>
-            <td style="vertical-align:top"><b>TAC</b></td>
+            <td style="vertical-align: top"><b>TAC</b></td>
             <td>
               <div *ngFor="let data of infoTable">
                 <span>{{ data.TAC }}</span>

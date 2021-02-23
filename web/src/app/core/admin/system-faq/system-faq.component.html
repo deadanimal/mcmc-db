@@ -30,7 +30,7 @@
               id="exampleFormControlSelect5"
               multiple="multiple"
               (change)="dropdownFAQ($event.target.value)"
-              style="height:400px"
+              style="height: 400px"
             >
               <option
                 *ngFor="let option of infoTable"
@@ -48,7 +48,13 @@
             >
               +
             </button>
-            <button class="btn btn-facebook mt-1" type="button" (click)="confirm()"> - </button>
+            <button
+              class="btn btn-facebook mt-1"
+              type="button"
+              (click)="confirm()"
+            >
+              -
+            </button>
           </div>
         </div>
 
@@ -63,9 +69,7 @@
             <div class="card-body">
               <form [formGroup]="titleFAQForm">
                 <div class="form-group">
-                  <label class="form-control-label" for="example2cols1Input">
-                    Title
-                  </label>
+                  <label class="form-control-label" for="title"> Title </label>
                   <input
                     class="form-control"
                     id="example2cols1Input"
@@ -74,16 +78,29 @@
                     formControlName="category"
                   />
                 </div>
-                <label class="form-control-label" for="example2cols1Input">
+                <div class="form-group">
+                  <label class="form-control-label" for="content">
                     Content
-                </label>
-                <textarea style="height:250px" class="form-control" formControlName="content"></textarea>
-                <input  name="categoryId" formControlName="categoryId"  type="hidden" />
+                  </label>
+                  <quill-editor
+                    placeholder="sdfdsf"
+                    style="height:300px" 
+                    [modules]="modules"
+                    formControlName="content"
+                  ></quill-editor>
+                  <input
+                    name="categoryId"
+                    formControlName="categoryId"
+                    type="hidden"
+                  />
+                </div>
               </form>
             </div>
 
             <div class="col-lg-12 col-5 text-right">
-              <button class="btn btn-facebook" (click)="editTitle()"> Save </button>
+              <button class="btn btn-facebook" (click)="editTitle()">
+                Save
+              </button>
             </div>
             <br />
           </div>

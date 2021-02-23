@@ -25,6 +25,7 @@ import { LabelComponent } from './label/label.component';
 import { ProductInfoComponent } from './productInfo/productInfo.component';
 import { SerialComponent } from './serial/serial.component';
 import { FaqComponent } from './faq/faq.component';
+import { NgxCaptchaModule } from 'ngx-captcha';
 
 @NgModule({
   declarations: [
@@ -54,6 +55,7 @@ import { FaqComponent } from './faq/faq.component';
     NgxDatatableModule,
     RouterModule.forChild(GlobalRoutes),
     RatingModule,
+    NgxCaptchaModule,
   ]
 })
 export class GlobalModule { }

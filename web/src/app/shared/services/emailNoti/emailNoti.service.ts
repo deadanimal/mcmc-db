@@ -34,6 +34,15 @@ export class EmailNotiService {
       })
     );
   }
+
+  getOne(id: string): Observable<emailNoti> {
+    let urlID = this.url + id + "/";
+    return this.http.get<emailNoti>(urlID).pipe(
+      tap((res: emailNoti) => {
+        // this.amodel = res;
+      })
+    );
+  }
   
   update(body, id: string): Observable<emailNoti> {
     let urlPatch = this.url + id + "/";

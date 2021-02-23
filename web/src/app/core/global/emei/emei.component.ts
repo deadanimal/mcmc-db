@@ -7,6 +7,7 @@ import { NotifyService } from 'src/app/shared/handler/notify/notify.service';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import swal from 'sweetalert2';
 import { ViewChild } from '@angular/core';
+import { environment } from "src/environments/environment";
 
 @Component({
   selector: 'app-emei',
@@ -15,12 +16,24 @@ import { ViewChild } from '@angular/core';
 })
 export class EmeiComponent implements OnInit {
 
+  @ViewChild('captchaElem') captchaElem;
   @ViewChild('showResult') modalRef: any;
   infoTable = []
   searchIMEIForm: FormGroup
   test: Date = new Date();
   imei
   focusImei
+
+  siteKey: string = environment.reCaptchaSiteKey;
+  size: string = "normal";
+  lang: string = "en";
+  theme: string = "light";
+  type: string = "image";
+
+  public captchaIsLoaded = false;
+  public captchaSuccess = false;
+  public captchaIsExpired = false;
+  public captchaResponse?: string;
 
 
   ImeiMessages = {
@@ -49,6 +62,7 @@ export class EmeiComponent implements OnInit {
       IMEI: new FormControl('' ,Validators.compose([
         Validators.required,
       ])),
+      recaptcha: ["", Validators.required],
     }) 
     
   }
@@ -71,6 +85,7 @@ export class EmeiComponent implements OnInit {
         if (this.infoTable.length == 0){
           this.errorMessage();
           this.searchIMEIForm.reset()
+          this.captchaElem.reloadCaptcha()
         }
         else {
           this.openModal(this.modalRef)
@@ -81,6 +96,7 @@ export class EmeiComponent implements OnInit {
         this.loadingBar.complete();
         this.errorMessage();
         this.searchIMEIForm.reset()
+        this.captchaElem.reloadCaptcha()
       },
       () => console.log("HTTP request completed.")
     );
@@ -93,15 +109,59 @@ export class EmeiComponent implements OnInit {
   closeModal() {
     this.modal.hide()
     this.searchIMEIForm.reset()
+    this.captchaElem.reloadCaptcha();
   }
 
   errorMessage() {
     swal.fire({
       title: "Oops...",
-      text: "Something went wrong!",
+      text: "Please enter valid IMEI No.!",
       type: "error",
       timer: 3000,
     })  
+  }
+
+  // ReCaptcha
+  handleReset(): void {
+    this.captchaSuccess = false;
+    this.captchaResponse = undefined;
+    this.captchaIsExpired = false;
+    // this.cdr.detectChanges();
+  }
+
+  handleSuccess(captchaResponse: string): void {
+    this.captchaSuccess = true;
+    this.captchaResponse = captchaResponse;
+    this.captchaIsExpired = false;
+    // this.cdr.detectChanges();
+    this.verifyRecaptcha(captchaResponse);
+  }
+
+  handleLoad(): void {
+    this.captchaIsLoaded = true;
+    this.captchaIsExpired = false;
+    // this.cdr.detectChanges();
+  }
+
+  handleExpire(): void {
+    this.captchaSuccess = false;
+    this.captchaIsExpired = true;
+    // this.cdr.detectChanges();
+  }
+
+  verifyRecaptcha(response: string) {
+    let obj = {
+      secret: environment.reCaptchaSecretKey,
+      response: response,
+    };
+    this.productGenerationService.verify_recaptcha(obj).subscribe(
+      (res) => {
+        // console.log("res", res);
+      },
+      (err) => {
+        console.error("err", err);
+      }
+    );
   }
 
 }

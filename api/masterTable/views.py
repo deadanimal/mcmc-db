@@ -1,5 +1,8 @@
+from django.http.response import JsonResponse
 from django.shortcuts import render
 from django.db.models import Q
+import json
+import requests
 
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
@@ -58,7 +61,21 @@ class masterTableViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
             else:
                 queryset = User.objects.filter(company=company.id)
         """
-        return queryset   
+        return queryset 
+
+    @action(methods=['POST'], detail=False)
+    def verify_recaptcha(self, request):
+
+        print('verify_recaptcha')
+        data = json.loads(request.body)
+        response = data['response']
+        secret = data['secret']
+
+        captcha_verify_url = "https://www.google.com/recaptcha/api/siteverify"
+
+        response = requests.post(captcha_verify_url, data=[('secret', secret), ('response', response)])
+
+        return JsonResponse(response.json())    
 
 
     @action(methods=['GET'], detail=False)

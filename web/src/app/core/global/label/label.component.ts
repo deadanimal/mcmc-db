@@ -6,6 +6,7 @@ import { LoadingBarService } from '@ngx-loading-bar/core';
 import { masterTable } from 'src/app/shared/services/masterData/masterData.model';
 import { MasterDataService } from 'src/app/shared/services/masterData/masterData.service';
 import Swal from 'sweetalert2';
+import { environment } from "src/environments/environment";
 
 
 export enum SelectionType {
@@ -23,12 +24,24 @@ export enum SelectionType {
 })
 export class LabelComponent implements OnInit {
 
+  @ViewChild('captchaElem') captchaElem;
   @ViewChild('showResult') modalRef: any;
   infoTable = []
   searchLABELForm: FormGroup
   test: Date = new Date();
   label
   focusLabel
+
+  siteKey: string = environment.reCaptchaSiteKey;
+  size: string = "normal";
+  lang: string = "en";
+  theme: string = "light";
+  type: string = "image";
+
+  public captchaIsLoaded = false;
+  public captchaSuccess = false;
+  public captchaIsExpired = false;
+  public captchaResponse?: string;
 
   LabelMessages = {
     'LABEL': [
@@ -62,6 +75,7 @@ export class LabelComponent implements OnInit {
       LABEL: new FormControl('' ,Validators.compose([
         Validators.required,
       ])),
+      recaptcha: ["", Validators.required],
     })
   }
 
@@ -83,6 +97,7 @@ export class LabelComponent implements OnInit {
         if (this.infoTable.length == 0){
           this.errorMessage();
           this.searchLABELForm.reset()
+          this.captchaElem.reloadCaptcha()
         }
         else{
           this.openModal(this.modalRef)
@@ -92,6 +107,7 @@ export class LabelComponent implements OnInit {
         this.loadingBar.complete();
         this.errorMessage();
         this.searchLABELForm.reset()
+        this.captchaElem.reloadCaptcha()
 
       },
       () => console.log("HTTP request completed.")
@@ -105,6 +121,7 @@ export class LabelComponent implements OnInit {
   closeModal() {
     this.modal.hide()
     this.searchLABELForm.reset()
+    this.captchaElem.reloadCaptcha()
   }
 
   entriesChange($event) {
@@ -124,11 +141,53 @@ export class LabelComponent implements OnInit {
   errorMessage() {
     Swal.fire({
       title: "Oops...",
-      text: "Something went wrong!",
+      text: "Please enter valid SLP ID!",
       type: "error",
       timer: 3000,
     })  
   }
 
+  // ReCaptcha
+  handleReset(): void {
+    this.captchaSuccess = false;
+    this.captchaResponse = undefined;
+    this.captchaIsExpired = false;
+    // this.cdr.detectChanges();
+  }
+
+  handleSuccess(captchaResponse: string): void {
+    this.captchaSuccess = true;
+    this.captchaResponse = captchaResponse;
+    this.captchaIsExpired = false;
+    // this.cdr.detectChanges();
+    this.verifyRecaptcha(captchaResponse);
+  }
+
+  handleLoad(): void {
+    this.captchaIsLoaded = true;
+    this.captchaIsExpired = false;
+    // this.cdr.detectChanges();
+  }
+
+  handleExpire(): void {
+    this.captchaSuccess = false;
+    this.captchaIsExpired = true;
+    // this.cdr.detectChanges();
+  }
+
+  verifyRecaptcha(response: string) {
+    let obj = {
+      secret: environment.reCaptchaSecretKey,
+      response: response,
+    };
+    this.productGenerationService.verify_recaptcha(obj).subscribe(
+      (res) => {
+        // console.log("res", res);
+      },
+      (err) => {
+        console.error("err", err);
+      }
+    );
+  }
 
 }

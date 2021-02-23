@@ -1,5 +1,9 @@
+from django.http.response import JsonResponse
 from django.shortcuts import render
 from django.db.models import Q
+
+import json
+import requests
 
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
@@ -83,7 +87,22 @@ class ProductRegistrationViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
                                                     serialNo__icontains=serialNo)
 
         serializer = ProductRegistrationSerializer(result, many=True)
-        return Response(serializer.data)   
+        return Response(serializer.data) 
+
+
+    @action(methods=['POST'], detail=False)
+    def verify_recaptcha(self, request):
+
+        print('verify_recaptcha')
+        data = json.loads(request.body)
+        response = data['response']
+        secret = data['secret']
+
+        captcha_verify_url = "https://www.google.com/recaptcha/api/siteverify"
+
+        response = requests.post(captcha_verify_url, data=[('secret', secret), ('response', response)])
+
+        return JsonResponse(response.json())  
 
     # @api_view(['GET', 'POST', 'DELETE'])
     # def table_list(request):

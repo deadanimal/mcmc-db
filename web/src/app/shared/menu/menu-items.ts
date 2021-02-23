@@ -82,7 +82,7 @@ export const ROUTES: RouteInfo[] = [
   },
   {
     path: '/global/public',
-    title: 'Back to Portal',
+    title: 'Back to Public Portal',
     type: 'link',
     icontype: 'fas fa-sign-out-alt text-blue'
   },

@@ -80,4 +80,14 @@ export class ProductGenerationService {
         })
       );
     }
+
+    verify_recaptcha(body): Observable<ProductRegistration> {
+      let urlRecaptcha = this.url + "verify_recaptcha/";
+      return this.http.post<ProductRegistration>(urlRecaptcha, body).pipe(
+        tap((res) => {
+          console.log("captcha response: ", res);
+        })
+      );
+    }
+
   }

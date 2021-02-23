@@ -88,7 +88,7 @@
           <div class="row">
             <div class="col">
               <h5 class="card-title text-uppercase text-muted mb-0">
-                IMEI Info
+                IMEI Number
               </h5>
 
               <span class="h2 font-weight-bold mb-0"> 174 </span>
@@ -355,7 +355,7 @@
 <div class="container-fluid mt-4">
   <div class="row">
     <div class="col">
-      <div id="print-section" class="card" *ngIf="state">
+      <div class="card" *ngIf="state">
         <div  class="card-header bg-secondary">
           <h3 class="m-0">Master Table</h3>
         </div>
@@ -382,7 +382,6 @@
             </div>
             <div class="col-sm-12 col-md-6">
               <div id="datatable_filter" class="dataTables_filter">
-                <label>
                   <button
                     class="btn btn-sm btn-secondary"
                     printTitle="Master Table"
@@ -392,6 +391,7 @@
                   >
                     Print
                   </button>
+
                   <button
                     class="btn btn-sm btn-secondary"
                     style="width: 200px"
@@ -399,7 +399,6 @@
                   >
                     Export
                   </button>
-                </label>
               </div>
             </div>
           </div>
@@ -509,10 +508,10 @@
       </div>
     </div>
   </div>
-</div>
+</div> 
 
 <div class="table" id="excel-table" [hidden]="isSummaryTableHidden">
-	<table class="table table-responsive table-flush">
+	<table id="print-section" class="table table-responsive table-flush">
 		<thead>
 			<tr>
 				<th>SLP ID</th>

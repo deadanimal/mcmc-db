@@ -1,9 +1,10 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { LoadingBarService } from '@ngx-loading-bar/core';
 import { MasterDataService } from 'src/app/shared/services/masterData/masterData.service';
+import { environment } from "src/environments/environment";
 import { NotifyService } from 'src/app/shared/handler/notify/notify.service';
 import Swal from 'sweetalert2';
 
@@ -22,6 +23,7 @@ export enum SelectionType {
 })
 export class ProductInfoComponent implements OnInit {
 
+  @ViewChild('captchaElem') captchaElem;
   @ViewChild('showResult') modalRef: any;
   infoTable = []
   searchPRODUCTForm: FormGroup
@@ -30,7 +32,18 @@ export class ProductInfoComponent implements OnInit {
   model = null 
   focusUsername
   focustype
-  type:any
+  searchType:any
+
+  siteKey: string = environment.reCaptchaSiteKey;
+  size: string = "normal";
+  lang: string = "en";
+  theme: string = "light";
+  type: string = "image";
+
+  public captchaIsLoaded = false;
+  public captchaSuccess = false;
+  public captchaIsExpired = false;
+  public captchaResponse?: string;
 
   loginFormMessages = {
     'PRODUCT': [
@@ -70,10 +83,13 @@ export class ProductInfoComponent implements OnInit {
         Validators.required,
       ])),
       MODEL: new FormControl(''),
+      captcha: new FormControl(),
       TYPE: new FormControl('', Validators.compose([
         Validators.required,
-      ]))
-    })  
+      ])),
+      recaptcha: ["", Validators.required],
+    }) 
+    
   }
 
   navigatePage(path: String) {
@@ -97,6 +113,7 @@ export class ProductInfoComponent implements OnInit {
         if (this.infoTable.length == 0){
           this.errorMessage();
           this.searchPRODUCTForm.reset()
+          this.captchaElem.reloadCaptcha()
         }
         else{
           this.openModal(this.modalRef)
@@ -107,6 +124,8 @@ export class ProductInfoComponent implements OnInit {
         this.loadingBar.complete();
         this.errorMessage();
         this.searchPRODUCTForm.reset()
+        this.captchaElem.reloadCaptcha()
+
       },
       () => console.log("HTTP request completed.")
     );
@@ -120,6 +139,7 @@ export class ProductInfoComponent implements OnInit {
           if (this.infoTable.length == 0){
             this.errorMessage();
             this.searchPRODUCTForm.reset()
+            this.captchaElem.reloadCaptcha()
           }
           else{
             this.openModal(this.modalRef)
@@ -130,6 +150,7 @@ export class ProductInfoComponent implements OnInit {
           this.loadingBar.complete();
           this.errorMessage();
           this.searchPRODUCTForm.reset()
+          this.captchaElem.reloadCaptcha()
         },
         () => console.log("HTTP request completed.")
       );
@@ -151,6 +172,7 @@ export class ProductInfoComponent implements OnInit {
         if (this.infoTable.length == 0){
           this.errorMessage();
           this.searchPRODUCTForm.reset()
+          this.captchaElem.reloadCaptcha()
         }
         else{
           this.openModal(this.modalRef)
@@ -161,6 +183,7 @@ export class ProductInfoComponent implements OnInit {
         this.loadingBar.complete();
         this.errorMessage();
         this.searchPRODUCTForm.reset()
+        this.captchaElem.reloadCaptcha()
       },
       () => console.log("HTTP request completed.")
     );
@@ -173,6 +196,7 @@ export class ProductInfoComponent implements OnInit {
           this.loadingBar.complete();
           if (this.infoTable.length == 0){
             this.errorMessage();
+            this.captchaElem.reloadCaptcha()
           }
           else {
             this.openModal(this.modalRef)
@@ -183,6 +207,7 @@ export class ProductInfoComponent implements OnInit {
           console.log("HTTP Error", err);
           this.loadingBar.complete();
           this.errorMessage();
+          this.captchaElem.reloadCaptcha()
         },
         () => console.log("HTTP request completed.")
       );
@@ -231,6 +256,8 @@ export class ProductInfoComponent implements OnInit {
   closeModal() {
     this.modal.hide()
     this.searchPRODUCTForm.reset()
+    this.captchaElem.reloadCaptcha()
+ 
 
   }
 
@@ -251,10 +278,53 @@ export class ProductInfoComponent implements OnInit {
   errorMessage() {
     Swal.fire({
       title: "Oops...",
-      text: "Something went wrong!",
+      text: "Please enter valid brand/model!",
       type: "error",
       timer: 3000,
     })  
+  }
+
+  // ReCaptcha
+  handleReset(): void {
+    this.captchaSuccess = false;
+    this.captchaResponse = undefined;
+    this.captchaIsExpired = false;
+    // this.cdr.detectChanges();
+  }
+
+  handleSuccess(captchaResponse: string): void {
+    this.captchaSuccess = true;
+    this.captchaResponse = captchaResponse;
+    this.captchaIsExpired = false;
+    // this.cdr.detectChanges();
+    this.verifyRecaptcha(captchaResponse);
+  }
+
+  handleLoad(): void {
+    this.captchaIsLoaded = true;
+    this.captchaIsExpired = false;
+    // this.cdr.detectChanges();
+  }
+
+  handleExpire(): void {
+    this.captchaSuccess = false;
+    this.captchaIsExpired = true;
+    // this.cdr.detectChanges();
+  }
+
+  verifyRecaptcha(response: string) {
+    let obj = {
+      secret: environment.reCaptchaSecretKey,
+      response: response,
+    };
+    this.masterDataService.verify_recaptcha(obj).subscribe(
+      (res) => {
+        // console.log("res", res);
+      },
+      (err) => {
+        console.error("err", err);
+      }
+    );
   }
 
 }
