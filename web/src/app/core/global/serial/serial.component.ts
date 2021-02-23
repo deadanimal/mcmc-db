@@ -22,6 +22,7 @@ export class SerialComponent implements OnInit {
   test: Date = new Date();
   serial
   focusSerial
+  
 
   siteKey: string = environment.reCaptchaSiteKey;
   size: string = "normal";
