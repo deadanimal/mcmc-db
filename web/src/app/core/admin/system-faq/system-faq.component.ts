@@ -1,7 +1,7 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { AccordionConfig } from 'ngx-bootstrap/accordion';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
-import Quill from "quill";
+import { QuillModule } from 'ngx-quill';
 import swal from 'sweetalert2';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { FAQTitleService } from 'src/app/shared/services/FAQTitle/FAQTitle.service';
@@ -26,11 +26,34 @@ export class SystemFaqComponent implements OnInit {
   registerForm: FormGroup
   title
 
+
   modal: BsModalRef;
   modalConfig = {
     keyboard: true,
     class: "modal-dialog-centered"
   };
+
+  modules: {
+    toolbar: [
+      ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+      ['blockquote'],
+
+      [{'header': 1}, {'header': 2}],               // custom button values
+      [{'list': 'ordered'}, {'list': 'bullet'}],
+      [{'script': 'sub'}, {'script': 'super'}],      // superscript/subscript
+      [{'indent': '-1'}, {'indent': '+1'}],          // outdent/indent
+      [{'direction': 'rtl'}],                         // text direction
+
+      [{'size': ['small', false, 'large', 'huge']}],  // custom dropdown
+      [{'header': [1, 2, 3, 4, 5, 6, false]}],
+      [{'font': []}],
+      [{'align': []}],
+
+      ['clean'],                                       // remove formatting button
+
+    ]
+  };
+
 
   constructor(
     private modalService: BsModalService,
@@ -42,25 +65,6 @@ export class SystemFaqComponent implements OnInit {
    }
 
   ngOnInit() {
-    var quill = new Quill("#quill", {
-      modules: {
-        toolbar: [
-          ["bold", "italic"],
-          ["link", "blockquote", "code", "image"],
-          [
-            {
-              list: "ordered"
-            },
-            {
-              list: "bullet"
-            }
-          ]
-        ]
-      },
-      placeholder: "Quill WYSIWYG",
-      theme: "snow"
-    });
-
     this.registerForm = this.formBuilder.group({
       categoryId: new FormControl(""),
       category: new FormControl(""),
@@ -185,7 +189,7 @@ export class SystemFaqComponent implements OnInit {
     }).then((result) => {
       if (result.value) {
         this.modal.hide()
-        this.productGeneration()
+        this.productGeneration2()
         this.titleFAQForm.reset()
       }
     })
@@ -202,7 +206,7 @@ export class SystemFaqComponent implements OnInit {
     }).then((result) => {
       if (result.value) {
         this.modal.hide()
-        this.productGeneration()
+        this.productGeneration2()
         this.titleFAQForm.reset()
       }
     })
@@ -219,34 +223,10 @@ export class SystemFaqComponent implements OnInit {
     }).then((result) => {
       if (result.value) {
         this.modal.hide()
-        this.productGeneration()
+        this.productGeneration2()
         this.titleFAQForm.reset()
       }
     })
-  }
-
-  productGeneration() {
-    console.log("HTTP",this.titleFAQForm.value.title)
-    // let datafield = "title="+this.titleFAQForm.value.title
-    // this.FAQTitleService.post(datafield).subscribe(
-    //   (res) => {
-    //     this.infoTable = [res]
-    //     this.infoTable = this.infoTable.map((prop, key) => {
-    //       return {
-    //         ...prop,
-    //         id: key
-    //       };
-    //     });
-
-    //   },
-    //   (err) => {
-
-    //   },
-    //   () => {
-    //     console.log("HTTP request completed.")
-
-    //   }
-    // );
   }
 
   productGeneration2() {

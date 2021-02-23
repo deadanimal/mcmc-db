@@ -20,6 +20,7 @@ class emailNotiSerializer(serializers.ModelSerializer):
         fields = (
             'Id', 
             'email',
+            'created_date',
 
 
             

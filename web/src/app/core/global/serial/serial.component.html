@@ -89,6 +89,26 @@
                       />
                     </div>
                   </div>
+                  <div class="form-group">
+              <div class="d-flex justify-content-center">
+                <ngx-recaptcha2
+                  #captchaElem
+                  [siteKey]="siteKey"
+                  (reset)="handleReset()"
+                  (expire)="handleExpire()"
+                  (load)="handleLoad()"
+                  (success)="handleSuccess($event)"
+                  [useGlobalDomain]="false"
+                  [size]="size"
+                  [hl]="lang"
+                  [theme]="theme"
+                  [type]="type"
+                  formControlName="recaptcha"
+                  class="text-center"
+                >
+                </ngx-recaptcha2>
+              </div>
+            </div>
                 <div class="text-center">
                 <button class=" ml-2 btn btn-lg btn-neutral" (click)="productGeneration()" [disabled]="!searchSERIALForm.valid" style="width:100px">
                   Search

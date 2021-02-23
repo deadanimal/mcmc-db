@@ -28,6 +28,7 @@ import { DataSearchComponent } from './data-search/data-search.component';
 import { SystemFaqComponent } from './system-faq/system-faq.component';
 import { CalendarModule } from 'src/app/examples/calendar/calendar.module';
 import { NgxPrintModule } from 'ngx-print';
+import { QuillModule } from 'ngx-quill';
 
 @NgModule({
   declarations: [
@@ -59,6 +60,7 @@ import { NgxPrintModule } from 'ngx-print';
     RouterModule.forChild(AdminRoutes),
     CalendarModule,
     NgxPrintModule,
+    QuillModule,
   ]
 })
 export class AdminModule { }

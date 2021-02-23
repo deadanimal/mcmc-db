@@ -9,7 +9,8 @@ import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { TagInputModule } from 'ngx-chips';
 import { ToastrModule } from 'ngx-toastr';
-import { NgxPrintModule } from 'ngx-print'
+import { NgxPrintModule } from 'ngx-print';
+import { QuillModule } from 'ngx-quill';
 
 import { AppComponent } from './app.component';
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
@@ -20,6 +21,7 @@ import { RouterModule } from '@angular/router';
 import { AppRoutingModule } from './app-routing.module';
 import { ComponentsModule } from './components/components.module';
 import { PublicLayoutComponent } from './layouts/public-layout/public-layout.component';
+import { NgxCaptchaModule } from 'ngx-captcha';
 
 @NgModule({
   imports: [
@@ -41,6 +43,8 @@ import { PublicLayoutComponent } from './layouts/public-layout/public-layout.com
     LeafletModule,
     PresentationModule,
     NgxPrintModule,
+    QuillModule.forRoot(),
+    NgxCaptchaModule,
   ],
   declarations: [
     AppComponent, 

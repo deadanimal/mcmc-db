@@ -15,8 +15,9 @@ am4core.useTheme(am4themes_animated);
 export class SystemNotiComponent implements OnInit {
 
   editEnabled: boolean = false
-  editForm: FormGroup
+  emailForm: FormGroup
   searchNOTIForm: FormGroup
+  editForm = {email:"", Id:''}
   infoTable = []
 
   private chart: any
@@ -33,7 +34,13 @@ export class SystemNotiComponent implements OnInit {
 
   ngOnInit() {
     this.getCharts() 
+
+    // this.editForm = this.formBuilder.group({
+    //   Id: new FormControl(""),
+    //   email: new FormControl(""),
+    // });
   }
+
 
   ngOnDestroy() {
     this.zone.runOutsideAngular(() => {
@@ -192,18 +199,12 @@ export class SystemNotiComponent implements OnInit {
     this.chart2 = chart
   }
 
-  toggleEdit() {
-    this.editEnabled = !this.editEnabled
-  }
-
   productGeneration() {
     
     this.EmailNotiService.get().subscribe(
       (res) => {
         this.infoTable=res
         console.log("wewe",this.infoTable)
-        // this.successMessage();
-        // this.navigatePage("dashboard-admin");
       },
       (err) => {
         // this.loadingBar.complete();
@@ -211,6 +212,23 @@ export class SystemNotiComponent implements OnInit {
         // console.log("HTTP Error", err), this.errorMessage();
       },
       () => console.log("HTTP request completed.")
+    );
+  }
+
+  dropdownFAQ(event){
+    console.log('event = ',event)
+    this.EmailNotiService.getOne(event).subscribe(
+      (res) => {
+        this.editForm.email = res.email
+        this.editForm.Id = res.Id
+        // this.editFAQ.categoryId = res.categoryId
+        // this.editForm.patchValue(res)
+        console.log(res)
+
+      },
+      () => {
+        console.log("HTTP request completed.")
+      }
     );
   }
 

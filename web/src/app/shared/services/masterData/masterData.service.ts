@@ -80,4 +80,13 @@ extended(): Observable<masterTable[]> {
   );
 }
 
+verify_recaptcha(body): Observable<masterTable> {
+  let urlRecaptcha = this.url + "verify_recaptcha/";
+  return this.http.post<masterTable>(urlRecaptcha, body).pipe(
+    tap((res) => {
+      console.log("captcha response: ", res);
+    })
+  );
+}
+
 }
