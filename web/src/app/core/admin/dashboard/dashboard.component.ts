@@ -738,57 +738,46 @@ export class DashboardComponent implements OnInit, OnDestroy {
     chart.data = [{
       "year": "Jan",
       "visitor": 1,
-      "unique": 5,
       "search": 3
     }, {
       "year": "Feb",
       "visitor": 1,
-      "unique": 2,
       "search": 6
     }, {
       "year": "Mar",
       "visitor": 2,
-      "unique": 3,
       "search": 1
     }, {
       "year": "Apr",
       "visitor": 3,
-      "unique": 4,
       "search": 1
     }, {
       "year": "May",
       "visitor": 5,
-      "unique": 1,
       "search": 2
     }, {
       "year": "Jun",
       "visitor": 3,
-      "unique": 2,
       "search": 1
     }, {
       "year": "Jul",
       "visitor": 1,
-      "unique": 2,
       "search": 3
     }, {
       "year": "Aug",
       "visitor": 2,
-      "unique": 1,
       "search": 5
     }, {
       "year": "Sept",
       "visitor": 3,
-      "unique": 5,
       "search": 2
     }, {
       "year": "Oct",
       "visitor": 4,
-      "unique": 3,
       "search": 6
     }, {
       "year": "Nov",
       "visitor": 1,
-      "unique": 2,
       "search": 4
     }];
 
