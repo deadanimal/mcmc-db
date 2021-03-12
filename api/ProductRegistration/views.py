@@ -35,6 +35,7 @@ class ProductRegistrationViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         'modelId',
         'productCategory',
         'serialNo',
+        'approveDate',
         
     ]
 
@@ -77,6 +78,7 @@ class ProductRegistrationViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         imeiNo = request.GET.get('imeiNo','')
         modelId = request.GET.get('modelId','')
         serialNo = request.GET.get('serialNo','')
+        approveDate = request.GET.get('approveDate','')
 
         result = ProductRegistration.objects.filter(consigneeName__icontains=consigneeName,
                                                     modelDescription__icontains=modelDescription,
@@ -84,7 +86,8 @@ class ProductRegistrationViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
                                                     SLPID__icontains=SLPID,
                                                     imeiNo__icontains=imeiNo,
                                                     modelId__icontains=modelId,
-                                                    serialNo__icontains=serialNo)
+                                                    serialNo__icontains=serialNo,
+                                                    approveDate__icontains=approveDate)
 
         serializer = ProductRegistrationSerializer(result, many=True)
         return Response(serializer.data) 

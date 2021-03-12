@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  baseUrl: 'https://mcmc-database-api.pipe.my/',
-  // baseUrl: 'http://127.0.0.1:8000/',
+  // baseUrl: 'https://mcmc-database-api.pipe.my/',
+  baseUrl: 'http://127.0.0.1:8000/',
   mapbox: {
     accessToken: 'pk.eyJ1IjoiYWZlZXpheml6IiwiYSI6ImNqNjJ6anlhYzA0bTczM3FvYnppbDh4eTEifQ.AdDRr42bNfNJvQENLrE6eg' // Your access token goes here
   },

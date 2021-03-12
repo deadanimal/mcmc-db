@@ -102,7 +102,7 @@ from FAQTitle.views import (
     FAQTitleViewSet
 )
 
-FAQCategory_router = router.register(
+FAQTitle_router = router.register(
     'FAQTitle', FAQTitleViewSet
 )
 
@@ -110,8 +110,16 @@ from emailNoti.views import (
     emailNotiViewSet
 )
 
-FAQCategory_router = router.register(
+emailNoti_router = router.register(
     'emailNoti', emailNotiViewSet
+)
+
+from emailTemplate.views import (
+    emailTemplateViewSet
+)
+
+emailTemplate_router = router.register(
+    'emailTemplate', emailTemplateViewSet
 )
 
 # from AuditViewListingVariable.views import (

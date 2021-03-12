@@ -22,6 +22,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { ComponentsModule } from './components/components.module';
 import { PublicLayoutComponent } from './layouts/public-layout/public-layout.component';
 import { NgxCaptchaModule } from 'ngx-captcha';
+import { NgCircleProgressModule } from 'ng-circle-progress';
 
 @NgModule({
   imports: [
@@ -45,6 +46,7 @@ import { NgxCaptchaModule } from 'ngx-captcha';
     NgxPrintModule,
     QuillModule.forRoot(),
     NgxCaptchaModule,
+    NgCircleProgressModule.forRoot(),
   ],
   declarations: [
     AppComponent, 

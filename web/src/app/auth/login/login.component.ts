@@ -13,7 +13,7 @@ import { NotifyService } from 'src/app/shared/handler/notify/notify.service';
 export class LoginComponent implements OnInit {
 
   // Image
-  imgLogo = 'assets/img/logo/SKMM-MCMC-2014.png'
+  imgLogo = 'assets/img/logo/MCMC New Logo_Colour.png'
 
   // Form
   focusUsername

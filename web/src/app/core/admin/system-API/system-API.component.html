@@ -22,16 +22,28 @@
       <div class="card card-stats">
         <div class="card-body">
           <div class="row">
-            <div class="col">
+            <div class="ml-2">
               <h5 class="card-title text-uppercase text-muted mb-0">
                 Total System Usage
               </h5>
             </div>
-            <div class="chart">
-              <div class="amchart align-items-center" id="pie"></div>
+            <div class="chart mx-auto">
+                <circle-progress
+                  [percent]="55"
+                  [radius]="85"
+                  [space]="-20"
+                  [outerStrokeGradient]="false"
+                  [outerStrokeWidth]="20"
+                  [innerStrokeWidth]="20"
+                  [outerStrokeColor]="'#83b5d9'"
+                  [innerStrokeColor]="'#e7e8ea'"
+                  [animation]="true"
+                  [animationDuration]="300"
+                  [animateTitle]="true"
+                  [subtitle]="'System Usage'"
+                ></circle-progress>
             </div>
           </div>
-
           <p class="mt-3 mb-0 text-sm">
             <!--<span class="text-success mr-2">
               <i class="fa fa-arrow-up"> </i> 3.48%
@@ -50,11 +62,23 @@
                 Portal Performance
               </h5>
             </div>
-            <div class="chart">
-              <div class="amchart" id="pieChart"></div>
+            <div class="chart mx-auto">
+                <circle-progress
+                  [percent]="90"
+                  [radius]="85"
+                  [space]="-20"
+                  [outerStrokeGradient]="false"
+                  [outerStrokeWidth]="20"
+                  [innerStrokeWidth]="20"
+                  [outerStrokeColor]="'#83b5d9'"
+                  [innerStrokeColor]="'#e7e8ea'"
+                  [animation]="true"
+                  [animationDuration]="300"
+                  [animateTitle]="true"
+                  [subtitle]="'Performance'"
+                ></circle-progress>
             </div>
           </div>
-
           <p class="mt-3 mb-0 text-sm">
             <!--<span class="text-success mr-2">
               <i class="fa fa-arrow-up"> </i> 3.48%

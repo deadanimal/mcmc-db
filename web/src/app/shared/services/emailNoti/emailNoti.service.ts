@@ -45,8 +45,9 @@ export class EmailNotiService {
   }
   
   update(body, id: string): Observable<emailNoti> {
-    let urlPatch = this.url + id + "/";
-    return this.http.patch<emailNoti>(urlPatch, body).pipe(
+    let urlUpdate = this.url + id + "/";
+    console.log("urlUpdate: ", urlUpdate);
+    return this.http.patch<emailNoti>(urlUpdate, body).pipe(
       tap((res) => {
         console.log("EmployeeDirectory: ", res);
       })
@@ -80,7 +81,14 @@ export class EmailNotiService {
     );
   }
 
-  
-  
+  sending_mail(body): Observable<any> {
+    return this.http.post<any>(this.url + 'sending_email/', body).pipe(
+      tap((res) => {
+        console.log("EmailTemplate: ", res);
+      })
+    );
+  }
+
+
   }
   
