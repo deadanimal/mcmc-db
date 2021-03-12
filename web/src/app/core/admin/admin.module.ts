@@ -29,6 +29,7 @@ import { SystemFaqComponent } from './system-faq/system-faq.component';
 import { CalendarModule } from 'src/app/examples/calendar/calendar.module';
 import { NgxPrintModule } from 'ngx-print';
 import { QuillModule } from 'ngx-quill';
+import { NgCircleProgressModule } from 'ng-circle-progress';
 
 @NgModule({
   declarations: [
@@ -61,6 +62,7 @@ import { QuillModule } from 'ngx-quill';
     CalendarModule,
     NgxPrintModule,
     QuillModule,
+    NgCircleProgressModule,
   ]
 })
 export class AdminModule { }

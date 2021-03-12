@@ -217,19 +217,17 @@ export class ProductInfoComponent implements OnInit {
 
   changeDropdown(event){
     if (event=="any"){
-     
       console.log(event,'any loop')
     }
     else {
-     
       console.log('exact loop')
     }
   }
 
   buttonSubmit(){
-    console.log(this.type)
+    console.log(this.searchType)
     console.log('button pressed')
-    if (this.type=="any"){
+    if (this.searchType=="any"){
       this.anySearch();
       console.log('any loop')
     }
