@@ -31,8 +31,8 @@ class emailNotiViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     filterset_fields = [
         'Id',
         'email',
-        # 'Description',
-        # 'ProductRegNo',
+        'created_date',
+        'modified_date',
         # 'createdBy',
         # 'created_date',
     ]
@@ -87,6 +87,6 @@ class emailNotiViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     #     else:
     #         return Response(status=status.HTTP_404_NOT_FOUND)
 
-    send_mail('Email Notification', 'Berikut merupakan cubaan menghantar email menggunakan sendgrid', 'admin@mcmc.com', ['raziman@pipeline.com.my'], fail_silently=False)
+    # send_mail('Email Notification', 'Berikut merupakan cubaan menghantar email menggunakan sendgrid', 'admin@mcmc.com', ['raziman@pipeline.com.my'], fail_silently=False)
 
 

@@ -17,13 +17,13 @@ class FAQCategory(models.Model):
     active  = models.BooleanField()
     category  = models.CharField(max_length=255, blank=True)
     createdBy = models.CharField(max_length=255, blank=True)
-    created_date = models.DateTimeField(auto_now=True)
+    created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
     content = models.CharField(max_length=10000, blank=True)
  
 
     class Meta:
-        ordering = ['modified_date']
+        ordering = ['created_date']
 
     def __str__(self):
         return self.categoryId

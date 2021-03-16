@@ -1,9 +1,10 @@
+<ngx-loading-bar></ngx-loading-bar>
 <div class="header bg-info pb-6">
   <div class="container-fluid">
     <div class="header-body">
       <div class="row align-items-center py-4">
         <div class="col-lg-8 col-7">
-          <h6 class="h2 text-white d-inline-block mb-0">Welcome, Ali Imran</h6>
+          <h6 class="h2 text-white d-inline-block mb-0">Welcome,</h6>
           <br />
           <h6 class="h3 text-white d-inline-block mb-0">
             "Registration of Certified Communications Equipment (RECCE)"
@@ -11,6 +12,9 @@
           <br /><br />
           <h6 class="h2 text-white d-inline-block mb-0">API Configuration</h6>
         </div>
+        <div class="col-lg-12 col-5 text-right">
+              <a class="btn btn-sm btn-info" (click)="getData()"> API Call </a>
+            </div>
       </div>
     </div>
   </div>
@@ -28,20 +32,20 @@
               </h5>
             </div>
             <div class="chart mx-auto">
-                <circle-progress
-                  [percent]="55"
-                  [radius]="85"
-                  [space]="-20"
-                  [outerStrokeGradient]="false"
-                  [outerStrokeWidth]="20"
-                  [innerStrokeWidth]="20"
-                  [outerStrokeColor]="'#83b5d9'"
-                  [innerStrokeColor]="'#e7e8ea'"
-                  [animation]="true"
-                  [animationDuration]="300"
-                  [animateTitle]="true"
-                  [subtitle]="'System Usage'"
-                ></circle-progress>
+              <circle-progress
+                [percent]="55"
+                [radius]="85"
+                [space]="-20"
+                [outerStrokeGradient]="false"
+                [outerStrokeWidth]="20"
+                [innerStrokeWidth]="20"
+                [outerStrokeColor]="'#83b5d9'"
+                [innerStrokeColor]="'#e7e8ea'"
+                [animation]="true"
+                [animationDuration]="300"
+                [animateTitle]="true"
+                [subtitle]="'System Usage'"
+              ></circle-progress>
             </div>
           </div>
           <p class="mt-3 mb-0 text-sm">
@@ -63,20 +67,20 @@
               </h5>
             </div>
             <div class="chart mx-auto">
-                <circle-progress
-                  [percent]="90"
-                  [radius]="85"
-                  [space]="-20"
-                  [outerStrokeGradient]="false"
-                  [outerStrokeWidth]="20"
-                  [innerStrokeWidth]="20"
-                  [outerStrokeColor]="'#83b5d9'"
-                  [innerStrokeColor]="'#e7e8ea'"
-                  [animation]="true"
-                  [animationDuration]="300"
-                  [animateTitle]="true"
-                  [subtitle]="'Performance'"
-                ></circle-progress>
+              <circle-progress
+                [percent]="90"
+                [radius]="85"
+                [space]="-20"
+                [outerStrokeGradient]="false"
+                [outerStrokeWidth]="20"
+                [innerStrokeWidth]="20"
+                [outerStrokeColor]="'#83b5d9'"
+                [innerStrokeColor]="'#e7e8ea'"
+                [animation]="true"
+                [animationDuration]="300"
+                [animateTitle]="true"
+                [subtitle]="'Performance'"
+              ></circle-progress>
             </div>
           </div>
           <p class="mt-3 mb-0 text-sm">
@@ -113,82 +117,162 @@
   </div>
 
   <div class="card">
-    <div class="card-body">
-      <div class="row">
-        <div class="col-md-6">
-          <div class="form-group">
-            <label class="form-control-label" for="example2cols1Input">
-              Service Name
-            </label>
+    <tabset>
+      <tab><ng-template tabHeading>
+        <div class="h4">Certified Agency (SIRIM)</div>
+      </ng-template>
 
-            <input
-              class="form-control"
-              id="example2cols1Input"
-              placeholder="GetNewCertifiedProduct"
-              type="text"
-              [disabled]="true"
-            />
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="form-control-label" for="example2cols1Input">
+                  Service Name
+                </label>
 
-            <label class="form-control-label mt-2" for="example2cols1Input">
-              IP Address
-            </label>
+                <input
+                  class="form-control"
+                  placeholder="GetNewCertifiedProduct"
+                  type="text"
+                  [disabled]="true"
+                />
 
-            <input
-              class="form-control"
-              id="example2cols1Input"
-              placeholder="192.168.1.2"
-              type="text"
-              [disabled]="true"
-            />
+                <label class="form-control-label mt-2" for="example2cols1Input">
+                  IP Address
+                </label>
 
-            <label class="form-control-label mt-2" for="example2cols1Input">
-              Subnet Mask
-            </label>
+                <input
+                  class="form-control"
+                  placeholder="192.168.1.2"
+                  type="text"
+                  [disabled]="true"
+                />
 
-            <input
-              class="form-control"
-              id="example2cols1Input"
-              placeholder="255.255.255.0"
-              type="text"
-              [disabled]="true"
-            />
+                <label class="form-control-label mt-2" for="example2cols1Input">
+                  Subnet Mask
+                </label>
 
-            <label class="form-control-label mt-2" for="example2cols1Input">
-              Default Gateway
-            </label>
+                <input
+                  class="form-control"
+                  placeholder="255.255.255.0"
+                  type="text"
+                  [disabled]="true"
+                />
 
-            <input
-              class="form-control"
-              id="example2cols1Input"
-              placeholder="192.168.1.254"
-              type="text"
-              [disabled]="true"
-            />
+                <label class="form-control-label mt-2" for="example2cols1Input">
+                  Default Gateway
+                </label>
+
+                <input
+                  class="form-control"
+                  placeholder="192.168.1.254"
+                  type="text"
+                  [disabled]="true"
+                />
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="form-control-label" for="example2cols2Input">
+                  URL
+                </label>
+
+                <input
+                  class="form-control"
+                  id="example2cols2Input"
+                  placeholder="http://api.example.com/device-management/managed-devices"
+                  type="text"
+                  [disabled]="true"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-lg-12 col-5 text-right">
+              <a class="btn btn-primary" href="javascript:void(0)"> Save </a>
+            </div>
           </div>
         </div>
+      </tab>
+      <tab>
+      <ng-template tabHeading>
+        <div class="h4">Certified Agency</div>
+      </ng-template>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="form-control-label" for="example2cols1Input">
+                  Service Name
+                </label>
 
-        <div class="col-md-6">
-          <div class="form-group">
-            <label class="form-control-label" for="example2cols2Input">
-              URL
-            </label>
+                <input
+                  class="form-control"
+                  placeholder=""
+                  type="text"
+                  [disabled]="false"
+                />
 
-            <input
-              class="form-control"
-              id="example2cols2Input"
-              placeholder="http://api.example.com/device-management/managed-devices"
-              type="text"
-              [disabled]="true"
-            />
+                <label class="form-control-label mt-2" for="example2cols1Input">
+                  IP Address
+                </label>
+
+                <input
+                  class="form-control"
+                  placeholder=""
+                  type="text"
+                  [disabled]="false"
+                />
+
+                <label class="form-control-label mt-2" for="example2cols1Input">
+                  Subnet Mask
+                </label>
+
+                <input
+                  class="form-control"
+                  placeholder=""
+                  type="text"
+                  [disabled]="false"
+                />
+
+                <label class="form-control-label mt-2" for="example2cols1Input">
+                  Default Gateway
+                </label>
+
+                <input
+                  class="form-control"
+                  placeholder=""
+                  type="text"
+                  [disabled]="false"
+                />
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="form-control-label" for="example2cols2Input">
+                  URL
+                </label>
+
+                <input
+                  class="form-control"
+                  placeholder=""
+                  type="text"
+                  [disabled]="false"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-lg-12 col-5 text-right">
+              <a class="btn btn-primary" href="javascript:void(0)"> Save </a>
+            </div>
           </div>
         </div>
-      </div>
-
-      <div class="row">
-        <div class="col-lg-12 col-5 text-right">
-          <a class="btn btn-primary" href="javascript:void(0)"> Save </a>
-        </div>
-      </div>
-    </div>
+      </tab>
+    </tabset>
   </div>
 </div>

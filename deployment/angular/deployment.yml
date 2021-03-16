@@ -18,7 +18,7 @@ spec:
         app: mcmc-database-webapp
     spec:
       containers:
-      - image: syafiqpipe/mcmc-database-webapp:1.0.9
+      - image: syafiqpipe/mcmc-database-webapp:1.0.11
         imagePullPolicy: Always   
         name: mcmc-database-webapp
         resources: {}
