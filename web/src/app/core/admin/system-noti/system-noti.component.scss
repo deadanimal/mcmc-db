@@ -9,3 +9,8 @@ table tr {
 table tr td:first-child::before {
     content: counter(row-num) ". ";
 }
+
+.chart {
+    position: relative !important;
+    height: 200px !important;
+}

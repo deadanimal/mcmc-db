@@ -1,7 +1,11 @@
 import { Component, OnInit, OnDestroy, NgZone } from '@angular/core';
+import { LoadingBarService } from '@ngx-loading-bar/core';
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
+import swal from 'sweetalert2';
+import { MocksService } from 'src/app/shared/services/mocks/mocks.service';
+
 
 am4core.useTheme(am4themes_animated);
 
@@ -15,13 +19,17 @@ export class SystemAPIComponent implements OnInit, OnDestroy {
   private chart: any
   private chart1: any
   private chart2: any
+  tableTemp = [];
+  tableRows = [];
 
   constructor(
-    private zone: NgZone
+    private zone: NgZone,
+    private loadingBar: LoadingBarService,
+    private mockService: MocksService,
   ) { }
 
   ngOnInit() {
-    this.getCharts() 
+    this.getCharts()
   }
 
   ngOnDestroy() {
@@ -30,6 +38,39 @@ export class SystemAPIComponent implements OnInit, OnDestroy {
         this.chart2.dispose()
       }
     })
+  }
+
+  getData() {
+    this.loadingBar.start(); 
+    this.mockService.getAll('dummy-api/serial.json').subscribe(
+      (res) => {
+        // Success
+        this.tableRows = [...res]
+        console.log("wewe",this.tableRows.length);
+        this.tableTemp = this.tableRows.map((prop, key) => {
+          return {
+            ...prop,
+            id: key
+          };
+        });
+        // console.log
+        this.loadingBar.complete();
+      },
+      () => {
+        // Unsuccess
+      },
+      () => {
+          swal.fire({
+            title: "API Call",
+            text: "Data is successfully retrieved!",
+            type: "info",
+            timer: 3000,
+          })  
+
+          
+        
+      }
+    )
   }
 
   getCharts() {

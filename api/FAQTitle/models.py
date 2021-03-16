@@ -23,7 +23,7 @@ class FAQTitle(models.Model):
  
 
     class Meta:
-        ordering = ['modified_date']
+        ordering = ['created_date']
 
     def __str__(self):
         return self.categoryId

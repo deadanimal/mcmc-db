@@ -11,17 +11,17 @@ from simple_history.models import HistoricalRecords
 
 from core.helpers import PathAndRename
 
+
 class emailTemplate(models.Model):
 
     Id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     template_name = models.CharField(max_length=255, blank=True)
-    template_content = models.CharField(max_length=255, blank=True)
-    created_date = models.DateTimeField(auto_now=True)
+    template_content = models.CharField(max_length=100000, blank=True)
+    created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
  
-
     class Meta:
-        ordering = ['modified_date']
+        ordering = ['created_date']
 
     def __str__(self):
-        return self.Id
+        return self.template_content
