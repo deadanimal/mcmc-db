@@ -5,6 +5,8 @@ import * as am4charts from "@amcharts/amcharts4/charts";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 import swal from 'sweetalert2';
 import { MocksService } from 'src/app/shared/services/mocks/mocks.service';
+import { ProductGenerationService } from 'src/app/shared/services/ProductRegistration/ProductGeneration.service';
+import { emailTemplateService } from 'src/app/shared/services/emailTemplate/emailTemplate.service';
 
 
 am4core.useTheme(am4themes_animated);
@@ -26,6 +28,8 @@ export class SystemAPIComponent implements OnInit, OnDestroy {
     private zone: NgZone,
     private loadingBar: LoadingBarService,
     private mockService: MocksService,
+    private productGenerationService: ProductGenerationService,
+    private emailTemplateService: emailTemplateService,
   ) { }
 
   ngOnInit() {
@@ -64,13 +68,47 @@ export class SystemAPIComponent implements OnInit, OnDestroy {
             title: "API Call",
             text: "Data is successfully retrieved!",
             type: "info",
-            timer: 3000,
-          })  
+            confirmButtonClass: "btn btn-info",
+            confirmButtonText: "Add Data",
+            showCancelButton: true,
+            cancelButtonClass: "btn btn-danger",
+            cancelButtonText: "Cancel"
+            }).then((result) => {
+              if (result.value) {
+                this.NewData()
+                this.testSendEmail()
+              }
+              })  
+      })
+  }
 
-          
-        
-      }
-    )
+  NewData() {
+    console.log()
+    this.tableRows.forEach(
+      ((row) => {
+        this.productGenerationService.post(row).subscribe(
+          () => {
+            // Success
+            // this.isLoading = false
+            // this.successMessage();
+            // this.loadingBar.complete();
+            // this.successAlert("create project");
+            console.log("success")
+          },
+          () => {
+            // Failed
+            // this.isLoading = false
+            // this.successMessage();
+            // this.errorAlert("edit");
+          },
+          () => {
+            // After
+            // this.notifyService.openToastr("Success", "Welcome back");
+            // this.navigateHomePage();
+          }
+        );
+      })
+      )
   }
 
   getCharts() {
@@ -133,6 +171,19 @@ export class SystemAPIComponent implements OnInit, OnDestroy {
         return chartData;
     }
     this.chart2 = chart
+  }
+
+  testSendEmail(){
+    let obj
+    console.log("Send Email function")
+    this.emailTemplateService.sending_mail(obj).subscribe(
+      (res) => {
+        // console.log("res", res);
+      },
+      (err) => {
+        console.error("err", err);
+      }
+    );
   }
 
 }

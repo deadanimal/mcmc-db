@@ -1,5 +1,8 @@
 from django.shortcuts import render
 from django.db.models import Q
+from django.core.mail import send_mail
+from django.template import Context, Template
+from django.utils.html import strip_tags
 
 import json
 
@@ -61,3 +64,30 @@ class emailTemplateViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
                 queryset = User.objects.filter(company=company.id)
         """
         return queryset  
+
+    
+    @action(methods=['POST'], detail=False)
+    def sending_email(self, request, *args, **kwargs):
+
+        template_content = request.GET.get('template_content', '<p><strong>Dear sir/madam,</strong></p><p><br></p><p>Here to inform you that the system is unsuccessfully to update data as right now.</p><p><br></p><p>Any problems occurs, kindly contact admin.</p><p><br></p><p>Thanks and regards.</p>')
+        plain_message = strip_tags(template_content)
+        send_mail('Email Notification', plain_message, 'admin@mcmc.com', ['arifhazman@pipeline.com.my','raziman@pipeline.com.my'], fail_silently=False)
+
+    
+         # code = self.request.data['code']
+    #     to = self.request.data['to']
+    #     context = json.loads(self.request.data['context']) if self.request.data['context'] else None
+    #     email_template = emailNoti.objects.filter(code=code)
+    #     if email_template:
+    #         subject = email_template[0].subject
+    #         t = Template(email_template[0].body)
+    #         c = Context(context) if context else Context()
+    #         html_message = t.render(c)
+    #         plain_message = strip_tags(html_message)
+    #         to = to
+
+    #         res = send_mail(subject, plain_message, None, [to], html_message=html_message, fail_silently=False)
+    #         return Response(data=res, status=status.HTTP_200_OK)
+
+    #     else:
+    #         return Response(status=status.HTTP_404_NOT_FOUND)

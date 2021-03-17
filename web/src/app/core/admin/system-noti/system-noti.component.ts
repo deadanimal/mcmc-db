@@ -427,7 +427,7 @@ export class SystemNotiComponent implements OnInit {
   }
 
   testSendEmail(){
-    let obj=
+    let obj
     console.log("Send Email function")
     this.emailTemplateService.sending_mail(obj).subscribe(
       (res) => {
