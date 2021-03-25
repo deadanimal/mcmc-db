@@ -8,6 +8,7 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import swal from 'sweetalert2';
 import { ViewChild } from '@angular/core';
 import { environment } from "src/environments/environment";
+import { variableConfigureService } from 'src/app/shared/services/variableConfigure/variableConfigure.service';
 
 @Component({
   selector: 'app-emei',
@@ -19,6 +20,7 @@ export class EmeiComponent implements OnInit {
   @ViewChild('captchaElem') captchaElem;
   @ViewChild('showResult') modalRef: any;
   infoTable = []
+  variableTable = []
   searchIMEIForm: FormGroup
   test: Date = new Date();
   imei
@@ -55,9 +57,12 @@ export class EmeiComponent implements OnInit {
     private notifyService: NotifyService,
     private formBuilder: FormBuilder,
     private modalService: BsModalService,
+    private variableConfigureService: variableConfigureService,
   ) { }
 
   ngOnInit() {
+    this.disableSearch()
+    
     this.searchIMEIForm = this.formBuilder.group({
       IMEI: new FormControl('' ,Validators.compose([
         Validators.required,
@@ -163,5 +168,25 @@ export class EmeiComponent implements OnInit {
       }
     );
   }
+
+  disableSearch(){
+    let varID = '0ea9871b-ab66-4556-9ecb-ef68273cd460';
+    this.variableConfigureService.getOne(varID).subscribe(
+      (res) => {
+        this.variableTable = [res]
+        this.variableTable = this.variableTable[0]
+        console.log("wewe", this.variableTable);
+      },
+      (err) => {
+        // this.loadingBar.complete();
+        // this.errorMessage();
+        // console.log("HTTP Error", err), this.errorMessage();
+      },
+      () => console.log("HTTP request completed.")
+    );
+    console.log()
+
+  }
+  
 
 }

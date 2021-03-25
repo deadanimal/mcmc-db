@@ -5,8 +5,8 @@
         <div class="col-lg-8 col-7">
           <h6 class="h2 text-white d-inline-block mb-0">Welcome</h6>
           <br />
-          <h6 class="h3 text-white d-inline-block mb-0">
-            "Registration of Certified Communications Equipment (RECCE)"
+          <h6 class="h3 text-white text-uppercase d-inline-block mb-0">
+            "Register of Certified Communications Equipment (RECCE)"
           </h6>
           <br /><br />
           <h6 class="h2 text-white d-inline-block mb-0">User Configuration</h6>
@@ -47,113 +47,12 @@
                 <option>Arif</option>
               </select>
             </div>
+            <div class="col-3 col-md-3 text-left">
+              <button class="btn btn-info" (click)="openModal(createUser)">
+                Assign
+              </button>
+            </div>
           </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="col">
-      <div class="card">
-        <div class="card-header bg-secondary">
-          <h3 class="m-0">User Information</h3>
-        </div>
-        <div class="card-body">
-          <div class="row">
-        <div class="col-md-6">
-          <div class="form-group">
-            <label class="form-control-label" for="example2cols1Input">
-              User Name
-            </label>
-
-            <input
-              class="form-control"
-              id="example2cols1Input"
-              placeholder="ali.imran"
-              type="text"
-            />
-
-            <label class="form-control-label mt-2" for="example2cols1Input">
-              First Name
-            </label>
-
-            <input
-              class="form-control"
-              id="example2cols1Input"
-              placeholder="Ali"
-              type="text"
-            />
-
-            <label class="form-control-label mt-2" for="example2cols1Input">
-              Position
-            </label>
-
-            <input
-              class="form-control"
-              id="example2cols1Input"
-              placeholder="Operation"
-              type="text"
-            />
-
-            <label class="form-control-label mt-2" for="example2cols1Input">
-              Department
-            </label>
-
-            <input
-              class="form-control"
-              id="example2cols1Input"
-              placeholder="Operation"
-              type="text"
-            />
-          </div>
-        </div>
-
-        <div class="col-md-6">
-          <div class="form-group">
-            <label class="form-control-label" for="example2cols2Input">
-              Email Address
-            </label>
-
-            <input
-              class="form-control"
-              id="example2cols2Input"
-              placeholder="ali.imran@mail.com"
-              type="text"
-            />
-            <label class="form-control-label mt-2" for="example2cols2Input">
-              Last Name
-            </label>
-
-            <input
-              class="form-control"
-              id="example2cols2Input"
-              placeholder="Imran"
-              type="text"
-            />
-            <label class="form-control-label mt-2" for="example2cols2Input">
-              Contact No.
-            </label>
-
-            <input
-              class="form-control"
-              id="example2cols2Input"
-              placeholder="+6012345678"
-              type="text"
-            />
-            <label class="form-control-label mt-2" for="example2cols2Input">
-              Division
-            </label>
-
-            <input
-              class="form-control"
-              id="example2cols2Input"
-              placeholder="Division 1"
-              type="text"
-            />
-          </div>
-        </div>
-      </div>
         </div>
       </div>
     </div>
@@ -163,7 +62,113 @@
     <div class="col">
       <div class="card">
         <div class="card-header bg-secondary">
-          <h3 class="m-0">User List</h3>
+          <h3 class="m-0">User Information</h3>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="form-control-label" for="example2cols1Input">
+                  User Name
+                </label>
+
+                <input
+                  class="form-control"
+                  id="example2cols1Input"
+                  placeholder="ali.imran"
+                  type="text"
+                />
+
+                <label class="form-control-label mt-2" for="example2cols1Input">
+                  First Name
+                </label>
+
+                <input
+                  class="form-control"
+                  id="example2cols1Input"
+                  placeholder="Ali"
+                  type="text"
+                />
+
+                <label class="form-control-label mt-2" for="example2cols1Input">
+                  Position
+                </label>
+
+                <input
+                  class="form-control"
+                  id="example2cols1Input"
+                  placeholder="Operation"
+                  type="text"
+                />
+
+                <label class="form-control-label mt-2" for="example2cols1Input">
+                  Department
+                </label>
+
+                <input
+                  class="form-control"
+                  id="example2cols1Input"
+                  placeholder="Operation"
+                  type="text"
+                />
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="form-group">
+                <label class="form-control-label" for="example2cols2Input">
+                  Email Address
+                </label>
+
+                <input
+                  class="form-control"
+                  id="example2cols2Input"
+                  placeholder="ali.imran@mail.com"
+                  type="text"
+                />
+                <label class="form-control-label mt-2" for="example2cols2Input">
+                  Last Name
+                </label>
+
+                <input
+                  class="form-control"
+                  id="example2cols2Input"
+                  placeholder="Imran"
+                  type="text"
+                />
+                <label class="form-control-label mt-2" for="example2cols2Input">
+                  Contact No.
+                </label>
+
+                <input
+                  class="form-control"
+                  id="example2cols2Input"
+                  placeholder="+6012345678"
+                  type="text"
+                />
+                <label class="form-control-label mt-2" for="example2cols2Input">
+                  Division
+                </label>
+
+                <input
+                  class="form-control"
+                  id="example2cols2Input"
+                  placeholder="Division 1"
+                  type="text"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>-->
+
+  <div class="row">
+    <div class="col">
+      <div class="card">
+        <div class="card-header bg-secondary">
+          <h3 class="m-0">List of Registered User</h3>
         </div>
         <div class="dataTables_wrapper py-4">
           <div class="row">
@@ -255,13 +260,13 @@
         </div>
       </div>
     </div>
-  </div>-->
+  </div>
 </div>
 
 <ng-template #createUser>
   <div class="modal-header bg-default">
     <h6 class="modal-title text-white my-auto" id="modal-title-default">
-      Create New User
+      User Information
     </h6>
 
     <button
@@ -276,52 +281,100 @@
   </div>
 
   <div class="modal-body">
-    <form [formGroup]="registerForm">
-      <div class="form-group">
-        <label class="form-control-label">Name</label>
-        <input
-          class="form-control"
-          placeholder="Enter name"
-          formControlName="name"
-          type="text"
-        />
-        <ng-container *ngFor="let message of registerFormMessages.name">
-          <div
-            *ngIf="
-              registerForm.get('name').hasError(message.type) &&
-              (registerForm.get('name').dirty ||
-                registerForm.get('name').touched)
-            "
-          >
-            <p class="error-message">
-              <span>{{ message.message }}</span>
-            </p>
-          </div>
-        </ng-container>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label class="form-control-label" for="example2cols1Input">
+            User Name
+          </label>
+
+          <input
+            class="form-control"
+            id="example2cols1Input"
+            placeholder="ali.imran"
+            type="text"
+          />
+
+          <label class="form-control-label mt-2" for="example2cols1Input">
+            First Name
+          </label>
+
+          <input
+            class="form-control"
+            id="example2cols1Input"
+            placeholder="Ali"
+            type="text"
+          />
+
+          <label class="form-control-label mt-2" for="example2cols1Input">
+            Position
+          </label>
+
+          <input
+            class="form-control"
+            id="example2cols1Input"
+            placeholder="Operation"
+            type="text"
+          />
+
+          <label class="form-control-label mt-2" for="example2cols1Input">
+            Department
+          </label>
+
+          <input
+            class="form-control"
+            id="example2cols1Input"
+            placeholder="Operation"
+            type="text"
+          />
+        </div>
       </div>
-      <div class="form-group">
-        <label class="form-control-label">Email</label>
-        <input
-          class="form-control"
-          placeholder="Enter email"
-          formControlName="email"
-          type="text"
-        />
-        <ng-container *ngFor="let message of registerFormMessages.email">
-          <div
-            *ngIf="
-              registerForm.get('email').hasError(message.type) &&
-              (registerForm.get('email').dirty ||
-                registerForm.get('email').touched)
-            "
-          >
-            <p class="error-message">
-              <span>{{ message.message }}</span>
-            </p>
-          </div>
-        </ng-container>
+
+      <div class="col-md-6">
+        <div class="form-group">
+          <label class="form-control-label" for="example2cols2Input">
+            Email Address
+          </label>
+
+          <input
+            class="form-control"
+            id="example2cols2Input"
+            placeholder="ali.imran@mail.com"
+            type="text"
+          />
+          <label class="form-control-label mt-2" for="example2cols2Input">
+            Last Name
+          </label>
+
+          <input
+            class="form-control"
+            id="example2cols2Input"
+            placeholder="Imran"
+            type="text"
+          />
+          <label class="form-control-label mt-2" for="example2cols2Input">
+            Contact No.
+          </label>
+
+          <input
+            class="form-control"
+            id="example2cols2Input"
+            placeholder="+6012345678"
+            type="text"
+          />
+          <label class="form-control-label mt-2" for="example2cols2Input">
+            Division
+          </label>
+
+          <input
+            class="form-control"
+            id="example2cols2Input"
+            placeholder="Division 1"
+            type="text"
+          />
+        </div>
       </div>
-    </form>
+    </div>
   </div>
 
   <div class="modal-footer">
@@ -331,7 +384,7 @@
       (click)="confirm()"
       [disabled]="!registerForm.valid"
     >
-      Create
+      Confirm
     </button>
 
     <button

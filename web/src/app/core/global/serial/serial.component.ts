@@ -6,6 +6,9 @@ import { MasterDataService } from 'src/app/shared/services/masterData/masterData
 import { environment } from "src/environments/environment";
 import { LoadingBarService } from '@ngx-loading-bar/core';
 import swal from 'sweetalert2';
+import { variableConfigureService } from 'src/app/shared/services/variableConfigure/variableConfigure.service';
+variableConfigureService
+
 
 
 @Component({
@@ -18,6 +21,7 @@ export class SerialComponent implements OnInit {
   @ViewChild('captchaElem') captchaElem;
   @ViewChild('showResult') modalRef: any;
   infoTable = []
+  variableTable = []
   searchSERIALForm: FormGroup
   test: Date = new Date();
   serial
@@ -53,9 +57,12 @@ export class SerialComponent implements OnInit {
     private formBuilder: FormBuilder,
     private loadingBar: LoadingBarService,
     private modalService: BsModalService,
+    private variableConfigureService: variableConfigureService,
   ) { }
 
   ngOnInit() {
+    this.disableSearch()
+
     this.searchSERIALForm = this.formBuilder.group({
       SERIAL: new FormControl('' ,Validators.compose([
         Validators.required,
@@ -161,6 +168,25 @@ export class SerialComponent implements OnInit {
         console.error("err", err);
       }
     );
+  }
+
+  disableSearch(){
+    let varID = '5a122e01-c6f3-494d-b5a3-3967480096df';
+    this.variableConfigureService.getOne(varID).subscribe(
+      (res) => {
+        this.variableTable = [res]
+        this.variableTable = this.variableTable[0]
+        console.log("wewe", this.variableTable);
+      },
+      (err) => {
+        // this.loadingBar.complete();
+        // this.errorMessage();
+        // console.log("HTTP Error", err), this.errorMessage();
+      },
+      () => console.log("HTTP request completed.")
+    );
+    console.log()
+
   }
 
 }

@@ -1,9 +1,13 @@
-import { Component, OnInit, OnDestroy, NgZone } from '@angular/core';
+import { Component, OnInit, OnDestroy, NgZone, TemplateRef } from '@angular/core';
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 import swal from 'sweetalert2';
 import * as XLSX from 'xlsx';
+import { variableConfigureService } from 'src/app/shared/services/variableConfigure/variableConfigure.service';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap';
+import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
+
 
 am4core.useTheme(am4themes_animated);
 
@@ -14,18 +18,37 @@ am4core.useTheme(am4themes_animated);
 })
 export class SystemVariableComponent implements OnInit {
 
+  editVariableForm: FormGroup
+  variableTable = [];
+
   private chart: any
   private chart1: any
   private chart2: any
 
   fileName= 'MasterTable.xlsx'; 
 
+  modal: BsModalRef;
+  modalConfig = {
+    keyboard: true,
+    class: "modal-dialog-centered modal-sm"
+  };
+
   constructor(
-    private zone: NgZone
+    private zone: NgZone,
+    private variableConfigureService: variableConfigureService,
+    private modalService: BsModalService,
+    private formBuilder: FormBuilder,
   ) { }
 
   ngOnInit() {
+    this.editVariableForm = this.formBuilder.group({
+      Id: new FormControl(""),
+      variable_name: new FormControl(""),
+      is_enable: new FormControl(""),
+    });
+
     this.getCharts() 
+    this.variableGet()
   }
 
   ngOnDestroy() {
@@ -42,19 +65,19 @@ export class SystemVariableComponent implements OnInit {
     })
   }
 
-  editMessage() {
-    swal.fire({
-      title: "Success",
-      text: "Data editor has been save!",
-      type: "success",
-      buttonsStyling: false,
-      confirmButtonClass: "btn btn-success",
-      confirmButtonText: "Close"
-    }).then((result) => {
-      if (result.value) {
-      }
-    })
-  }
+  // editMessage() {
+  //   swal.fire({
+  //     title: "Success",
+  //     text: "Data editor has been save!",
+  //     type: "success",
+  //     buttonsStyling: false,
+  //     confirmButtonClass: "btn btn-success",
+  //     confirmButtonText: "Close"
+  //   }).then((result) => {
+  //     if (result.value) {
+  //     }
+  //   })
+  // }
 
   getCharts() {
     this.zone.runOutsideAngular(() => {
@@ -132,6 +155,73 @@ export class SystemVariableComponent implements OnInit {
     /* save to file */
     XLSX.writeFile(wb, this.fileName);
    
- }
+  }
+
+ variableGet() {
+  this.variableConfigureService.get().subscribe(
+    (res) => {
+      this.variableTable=res
+      console.log("wewe",this.variableTable)
+    },
+    (err) => {
+      // this.loadingBar.complete();
+      // this.errorMessage();
+      // console.log("HTTP Error", err), this.errorMessage();
+    },
+    () => console.log("HTTP request completed.")
+  );
+}
+
+update(){
+  console.log(this.editVariableForm.value.is_enable)
+  console.log(this.editVariableForm.value.Id)
+  this.variableConfigureService.update({'is_enable': this.editVariableForm.value.is_enable},this.editVariableForm.value.Id).subscribe(
+    (res) => {
+      console.log("success",res)
+      this.editMessage()
+    },
+    () => {
+
+    },
+    () => {
+      // After
+      // this.notifyService.openToastr("Success", "Welcome back");
+      // this.navigateHomePage();
+    }
+  );
+
+}
+
+editMessage() {
+  swal.fire({
+    title: "Success",
+    text: "A variable has been update!",
+    type: "success",
+    buttonsStyling: false,
+    confirmButtonClass: "btn btn-success",
+    confirmButtonText: "Close"
+  }).then((result) => {
+    if (result.value) {
+      this.modal.hide()
+      this.variableGet()
+      this.editVariableForm.reset()
+    }
+  })
+}
+
+openModal(modalRef: TemplateRef<any>, process: string, row) {
+  if (process == "edit"){
+    console.log("loop edit")
+    this.editVariableForm.patchValue({
+      ...row,
+    });
+  }
+  this.modal = this.modalService.show(modalRef, this.modalConfig);
+}
+
+closeModal() {
+  this.modal.hide()
+}
+
 
 }

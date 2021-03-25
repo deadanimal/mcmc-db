@@ -62,7 +62,8 @@ INSTALLED_APPS = [
     'FAQTitle',
     'emailNoti',
     'emailTemplate',
-    # 'AuditViewListingVariable',
+    'certifiedAgency',
+    'variableConfigure',
     # 'fail',
     # 'activity',
     # 'comment',
@@ -178,6 +179,8 @@ SITE_ID = 1
 REST_USE_JWT = True
 
 REST_FRAMEWORK = {
+
+    "DATE_INPUT_FORMATS": [("%d/%m/%Y"),],
 
     'DEFAULT_AUTHENTICATION_CLASSES': (
 

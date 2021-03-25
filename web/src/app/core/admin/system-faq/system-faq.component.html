@@ -5,8 +5,8 @@
         <div class="col-lg-8 col-7">
           <h6 class="h2 text-white d-inline-block mb-0">Welcome,</h6>
           <br />
-          <h6 class="h3 text-white d-inline-block mb-0">
-            "Registration of Certified Communications Equipment (RECCE)"
+          <h6 class="h3 text-white text-uppercase d-inline-block mb-0">
+            "Register of Certified Communications Equipment (RECCE)"
           </h6>
           <br /><br />
           <h6 class="h2 text-white d-inline-block mb-0">FAQ Configuration</h6>
@@ -77,6 +77,20 @@
                     type="text"
                     formControlName="category"
                   />
+                </div>
+                <div class="form-group">
+                  <label class="form-control-label" for="active">
+                    Active
+                  </label><br>
+                  <label class="custom-toggle custom-toggle-success mr-1">
+                    <input type="checkbox" formControlName="active"/>
+                    <span
+                      class="custom-toggle-slider rounded-circle"
+                      data-label-off="No"
+                      data-label-on="Yes"
+                    >
+                    </span>
+                  </label>
                 </div>
                 <div class="form-group">
                   <label class="form-control-label" for="content">
@@ -184,4 +198,3 @@
     </button>
   </div>
 </ng-template>
-

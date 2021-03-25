@@ -82,7 +82,7 @@ export class FaqComponent implements OnInit {
   }
 
   productGeneration2() {
-    this.FAQCategoriesService.get().subscribe(
+    this.FAQCategoriesService.filter("active=true").subscribe(
       (res) => {
         this.infoTable = [...res]
         console.log("zzzzz2 = ",this.infoTable)

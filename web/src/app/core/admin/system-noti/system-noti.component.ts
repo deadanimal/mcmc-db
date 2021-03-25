@@ -249,20 +249,11 @@ export class SystemNotiComponent implements OnInit {
     console.log(this.editEmailForm.value.Id)
     this.EmailNotiService.update({'email': this.editEmailForm.value.email},this.editEmailForm.value.Id).subscribe(
       (res) => {
-        // Success
-        // this.isLoading = false
-        // this.successMessage();
-        // this.loadingBar.complete();
-        // this.successAlert("create project");
-        // this.editMessage()
         console.log("success",res)
         this.editMessage()
       },
       () => {
-        // Failed
-        // this.isLoading = false
-        // this.successMessage();
-        // this.errorAlert("edit");
+
       },
       () => {
         // After
@@ -301,8 +292,6 @@ export class SystemNotiComponent implements OnInit {
     );
   
   }
-
-  
 
   openModal(modalRef: TemplateRef<any>, process: string, row) {
     if (process == "template"){
@@ -355,7 +344,7 @@ export class SystemNotiComponent implements OnInit {
   deleteMessage() {
     swal.fire({
       title: "Success",
-      text: "An email has been deleted!",
+      text: "An agency has been deleted!",
       type: "success",
       buttonsStyling: false,
       confirmButtonClass: "btn btn-success",
@@ -421,17 +410,21 @@ export class SystemNotiComponent implements OnInit {
   onActivate(event) {
     this.tableActiveRow = event.row;
   }
+  
   onSelect({ selected }) {
     this.tableSelected.splice(0, this.tableSelected.length);
     this.tableSelected.push(...selected);
   }
 
   testSendEmail(){
-    let obj
-    console.log("Send Email function")
-    this.emailTemplateService.sending_mail(obj).subscribe(
+    let obj= {
+      template_code: "1",
+      context: null,
+    }
+    console.log("Send Email function", obj)
+    this.emailTemplateService.send_email(obj).subscribe(
       (res) => {
-        // console.log("res", res);
+        console.log("success email has been sent");
       },
       (err) => {
         console.error("err", err);

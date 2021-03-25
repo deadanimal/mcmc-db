@@ -120,30 +120,30 @@ export class DataSearchComponent implements OnInit, OnDestroy {
     let val = $event.target.value;
     let datafield = "approveDate="+val
     console.log(datafield)
-    this.productGenerationService.filterMix(datafield).subscribe(
-      (res) => {
-        this.infoTable=res; 
-        console.log("loop ok!!")
-        this.infoTable = this.infoTable.map((prop, key) => {
-          return {
-            ...prop,
-            id: key
-          };
-        });
-        // console.log("xxxxxx = ",this.infoTable)
-      },
-      (err) => {
-        console.log("loop not ok!!")
-        // this.loadingBar.complete();
-        // this.errorMessage();
-        // console.log("HTTP Error", err), this.errorMessage();
-      },
-      () => {
-        console.log("HTTP request completed.")
-      //   this.infoTable = [res]
-      //   console.log("zzzzz = ",this.infoTable)
-      }
-    );
+    // this.productGenerationService.filterMix(datafield).subscribe(
+    //   (res) => {
+    //     this.infoTable=res; 
+    //     console.log("loop ok!!")
+    //     this.infoTable = this.infoTable.map((prop, key) => {
+    //       return {
+    //         ...prop,
+    //         id: key
+    //       };
+    //     });
+    //     // console.log("xxxxxx = ",this.infoTable)
+    //   },
+    //   (err) => {
+    //     console.log("loop not ok!!")
+    //     // this.loadingBar.complete();
+    //     // this.errorMessage();
+    //     // console.log("HTTP Error", err), this.errorMessage();
+    //   },
+    //   () => {
+    //     console.log("HTTP request completed.")
+    //   //   this.infoTable = [res]
+    //   //   console.log("zzzzz = ",this.infoTable)
+    //   }
+    // );
   }
 
   entriesChange($event) {

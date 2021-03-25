@@ -15,7 +15,7 @@
       <div class="row">
         <div class="col-lg-12">
           <h4 class="display-3 text-white text-center">
-            REGISTRY of CERTIFIED COMMUNICATIONS EQUIPMENT
+            REGISTER OF CERTIFIED COMMUNICATIONS EQUIPMENT
             <span><b>(RECCE)</b></span>
           </h4>
         </div>
@@ -36,127 +36,264 @@
     </svg>
   </div>
 </section>
-<section class="section">
-  <div class="container">
-    <div class="main-content d-flex">
-      <div class="container">
-        <div
-          class="row text-center card bg-secondary card-profile shadow mt--250"
-        >
-          <form [formGroup]="searchPRODUCTForm">
-            <h3 class="text-center mt-4">Model/Brand Enquiry</h3>
-            <br />
-            <div class="form-group row">
-              <label class="h3 text-right col-md-3" for="product"
-                ><span class="required">*</span>Brand</label
-              >
-              <div class="col-md-7">
-                <input
-                  class="ml-2 form-control"
-                  type="text"
-                  id="product"
-                  formControlName="PRODUCT"
-                  name="product"
-                  placeholder="EG:SAMSUNG"
-                  [(ngModel)]="product"
-                  (focus)="focusUsername = true"
-                  (blur)="focusUsername = false"
-                />
-                <ng-container *ngFor="let message of loginFormMessages.PRODUCT">
-                  <div
-                    *ngIf="
-                      searchPRODUCTForm.get('PRODUCT').hasError(message.type) &&
-                      (searchPRODUCTForm.get('PRODUCT').dirty ||
-                        searchPRODUCTForm.get('PRODUCT').touched)
-                    "
+<span *ngIf="variableTable.is_enable == true">
+  <section class="section">
+    <div class="container">
+      <div class="main-content d-flex">
+        <div class="container">
+          <div
+            class="row text-center card bg-secondary card-profile shadow mt--250"
+          >
+            <form [formGroup]="searchPRODUCTForm">
+              <h3 class="text-center mt-4">Model/Brand Enquiry</h3>
+              <br />
+              <div class="form-group row">
+                <label class="h3 text-right col-md-3" for="product"
+                  ><span class="required">*</span>Brand</label
+                >
+                <div class="col-md-7">
+                  <input
+                    class="ml-2 form-control"
+                    type="text"
+                    id="product"
+                    formControlName="PRODUCT"
+                    name="product"
+                    placeholder="EG:SAMSUNG"
+                    [(ngModel)]="product"
+                    (focus)="focusUsername = true"
+                    (blur)="focusUsername = false"
+                  />
+                  <ng-container
+                    *ngFor="let message of loginFormMessages.PRODUCT"
                   >
-                    <p class="error-message">
-                      <span
-                        ><b>{{ message.message }}</b></span
-                      >
-                    </p>
-                  </div>
-                </ng-container>
+                    <div
+                      *ngIf="
+                        searchPRODUCTForm
+                          .get('PRODUCT')
+                          .hasError(message.type) &&
+                        (searchPRODUCTForm.get('PRODUCT').dirty ||
+                          searchPRODUCTForm.get('PRODUCT').touched)
+                      "
+                    >
+                      <p class="error-message">
+                        <span
+                          ><b>{{ message.message }}</b></span
+                        >
+                      </p>
+                    </div>
+                  </ng-container>
+                </div>
               </div>
-            </div>
-            <div class="form-group row">
-              <label class="h3 text-right col-md-3" for="model">Model</label>
-              <div class="col-md-7">
-                <input
-                  class="ml-2 form-control"
-                  type="text"
-                  id="model"
-                  formControlName="MODEL"
-                  name="model"
-                  placeholder="EG:GALAXY SMARTWATCH"
-                  [(ngModel)]="model"
-                />
+              <div class="form-group row">
+                <label class="h3 text-right col-md-3" for="model">Model</label>
+                <div class="col-md-7">
+                  <input
+                    class="ml-2 form-control"
+                    type="text"
+                    id="model"
+                    formControlName="MODEL"
+                    name="model"
+                    placeholder="EG:GALAXY SMARTWATCH"
+                    [(ngModel)]="model"
+                  />
+                </div>
               </div>
-            </div>
-            <div class="form-group row">
-              <label class="h3 text-right col-md-3" for="search"
-                ><span class="required">*</span>Search by</label
-              >
-              <div class="col-md-7">
-                <select
-                  class="ml-2 form-control"
-                  type="text"
-                  id="search"
-                  formControlName="TYPE"
-                  name="search"
-                  (change)="changeDropdown($event.target.value)"
-                  [(ngModel)]="searchType"
+              <div class="form-group row">
+                <label class="h3 text-right col-md-3" for="search"
+                  ><span class="required">*</span>Search by</label
                 >
-                  <option hidden selected value="0">--Please pick--</option>
-                  <option value="exact">Exact word</option>
-                  <option value="any">Any combination word</option>
-                </select>
+                <div class="col-md-7">
+                  <select
+                    class="ml-2 form-control"
+                    type="text"
+                    id="search"
+                    formControlName="TYPE"
+                    name="search"
+                    (change)="changeDropdown($event.target.value)"
+                    [(ngModel)]="searchType"
+                  >
+                    <option hidden selected value="0">--Please pick--</option>
+                    <option value="exact">Exact word</option>
+                    <option value="any">Any combination word</option>
+                  </select>
+                </div>
               </div>
-            </div>
-            <div class="form-group">
-              <div class="d-flex justify-content-center">
-                <ngx-recaptcha2
-                  #captchaElem
-                  [siteKey]="siteKey"
-                  (reset)="handleReset()"
-                  (expire)="handleExpire()"
-                  (load)="handleLoad()"
-                  (success)="handleSuccess($event)"
-                  [useGlobalDomain]="false"
-                  [size]="size"
-                  [hl]="lang"
-                  [theme]="theme"
-                  [type]="type"
-                  formControlName="recaptcha"
-                  class="text-center"
-                >
-                </ngx-recaptcha2>
+              <div class="form-group">
+                <div class="d-flex justify-content-center">
+                  <ngx-recaptcha2
+                    #captchaElem
+                    [siteKey]="siteKey"
+                    (reset)="handleReset()"
+                    (expire)="handleExpire()"
+                    (load)="handleLoad()"
+                    (success)="handleSuccess($event)"
+                    [useGlobalDomain]="false"
+                    [size]="size"
+                    [hl]="lang"
+                    [theme]="theme"
+                    [type]="type"
+                    formControlName="recaptcha"
+                    class="text-center"
+                  >
+                  </ngx-recaptcha2>
+                </div>
               </div>
-            </div>
 
-            <div class="text-center">
-              <button
-                class="btn btn-lg btn-neutral"
-                (click)="buttonSubmit()"
-                [disabled]="!searchPRODUCTForm.valid"
-                style="width: 100px"
-              >
-                Search
-              </button>
-              <input
-                class="btn btn-lg btn-neutral"
-                type="reset"
-                value="Reset"
-                style="width: 100px"
-              />
-              <br /><br />
-            </div>
-          </form>
+              <div class="text-center">
+                <button
+                  class="btn btn-lg btn-neutral"
+                  (click)="buttonSubmit()"
+                  [disabled]="!searchPRODUCTForm.valid"
+                  style="width: 100px"
+                >
+                  Search
+                </button>
+                <input
+                  class="btn btn-lg btn-neutral"
+                  type="reset"
+                  value="Reset"
+                  style="width: 100px"
+                />
+                <br /><br />
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
+</span>
+<span *ngIf="variableTable.is_enable == false">
+  <section class="section">
+    <div class="container">
+      <div class="main-content d-flex">
+        <div class="container">
+          <div
+            class="row text-center card bg-secondary card-profile shadow mt--250"
+          >
+            <form [formGroup]="searchPRODUCTForm">
+              <h3 class="text-center mt-4">Model/Brand Enquiry</h3>
+              <br />
+              <div class="form-group row">
+                <label class="h3 text-right col-md-3" for="product"
+                  ><span class="required">*</span>Brand</label
+                >
+                <div class="col-md-7">
+                  <input
+                    class="ml-2 form-control"
+                    type="text"
+                    id="product"
+                    formControlName="PRODUCT"
+                    name="product"
+                    disabled="yes"
+                    placeholder="EG:SAMSUNG"
+                    [(ngModel)]="product"
+                    (focus)="focusUsername = true"
+                    (blur)="focusUsername = false"
+                  />
+                  <ng-container
+                    *ngFor="let message of loginFormMessages.PRODUCT"
+                  >
+                    <div
+                      *ngIf="
+                        searchPRODUCTForm
+                          .get('PRODUCT')
+                          .hasError(message.type) &&
+                        (searchPRODUCTForm.get('PRODUCT').dirty ||
+                          searchPRODUCTForm.get('PRODUCT').touched)
+                      "
+                    >
+                      <p class="error-message">
+                        <span
+                          ><b>{{ message.message }}</b></span
+                        >
+                      </p>
+                    </div>
+                  </ng-container>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="h3 text-right col-md-3" for="model">Model</label>
+                <div class="col-md-7">
+                  <input
+                    class="ml-2 form-control"
+                    type="text"
+                    id="model"
+                    disabled="yes"
+                    formControlName="MODEL"
+                    name="model"
+                    placeholder="EG:GALAXY SMARTWATCH"
+                    [(ngModel)]="model"
+                  />
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="h3 text-right col-md-3" for="search"
+                  ><span class="required">*</span>Search by</label
+                >
+                <div class="col-md-7">
+                  <select
+                    class="ml-2 form-control"
+                    type="text"
+                    id="search"
+                    formControlName="TYPE"
+                    disabled="yes"
+                    name="search"
+                    (change)="changeDropdown($event.target.value)"
+                    [(ngModel)]="searchType"
+                  >
+                    <option hidden selected value="0">--Please pick--</option>
+                    <option value="exact">Exact word</option>
+                    <option value="any">Any combination word</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="d-flex justify-content-center">
+                  <ngx-recaptcha2
+                    #captchaElem
+                    [siteKey]="siteKey"
+                    (reset)="handleReset()"
+                    (expire)="handleExpire()"
+                    (load)="handleLoad()"
+                    (success)="handleSuccess($event)"
+                    [useGlobalDomain]="false"
+                    [size]="size"
+                    [hl]="lang"
+                    [theme]="theme"
+                    [type]="type"
+                    formControlName="recaptcha"
+                    [disabled]="yes"
+                    class="text-center"
+                  >
+                  </ngx-recaptcha2>
+                </div>
+              </div>
+
+              <div class="text-center">
+                <button
+                  class="btn btn-lg btn-neutral"
+                  (click)="buttonSubmit()"
+                  [disabled]="!searchPRODUCTForm.valid"
+                  style="width: 100px"
+                >
+                  Search
+                </button>
+                <input
+                  class="btn btn-lg btn-neutral"
+                  type="reset"
+                  value="Reset"
+                  style="width: 100px"
+                />
+                <br /><br />
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</span>
 
 <ng-template #showResult>
   <div class="modal-header bg-default">
@@ -256,7 +393,7 @@
 
         <ngx-datatable-column>
           <ng-template ngx-datatable-header-template>
-            <span>Approval Date</span>
+            <span>Approved Date</span>
           </ng-template>
           <ng-template let-row="row" ngx-datatable-cell-template>
             {{ row.approveDate }}
@@ -286,31 +423,3 @@
     </button>
   </div>
 </ng-template>
-
-<!--
-<?php
- 
-$data = http_build_query(array(
-  'secret' => "6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe",
-  'response' => "03AOLTBLReNhdz3sTw46RKhiVHu-eLNtu0BvWybASGv1zT9AKzauZPP36zxmGIaapD3wIu9OkPKT5LcHDSZ_scwPfRaT6u9PlDz0gk_OnK8cema0_cOAsGaw7fcFMTQyj9v32talc9L8McnAVOPcNhP_dDpoNxETtAIXSFZOOegTFNYQPvZx6FfTe_Pv4CwRP08T2Cjq8n8KZyge9RMbUdJOYamo3OhuE-9IQ-G_GWj-04en-x3KTcNH7AWfzHRrEJnNT9uKbb5PY6ywtQlpbZ3YKq5HqvbOd1KMkDKgbUCeI5cK0pM3DWLDgBD2mdRGA28IukWSmy_Unn"
-));
- 
-$curl = curl_init();
-   
-$captcha_verify_url = "https://www.google.com/recaptcha/api/siteverify";
- 
-curl_setopt($curl, CURLOPT_URL,$captcha_verify_url);
-curl_setopt($curl, CURLOPT_POST, true);
-curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
-curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
- 
- 
-$captcha_output = curl_exec ($curl);
-curl_close ($curl);
-$decoded_captcha = json_decode($captcha_output);
- 
-print_r($captcha_output);
-
-?>
-
--->

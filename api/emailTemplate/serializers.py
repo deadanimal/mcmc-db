@@ -23,6 +23,7 @@ class emailTemplateSerializer(serializers.ModelSerializer):
             'template_content',
             'created_date',
             'modified_date',
+            'template_code',
 
 
             
