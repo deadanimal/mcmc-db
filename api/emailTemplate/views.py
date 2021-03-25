@@ -15,6 +15,8 @@ from rest_framework_extensions.mixins import NestedViewSetMixin
 
 from django_filters.rest_framework import DjangoFilterBackend
 
+from .helpers import send_email_result
+
 from emailTemplate.models import (
     emailTemplate
 )
@@ -22,6 +24,8 @@ from emailTemplate.models import (
 from emailTemplate.serializers import (
     emailTemplateSerializer
 )
+
+from emailNoti.models import emailNoti
 
 class emailTemplateViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     queryset = emailTemplate.objects.all()
@@ -31,7 +35,7 @@ class emailTemplateViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         'Id',
         'template_name',
         'template_content',
-        # 'ProductRegNo',
+        'template_code',
         # 'createdBy',
         # 'created_date',
     ]
@@ -66,12 +70,12 @@ class emailTemplateViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         return queryset  
 
     
-    @action(methods=['POST'], detail=False)
-    def sending_email(self, request, *args, **kwargs):
+    # @action(methods=['POST'], detail=False)
+    # def sending_email(self, request, *args, **kwargs):
 
-        template_content = request.GET.get('template_content', '<p><strong>Dear sir/madam,</strong></p><p><br></p><p>Here to inform you that the system is unsuccessfully to update data as right now.</p><p><br></p><p>Any problems occurs, kindly contact admin.</p><p><br></p><p>Thanks and regards.</p>')
-        plain_message = strip_tags(template_content)
-        send_mail('Email Notification', plain_message, 'admin@mcmc.com', ['arifhazman@pipeline.com.my','raziman@pipeline.com.my'], fail_silently=False)
+    #     template_content = request.GET.get('template_content', '<p><strong>Dear sir/madam,</strong></p><p><br></p><p>Here to inform you that the system is unsuccessfully to update data as right now.</p><p><br></p><p>Any problems occurs, kindly contact admin.</p><p><br></p><p>Thanks and regards.</p>')
+    #     plain_message = strip_tags(template_content)
+    #     send_mail('Email Notification', plain_message = strip_tags(template_content), 'admin@mcmc.com', ['arifhazman@pipeline.com.my','raziman@pipeline.com.my'], fail_silently=False)
 
     
          # code = self.request.data['code']
@@ -91,3 +95,36 @@ class emailTemplateViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
 
     #     else:
     #         return Response(status=status.HTTP_404_NOT_FOUND)
+
+    @action(methods=['POST'], detail=False)
+    def send_email(self, request, *args, **kwargs):
+
+        template_code = self.request.data['template_code']
+        context = json.loads(self.request.data['context']) if self.request.data['context'] else None
+        template_content = emailTemplate.objects.filter(template_code=template_code)
+        email_to = []
+
+        emails = emailNoti.objects.all()
+
+        if template_content:
+            t = Template(template_content[0].body)
+            c = Context(context) if context else Context()
+            html_message = t.render(c)
+
+        for email_ in emails:
+            email_to.append(
+                email_.email
+            )
+            # print(email_to)
+
+        data = {
+            'subject_': 'Email Notification',
+            'plain_message_': strip_tags(html_message),
+            'to_': email_to,
+            'html_message_': template_content
+        }
+
+        print(data)
+
+        send_email_result(data)
+        

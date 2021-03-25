@@ -81,10 +81,10 @@ export class emailTemplateService {
     );
   }
 
-  sending_mail(body): Observable<any> {
-    return this.http.post<any>(this.url + 'sending_email/', body).pipe(
+  send_email(body): Observable<any> {
+    return this.http.post<any>(this.url + 'send_email/', body).pipe(
       tap((res) => {
-        console.log("EmailTemplate: ", res);
+        console.log("send_email: ", res);
       })
     );
   }

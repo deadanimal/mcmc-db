@@ -7,6 +7,7 @@ import { MasterDataService } from 'src/app/shared/services/masterData/masterData
 import { environment } from "src/environments/environment";
 import { NotifyService } from 'src/app/shared/handler/notify/notify.service';
 import Swal from 'sweetalert2';
+import { variableConfigureService } from 'src/app/shared/services/variableConfigure/variableConfigure.service';
 
 export enum SelectionType {
   single = 'single',
@@ -26,6 +27,7 @@ export class ProductInfoComponent implements OnInit {
   @ViewChild('captchaElem') captchaElem;
   @ViewChild('showResult') modalRef: any;
   infoTable = []
+  variableTable = []
   searchPRODUCTForm: FormGroup
   test: Date = new Date();
   product = null
@@ -75,9 +77,13 @@ export class ProductInfoComponent implements OnInit {
     private formBuilder: FormBuilder,
     private loadingBar: LoadingBarService,
     private modalService: BsModalService,
+    private variableConfigureService: variableConfigureService,
   ) { }
 
   ngOnInit() {
+
+    this.disableSearch()
+
     this.searchPRODUCTForm = this.formBuilder.group({
       PRODUCT: new FormControl('' ,Validators.compose([
         Validators.required,
@@ -323,6 +329,26 @@ export class ProductInfoComponent implements OnInit {
         console.error("err", err);
       }
     );
+  }
+
+  disableSearch(){
+    let varID = 'd8991bb4-07be-4264-8dfb-3da69a4d2bf7';
+    this.variableConfigureService.getOne(varID).subscribe(
+      (res) => {
+        this.variableTable = [res]
+        this.variableTable = this.variableTable[0]
+        console.log("wewe", this.variableTable);
+        console.log("array",this.variableTable[0],[2])
+      },
+      (err) => {
+        // this.loadingBar.complete();
+        // this.errorMessage();
+        // console.log("HTTP Error", err), this.errorMessage();
+      },
+      () => console.log("HTTP request completed.")
+    );
+    console.log()
+
   }
 
 }

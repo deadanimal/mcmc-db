@@ -24,6 +24,7 @@ class FAQCategoryViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
     filterset_fields = [
         # 'FAQId', 
+        'active',
         'categoryId',
         # 'title',
         # 'Description',

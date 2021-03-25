@@ -28,6 +28,7 @@ class ViewListingVariable2ViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         'fileNoInd',
         'modelInd', 
         'brandInd',
+        'approveDateInd',
     ]
 
     def get_permissions(self):
@@ -58,5 +59,13 @@ class ViewListingVariable2ViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
                 queryset = User.objects.filter(company=company.id)
         """
         return queryset    
- 
-# Create your views here.
+
+    @action(methods=['GET'], detail=False)
+    def filter_daterange(self, request, *args, **kwargs):
+
+        approveDateInd = request.GET.get('approveDateInd', '')
+
+        result = ViewListingVariable2.objects.filter(approveDateInd__range=[approveDateInd])
+
+        # serializer = ViewListingVariable2Serializer(result, many=True)
+        return Response(result)

@@ -122,13 +122,21 @@ emailTemplate_router = router.register(
     'emailTemplate', emailTemplateViewSet
 )
 
-# from AuditViewListingVariable.views import (
-#     AuditViewListingVariableViewSet
-# )
+from certifiedAgency.views import (
+    certifiedAgencyViewSet
+)
 
-# AuditViewListingVariable_router = router.register(
-#     'AuditViewListingVariable', AuditViewListingVariableViewSet
-# )
+certifiedAgency_router = router.register(
+    'certifiedAgency', certifiedAgencyViewSet
+)
+
+from variableConfigure.views import (
+    variableConfigureViewSet
+)
+
+variableConfigure_router = router.register(
+    'variableConfigure', variableConfigureViewSet
+)
 
 urlpatterns = [
     url(r'v1/', include(router.urls)),

@@ -7,7 +7,8 @@ import { masterTable } from 'src/app/shared/services/masterData/masterData.model
 import { MasterDataService } from 'src/app/shared/services/masterData/masterData.service';
 import Swal from 'sweetalert2';
 import { environment } from "src/environments/environment";
-
+import { variableConfigureService } from 'src/app/shared/services/variableConfigure/variableConfigure.service';
+variableConfigureService
 
 export enum SelectionType {
   single = 'single',
@@ -27,6 +28,7 @@ export class LabelComponent implements OnInit {
   @ViewChild('captchaElem') captchaElem;
   @ViewChild('showResult') modalRef: any;
   infoTable = []
+  variableTable = []
   searchLABELForm: FormGroup
   test: Date = new Date();
   label
@@ -45,7 +47,7 @@ export class LabelComponent implements OnInit {
 
   LabelMessages = {
     'LABEL': [
-      { type: 'required', message: 'Labeling is required' },
+      { type: 'required', message: 'Self Label is required' },
     ],
   }
   
@@ -67,10 +69,13 @@ export class LabelComponent implements OnInit {
     private formBuilder: FormBuilder,
     private loadingBar: LoadingBarService,
     private modalService: BsModalService,
+    private variableConfigureService: variableConfigureService,
     
   ) { }
 
   ngOnInit() {
+    this.disableSearch()
+
     this.searchLABELForm = this.formBuilder.group({
       LABEL: new FormControl('' ,Validators.compose([
         Validators.required,
@@ -188,6 +193,25 @@ export class LabelComponent implements OnInit {
         console.error("err", err);
       }
     );
+  }
+
+  disableSearch(){
+    let varID = '22476c26-cc1b-4770-86f8-87a631bc8c35';
+    this.variableConfigureService.getOne(varID).subscribe(
+      (res) => {
+        this.variableTable = [res]
+        this.variableTable = this.variableTable[0]
+        console.log("wewe", this.variableTable);
+      },
+      (err) => {
+        // this.loadingBar.complete();
+        // this.errorMessage();
+        // console.log("HTTP Error", err), this.errorMessage();
+      },
+      () => console.log("HTTP request completed.")
+    );
+    console.log()
+
   }
 
 }

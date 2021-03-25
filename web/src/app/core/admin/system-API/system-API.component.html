@@ -6,15 +6,15 @@
         <div class="col-lg-8 col-7">
           <h6 class="h2 text-white d-inline-block mb-0">Welcome,</h6>
           <br />
-          <h6 class="h3 text-white d-inline-block mb-0">
-            "Registration of Certified Communications Equipment (RECCE)"
+          <h6 class="h3 text-white text-uppercase d-inline-block mb-0">
+            "Register of Certified Communications Equipment (RECCE)"
           </h6>
           <br /><br />
           <h6 class="h2 text-white d-inline-block mb-0">API Configuration</h6>
         </div>
         <div class="col-lg-12 col-5 text-right">
-              <a class="btn btn-sm btn-info" (click)="getData()"> API Call </a>
-            </div>
+          <a class="btn btn-sm btn-info" (click)="getData()"> API Call </a>
+        </div>
       </div>
     </div>
   </div>
@@ -117,10 +117,127 @@
   </div>
 
   <div class="card">
+    <div class="card-header">
+      <div class="row">
+        <div class="col-8">
+          <h3>List of Certifying Agency (CA)</h3>
+          <h6 class="ml-2">To add and update Certifying Agency (CA)</h6>
+        </div>
+        <div class="col-4 text-right">
+          <br />
+          <button
+            class="btn btn-sm btn-neutral btn-round btn-icon"
+            (click)="openModal(NewAgency, 'create', '')"
+            tooltip="Add New Certified Agency"
+            placement="top"
+          >
+            <span class="btn-inner--icon">
+              <i class="fas fa-user-edit"> </i>
+            </span>
+
+            <span class="btn-inner--text"> Add </span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="dataTables_wrapper">
+      <ngx-datatable
+        class="bootstrap selection-cell"
+        [columnMode]="'force'"
+        [headerHeight]="50"
+        [footerHeight]="50"
+        [rowHeight]="'auto'"
+        [limit]="tableEntries != -1 ? tableEntries : undefined"
+        [rows]="tableAgencyData"
+        [sorts]="[{ prop: 'email', dir: 'asc' }]"
+      >
+        <ngx-datatable-column [sortable]="false" name="No">
+          <ng-template
+            let-rowIndex="rowIndex"
+            let-row="row"
+            ngx-datatable-cell-template
+          >
+            <strong>{{ rowIndex + 1 }}</strong>
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column prop="email">
+          <ng-template ngx-datatable-header-template>
+            <span>Certified Agency Name</span>
+          </ng-template>
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            {{ row.ca_name }}
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column>
+          <ng-template ngx-datatable-header-template>
+            <span>Appoint Date</span>
+          </ng-template>
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            {{ row.appoint_date | date: "dd/MM/yyyy" }}
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column>
+          <ng-template ngx-datatable-header-template>
+            <span>Expiry Date</span>
+          </ng-template>
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            {{ row.expiry_date | date: "dd/MM/yyyy" }}
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column>
+          <ng-template ngx-datatable-header-template>
+            <span>PIC</span>
+          </ng-template>
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            {{ row.pic_name }}
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column>
+          <ng-template ngx-datatable-header-template>
+            <span>Action</span>
+          </ng-template>
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            <a
+              class="table-action"
+              tooltip="Edit agency info"
+              placement="right"
+              (click)="openModal(editInfo, 'update', row)"
+            >
+              <i class="fas fa-user-edit"> </i>
+            </a>
+            <a
+              class="table-action table-action-delete"
+              tooltip="Configure API"
+              placement="right"
+              (click)="openModal(editConfigure, 'configure', row)"
+            >
+              <i class="fas fa-cogs"> </i>
+            </a>
+            <a
+              class="table-action table-action-delete"
+              tooltip="Delete"
+              placement="right"
+              (click)="confirm(row)"
+            >
+              <i class="fas fa-trash"> </i>
+            </a>
+          </ng-template>
+        </ngx-datatable-column>
+      </ngx-datatable>
+    </div>
+  </div>
+
+  <!--<div class="card">
     <tabset>
-      <tab><ng-template tabHeading>
-        <div class="h4">Certified Agency (SIRIM)</div>
-      </ng-template>
+      <tab
+        ><ng-template tabHeading>
+          <div class="h4">Certified Agency (SIRIM)</div>
+        </ng-template>
 
         <div class="card-body">
           <div class="row">
@@ -197,9 +314,9 @@
         </div>
       </tab>
       <tab>
-      <ng-template tabHeading>
-        <div class="h4">Certified Agency</div>
-      </ng-template>
+        <ng-template tabHeading>
+          <div class="h4">Certified Agency</div>
+        </ng-template>
         <div class="card-body">
           <div class="row">
             <div class="col-md-6">
@@ -274,5 +391,351 @@
         </div>
       </tab>
     </tabset>
-  </div>
+  </div>-->
 </div>
+
+<ng-template #NewAgency>
+  <div class="modal-header bg-default">
+    <h6 class="modal-title text-white my-auto" id="modal-title-default">
+      Add New Certified Agency
+    </h6>
+
+    <button
+      aria-label="Close"
+      class="close"
+      data-dismiss="modal"
+      type="button"
+      (click)="closeModal()"
+    >
+      <span aria-hidden="true" class="text-white my-auto"> × </span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <form [formGroup]="newAgencyForm">
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label class="form-control-label">Agency Name</label>
+            <input
+              class="form-control"
+              placeholder="Enter Agency Name"
+              formControlName="ca_name"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label class="form-control-label">Agency ID</label>
+            <input
+              class="form-control"
+              placeholder="Enter Agency ID"
+              formControlName="ca_id"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label class="form-control-label">Appoint Date</label>
+            <input
+              placeholder="Enter Appoint Date"
+              class="form-control form-control-label"
+              formControlName="appoint_date"
+              #dp="bsDatepicker"
+              bsDatepicker
+              [bsConfig]="{
+                isAnimated: true,
+                dateInputFormat: 'YYYY-MM-DD',
+                containerClass: 'theme-dark-blue'
+              }"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label class="form-control-label">Expire Date</label>
+            <input
+              placeholder="Enter Appoint Date"
+              class="form-control form-control-label"
+              formControlName="expiry_date"
+              #dp="bsDatepicker"
+              bsDatepicker
+              [bsConfig]="{
+                isAnimated: true,
+                dateInputFormat: 'YYYY-MM-DD',
+                containerClass: 'theme-dark-blue'
+              }"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label class="form-control-label">PIC Name</label>
+            <input
+              class="form-control"
+              placeholder="Enter PIC Name"
+              formControlName="pic_name"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label class="form-control-label">Active</label>
+            <select
+              type="search"
+              class="form-control form-control-label"
+              formControlName="is_active"
+            >
+              <option value="true">True</option>
+              <option value="false">False</option>
+              <option selected class="text-muted">Please Choose</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label class="form-control-label">Remarks</label>
+            <input
+              class="form-control"
+              placeholder="Enter Remarks"
+              height="48px"
+              formControlName="remarks"
+            />
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div class="modal-footer">
+    <button class="btn btn-success" type="button" (click)="addNewAgency()">
+      Add
+    </button>
+
+    <button
+      class="btn btn-outline-danger ml-auto"
+      data-dismiss="modal"
+      type="button"
+      (click)="closeModal()"
+    >
+      Close
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #editConfigure>
+  <div class="modal-header bg-default">
+    <h6 class="modal-title text-white my-auto" id="modal-title-default">
+      Configure
+    </h6>
+
+    <button
+      aria-label="Close"
+      class="close"
+      data-dismiss="modal"
+      type="button"
+      (click)="closeModal()"
+    >
+      <span aria-hidden="true" class="text-white my-auto"> × </span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <form [formGroup]="editAgencyForm">
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label class="form-control-label">Service Name</label>
+            <input class="form-control" formControlName="ca_name" />
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label class="form-control-label">IP Address</label>
+            <input class="form-control" formControlName="ip_address" />
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label class="form-control-label">Url</label>
+            <input class="form-control" formControlName="url" />
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label class="form-control-label">Path</label>
+            <input class="form-control" formControlName="path" />
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label class="form-control-label">Port</label>
+            <input class="form-control" formControlName="port" />
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div class="modal-footer">
+    <button class="btn btn-success" type="button" (click)="configure()">
+      Edit
+    </button>
+
+    <button
+      class="btn btn-outline-danger ml-auto"
+      data-dismiss="modal"
+      type="button"
+      (click)="closeModal()"
+    >
+      Close
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #editInfo>
+  <div class="modal-header bg-default">
+    <h6 class="modal-title text-white my-auto" id="modal-title-default">
+      Edit Agency Info
+    </h6>
+
+    <button
+      aria-label="Close"
+      class="close"
+      data-dismiss="modal"
+      type="button"
+      (click)="closeModal()"
+    >
+      <span aria-hidden="true" class="text-white my-auto"> × </span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <form [formGroup]="editAgencyForm">
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label class="form-control-label">Agency Name</label>
+            <input
+              class="form-control"
+              placeholder="Enter Agency Name"
+              formControlName="ca_name"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label class="form-control-label">Agency ID</label>
+            <input
+              class="form-control"
+              placeholder="Enter Agency ID"
+              formControlName="ca_id"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label class="form-control-label">Appoint Date</label>
+            <input
+              class="form-control"
+              placeholder="Enter Appoint Date"
+              formControlName="appoint_date"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label class="form-control-label">Expire Date</label>
+            <input
+              class="form-control"
+              placeholder="Enter Expire Date"
+              formControlName="expiry_date"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label class="form-control-label">PIC Name</label>
+            <input
+              class="form-control"
+              placeholder="Enter PIC Name"
+              formControlName="pic_name"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label class="form-control-label">Active</label>
+            <select
+              type="search"
+              class="form-control form-control-label"
+              formControlName="is_active"
+            >
+              <option value="true">True</option>
+              <option value="false">False</option>
+              <option selected class="text-muted">Please Choose</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label class="form-control-label">Remarks</label>
+            <input
+              class="form-control"
+              placeholder="Enter Remarks"
+              height="48px"
+              formControlName="remarks"
+            />
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div class="modal-footer">
+    <button class="btn btn-success" type="button" (click)="update()">
+      Edit
+    </button>
+
+    <button
+      class="btn btn-outline-danger ml-auto"
+      data-dismiss="modal"
+      type="button"
+      (click)="closeModal()"
+    >
+      Close
+    </button>
+  </div>
+</ng-template>
