@@ -1,5 +1,5 @@
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpTokenInterceptor } from './shared/interceptor/http.token.interceptor';
@@ -23,8 +23,12 @@ import { ComponentsModule } from './components/components.module';
 import { PublicLayoutComponent } from './layouts/public-layout/public-layout.component';
 import { NgxCaptchaModule } from 'ngx-captcha';
 import { NgCircleProgressModule } from 'ng-circle-progress';
+import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 
 @NgModule({
+  providers: [
+    NgxSpinnerService,
+  ],
   imports: [
     AppRoutingModule,
     BrowserAnimationsModule,
@@ -47,19 +51,13 @@ import { NgCircleProgressModule } from 'ng-circle-progress';
     QuillModule.forRoot(),
     NgxCaptchaModule,
     NgCircleProgressModule.forRoot(),
+    NgxSpinnerModule,
   ],
   declarations: [
     AppComponent, 
     AdminLayoutComponent, 
     AuthLayoutComponent,
     PublicLayoutComponent
-  ],
-  providers: [
-    /* Uncomment this to use interceptor
-    {
-      provide: HTTP_INTERCEPTORS, useClass: HttpTokenInterceptor, multi: true
-    }
-    */
   ],
   bootstrap: [AppComponent]
 })

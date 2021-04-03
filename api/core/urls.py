@@ -138,6 +138,38 @@ variableConfigure_router = router.register(
     'variableConfigure', variableConfigureViewSet
 )
 
+from productCertification.views import (
+    productCertificationViewSet
+)
+
+productCertification_router = router.register(
+    'productCertification', productCertificationViewSet
+)
+
+from SLP.views import (
+    SLPViewSet
+)
+
+SLP_router = router.register(
+    'SLP', SLPViewSet
+)
+
+from SearchCounter.views import (
+    SearchCounterViewSet
+)
+
+SearchCounter_router = router.register(
+    'SearchCounter', SearchCounterViewSet
+)
+
+from VisitorCounter.views import (
+    VisitorCounterViewSet
+)
+
+VisitorCounter_router = router.register(
+    'VisitorCounter', VisitorCounterViewSet
+)
+
 urlpatterns = [
     url(r'v1/', include(router.urls)),
     url(r'auth/', include('rest_auth.urls')),

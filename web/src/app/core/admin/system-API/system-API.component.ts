@@ -288,11 +288,14 @@ export class SystemAPIComponent implements OnInit, OnDestroy {
   }
 
   testSendEmail(){
-    let obj='2'
-    console.log("Send Email function")
+    let obj= {
+      template_code: "2",
+      context: null,
+    }
+    console.log("Send Email function", obj)
     this.emailTemplateService.send_email(obj).subscribe(
       (res) => {
-        // console.log("res", res);
+        console.log("Fail email has been sent");
       },
       (err) => {
         console.error("err", err);

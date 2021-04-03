@@ -7,9 +7,7 @@ import { environment } from "src/environments/environment";
 import { LoadingBarService } from '@ngx-loading-bar/core';
 import swal from 'sweetalert2';
 import { variableConfigureService } from 'src/app/shared/services/variableConfigure/variableConfigure.service';
-variableConfigureService
-
-
+import { SearchCounterService } from 'src/app/shared/services/SearchCounter/SearchCounter.service';
 
 @Component({
   selector: 'app-serial',
@@ -58,6 +56,7 @@ export class SerialComponent implements OnInit {
     private loadingBar: LoadingBarService,
     private modalService: BsModalService,
     private variableConfigureService: variableConfigureService,
+    private SearchCounterService: SearchCounterService,
   ) { }
 
   ngOnInit() {
@@ -81,6 +80,7 @@ export class SerialComponent implements OnInit {
     console.log("HTTP",this.searchSERIALForm.value.SERIAL)
     let datafield = "serialNo="+this.searchSERIALForm.value.SERIAL
     this.loadingBar.start(); 
+    this.SerialCounter();
     this.masterDataService.filter(datafield).subscribe(
       (res) => {
         this.infoTable=res
@@ -105,6 +105,18 @@ export class SerialComponent implements OnInit {
 
       },
       () => console.log("HTTP request completed.")
+    );
+  }
+
+  SerialCounter(){
+    let imeicounter = { Name: "SERIAL"};
+    this.SearchCounterService.post(imeicounter).subscribe(
+      (res) => {
+        console.log("+1 SERIAL Counter")
+      },
+      (error) => {
+        console.error("err", error);
+      }
     );
   }
 

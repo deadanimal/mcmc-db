@@ -19,19 +19,16 @@ class ProductRegistrationSerializer(serializers.ModelSerializer):
         model = ProductRegistration
         fields = (
             'Id', 
-            'fileNo',
+            'FileNo',
             'TAC',
-            'productCategory',
-            'modelId',
-            'modelDescription',
-            'consigneeName',
-            'submissionDate',
-            'approveDate',
-            'expiryDate',
-            'category',
-            'imeiNo',
             'SLPID',
-            'serialNo',
+            'ProductRegistrationNo',
+            'RegType',
+            'SerialNo',
+            'IMEI',
+            'created_date',
+            'modified_date',
+            'CA_owner',
             
         )
         # read_only_fields = ('email', 'id', 'TACInd')

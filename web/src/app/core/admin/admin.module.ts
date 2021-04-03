@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { 
   AccordionModule,
@@ -30,8 +30,11 @@ import { CalendarModule } from 'src/app/examples/calendar/calendar.module';
 import { NgxPrintModule } from 'ngx-print';
 import { QuillModule } from 'ngx-quill';
 import { NgCircleProgressModule } from 'ng-circle-progress';
+import { NgxSpinnerModule } from 'ngx-spinner';
+
 
 @NgModule({
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   declarations: [
     DashboardComponent,
     ManagementAuditComponent,
@@ -63,6 +66,7 @@ import { NgCircleProgressModule } from 'ng-circle-progress';
     NgxPrintModule,
     QuillModule,
     NgCircleProgressModule,
+    NgxSpinnerModule,
   ]
 })
 export class AdminModule { }

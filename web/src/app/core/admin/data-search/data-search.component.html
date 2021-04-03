@@ -17,6 +17,7 @@
 </div>
 
 <div class="container-fluid mt--6">
+  <!--Infomation Charts-->
   <div class="row">
     <div class="col-xl-3 col-md-6">
       <div class="card card-stats">
@@ -27,7 +28,7 @@
                 Total Visitors
               </h5>
 
-              <span class="h2 font-weight-bold mb-0"> 45 </span>
+              <span class="h2 font-weight-bold mb-0"> {{this.VisitorGetTable.length}} </span>
             </div>
 
             <div class="col-auto">
@@ -56,10 +57,12 @@
           <div class="row">
             <div class="col">
               <h5 class="card-title text-uppercase text-muted mb-0">
-                Total Data
+                Total TAC
               </h5>
 
-              <span class="h2 font-weight-bold mb-0"> 393 </span>
+              <span class="h2 font-weight-bold mb-0">
+                {{ productCertificationTable.length }}
+              </span>
             </div>
 
             <div class="col-auto">
@@ -91,7 +94,9 @@
                 IMEI Number
               </h5>
 
-              <span class="h2 font-weight-bold mb-0"> 174 </span>
+              <span class="h2 font-weight-bold mb-0">
+                {{ IMEITable.length }}
+              </span>
             </div>
 
             <div class="col-auto">
@@ -123,7 +128,9 @@
                 Serial Number
               </h5>
 
-              <span class="h2 font-weight-bold mb-0"> 202 </span>
+              <span class="h2 font-weight-bold mb-0">
+                {{ SerialTable.length }}
+              </span>
             </div>
 
             <div class="col-auto">
@@ -146,13 +153,989 @@
       </div>
     </div>
   </div>
+  <!--Tabs Table-->
   <div class="row">
+    <div class="col">
+      <tabset
+        type="pills"
+        class="nav-fill flex-column flex-md-row"
+        [justified]="true"
+      >
+        <!--Product Registration Table-->
+        <tab heading="Product Registration">
+          <div class="row">
+            <div class="col">
+              <div class="card mt-4">
+                <div id="datatable_filter" class="mt-4 ml-4 mr-4">
+                  <div class="row">
+                    <label class="form-control-label">
+                      Search by column:
+                    </label>
+                  </div>
+                  <div class="row">
+                    <div class="col-4">
+                      <form [formGroup]="RegisterSearchForm">
+                        <div class="form-group">
+                          <label class="form-control-label" for="IMEI">
+                            IMEI
+                          </label>
+                          <input
+                            class="form-control form-control-sm"
+                            id="example2cols1Input"
+                            placeholder="Show All"
+                            type="text"
+                            formControlName="imei"
+                          />
+                        </div>
+                        <div class="form-group">
+                          <label class="form-control-label" for="RegType">
+                            Type
+                          </label>
+                          <select
+                            type="search"
+                            class="form-control form-control-sm"
+                            aria-controls="datatable"
+                            formControlName="RegType"
+                          >
+                            <option value="SerialNo">Serial Number</option>
+                            <option value="IMEI">IMEI Number</option>
+                            <option value="" selected class="text-muted">
+                              -- Please Choose --
+                            </option>
+                          </select>
+                        </div>
+                      </form>
+                    </div>
+                    <div class="col-4">
+                      <form [formGroup]="RegisterSearchForm">
+                        <div class="form-group">
+                          <label class="form-control-label" for="SerialNo">
+                            SerialNo
+                          </label>
+                          <input
+                            class="form-control form-control-sm"
+                            id="example2cols1Input"
+                            placeholder="Show All"
+                            type="text"
+                            formControlName="SerialNo"
+                          />
+                        </div>
+                        <div class="form-group">
+                          <label class="form-control-label" for="TAC">
+                            TAC
+                          </label>
+                          <input
+                            class="form-control form-control-sm"
+                            id="example2cols1Input"
+                            placeholder="Show All"
+                            type="text"
+                            formControlName="TAC"
+                          />
+                        </div>
+                      </form>
+                    </div>
+                    <div class="col-4">
+                      <form [formGroup]="RegisterSearchForm">
+                        <div class="form-group">
+                          <label
+                            class="form-control-label"
+                            for="Product Registration No."
+                          >
+                            Product Registration No.
+                          </label>
+                          <input
+                            class="form-control form-control-sm"
+                            id="example2cols1Input"
+                            placeholder="Show All"
+                            type="text"
+                            formControlName="ProductRegistrationNo"
+                          />
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col text-right mb-4 ml--4">
+                      <button
+                        class="btn btn-sm btn-neutral"
+                        (click)="filterTableRegister()"
+                      >
+                        Search
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <div class="card mt-4">
+                <div class="dataTables_wrapper py-4">
+                  <div class="row">
+                    <div class="col-sm-12 col-md-6">
+                      <div class="dataTables_length" id="datatable_length">
+                        <label>
+                          Show
+                          <select
+                            name="datatable_length"
+                            aria-controls="datatable"
+                            class="form-control form-control-sm"
+                            (change)="entryChange($event)"
+                          >
+                            <option value="5">5</option>
+                            <option value="25">25</option>
+                            <option value="50">50</option>
+                            <option value="-1">All</option>
+                          </select>
+                          records
+                        </label>
+                      </div>
+                    </div>
+                    <div class="col-sm-4 col-md-6 text-right ml--4">
+                      <button
+                        class="btn btn-sm btn-neutral"
+                        style="width: 200px"
+                        (click)="openModal(addRegisterData)"
+                      >
+                        Add File
+                      </button>
+                      <button
+                        class="btn btn-sm btn-secondary"
+                        style="width: 200px"
+                        (click)="exportexcel()"
+                      >
+                        Export
+                      </button>
+                    </div>
+                  </div>
+
+                  <ngx-datatable
+                    class="bootstrap selection-cell"
+                    [columnMode]="'force'"
+                    [headerHeight]="50"
+                    [footerHeight]="50"
+                    [rowHeight]="'auto'"
+                    [limit]="tableEntries != -1 ? tableEntries : undefined"
+                    [rows]="infoTable"
+                    (activate)="onActivate($event)"
+                    [sorts]="[{ prop: 'email', dir: 'asc' }]"
+                  >
+                    <ngx-datatable-column name="No">
+                      <ng-template
+                        let-rowIndex="rowIndex"
+                        let-row="row"
+                        ngx-datatable-cell-template
+                      >
+                        <strong>{{ rowIndex + 1 }}</strong>
+                      </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column>
+                      <ng-template ngx-datatable-header-template>
+                        <span>SLIP ID</span>
+                      </ng-template>
+                      <ng-template let-row="row" ngx-datatable-cell-template>
+                        {{ row.SLPID }}
+                      </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column>
+                      <ng-template ngx-datatable-header-template>
+                        <span>IMEI No.</span>
+                      </ng-template>
+                      <ng-template let-row="row" ngx-datatable-cell-template>
+                        {{ row.IMEI }}
+                      </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column>
+                      <ng-template ngx-datatable-header-template>
+                        <span>TAC</span>
+                      </ng-template>
+                      <ng-template let-row="row" ngx-datatable-cell-template>
+                        {{ row.TAC }}
+                      </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column>
+                      <ng-template ngx-datatable-header-template>
+                        <span>Product Category</span>
+                      </ng-template>
+                      <ng-template let-row="row" ngx-datatable-cell-template>
+                        {{ row.RegType }}
+                      </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column>
+                      <ng-template ngx-datatable-header-template>
+                        <span>File No</span>
+                      </ng-template>
+                      <ng-template let-row="row" ngx-datatable-cell-template>
+                        {{ row.FileNo }}
+                      </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column>
+                      <ng-template ngx-datatable-header-template>
+                        <span>Serial No.</span>
+                      </ng-template>
+                      <ng-template let-row="row" ngx-datatable-cell-template>
+                        {{ row.SerialNo }}
+                      </ng-template>
+                    </ngx-datatable-column>
+                  </ngx-datatable>
+                </div>
+              </div>
+            </div>
+          </div>
+        </tab>
+        <!--Product Certification Table-->
+        <tab heading="Product Certification">
+          <div class="row">
+            <div class="col">
+              <div class="card mt-4">
+                <div id="datatable_filter" class="mt-4 ml-4 mr-4">
+                  <div class="row">
+                    <label class="form-control-label">
+                      Search by column:
+                    </label>
+                  </div>
+                  <div class="row">
+                    <div class="col-4">
+                      <form [formGroup]="CertificationSearchForm">
+                        <div class="form-group">
+                          <label class="form-control-label" for="FileNo">
+                            FileNo
+                          </label>
+                          <input
+                            class="form-control form-control-sm"
+                            id="example2cols1Input"
+                            placeholder="Show All"
+                            type="text"
+                            formControlName="FileNo"
+                          />
+                        </div>
+                        <div class="form-group">
+                          <label class="form-control-label" for="TAC">
+                            TAC
+                          </label>
+                          <input
+                            class="form-control form-control-sm"
+                            id="example2cols1Input"
+                            placeholder="Show All"
+                            type="text"
+                            formControlName="TAC"
+                          />
+                        </div>
+                        <div class="form-group">
+                          <label
+                            class="form-control-label"
+                            for="ProductCategory"
+                          >
+                            Product Category
+                          </label>
+                          <select
+                            type="search"
+                            class="form-control form-control-sm"
+                            aria-controls="datatable"
+                            formControlName="ProductCategory"
+                          >
+                            <option value="RADIO">Radio</option>
+                            <option value="TELEPHONE">Telephone</option>
+                            <option value="" selected class="text-muted">
+                              -- Please Choose --
+                            </option>
+                          </select>
+                        </div>
+                      </form>
+                    </div>
+                    <div class="col-4">
+                      <form [formGroup]="CertificationSearchForm">
+                        <div class="form-group">
+                          <label class="form-control-label" for="Model">
+                            Model
+                          </label>
+                          <input
+                            class="form-control form-control-sm"
+                            id="example2cols1Input"
+                            placeholder="Show All"
+                            type="text"
+                            formControlName="Model"
+                          />
+                        </div>
+                        <div class="form-group">
+                          <label class="form-control-label" for="Brand">
+                            Brand
+                          </label>
+                          <input
+                            class="form-control form-control-sm"
+                            id="example2cols1Input"
+                            placeholder="Show All"
+                            type="text"
+                            formControlName="Brand"
+                          />
+                        </div>
+                      </form>
+                    </div>
+                    <div class="col-4">
+                      <form [formGroup]="CertificationSearchForm">
+                        <div class="form-group">
+                          <label class="form-control-label" for="ApproveDate">
+                            ApproveDate
+                          </label>
+                          <input
+                            class="form-control form-control-sm"
+                            id="example2cols1Input"
+                            placeholder="Show All"
+                            type="text"
+                            formControlName="ApproveDate"
+                          />
+                        </div>
+                        <div class="form-group">
+                          <label class="form-control-label" for="ROCROB">
+                            ROCROB
+                          </label>
+                          <input
+                            class="form-control form-control-sm"
+                            id="example2cols1Input"
+                            placeholder="Show All"
+                            type="text"
+                            formControlName="ROCROB"
+                          />
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col text-right mb-4 ml--4">
+                      <button
+                        class="btn btn-sm btn-neutral"
+                        (click)="filterTableCertication()"
+                      >
+                        Search
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <div class="card mt-4">
+                <div class="dataTables_wrapper py-4">
+                  <div class="row">
+                    <div class="col-sm-12 col-md-12">
+                      <!--<div id="datatable_filter" class="ml-4">
+                          <form [formGroup]="searchForm">
+                          
+                            <label>
+                              Search by column:
+                              <input
+                                type="search"
+                                class="form-control form-control-sm"
+                                placeholder="IMEI"
+                                aria-controls="datatable"
+                                (keyup)="filterTableImei($event)"
+                                formControlName="imei"
+                              />
+                            </label>
+                            <label>
+                              <input
+                                type="search"
+                                class="form-control form-control-sm"
+                                placeholder="Serial No."
+                                aria-controls="datatable"
+                                (keyup)="filterTableSerial($event)"
+                                formControlName="serial"
+                              />
+                            </label>
+                            <label>
+                              <input
+                                type="search"
+                                class="form-control form-control-sm"
+                                placeholder="Model ID"
+                                aria-controls="datatable"
+                                (keyup)="filterTableModel($event)"
+                                formControlName="model"
+                              />
+                            </label>
+                            <label>
+                              <input
+                                type="search"
+                                class="form-control form-control-sm"
+                                placeholder="Brand"
+                                aria-controls="datatable"
+                                (keyup)="filterTableConsignee($event)"
+                                formControlName="brand"
+                              />
+                            </label>
+                            <label>
+                              <input
+                                type="search"
+                                class="form-control form-control-sm"
+                                placeholder="SLPID"
+                                aria-controls="datatable"
+                                (keyup)="filterTableSLPID($event)"
+                                formControlName="SLPID"
+                              />
+                            </label>
+                            <label>
+                              <select
+                                type="search"
+                                class="form-control form-control-sm"
+                                style="width: 150px"
+                                aria-controls="datatable"
+                                (change)="
+                                  filterTableCategory($event.target.value)
+                                "
+                                formControlName="category"
+                              >
+                                <option value="radio">Radio</option>
+                                <option value="phone">Telephone</option>
+                                <option selected class="text-muted">
+                                  Category
+                                </option>
+                              </select>
+                            </label>
+                          </form>
+                        </div>-->
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-12 col-md-12">
+                      <!--<div id="datatable_filter" class="ml-4">
+                          <label> Search by Date: </label>
+                          <form [formGroup]="dateSearchForm">
+                            <div class="row">
+                              <div class="col-xs-12 col-12 col-md-2 form-group">
+                                <input
+                                  placeholder="DD-MM-YYYY"
+                                  class="form-control form-control-sm"
+                                  #drp="bsDaterangepicker"
+                                  (keyup)="filterDate($event)"
+                                  bsDaterangepicker
+                                  [bsConfig]="{
+                                    isAnimated: true,
+                                    dateInputFormat: 'YYYY-MM-DD',
+                                    containerClass: 'theme-dark-blue'
+                                  }"
+                                />
+                              </div>
+                            </div>
+                          </form>
+                        </div>-->
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-6 col-md-6">
+                      <div class="dataTables_length" id="datatable_length">
+                        <label>
+                          Show
+                          <select
+                            name="datatable_length"
+                            aria-controls="datatable"
+                            class="form-control form-control-sm"
+                            (change)="entryChange($event)"
+                          >
+                            <option value="5">5</option>
+                            <option value="25">25</option>
+                            <option value="50">50</option>
+                            <option value="-1">All</option>
+                          </select>
+                          records
+                        </label>
+                      </div>
+                    </div>
+                    <div class="col-sm-4 col-md-6 text-right ml--4">
+                      <button
+                        class="btn btn-sm btn-neutral"
+                        (click)="openModal(addCertData)"
+                      >
+                        Add File
+                      </button>
+                      <button
+                        class="btn btn-sm btn-secondary"
+                        style="width: 200px"
+                        (click)="exportexcelCert()"
+                      >
+                        Export
+                      </button>
+                    </div>
+                  </div>
+
+                  <ngx-datatable
+                    class="bootstrap selection-cell"
+                    [columnMode]="'standard'"
+                    [headerHeight]="50"
+                    [footerHeight]="50"
+                    [rowHeight]="'auto'"
+                    [limit]="tableEntries != -1 ? tableEntries : undefined"
+                    [rows]="productCertificationTable"
+                    (activate)="onActivate($event)"
+                    [sorts]="[{ prop: 'email', dir: 'asc' }]"
+                  >
+                    <ngx-datatable-column name="No" [width]="40">
+                      <ng-template
+                        let-rowIndex="rowIndex"
+                        let-row="row"
+                        ngx-datatable-cell-template
+                      >
+                        <strong>{{ rowIndex + 1 }}</strong>
+                      </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column
+                      [width]="180"
+                      [sortable]="true"
+                      [resizeable]="false"
+                    >
+                      <ng-template ngx-datatable-header-template>
+                        <span>File No.</span>
+                      </ng-template>
+                      <ng-template let-row="row" ngx-datatable-cell-template>
+                        {{ row.FileNo }}
+                      </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column
+                      [width]="180"
+                      [sortable]="true"
+                      [resizeable]="false"
+                    >
+                      <ng-template ngx-datatable-header-template>
+                        <span>TAC</span>
+                      </ng-template>
+                      <ng-template let-row="row" ngx-datatable-cell-template>
+                        {{ row.TAC }}
+                      </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column
+                      [width]="100"
+                      [sortable]="true"
+                      [resizeable]="false"
+                    >
+                      <ng-template ngx-datatable-header-template>
+                        <span>Type Of Product</span>
+                      </ng-template>
+                      <ng-template let-row="row" ngx-datatable-cell-template>
+                        {{ row.TypeOfProduct }}
+                      </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column
+                      [width]="100"
+                      [sortable]="true"
+                      [resizeable]="false"
+                    >
+                      <ng-template ngx-datatable-header-template>
+                        <span>Product Category</span>
+                      </ng-template>
+                      <ng-template let-row="row" ngx-datatable-cell-template>
+                        {{ row.ProductCategory }}
+                      </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column
+                      [width]="100"
+                      [sortable]="true"
+                      [resizeable]="false"
+                    >
+                      <ng-template ngx-datatable-header-template>
+                        <span>Model </span>
+                      </ng-template>
+                      <ng-template let-row="row" ngx-datatable-cell-template>
+                        {{ row.Model }}
+                      </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column
+                      [width]="100"
+                      [sortable]="true"
+                      [resizeable]="false"
+                    >
+                      <ng-template ngx-datatable-header-template>
+                        <span>Brand</span>
+                      </ng-template>
+                      <ng-template let-row="row" ngx-datatable-cell-template>
+                        {{ row.Brand }}
+                      </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column
+                      [width]="100"
+                      [sortable]="true"
+                      [resizeable]="false"
+                    >
+                      <ng-template ngx-datatable-header-template>
+                        <span>Marketing Name</span>
+                      </ng-template>
+                      <ng-template let-row="row" ngx-datatable-cell-template>
+                        {{ row.MarketingName }}
+                      </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column
+                      [width]="120"
+                      [sortable]="true"
+                      [resizeable]="false"
+                    >
+                      <ng-template ngx-datatable-header-template>
+                        <span>Approve Date</span>
+                      </ng-template>
+                      <ng-template let-row="row" ngx-datatable-cell-template>
+                        {{ row.ApproveDate }}
+                      </ng-template>
+                    </ngx-datatable-column>
+                  </ngx-datatable>
+                </div>
+              </div>
+            </div>
+          </div>
+        </tab>
+        <!--SLP ID Table-->
+        <tab heading="SLP ID">
+          <div class="row">
+            <div class="col">
+              <div class="card mt-4">
+                <div id="datatable_filter" class="mt-4 ml-4 mr-4">
+                  <div class="row">
+                    <label class="form-control-label">
+                      Search by column:
+                    </label>
+                  </div>
+                  <div class="row">
+                    <div class="col-4">
+                      <form [formGroup]="SLPSearchForm">
+                        <div class="form-group">
+                          <label class="form-control-label" for="SLP_ID">
+                            SLIP ID
+                          </label>
+                          <input
+                            class="form-control form-control-sm"
+                            id="example2cols1Input"
+                            placeholder="Show All"
+                            type="text"
+                            formControlName="SLP_ID"
+                          />
+                        </div>
+                        <div class="form-group">
+                          <label class="form-control-label" for="SLPID_owner">
+                            SLP ID Owner
+                          </label>
+                          <input
+                            class="form-control form-control-sm"
+                            id="example2cols1Input"
+                            placeholder="Show All"
+                            type="text"
+                            formControlName="SLPID_owner"
+                          />
+                        </div>
+                        <!--<div class="form-group">
+                          <label class="form-control-label" for="ProductCategory">
+                            Product Category
+                          </label>
+                          <select
+                            type="search"
+                            class="form-control form-control-sm"
+                            aria-controls="datatable"
+                            formControlName="ProductCategory"
+                          >
+                            <option value="RADIO">Radio</option>
+                            <option value="TELEPHONE">Telephone</option>
+                            <option value="" selected class="text-muted">
+                              -- Please Choose --
+                            </option>
+                          </select>
+                        </div>-->
+                      </form>
+                    </div>
+                    <div class="col-4">
+                      <form [formGroup]="SLPSearchForm">
+                        <div class="form-group">
+                          <label
+                            class="form-control-label"
+                            for="principal_certificate"
+                          >
+                            Principal/Certificate Holder
+                          </label>
+                          <input
+                            class="form-control form-control-sm"
+                            id="example2cols1Input"
+                            placeholder="Show All"
+                            type="text"
+                            formControlName="principal_certificate"
+                          />
+                        </div>
+                      </form>
+                    </div>
+                    <div class="col-4">
+                      <form [formGroup]="SLPSearchForm">
+                        <div class="form-group">
+                          <label class="form-control-label" for="ApproveDate">
+                            ApproveDate
+                          </label>
+                          <input
+                            class="form-control form-control-sm"
+                            id="example2cols1Input"
+                            placeholder="Show All"
+                            type="text"
+                            formControlName="ApproveDate"
+                          />
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col text-right mb-4 ml--4">
+                      <button
+                        class="btn btn-sm btn-neutral"
+                        (click)="filterTableSLP()"
+                      >
+                        Search
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <div class="card mt-4">
+                <div class="dataTables_wrapper py-4">
+                  <div class="row">
+                    <div class="col-sm-12 col-md-12">
+                      <!--<div id="datatable_filter" class="ml-4">
+                          <form [formGroup]="searchForm">
+                            <label>
+                              Search by column:
+                              <input
+                                type="search"
+                                class="form-control form-control-sm"
+                                placeholder="IMEI"
+                                aria-controls="datatable"
+                                (keyup)="filterTableImei($event)"
+                                formControlName="imei"
+                              />
+                            </label>
+                            <label>
+                              <input
+                                type="search"
+                                class="form-control form-control-sm"
+                                placeholder="Serial No."
+                                aria-controls="datatable"
+                                (keyup)="filterTableSerial($event)"
+                                formControlName="serial"
+                              />
+                            </label>
+                            <label>
+                              <input
+                                type="search"
+                                class="form-control form-control-sm"
+                                placeholder="Model ID"
+                                aria-controls="datatable"
+                                (keyup)="filterTableModel($event)"
+                                formControlName="model"
+                              />
+                            </label>
+                            <label>
+                              <input
+                                type="search"
+                                class="form-control form-control-sm"
+                                placeholder="Brand"
+                                aria-controls="datatable"
+                                (keyup)="filterTableConsignee($event)"
+                                formControlName="brand"
+                              />
+                            </label>
+                            <label>
+                              <input
+                                type="search"
+                                class="form-control form-control-sm"
+                                placeholder="SLPID"
+                                aria-controls="datatable"
+                                (keyup)="filterTableSLPID($event)"
+                                formControlName="SLPID"
+                              />
+                            </label>
+                            <label>
+                              <select
+                                type="search"
+                                class="form-control form-control-sm"
+                                style="width: 150px"
+                                aria-controls="datatable"
+                                (change)="
+                                  filterTableCategory($event.target.value)
+                                "
+                                formControlName="category"
+                              >
+                                <option value="radio">Radio</option>
+                                <option value="phone">Telephone</option>
+                                <option selected class="text-muted">
+                                  Category
+                                </option>
+                              </select>
+                            </label>
+                          </form>
+                        </div>-->
+                    </div>
+                  </div>
+                  <!--<div class="row">
+                      <div class="col-sm-12 col-md-12">
+                        <div id="datatable_filter" class="ml-4">
+                          <label> Search by Date: </label>
+                          <form [formGroup]="dateSearchForm">
+                            <div class="row">
+                              <div class="col-xs-12 col-12 col-md-2 form-group">
+                                <input
+                                  placeholder="DD-MM-YYYY"
+                                  class="form-control form-control-sm"
+                                  #drp="bsDaterangepicker"
+                                  (keyup)="filterDate($event)"
+                                  bsDaterangepicker
+                                  [bsConfig]="{
+                                    isAnimated: true,
+                                    dateInputFormat: 'YYYY-MM-DD',
+                                    containerClass: 'theme-dark-blue'
+                                  }"
+                                />
+                              </div>
+                            </div>
+                          </form>
+                        </div>
+                      </div>
+                    </div>-->
+                  <div class="row">
+                    <div class="col-sm-12 col-md-6">
+                      <div class="dataTables_length" id="datatable_length">
+                        <label>
+                          Show
+                          <select
+                            name="datatable_length"
+                            aria-controls="datatable"
+                            class="form-control form-control-sm"
+                            (change)="entryChange($event)"
+                          >
+                            <option value="5">5</option>
+                            <option value="25">25</option>
+                            <option value="50">50</option>
+                            <option value="-1">All</option>
+                          </select>
+                          records
+                        </label>
+                      </div>
+                    </div>
+                    <div class="col-sm-4 col-md-6 text-right ml--4">
+                      <button
+                        class="btn btn-sm btn-neutral"
+                        (click)="openModal(addSLPIDData)"
+                      >
+                        Add File
+                      </button>
+                      <button
+                        class="btn btn-sm btn-secondary"
+                        style="width: 200px"
+                        (click)="exportexcelSLP();openPDF()"
+                      >
+                        Export
+                      </button>
+                    </div>
+                  </div>
+
+                  <ngx-datatable
+                    class="bootstrap selection-cell"
+                    [columnMode]="'force'"
+                    [headerHeight]="50"
+                    [footerHeight]="50"
+                    [rowHeight]="'auto'"
+                    [limit]="tableEntries != -1 ? tableEntries : undefined"
+                    [rows]="SLPTable"
+                    (activate)="onActivate($event)"
+                    [sorts]="[{ prop: 'email', dir: 'asc' }]"
+                  >
+                    <ngx-datatable-column name="No">
+                      <ng-template
+                        let-rowIndex="rowIndex"
+                        let-row="row"
+                        ngx-datatable-cell-template
+                      >
+                        <strong>{{ rowIndex + 1 }}</strong>
+                      </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column>
+                      <ng-template ngx-datatable-header-template>
+                        <span>SLIP ID</span>
+                      </ng-template>
+                      <ng-template let-row="row" ngx-datatable-cell-template>
+                        {{ row.SLP_ID }}
+                      </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column>
+                      <ng-template ngx-datatable-header-template>
+                        <span>Owner</span>
+                      </ng-template>
+                      <ng-template let-row="row" ngx-datatable-cell-template>
+                        {{ row.SLPID_owner }}
+                      </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column>
+                      <ng-template ngx-datatable-header-template>
+                        <span>Principal/Certificate Holder</span>
+                      </ng-template>
+                      <ng-template let-row="row" ngx-datatable-cell-template>
+                        {{ row.principal_certificate }}
+                      </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column>
+                      <ng-template ngx-datatable-header-template>
+                        <span>Approve Date</span>
+                      </ng-template>
+                      <ng-template let-row="row" ngx-datatable-cell-template>
+                        {{ row.ApproveDate }}
+                      </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column>
+                      <ng-template ngx-datatable-header-template>
+                        <span>Expiry Date</span>
+                      </ng-template>
+                      <ng-template let-row="row" ngx-datatable-cell-template>
+                        {{ row.ExpiryDate }}
+                      </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column>
+                      <ng-template ngx-datatable-header-template>
+                        <span>CA</span>
+                      </ng-template>
+                      <ng-template let-row="row" ngx-datatable-cell-template>
+                        {{ row.CA_owner }}
+                      </ng-template>
+                    </ngx-datatable-column>
+                  </ngx-datatable>
+                </div>
+              </div>
+            </div>
+          </div>
+        </tab>
+      </tabset>
+    </div>
+  </div>
+  <!--Product Registration Table-->
+  <!--<div class="row">
     <div class="col">
       <div class="card">
         <div class="card-header bg-secondary">
           <div class="row">
             <div class="col-lg-6 col-7">
-              <h3 class="m-0">Data Search</h3>
+              <h3 class="m-0">Product Registration</h3>
             </div>
             <div class="col-lg-6 col-5 text-right">
               <button
@@ -169,7 +1152,6 @@
             <div class="col-sm-12 col-md-12">
               <div id="datatable_filter" class="ml-4">
                 <form [formGroup]="searchForm">
-                  <!--<div class="form-group">-->
                   <label>
                     Search by column:
                     <input
@@ -252,7 +1234,11 @@
                         #drp="bsDaterangepicker"
                         (keyup)="filterDate($event)"
                         bsDaterangepicker
-                        [bsConfig]="{ isAnimated: true, dateInputFormat: 'YYYY-MM-DD', containerClass:'theme-dark-blue' }"
+                        [bsConfig]="{
+                          isAnimated: true,
+                          dateInputFormat: 'YYYY-MM-DD',
+                          containerClass: 'theme-dark-blue'
+                        }"
                       />
                     </div>
                   </div>
@@ -347,15 +1333,243 @@
                 {{ row.modelId }}
               </ng-template>
             </ngx-datatable-column>
+            <ngx-datatable-column>
+              <ng-template ngx-datatable-header-template>
+                <span>Consignee Name</span>
+              </ng-template>
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.consigneeName }}
+              </ng-template>
+            </ngx-datatable-column>
 
-            <!--<ngx-datatable-column>
-                          <ng-template ngx-datatable-header-template>
-                              <span>Model Description</span>
-                          </ng-template>
-                          <ng-template let-row="row" ngx-datatable-cell-template>
-                              {{row.modelDescription}}
-                          </ng-template>
-                      </ngx-datatable-column>>-->
+            <ngx-datatable-column>
+              <ng-template ngx-datatable-header-template>
+                <span>Serial No.</span>
+              </ng-template>
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.serialNo }}
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column>
+              <ng-template ngx-datatable-header-template>
+                <span>Expiry Date</span>
+              </ng-template>
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.expiryDate }}
+              </ng-template>
+            </ngx-datatable-column>
+          </ngx-datatable>
+        </div>
+      </div>
+    </div>
+  </div>-->
+  <!--Product Certification Table-->
+  <!--<div class="row">
+    <div class="col">
+      <div class="card">
+        <div class="card-header bg-secondary">
+          <div class="row">
+            <div class="col-lg-6 col-7">
+              <h3 class="m-0">Product Certification</h3>
+            </div>
+            <div class="col-lg-6 col-5 text-right">
+              <button
+                class="btn btn-sm btn-neutral"
+                (click)="openModal(addNewData)"
+              >
+                Add New Data
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="dataTables_wrapper py-4">
+          <div class="row">
+            <div class="col-sm-12 col-md-12">
+              <div id="datatable_filter" class="ml-4">
+                <form [formGroup]="searchForm">
+                  <div class="form-group">
+                  <label>
+                    Search by column:
+                    <input
+                      type="search"
+                      class="form-control form-control-sm"
+                      placeholder="IMEI"
+                      aria-controls="datatable"
+                      (keyup)="filterTableImei($event)"
+                      formControlName="imei"
+                    />
+                  </label>
+                  <label>
+                    <input
+                      type="search"
+                      class="form-control form-control-sm"
+                      placeholder="Serial No."
+                      aria-controls="datatable"
+                      (keyup)="filterTableSerial($event)"
+                      formControlName="serial"
+                    />
+                  </label>
+                  <label>
+                    <input
+                      type="search"
+                      class="form-control form-control-sm"
+                      placeholder="Model ID"
+                      aria-controls="datatable"
+                      (keyup)="filterTableModel($event)"
+                      formControlName="model"
+                    />
+                  </label>
+                  <label>
+                    <input
+                      type="search"
+                      class="form-control form-control-sm"
+                      placeholder="Brand"
+                      aria-controls="datatable"
+                      (keyup)="filterTableConsignee($event)"
+                      formControlName="brand"
+                    />
+                  </label>
+                  <label>
+                    <input
+                      type="search"
+                      class="form-control form-control-sm"
+                      placeholder="SLPID"
+                      aria-controls="datatable"
+                      (keyup)="filterTableSLPID($event)"
+                      formControlName="SLPID"
+                    />
+                  </label>
+                  <label>
+                    <select
+                      type="search"
+                      class="form-control form-control-sm"
+                      style="width: 150px"
+                      aria-controls="datatable"
+                      (change)="filterTableCategory($event.target.value)"
+                      formControlName="category"
+                    >
+                      <option value="radio">Radio</option>
+                      <option value="phone">Telephone</option>
+                      <option selected class="text-muted">Category</option>
+                    </select>
+                  </label>
+                </form>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12 col-md-12">
+              <div id="datatable_filter" class="ml-4">
+                <label> Search by Date: </label>
+                <form [formGroup]="dateSearchForm">
+                  <div class="row">
+                    <div class="col-xs-12 col-12 col-md-2 form-group">
+                      <input
+                        placeholder="DD-MM-YYYY"
+                        class="form-control form-control-sm"
+                        #drp="bsDaterangepicker"
+                        (keyup)="filterDate($event)"
+                        bsDaterangepicker
+                        [bsConfig]="{
+                          isAnimated: true,
+                          dateInputFormat: 'YYYY-MM-DD',
+                          containerClass: 'theme-dark-blue'
+                        }"
+                      />
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12 col-md-6">
+              <div class="dataTables_length" id="datatable_length">
+                <label>
+                  Show
+                  <select
+                    name="datatable_length"
+                    aria-controls="datatable"
+                    class="form-control form-control-sm"
+                    (change)="entryChange($event)"
+                  >
+                    <option value="5">5</option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                    <option value="-1">All</option>
+                  </select>
+                  records
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <ngx-datatable
+            class="bootstrap selection-cell"
+            [columnMode]="'force'"
+            [headerHeight]="50"
+            [footerHeight]="50"
+            [rowHeight]="'auto'"
+            [limit]="tableEntries != -1 ? tableEntries : undefined"
+            [rows]="productCertificationTable"
+            (activate)="onActivate($event)"
+            [sorts]="[{ prop: 'email', dir: 'asc' }]"
+          >
+            <ngx-datatable-column name="No">
+              <ng-template
+                let-rowIndex="rowIndex"
+                let-row="row"
+                ngx-datatable-cell-template
+              >
+                <strong>{{ rowIndex + 1 }}</strong>
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column>
+              <ng-template ngx-datatable-header-template>
+                <span>SLIP ID</span>
+              </ng-template>
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.SLPID }}
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column>
+              <ng-template ngx-datatable-header-template>
+                <span>IMEI No.</span>
+              </ng-template>
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.imeiNo }}
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column>
+              <ng-template ngx-datatable-header-template>
+                <span>TAC</span>
+              </ng-template>
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.TAC }}
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column>
+              <ng-template ngx-datatable-header-template>
+                <span>Product Category</span>
+              </ng-template>
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.productCategory }}
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column>
+              <ng-template ngx-datatable-header-template>
+                <span>Model ID</span>
+              </ng-template>
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.modelId }}
+              </ng-template>
+            </ngx-datatable-column>
 
             <ngx-datatable-column>
               <ng-template ngx-datatable-header-template>
@@ -387,33 +1601,260 @@
         </div>
       </div>
     </div>
-  </div>
+  </div>-->
+  <!--SLP ID Table-->
   <!--<div class="row">
-    <div class="col-xl-12">
-      <div class="card bg-default">
-        <div class="card-header">
-          <div class="row align-items-center">
-            <div class="col">
-              <h6 class="text-light text-uppercase ls-1 mb-1">Overview</h6>
-              <h5 class="h3 text-white mb-0">Portal Overview</h5>
+    <div class="col">
+      <div class="card">
+        <div class="card-header bg-secondary">
+          <div class="row">
+            <div class="col-lg-6 col-7">
+              <h3 class="m-0">SLP ID</h3>
+            </div>
+            <div class="col-lg-6 col-5 text-right">
+              <button
+                class="btn btn-sm btn-neutral"
+                (click)="openModal(addNewData)"
+              >
+                Add New Data
+              </button>
             </div>
           </div>
         </div>
-
-        <div class="card-body">
-          <div class="chart">
-            <div class="amchart" id="portalchart"></div>
+        <div class="dataTables_wrapper py-4">
+          <div class="row">
+            <div class="col-sm-12 col-md-12">
+              <div id="datatable_filter" class="ml-4">
+                <form [formGroup]="searchForm">
+                  <label>
+                    Search by column:
+                    <input
+                      type="search"
+                      class="form-control form-control-sm"
+                      placeholder="IMEI"
+                      aria-controls="datatable"
+                      (keyup)="filterTableImei($event)"
+                      formControlName="imei"
+                    />
+                  </label>
+                  <label>
+                    <input
+                      type="search"
+                      class="form-control form-control-sm"
+                      placeholder="Serial No."
+                      aria-controls="datatable"
+                      (keyup)="filterTableSerial($event)"
+                      formControlName="serial"
+                    />
+                  </label>
+                  <label>
+                    <input
+                      type="search"
+                      class="form-control form-control-sm"
+                      placeholder="Model ID"
+                      aria-controls="datatable"
+                      (keyup)="filterTableModel($event)"
+                      formControlName="model"
+                    />
+                  </label>
+                  <label>
+                    <input
+                      type="search"
+                      class="form-control form-control-sm"
+                      placeholder="Brand"
+                      aria-controls="datatable"
+                      (keyup)="filterTableConsignee($event)"
+                      formControlName="brand"
+                    />
+                  </label>
+                  <label>
+                    <input
+                      type="search"
+                      class="form-control form-control-sm"
+                      placeholder="SLPID"
+                      aria-controls="datatable"
+                      (keyup)="filterTableSLPID($event)"
+                      formControlName="SLPID"
+                    />
+                  </label>
+                  <label>
+                    <select
+                      type="search"
+                      class="form-control form-control-sm"
+                      style="width: 150px"
+                      aria-controls="datatable"
+                      (change)="filterTableCategory($event.target.value)"
+                      formControlName="category"
+                    >
+                      <option value="radio">Radio</option>
+                      <option value="phone">Telephone</option>
+                      <option selected class="text-muted">Category</option>
+                    </select>
+                  </label>
+                </form>
+              </div>
+            </div>
           </div>
+          <div class="row">
+            <div class="col-sm-12 col-md-12">
+              <div id="datatable_filter" class="ml-4">
+                <label> Search by Date: </label>
+                <form [formGroup]="dateSearchForm">
+                  <div class="row">
+                    <div class="col-xs-12 col-12 col-md-2 form-group">
+                      <input
+                        placeholder="DD-MM-YYYY"
+                        class="form-control form-control-sm"
+                        #drp="bsDaterangepicker"
+                        (keyup)="filterDate($event)"
+                        bsDaterangepicker
+                        [bsConfig]="{
+                          isAnimated: true,
+                          dateInputFormat: 'YYYY-MM-DD',
+                          containerClass: 'theme-dark-blue'
+                        }"
+                      />
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12 col-md-6">
+              <div class="dataTables_length" id="datatable_length">
+                <label>
+                  Show
+                  <select
+                    name="datatable_length"
+                    aria-controls="datatable"
+                    class="form-control form-control-sm"
+                    (change)="entryChange($event)"
+                  >
+                    <option value="5">5</option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                    <option value="-1">All</option>
+                  </select>
+                  records
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <ngx-datatable
+            class="bootstrap selection-cell"
+            [columnMode]="'force'"
+            [headerHeight]="50"
+            [footerHeight]="50"
+            [rowHeight]="'auto'"
+            [limit]="tableEntries != -1 ? tableEntries : undefined"
+            [rows]="productCertificationTable"
+            (activate)="onActivate($event)"
+            [sorts]="[{ prop: 'email', dir: 'asc' }]"
+          >
+            <ngx-datatable-column name="No">
+              <ng-template
+                let-rowIndex="rowIndex"
+                let-row="row"
+                ngx-datatable-cell-template
+              >
+                <strong>{{ rowIndex + 1 }}</strong>
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column>
+              <ng-template ngx-datatable-header-template>
+                <span>SLIP ID</span>
+              </ng-template>
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.SLPID }}
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column>
+              <ng-template ngx-datatable-header-template>
+                <span>IMEI No.</span>
+              </ng-template>
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.imeiNo }}
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column>
+              <ng-template ngx-datatable-header-template>
+                <span>TAC</span>
+              </ng-template>
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.TAC }}
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column>
+              <ng-template ngx-datatable-header-template>
+                <span>Product Category</span>
+              </ng-template>
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.productCategory }}
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column>
+              <ng-template ngx-datatable-header-template>
+                <span>Model ID</span>
+              </ng-template>
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.modelId }}
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column>
+              <ng-template ngx-datatable-header-template>
+                <span>Consignee Name</span>
+              </ng-template>
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.consigneeName }}
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column>
+              <ng-template ngx-datatable-header-template>
+                <span>Serial No.</span>
+              </ng-template>
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.serialNo }}
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column>
+              <ng-template ngx-datatable-header-template>
+                <span>Expiry Date</span>
+              </ng-template>
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row.expiryDate }}
+              </ng-template>
+            </ngx-datatable-column>
+          </ngx-datatable>
         </div>
       </div>
     </div>
   </div>-->
 </div>
 
-<ng-template #addNewData>
+<ngx-spinner
+  bdColor="rgba(0, 0, 0, 0.8)"
+  size="medium"
+  color="#fff"
+  type="square-jelly-box"
+  [fullScreen]="true"
+>
+  <p style="color: white">Loading...</p>
+</ngx-spinner>
+
+<ng-template #addCertData>
   <div class="modal-header bg-default">
     <h6 class="modal-title text-white my-auto" id="modal-title-default">
-      Add New Data
+      Add Product Certification Data
     </h6>
 
     <button
@@ -429,157 +1870,24 @@
 
   <div class="modal-body">
     <form [formGroup]="addNewDataForm">
-      <div class="row">
-        <div class="col-6">
-          <div class="form-group">
-            <label class="form-control-label">File Number</label>
-            <input
-              class="form-control"
-              placeholder="Enter File No."
-              formControlName="fileNo"
-            />
-          </div>
-        </div>
-        <div class="col-6">
-          <div class="form-group">
-            <label class="form-control-label">TAC</label>
-            <input
-              class="form-control"
-              placeholder="TAC"
-              formControlName="TAC"
-            />
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-6">
-          <div class="form-group">
-            <label class="form-control-label">Product Category</label>
-            <input
-              class="form-control"
-              placeholder="Enter Product Category"
-              formControlName="productCategory"
-            />
-          </div>
-        </div>
-        <div class="col-6">
-          <div class="form-group">
-            <label class="form-control-label">Model Id</label>
-            <input
-              class="form-control"
-              placeholder="Enter Model Id"
-              formControlName="modelId"
-            />
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-6">
-          <div class="form-group">
-            <label class="form-control-label">Model Description</label>
-            <input
-              class="form-control"
-              placeholder="Enter Model Description"
-              formControlName="modelDescription"
-            />
-          </div>
-        </div>
-        <div class="col-6">
-          <div class="form-group">
-            <label class="form-control-label">Consignee Name</label>
-            <input
-              class="form-control"
-              placeholder="Enter Consignee Name"
-              formControlName="consigneeName"
-            />
-          </div>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col-6">
-          <div class="form-group">
-            <label class="form-control-label">Submission Date</label>
-            <input
-              class="form-control"
-              placeholder="Enter Submission Date"
-              formControlName="submissionDate"
-            />
-          </div>
-        </div>
-        <div class="col-6">
-          <div class="form-group">
-            <label class="form-control-label">Approve Date</label>
-            <input
-              class="form-control"
-              placeholder="Enter Approve Date"
-              formControlName="approveDate"
-            />
-          </div>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col-6">
-          <div class="form-group">
-            <label class="form-control-label">Expiry Date</label>
-            <input
-              class="form-control"
-              placeholder="Enter Expiry Date"
-              formControlName="expiryDate"
-            />
-          </div>
-        </div>
-        <div class="col-6">
-          <div class="form-group">
-            <label class="form-control-label">Category</label>
-            <input
-              class="form-control"
-              placeholder="Enter Category"
-              formControlName="category"
-            />
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-6">
-          <div class="form-group">
-            <label class="form-control-label">IMEI Number</label>
-            <input
-              class="form-control"
-              placeholder="Enter IMEI No."
-              formControlName="imeiNo"
-            />
-          </div>
-        </div>
-        <div class="col-6">
-          <div class="form-group">
-            <label class="form-control-label">SLPID</label>
-            <input
-              class="form-control"
-              placeholder="Enter SLPID"
-              formControlName="SLPID"
-            />
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-6">
-          <div class="form-group">
-            <label class="form-control-label">Serial Number</label>
-            <input
-              class="form-control"
-              placeholder="Enter Serial Number"
-              formControlName="serialNo"
-            />
-          </div>
-        </div>
+      <div class="form-group">
+        <label class="form-control-label">Upload Excel</label>
+        <input
+          class="form-control"
+          name="excelFile"
+          (change)="onFileChange($event)"
+          type="file"
+        />
       </div>
     </form>
   </div>
 
   <div class="modal-footer">
-    <button class="btn btn-success" type="button" (click)="NewData()">
+    <button
+      class="btn btn-success"
+      type="button"
+      (click)="submitFileExcelCert()"
+    >
       Add
     </button>
 
@@ -593,3 +1901,236 @@
     </button>
   </div>
 </ng-template>
+
+<ng-template #addRegisterData>
+  <div class="modal-header bg-default">
+    <h6 class="modal-title text-white my-auto" id="modal-title-default">
+      Add Product Register Data
+    </h6>
+
+    <button
+      aria-label="Close"
+      class="close"
+      data-dismiss="modal"
+      type="button"
+      (click)="closeModal()"
+    >
+      <span aria-hidden="true" class="text-white my-auto"> × </span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <form [formGroup]="addNewDataForm">
+      <div class="form-group">
+        <label class="form-control-label">Upload Excel</label>
+        <input
+          class="form-control"
+          name="excelFile"
+          (change)="onFileChange($event)"
+          type="file"
+        />
+      </div>
+    </form>
+  </div>
+
+  <div class="modal-footer">
+    <button
+      class="btn btn-success"
+      type="button"
+      (click)="submitFileExcelRegister()"
+    >
+      Add
+    </button>
+
+    <button
+      class="btn btn-outline-danger ml-auto"
+      data-dismiss="modal"
+      type="button"
+      (click)="closeModal()"
+    >
+      Close
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #addSLPIDData>
+  <div class="modal-header bg-default">
+    <h6 class="modal-title text-white my-auto" id="modal-title-default">
+      Add SLPID Data
+    </h6>
+
+    <button
+      aria-label="Close"
+      class="close"
+      data-dismiss="modal"
+      type="button"
+      (click)="closeModal()"
+    >
+      <span aria-hidden="true" class="text-white my-auto"> × </span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <form [formGroup]="addNewDataForm">
+      <div class="form-group">
+        <label class="form-control-label">Upload Excel</label>
+        <input
+          class="form-control"
+          name="excelFile"
+          (change)="onFileChange($event)"
+          type="file"
+        />
+      </div>
+    </form>
+  </div>
+
+  <div class="modal-footer">
+    <button
+      class="btn btn-success"
+      type="button"
+      (click)="submitFileExcelSLPID()"
+    >
+      Add
+    </button>
+
+    <button
+      class="btn btn-outline-danger ml-auto"
+      data-dismiss="modal"
+      type="button"
+      (click)="closeModal()"
+    >
+      Close
+    </button>
+  </div>
+</ng-template>
+
+<div class="table" id="excel-table" [hidden]="isSummaryTableHidden">
+	<table id="print-section" class="table table-responsive table-flush">
+		<thead>
+			<tr>
+				<th>SLP ID</th>
+				<th>File No.</th>
+				<th>TAC</th>
+				<th>Product Registration No</th>
+				<th>Register Type</th>
+        <th>Serial Number</th>
+        <th>IMEI Number</th>
+
+			</tr>
+		</thead>
+
+		<tbody>
+			<tr *ngFor="let row of infoTable">
+				<td>
+					{{ row.SLPID }}  
+				</td>
+				<td>
+					{{ row.FileNo }}  
+				</td>
+				<td>
+					{{ row.TAC }}
+				</td>
+        <td>
+					{{ row.ProductRegistrationNo }}
+				</td>
+				<td>
+					{{row.RegType}}
+				</td>
+        <td>
+					{{row.SerialNo}}
+				</td>
+        <td>
+					{{row.IMEI}}
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+
+<div class="table" id="excel-table-cert" [hidden]="isSummaryTableHidden">
+	<table id="print-section2" class="table table-responsive table-flush">
+		<thead>
+			<tr>
+				<th>TAC</th>
+				<th>File No.</th>
+				<th>TypeOfProduct</th>
+				<th>Model</th>
+				<th>Brand</th>
+        <th>MarketingName</th>
+        <th>ApproveDate</th>
+        <th>ExpiryDate</th>
+        <th>ProductCategory</th>
+        <th>ROCROB</th>
+			</tr>
+		</thead>
+
+		<tbody>
+			<tr *ngFor="let row of productCertificationTable">
+				<td>
+					{{ row.TAC }}  
+				</td>
+				<td>
+					{{ row.FileNo }}  
+				</td>
+				<td>
+					{{ row.TypeOfProduct }}
+				</td>
+        <td>
+					{{ row.Model }}
+				</td>
+				<td>
+					{{row.Brand}}
+				</td>
+        <td>
+					{{row.MarketingName}}
+				</td>
+        <td>
+					{{row.ApproveDate}}
+				</td>
+        <td>
+					{{row.ExpiryDate}}
+				</td>
+        <td>
+					{{row.ProductCategory}}
+				</td>
+        <td>
+					{{row.ROCROB}}
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+
+<div class="table" id="excel_table_SLP" [hidden]="isSummaryTableHidden" #excel_table_SLP>
+	<table id="print-section3" class="table table-responsive table-flush">
+		<thead>
+			<tr>
+				<th>SLP_ID</th>
+				<th>SLPID_owner</th>
+				<th>principal_certificate</th>
+				<th>ExpiryDate</th>
+				<th>ApproveDate</th>
+			</tr>
+		</thead>
+
+		<tbody>
+			<tr *ngFor="let row of SLPTable">
+				<td>
+					{{ row.SLP_ID }}  
+				</td>
+				<td>
+					{{ row.SLPID_owner }}  
+				</td>
+				<td>
+					{{ row.principal_certificate }}
+				</td>
+        <td>
+					{{ row.ExpiryDate }}
+				</td>
+				<td>
+					{{ row.ApproveDate }}
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>

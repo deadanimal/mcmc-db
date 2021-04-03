@@ -22,22 +22,25 @@ from ProductRegistration.serializers import (
     ProductRegistrationSerializer
 )
 
+
 class ProductRegistrationViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     queryset = ProductRegistration.objects.all()
     serializer_class = ProductRegistrationSerializer
     filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
     filterset_fields = [
-        'Id', 
+        'Id',
+        'FileNo',
+        'TAC',
         'SLPID',
-        'imeiNo',
-        'consigneeName',
-        'modelDescription',
-        'modelId',
-        'productCategory',
-        'serialNo',
-        'approveDate',
+        'ProductRegistrationNo',
+        'RegType',
+        'SerialNo',
+        'IMEI',
+        'created_date',
+        'modified_date',
+        'CA_owner',
 
-        
+
     ]
 
     def get_permissions(self):
@@ -46,9 +49,8 @@ class ProductRegistrationViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         else:
             permission_classes = [AllowAny]
 
-        return [permission() for permission in permission_classes]    
+        return [permission() for permission in permission_classes]
 
-    
     def get_queryset(self):
         queryset = ProductRegistration.objects.all()
         # queryset = CustomUser.objects.filter(string__contains=CustomUser.name)
@@ -72,27 +74,24 @@ class ProductRegistrationViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     @action(methods=['GET'], detail=False)
     def filter_table_testing(self, request, *args, **kwargs):
 
-        consigneeName = request.GET.get('consigneeName', '')
-        modelDescription = request.GET.get('modelDescription', '')
-        productCategory = request.GET.get('productCategory','')
-        SLPID = request.GET.get('SLPID','')
-        imeiNo = request.GET.get('imeiNo','')
-        modelId = request.GET.get('modelId','')
-        serialNo = request.GET.get('serialNo','')
-        approveDate = request.GET.get('approveDate','')
+        FileNo = request.GET.get('FileNo', '')
+        TAC = request.GET.get('TAC', '')
+        SLPID = request.GET.get('SLPID', '')
+        IMEI = request.GET.get('IMEI', '')
+        ProductRegistrationNo = request.GET.get('ProductRegistrationNo', '')
+        SerialNo = request.GET.get('SerialNo', '')
+        RegType = request.GET.get('RegType', '')
 
-        result = ProductRegistration.objects.filter(consigneeName__icontains=consigneeName,
-                                                    modelDescription__icontains=modelDescription,
-                                                    productCategory__icontains=productCategory,
+        result = ProductRegistration.objects.filter(FileNo__icontains=FileNo,
+                                                    TAC__icontains=TAC,
                                                     SLPID__icontains=SLPID,
-                                                    imeiNo__icontains=imeiNo,
-                                                    modelId__icontains=modelId,
-                                                    serialNo__icontains=serialNo,
-                                                    approveDate__icontains=approveDate)
+                                                    IMEI__icontains=IMEI,
+                                                    SerialNo__icontains=SerialNo,
+                                                    ProductRegistrationNo__icontains=ProductRegistrationNo,
+                                                    RegType__icontains=RegType)
 
         serializer = ProductRegistrationSerializer(result, many=True)
-        return Response(serializer.data) 
-
+        return Response(serializer.data)
 
     @action(methods=['POST'], detail=False)
     def verify_recaptcha(self, request):
@@ -104,17 +103,18 @@ class ProductRegistrationViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
 
         captcha_verify_url = "https://www.google.com/recaptcha/api/siteverify"
 
-        response = requests.post(captcha_verify_url, data=[('secret', secret), ('response', response)])
+        response = requests.post(captcha_verify_url, data=[
+                                 ('secret', secret), ('response', response)])
 
-        return JsonResponse(response.json())  
+        return JsonResponse(response.json())
 
-    
     @action(methods=['GET'], detail=False)
     def filter_daterange(self, request, *args, **kwargs):
 
         approveDate = request.GET.get('approveDate', '')
 
-        result = ProductRegistration.objects.filter(approveDate__range=[approveDate])
+        result = ProductRegistration.objects.filter(
+            approveDate__range=[approveDate])
 
         serializer = ProductRegistrationSerializer(result, many=True)
-        return Response(serializer.data) 
+        return Response(serializer.data)

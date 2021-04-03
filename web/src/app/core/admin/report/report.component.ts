@@ -1,143 +1,180 @@
-import { Component, OnInit, OnDestroy, NgZone, TemplateRef } from '@angular/core';
-import { User } from 'src/assets/mock/admin-user/users.model'
-import { MocksService } from 'src/app/shared/services/mocks/mocks.service';
-import { MasterDataService } from 'src/app/shared/services/masterData/masterData.service';
-import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  NgZone,
+  TemplateRef,
+} from "@angular/core";
+import { User } from "src/assets/mock/admin-user/users.model";
+import { MocksService } from "src/app/shared/services/mocks/mocks.service";
+import { MasterDataService } from "src/app/shared/services/masterData/masterData.service";
+import {
+  FormGroup,
+  FormBuilder,
+  Validators,
+  FormControl,
+} from "@angular/forms";
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
-import { BsModalRef, BsModalService } from 'ngx-bootstrap';
-import { UsersService } from 'src/app/shared/services/users/users.service';
-import * as XLSX from 'xlsx'; 
+import { BsModalRef, BsModalService } from "ngx-bootstrap";
+import { UsersService } from "src/app/shared/services/users/users.service";
+import * as XLSX from "xlsx";
+import { SearchCounterService } from "src/app/shared/services/SearchCounter/SearchCounter.service";
+import { SLPService } from "src/app/shared/services/SLP/SLP.service";
+import { ProductGenerationService } from "src/app/shared/services/ProductRegistration/ProductGeneration.service";
+import { productCertificationService } from "src/app/shared/services/productCertification/productCertification.service";
+import { VisitorCounterService } from 'src/app/shared/services/VisitorCounter/VisitorCounter.service';
 am4core.useTheme(am4themes_animated);
 
-
 export enum SelectionType {
-  single = 'single',
-  multi = 'multi',
-  multiClick = 'multiClick',
-  cell = 'cell',
-  checkbox = 'checkbox'
+  single = "single",
+  multi = "multi",
+  multiClick = "multiClick",
+  cell = "cell",
+  checkbox = "checkbox",
 }
 
 @Component({
-  selector: 'app-report',
-  templateUrl: './report.component.html',
-  styleUrls: ['./report.component.scss']
+  selector: "app-report",
+  templateUrl: "./report.component.html",
+  styleUrls: ["./report.component.scss"],
 })
 export class ReportComponent implements OnInit, OnDestroy {
-
   // Chart
-  chart: any
-  chart1: any
-  chart2: any
-  chart3: any
-  dataChart: any[] = []
-  dataChart2: any[] = []
-  dataChart3: any[] = []
-  user: any
+  chart: any;
+  chart1: any;
+  chart2: any;
+  chart3: any;
+  dataChart: any[] = [];
+  dataChart2: any[] = [];
+  dataChart3: any[] = [];
+  user: any;
 
   tableEntries: number = 5;
   tableSelected: any[] = [];
   tableTemp = [];
   tableActiveRow: any;
   SelectionType = SelectionType;
-  infoTable = []
-  dataSearchForm: FormGroup
+  infoTable = [];
+  CounterTable = [];
+  SLPTable = [];
+  IMEITable = [];
+  SerialTable = [];
+  CertTable = [];
+  filterIMEI = [];
+  filterSERIAL = [];
+  filterPRODUCT = [];
+  filterLABEL = [];
+  VisitorGetTable = [];
+  dataSearchForm: FormGroup;
 
   state: boolean = false;
-  isSummaryTableHidden: boolean = true
-  fileName= 'MasterTable.xlsx'; 
+  isSummaryTableHidden: boolean = true;
+  fileName = "MasterTable.xlsx";
 
   // Datepicker
-  bsDPConfig = { 
-    isAnimated: true, 
-    containerClass: 'theme-default'
-  }
+  bsDPConfig = {
+    isAnimated: true,
+    containerClass: "theme-default",
+  };
 
   constructor(
     private mockService: MocksService,
     private zone: NgZone,
     private masterDataService: MasterDataService,
     private usersService: UsersService,
+    private SearchCounterService: SearchCounterService,
+    private SLPService: SLPService,
+    private ProductGenerationService: ProductGenerationService,
+    private productCertificationService: productCertificationService,
+    private VisitorCounterService: VisitorCounterService,
   ) {
-    this.getData()
-    this.productGeneration()
   }
 
   ngOnInit() {
+    this.calculateCharts();
+    this.getData();
+    this.productGeneration();
+    this.VisitorCounterGet();
+    this.CounterSearchGet();
+    setTimeout(() => {
+      this.getChart3();
+    }, 3000);
   }
 
   ngOnDestroy() {
     this.zone.runOutsideAngular(() => {
       if (this.chart) {
-        this.chart.dispose()
+        this.chart.dispose();
       }
       if (this.chart1) {
-        this.chart1.dispose()
+        this.chart1.dispose();
       }
       if (this.chart2) {
-        this.chart2.dispose()
+        this.chart2.dispose();
       }
       if (this.chart3) {
-        this.chart3.dispose()
+        this.chart3.dispose();
       }
-    })
+    });
   }
 
   getData() {
-    this.mockService.getAll('admin-report/report-data-1.json').subscribe(
+    this.mockService.getAll("admin-report/report-data-1.json").subscribe(
       (res) => {
         // Success
-        this.dataChart = res
+        this.dataChart = res;
       },
       () => {
         // Unsuccess
       },
       () => {
         // After
-        this.mockService.getAll('admin-report/report-data-2.json').subscribe(
+        this.mockService.getAll("admin-report/report-data-2.json").subscribe(
           (res) => {
             // Success
-            this.dataChart2 = res
+            this.dataChart2 = res;
           },
           () => {
             // Unsuccess
           },
           () => {
             // After
-            this.mockService.getAll('admin-report/report-data-3.json').subscribe(
-              (res) => {
-                // Success
-                this.dataChart3 = res
-              },
-              () => {
-                // Unsuccess
-              },
-              () => {
-                // After
-                this.getCharts()
-              }
-            )
+            this.mockService
+              .getAll("admin-report/report-data-3.json")
+              .subscribe(
+                (res) => {
+                  // Success
+                  this.dataChart3 = res;
+                },
+                () => {
+                  // Unsuccess
+                },
+                () => {
+                  // After
+                  this.getCharts();
+                }
+              );
           }
-        )
+        );
       }
-    )
+    );
   }
 
   productGeneration() {
     this.masterDataService.get().subscribe(
       (res) => {
-        this.infoTable = [...res]
-        console.log("zzzzz = ",this.infoTable)
+        this.infoTable = [...res];
+        console.log("zzzzz = ", this.infoTable);
 
         this.infoTable = this.infoTable.map((prop, key) => {
           return {
             ...prop,
-            id: key
+            id: key,
           };
         });
-        console.log("xxxxxx = ",this.infoTable)
+        console.log("xxxxxx = ", this.infoTable);
       },
       (err) => {
         // this.loadingBar.complete();
@@ -145,9 +182,9 @@ export class ReportComponent implements OnInit, OnDestroy {
         // console.log("HTTP Error", err), this.errorMessage();
       },
       () => {
-        console.log("HTTP request completed.")
-      //   this.infoTable = [res]
-      //   console.log("zzzzz = ",this.infoTable)
+        console.log("HTTP request completed.");
+        //   this.infoTable = [res]
+        //   console.log("zzzzz = ",this.infoTable)
       }
     );
   }
@@ -182,18 +219,18 @@ export class ReportComponent implements OnInit, OnDestroy {
 
   getCharts() {
     this.zone.runOutsideAngular(() => {
-      this.getChart()
-      this.getChart1()
-      this.getChart2()
-      this.getChart3()
-    })
+      this.getChart();
+      this.getChart1();
+      this.getChart2();
+      // this.getChart3();
+    });
   }
 
   getChart() {
     let chart = am4core.create("visitorChart", am4charts.XYChart);
     chart.paddingRight = 20;
 
-    let data = this.dataChart
+    let data = this.dataChart;
 
     chart.data = data;
     chart.dateFormatter.inputDateFormat = "yyyy";
@@ -218,7 +255,7 @@ export class ReportComponent implements OnInit, OnDestroy {
     chart.cursor.lineX.fill = chart.colors.getIndex(2);
     chart.cursor.lineX.fillOpacity = 0.1;
 
-    this.chart = chart
+    this.chart = chart;
   }
 
   getChart1() {
@@ -231,7 +268,12 @@ export class ReportComponent implements OnInit, OnDestroy {
 
     for (var i = 1; i < 120; i++) {
       open += Math.round((Math.random() < 0.5 ? 1 : -1) * Math.random() * 4);
-      close = Math.round(open + Math.random() * 5 + i / 5 - (Math.random() < 0.5 ? 1 : -1) * Math.random() * 2);
+      close = Math.round(
+        open +
+          Math.random() * 5 +
+          i / 5 -
+          (Math.random() < 0.5 ? 1 : -1) * Math.random() * 2
+      );
       data.push({ date: new Date(2018, 0, i), open: open, close: close });
     }
 
@@ -263,24 +305,23 @@ export class ReportComponent implements OnInit, OnDestroy {
     chart.cursor = new am4charts.XYCursor();
     chart.cursor.xAxis = dateAxis;
 
-
-    this.chart1 = chart
+    this.chart1 = chart;
   }
 
   getChart2() {
     let chart = am4core.create("systemChart", am4charts.XYChart);
 
     // Add data
-    chart.data = this.dataChart2
+    chart.data = this.dataChart2;
 
     // Create axes
     let valueAxisX = chart.xAxes.push(new am4charts.ValueAxis());
-    valueAxisX.title.text = 'X Axis';
+    valueAxisX.title.text = "X Axis";
     valueAxisX.renderer.minGridDistance = 40;
 
     // Create value axis
     let valueAxisY = chart.yAxes.push(new am4charts.ValueAxis());
-    valueAxisY.title.text = 'Y Axis';
+    valueAxisY.title.text = "Y Axis";
 
     // Create series
     let lineSeries = chart.series.push(new am4charts.LineSeries());
@@ -324,56 +365,108 @@ export class ReportComponent implements OnInit, OnDestroy {
     let trend = chart.series.push(new am4charts.LineSeries());
     trend.dataFields.valueY = "value2";
     trend.dataFields.valueX = "value";
-    trend.strokeWidth = 2
+    trend.strokeWidth = 2;
     trend.stroke = chart.colors.getIndex(0);
     trend.strokeOpacity = 0.7;
     trend.data = [
-      { "value": 1, "value2": 2 },
-      { "value": 12, "value2": 11 }
+      { value: 1, value2: 2 },
+      { value: 12, value2: 11 },
     ];
 
     let trend2 = chart.series.push(new am4charts.LineSeries());
     trend2.dataFields.valueY = "value2";
     trend2.dataFields.valueX = "value";
-    trend2.strokeWidth = 2
+    trend2.strokeWidth = 2;
     trend2.stroke = chart.colors.getIndex(3);
     trend2.strokeOpacity = 0.7;
     trend2.data = [
-      { "value": 1, "value2": 1 },
-      { "value": 12, "value2": 19 }
+      { value: 1, value2: 1 },
+      { value: 12, value2: 19 },
     ];
 
+    this.chart2 = chart;
+  }
 
-    this.chart2 = chart
+  calculateCharts() {
+    this.SearchCounterService.filter("Name=IMEI").subscribe(
+      (res) => {
+        this.filterIMEI = res;
+        console.log("Chart imei", this.filterIMEI);
+        console.log("imei count", this.filterIMEI.length);
+      },
+      (err) => {
+        console.log(err);
+      },
+      () => {}
+    );
+
+    this.SearchCounterService.filter("Name=SERIAL").subscribe(
+      (res) => {
+        this.filterSERIAL = res;
+      },
+      (err) => {
+        console.log(err);
+      },
+      () => {}
+    );
+
+    this.SearchCounterService.filter("Name=PRODUCT").subscribe(
+      (res) => {
+        this.filterPRODUCT = res;
+      },
+      (err) => {
+        console.log(err);
+      },
+      () => {}
+    );
+
+    this.SearchCounterService.filter("Name=LABEL").subscribe(
+      (res) => {
+        this.filterLABEL = res;
+        console.log("label", this.filterLABEL.length);
+      },
+      (err) => {
+        console.log(err);
+      },
+      () => {}
+    );
+
   }
 
   getChart3() {
     let chart = am4core.create("totalSearch", am4charts.PieChart);
     chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
 
+    let label = this.filterLABEL.length;
+    let serial = this.filterSERIAL.length;
+    let imei = this.filterIMEI.length;
+    let product = this.filterPRODUCT.length;
+    console.log("label = ",label, " serial = ",serial," imei = ",imei,"product = ",product)
+
+
     chart.data = [
       {
         item: "Product Info",
-        value: 40
+        value: product
       },
       {
         item: "IMEI",
-        value: 30
+        value: imei
       },
       {
         item: "Serial",
-        value: 20
+        value: serial
       },
       {
-        item: "Self Label",
-        value: 16
-      }
+        item: "SLP ID",
+        value: label
+      },
     ];
+    console.log("chart.data", chart.data);
     chart.radius = am4core.percent(70);
     chart.innerRadius = am4core.percent(40);
     chart.startAngle = 0;
-    chart.endAngle = 360;
-
+    chart.endAngle = 180;
 
     let series = chart.series.push(new am4charts.PieSeries());
     series.dataFields.value = "value";
@@ -390,16 +483,16 @@ export class ReportComponent implements OnInit, OnDestroy {
     series.hiddenState.properties.startAngle = 90;
     series.hiddenState.properties.endAngle = 90;
 
-    this.chart3 = chart
+    this.chart3 = chart;
   }
 
   isAllowed = (optional) => {
     return optional === 0 ? true : this.state;
-  }
-  
+  };
+
   changeState = () => {
     this.state = !this.state;
-  }
+  };
 
   entryChange($event) {
     this.tableEntries = $event.target.value;
@@ -415,17 +508,114 @@ export class ReportComponent implements OnInit, OnDestroy {
   }
 
   exportexcel() {
-     /* table id is passed over here */   
-     let element = document.getElementById('excel-table'); 
-     const ws: XLSX.WorkSheet =XLSX.utils.table_to_sheet(element);
-     console.log("export",element)
-     /* generate workbook and add the worksheet */
-     const wb: XLSX.WorkBook = XLSX.utils.book_new();
-     XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+    /* table id is passed over here */
+    let element = document.getElementById("excel-table");
+    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
+    console.log("export", element);
+    /* generate workbook and add the worksheet */
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
 
-     /* save to file */
-     XLSX.writeFile(wb, this.fileName);
-    
+    /* save to file */
+    XLSX.writeFile(wb, this.fileName);
   }
 
+  counterChart() {
+    let filterIMEI = "Name=IMEI";
+    this.SearchCounterService.filter(filterIMEI).subscribe(
+      (res) => {
+        this.filterIMEI = res;
+      },
+      (err) => {},
+      () => {}
+    );
+
+    let filterSERIAL = "Name=SERIAL";
+    this.SearchCounterService.filter(filterSERIAL).subscribe(
+      (res) => {
+        this.filterSERIAL = res;
+      },
+      (err) => {},
+      () => {}
+    );
+
+    var filterPRODUCT = "Name=PRODUCT";
+    this.SearchCounterService.filter(filterPRODUCT).subscribe(
+      (res) => {
+        this.filterPRODUCT = res;
+      },
+      (err) => {},
+      () => {}
+    );
+
+    var filterLABEL = "Name=LABEL";
+    this.SearchCounterService.filter(filterLABEL).subscribe(
+      (res) => {
+        this.filterLABEL = res;
+        console.log("label", this.filterLABEL.length);
+      },
+      (err) => {},
+      () => {}
+    );
+  }
+
+  CounterSearchGet() {
+    this.SearchCounterService.get().subscribe(
+      (res) => {
+        this.CounterTable = res;
+      },
+      (err) => {},
+      () => {}
+    );
+
+    this.ProductGenerationService.get().subscribe(
+      (res) => {
+        this.SLPTable = res;
+      },
+      (err) => {},
+      () => {}
+    );
+
+    let imei = "RegType=IMEI";
+    this.ProductGenerationService.filter(imei).subscribe(
+      (res) => {
+        this.IMEITable = res;
+        console.log(this.IMEITable.length);
+      },
+      (err) => {},
+      () => {}
+    );
+
+    let serial = "RegType=SerialNo";
+    this.ProductGenerationService.filter(serial).subscribe(
+      (res) => {
+        this.SerialTable = res;
+        console.log(this.SerialTable.length);
+      },
+      (err) => {},
+      () => {}
+    );
+
+    this.productCertificationService.get().subscribe(
+      (res) => {
+        this.CertTable = res;
+        console.log(this.CertTable.length);
+      },
+      (err) => {},
+      () => {}
+    );
+  }
+
+  VisitorCounterGet() {
+    this.VisitorCounterService.get().subscribe(
+      (res) => {
+        this.VisitorGetTable = res;
+        console.log("counter visitor",this.VisitorGetTable.length);
+      },
+      (err) => {},
+      () => {
+        console.log("HTTP request completed.");
+      }
+    );
+  }
 }

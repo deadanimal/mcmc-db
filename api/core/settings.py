@@ -64,7 +64,10 @@ INSTALLED_APPS = [
     'emailTemplate',
     'certifiedAgency',
     'variableConfigure',
-    # 'fail',
+    'productCertification',
+    'SLP',
+    'SearchCounter',
+    'VisitorCounter',
     # 'activity',
     # 'comment',
     # 'license',
@@ -118,7 +121,7 @@ DATABASES = {
 
 
 db_from_env = dj_database_url.config(
-    default=config('DATABASE_URL'), conn_max_age=500)
+    default=config('DATABASE_URL'), conn_max_age=0)
 DATABASES['default'].update(db_from_env)
 
 if any(db_from_env):
@@ -180,7 +183,7 @@ REST_USE_JWT = True
 
 REST_FRAMEWORK = {
 
-    "DATE_INPUT_FORMATS": [("%d/%m/%Y"),],
+    "DATE_INPUT_FORMATS": [("%d/%m/%Y"), ],
 
     'DEFAULT_AUTHENTICATION_CLASSES': (
 
@@ -232,7 +235,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 SENDGRID_API_KEY = config('SENDGRID_API_KEY')
 
 EMAIL_HOST = 'smtp.sendgrid.net'
-EMAIL_HOST_USER = 'apikey' # this is exactly the value 'apikey'
+EMAIL_HOST_USER = 'apikey'  # this is exactly the value 'apikey'
 EMAIL_HOST_PASSWORD = SENDGRID_API_KEY
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
