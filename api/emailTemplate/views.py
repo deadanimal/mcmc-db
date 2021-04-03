@@ -101,30 +101,29 @@ class emailTemplateViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
 
         template_code = self.request.data['template_code']
         context = json.loads(self.request.data['context']) if self.request.data['context'] else None
-        template_content = emailTemplate.objects.filter(template_code=template_code)
+        template_content = emailTemplate.objects.filter(template_code=template_code).values()
         email_to = []
 
         emails = emailNoti.objects.all()
 
         if template_content:
-            t = Template(template_content[0].body)
+            t = Template(template_content[0]['template_content'])
             c = Context(context) if context else Context()
             html_message = t.render(c)
 
-        for email_ in emails:
-            email_to.append(
-                email_.email
-            )
-            # print(email_to)
+            for email_ in emails:
+                email_to.append(
+                    email_.email
+                )
 
-        data = {
-            'subject_': 'Email Notification',
-            'plain_message_': strip_tags(html_message),
-            'to_': email_to,
-            'html_message_': template_content
-        }
+            data = {
+                'subject_': 'Email Notification',
+                'plain_message_': strip_tags(html_message),
+                'to_': email_to,
+                'html_message_': template_content
+            }
 
-        print(data)
+            # print(data)
 
-        send_email_result(data)
+            send_email_result(data)
         

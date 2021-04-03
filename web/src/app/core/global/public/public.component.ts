@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { AuthService } from 'src/app/shared/services/auth/auth.service';
 import { LoadingBarService } from '@ngx-loading-bar/core';
 import { NotifyService } from 'src/app/shared/handler/notify/notify.service';
+import { VisitorCounterService } from 'src/app/shared/services/VisitorCounter/VisitorCounter.service';
 
 @Component({
   selector: 'app-public',
@@ -27,11 +28,20 @@ export class PublicComponent implements OnInit {
     private notifyService: NotifyService,
     private formBuilder: FormBuilder,
     private loadingBar: LoadingBarService,
-    private router: Router
+    private router: Router,
+    private VisitorCounterService: VisitorCounterService,
   ) { }
 
   ngOnInit() {
-
+    let counter = { Name: "visitor"};
+    this.VisitorCounterService.post(counter).subscribe(
+      (res) => {
+        console.log("+1 Counter")
+      },
+      (error) => {
+        console.error("err", error);
+      }
+    );
   }
 
   navigatePage(path: String) {

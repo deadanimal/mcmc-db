@@ -9,6 +9,8 @@ import swal from 'sweetalert2';
 import { ViewChild } from '@angular/core';
 import { environment } from "src/environments/environment";
 import { variableConfigureService } from 'src/app/shared/services/variableConfigure/variableConfigure.service';
+import { SearchCounterService } from 'src/app/shared/services/SearchCounter/SearchCounter.service';
+
 
 @Component({
   selector: 'app-emei',
@@ -58,6 +60,7 @@ export class EmeiComponent implements OnInit {
     private formBuilder: FormBuilder,
     private modalService: BsModalService,
     private variableConfigureService: variableConfigureService,
+    private SearchCounterService: SearchCounterService,
   ) { }
 
   ngOnInit() {
@@ -79,12 +82,13 @@ export class EmeiComponent implements OnInit {
   }
 
   productGeneration() {
+    this.loadingBar.start();
     console.log("HTTP",this.searchIMEIForm.value.IMEI)
-    let datafield = "imeiNo="+this.searchIMEIForm.value.IMEI
-    this.loadingBar.start(); 
+    let datafield = "imeiNo="+this.searchIMEIForm.value.IMEI 
     this.productGenerationService.filter(datafield).subscribe(
       (res) => {
         this.loadingBar.complete();
+        this.IMEICounter();
         this.infoTable=res;
         console.log("wewe",this.infoTable.length);
         if (this.infoTable.length == 0){
@@ -104,6 +108,18 @@ export class EmeiComponent implements OnInit {
         this.captchaElem.reloadCaptcha()
       },
       () => console.log("HTTP request completed.")
+    );
+  }
+
+  IMEICounter(){
+    let imeicounter = { Name: "IMEI"};
+    this.SearchCounterService.post(imeicounter).subscribe(
+      (res) => {
+        console.log("+1 IMEI Counter")
+      },
+      (error) => {
+        console.error("err", error);
+      }
     );
   }
 

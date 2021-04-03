@@ -9,16 +9,22 @@ from rest_framework import viewsets, status
 #         [data['to_']]
 def send_email_result(data):
 
+    print(data['plain_message_'])
     # email_template
     # if email_template:
     for em in data['to_']:
-        print(em)
-    res = send_mail(
-        'subject_',
-        'plain_message_',
-        'test@pipeline.com.my',
-        data['to_']
-    )
+    #     print(em)
+        
+        useremail = ''
+        useremail = [em]
+        res = send_mail(
+            'Notification from MCMC RECCE System',
+            data['plain_message_'],
+            'raziman@mcmc.my',
+            useremail,
+        )
+
+    print(res)
 
     return Response(
         data=res,

@@ -8,7 +8,7 @@ import { MasterDataService } from 'src/app/shared/services/masterData/masterData
 import Swal from 'sweetalert2';
 import { environment } from "src/environments/environment";
 import { variableConfigureService } from 'src/app/shared/services/variableConfigure/variableConfigure.service';
-variableConfigureService
+import { SearchCounterService } from 'src/app/shared/services/SearchCounter/SearchCounter.service';
 
 export enum SelectionType {
   single = 'single',
@@ -70,6 +70,7 @@ export class LabelComponent implements OnInit {
     private loadingBar: LoadingBarService,
     private modalService: BsModalService,
     private variableConfigureService: variableConfigureService,
+    private SearchCounterService: SearchCounterService,
     
   ) { }
 
@@ -94,6 +95,7 @@ export class LabelComponent implements OnInit {
     this.loadingBar.start();
     console.log("HTTP",this.searchLABELForm.value.LABEL)
     let datafield = "SLPID="+this.searchLABELForm.value.LABEL 
+    this.LabelCounter();
     this.productGenerationService.filter(datafield).subscribe(
       (res) => {
         this.infoTable=res
@@ -116,6 +118,18 @@ export class LabelComponent implements OnInit {
 
       },
       () => console.log("HTTP request completed.")
+    );
+  }
+
+  LabelCounter(){
+    let imeicounter = { Name: "LABEL"};
+    this.SearchCounterService.post(imeicounter).subscribe(
+      (res) => {
+        console.log("+1 LABEL Counter")
+      },
+      (error) => {
+        console.error("err", error);
+      }
     );
   }
 

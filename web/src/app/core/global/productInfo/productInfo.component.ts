@@ -8,6 +8,7 @@ import { environment } from "src/environments/environment";
 import { NotifyService } from 'src/app/shared/handler/notify/notify.service';
 import Swal from 'sweetalert2';
 import { variableConfigureService } from 'src/app/shared/services/variableConfigure/variableConfigure.service';
+import { SearchCounterService } from 'src/app/shared/services/SearchCounter/SearchCounter.service';
 
 export enum SelectionType {
   single = 'single',
@@ -78,6 +79,7 @@ export class ProductInfoComponent implements OnInit {
     private loadingBar: LoadingBarService,
     private modalService: BsModalService,
     private variableConfigureService: variableConfigureService,
+    private SearchCounterService: SearchCounterService,
   ) { }
 
   ngOnInit() {
@@ -220,6 +222,18 @@ export class ProductInfoComponent implements OnInit {
       }   
   }
 
+  LabelCounter(){
+    let imeicounter = { Name: "PRODUCT"};
+    this.SearchCounterService.post(imeicounter).subscribe(
+      (res) => {
+        console.log("+1 PRODUCT Counter")
+      },
+      (error) => {
+        console.error("err", error);
+      }
+    );
+  }
+
 
   changeDropdown(event){
     if (event=="any"){
@@ -232,6 +246,7 @@ export class ProductInfoComponent implements OnInit {
 
   buttonSubmit(){
     console.log(this.searchType)
+    this.LabelCounter();
     console.log('button pressed')
     if (this.searchType=="any"){
       this.anySearch();

@@ -14,25 +14,20 @@ from core.helpers import PathAndRename
 class ProductRegistration(models.Model):
 
     Id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    fileNo = models.CharField(max_length=255, blank=True)
     TAC = models.CharField(max_length=255, blank=True)
-    productCategory  = models.CharField(max_length=255, blank=True)
-    modelId = models.CharField(max_length=255, blank=True)
-    modelDescription = models.CharField(max_length=255, blank=True)
-    consigneeName = models.CharField(max_length=255, blank=True)
-    submissionDate = models.CharField(max_length=255, blank=True)
-    approveDate = models.CharField(max_length=255, blank=True)
-    expiryDate = models.CharField(max_length=255, blank=True)
-    category = models.CharField(max_length=255, blank=True)
-    imeiNo = models.CharField(max_length=255, blank=True)
-    SLPID = models.CharField(max_length=255, blank=True)
-    created_date = models.DateTimeField(auto_now=True)
+    SLPID  = models.CharField(max_length=255, blank=True)
+    ProductRegistrationNo = models.CharField(max_length=255, blank=True)
+    RegType = models.CharField(max_length=255, blank=True)
+    SerialNo = models.CharField(max_length=255, blank=True)
+    IMEI = models.CharField(max_length=255, blank=True)
+    created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
-    serialNo = models.CharField(max_length=255, blank=True)
+    CA_owner = models.CharField(max_length=255, blank=True)
+    FileNo = models.CharField(max_length=255, blank=True)
  
 
     class Meta:
-        ordering = ['modified_date']
+        ordering = ['created_date']
 
     def __str__(self):
         return self.SLPID
