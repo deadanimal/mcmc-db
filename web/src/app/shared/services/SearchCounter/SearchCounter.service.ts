@@ -90,4 +90,14 @@ export class SearchCounterService {
       );
     }
 
+    getSearchChart() {
+      let urlTemp = this.url + 'get_search_counter'
+      return this.http.get<any>(urlTemp).pipe(
+        tap((res) => {
+          this.SearchCounter = res
+          // console.log('Statistics: ', this.trainingStatistics)
+        })
+      )
+    }
+
   }

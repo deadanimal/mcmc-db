@@ -8,6 +8,8 @@ import { LoadingBarService } from '@ngx-loading-bar/core';
 import swal from 'sweetalert2';
 import { variableConfigureService } from 'src/app/shared/services/variableConfigure/variableConfigure.service';
 import { SearchCounterService } from 'src/app/shared/services/SearchCounter/SearchCounter.service';
+import { productCertificationService } from 'src/app/shared/services/productCertification/productCertification.service';
+import { ProductGenerationService } from 'src/app/shared/services/ProductRegistration/ProductGeneration.service';
 
 @Component({
   selector: 'app-serial',
@@ -19,7 +21,8 @@ export class SerialComponent implements OnInit {
   @ViewChild('captchaElem') captchaElem;
   @ViewChild('showResult') modalRef: any;
   infoTable = []
-  variableTable = []
+  variableTable: any
+  TACTable = []
   searchSERIALForm: FormGroup
   test: Date = new Date();
   serial
@@ -57,6 +60,9 @@ export class SerialComponent implements OnInit {
     private modalService: BsModalService,
     private variableConfigureService: variableConfigureService,
     private SearchCounterService: SearchCounterService,
+    private productCertificationService: productCertificationService,
+    private ProductGenerationService: ProductGenerationService,
+
   ) { }
 
   ngOnInit() {
@@ -78,10 +84,10 @@ export class SerialComponent implements OnInit {
 
   productGeneration() {
     console.log("HTTP",this.searchSERIALForm.value.SERIAL)
-    let datafield = "serialNo="+this.searchSERIALForm.value.SERIAL
+    let datafield = "SerialNo="+this.searchSERIALForm.value.SERIAL
     this.loadingBar.start(); 
     this.SerialCounter();
-    this.masterDataService.filter(datafield).subscribe(
+    this.ProductGenerationService.filter(datafield).subscribe(
       (res) => {
         this.infoTable=res
         console.log("wewe",this.infoTable)
@@ -94,6 +100,13 @@ export class SerialComponent implements OnInit {
         }
         else {
           this.openModal(this.modalRef)
+          let TACData = "TAC="+this.infoTable[0].TAC
+          this.productCertificationService.filter(TACData).subscribe(
+            (res) => {
+              this.TACTable = res
+              console.log(this.TACTable)
+            }
+          )
         }
 
       },
@@ -109,7 +122,7 @@ export class SerialComponent implements OnInit {
   }
 
   SerialCounter(){
-    let imeicounter = { Name: "SERIAL"};
+    let imeicounter = { Name:"SERIAL", Counter:"4"};
     this.SearchCounterService.post(imeicounter).subscribe(
       (res) => {
         console.log("+1 SERIAL Counter")

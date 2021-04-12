@@ -113,7 +113,6 @@ export class SystemFaqComponent implements OnInit {
   }
 
   deleteTitle(){
-    console.log("qqqq");
     console.log(this.titleFAQForm.value.categoryId)
     this.FAQCategoriesService.delete(this.titleFAQForm.value.categoryId).subscribe(
       () => {

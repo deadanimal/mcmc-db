@@ -33,7 +33,7 @@ export class PublicComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    let counter = { Name: "visitor"};
+    let counter = { Name:"visitor", Counter:"4"};
     this.VisitorCounterService.post(counter).subscribe(
       (res) => {
         console.log("+1 Counter")

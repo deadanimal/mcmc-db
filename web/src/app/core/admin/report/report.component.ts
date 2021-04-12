@@ -24,7 +24,7 @@ import { SearchCounterService } from "src/app/shared/services/SearchCounter/Sear
 import { SLPService } from "src/app/shared/services/SLP/SLP.service";
 import { ProductGenerationService } from "src/app/shared/services/ProductRegistration/ProductGeneration.service";
 import { productCertificationService } from "src/app/shared/services/productCertification/productCertification.service";
-import { VisitorCounterService } from 'src/app/shared/services/VisitorCounter/VisitorCounter.service';
+import { VisitorCounterService } from "src/app/shared/services/VisitorCounter/VisitorCounter.service";
 am4core.useTheme(am4themes_animated);
 
 export enum SelectionType {
@@ -46,6 +46,7 @@ export class ReportComponent implements OnInit, OnDestroy {
   chart1: any;
   chart2: any;
   chart3: any;
+  chart4: any;
   dataChart: any[] = [];
   dataChart2: any[] = [];
   dataChart3: any[] = [];
@@ -88,19 +89,18 @@ export class ReportComponent implements OnInit, OnDestroy {
     private SLPService: SLPService,
     private ProductGenerationService: ProductGenerationService,
     private productCertificationService: productCertificationService,
-    private VisitorCounterService: VisitorCounterService,
-  ) {
-  }
+    private VisitorCounterService: VisitorCounterService
+  ) {}
 
   ngOnInit() {
-    this.calculateCharts();
-    this.getData();
     this.productGeneration();
     this.VisitorCounterGet();
     this.CounterSearchGet();
+    this.calculateCharts();
     setTimeout(() => {
+      this.getData();
       this.getChart3();
-    }, 3000);
+    }, 5000);
   }
 
   ngOnDestroy() {
@@ -116,6 +116,9 @@ export class ReportComponent implements OnInit, OnDestroy {
       }
       if (this.chart3) {
         this.chart3.dispose();
+      }
+      if (this.chart4) {
+        this.chart4.dispose();
       }
     });
   }
@@ -189,40 +192,12 @@ export class ReportComponent implements OnInit, OnDestroy {
     );
   }
 
-  // getUser(){
-  //   let urlUserOne = this.urlUser + id + '/'
-  //   this.usersService.getOne(urlUserOne).subscribe(
-  //     (res) => {
-  //       console.log("wewe",this.infoTable);
-  //       console.log("zzzzz = ",this.infoTable)
-
-  //       this.infoTable = this.infoTable.map((prop, key) => {
-  //         return {
-  //           ...prop,
-  //           id: key
-  //         };
-  //       });
-  //       console.log("xxxxxx = ",this.infoTable)
-  //     },
-  //     (err) => {
-  //       // this.loadingBar.complete();
-  //       // this.errorMessage();
-  //       // console.log("HTTP Error", err), this.errorMessage();
-  //     },
-  //     () => {
-  //       console.log("HTTP request completed.")
-  //     //   this.infoTable = [res]
-  //     //   console.log("zzzzz = ",this.infoTable)
-  //     }
-  //   );
-  // }
-
   getCharts() {
     this.zone.runOutsideAngular(() => {
       this.getChart();
       this.getChart1();
       this.getChart2();
-      // this.getChart3();
+      // this.MasterChart();
     });
   }
 
@@ -278,7 +253,9 @@ export class ReportComponent implements OnInit, OnDestroy {
     }
 
     chart.data = data;
+    console.log("-----------");
 
+    console.log("show data", this.chart.data);
     let dateAxis = chart.xAxes.push(new am4charts.DateAxis());
 
     let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
@@ -430,7 +407,6 @@ export class ReportComponent implements OnInit, OnDestroy {
       },
       () => {}
     );
-
   }
 
   getChart3() {
@@ -441,25 +417,33 @@ export class ReportComponent implements OnInit, OnDestroy {
     let serial = this.filterSERIAL.length;
     let imei = this.filterIMEI.length;
     let product = this.filterPRODUCT.length;
-    console.log("label = ",label, " serial = ",serial," imei = ",imei,"product = ",product)
-
+    console.log(
+      "label = ",
+      label,
+      " serial = ",
+      serial,
+      " imei = ",
+      imei,
+      "product = ",
+      product
+    );
 
     chart.data = [
       {
         item: "Product Info",
-        value: product
+        value: this.filterPRODUCT.length,
       },
       {
         item: "IMEI",
-        value: imei
+        value: this.filterIMEI.length,
       },
       {
         item: "Serial",
-        value: serial
+        value: this.filterSERIAL.length,
       },
       {
         item: "SLP ID",
-        value: label
+        value: this.filterLABEL.length,
       },
     ];
     console.log("chart.data", chart.data);
@@ -486,12 +470,181 @@ export class ReportComponent implements OnInit, OnDestroy {
     this.chart3 = chart;
   }
 
+  MasterChart() {
+    let chart = am4core.create("MasterGraphChart", am4charts.XYChart);
+
+    // Add data
+    // chart.data = [
+    //   {
+    //     year: "Jan",
+    //     visitor: this.visitorbymonth['january'],
+    //     search: this.searchbymonth['january'],
+    //   },
+    //   {
+    //     year: "Feb",
+    //     visitor: this.visitorbymonth['february'],
+    //     search: this.searchbymonth['february'],
+    //   },
+    //   {
+    //     year: "Mar",
+    //     visitor: this.visitorbymonth['march'],
+    //     search: this.searchbymonth['march'],
+    //   },
+    //   {
+    //     year: "Apr",
+    //     visitor: this.visitorbymonth['april'],
+    //     search: this.searchbymonth['april'],
+    //   },
+    //   {
+    //     year: "May",
+    //     visitor: this.visitorbymonth['may'],
+    //     search: this.searchbymonth['may'],
+    //   },
+    //   {
+    //     year: "Jun",
+    //     visitor: this.visitorbymonth['june'],
+    //     search: this.searchbymonth['june'],
+    //   },
+    //   {
+    //     year: "Jul",
+    //     visitor: this.visitorbymonth['july'],
+    //     search: this.searchbymonth['july'],
+    //   },
+    //   {
+    //     year: "Aug",
+    //     visitor: this.visitorbymonth['august'],
+    //     search: this.searchbymonth['august'],
+    //   },
+    //   {
+    //     year: "Sept",
+    //     visitor: this.visitorbymonth['september'],
+    //     search: this.searchbymonth['september'],
+    //   },
+    //   {
+    //     year: "Oct",
+    //     visitor: this.visitorbymonth['october'],
+    //     search: this.searchbymonth['october'],
+    //   },
+    //   {
+    //     year: "Nov",
+    //     visitor: this.visitorbymonth['november'],
+    //     search: this.searchbymonth['november'],
+    //   },
+    // ];
+
+    chart.data = [{
+      "year": "1930",
+      "IMEI": 1,
+      "TAC": 5,
+      "Serial": 3
+    }, {
+      "year": "1934",
+      "IMEI": 1,
+      "TAC": 2,
+      "Serial": 6
+    }, {
+      "year": "1938",
+      "IMEI": 2,
+      "TAC": 3,
+      "Serial": 1
+    }, {
+      "year": "1950",
+      "IMEI": 3,
+      "TAC": 4,
+      "Serial": 1
+    }, {
+      "year": "1954",
+      "IMEI": 5,
+      "TAC": 1,
+      "Serial": 2
+    }, {
+      "year": "1958",
+      "IMEI": 3,
+      "TAC": 2,
+      "Serial": 1
+    }, {
+      "year": "1962",
+      "IMEI": 1,
+      "TAC": 2,
+      "Serial": 3
+    }, {
+      "year": "1966",
+      "IMEI": 2,
+      "TAC": 1,
+      "Serial": 5
+    }, {
+      "year": "1970",
+      "IMEI": 3,
+      "TAC": 5,
+      "Serial": 2
+    }, {
+      "year": "1974",
+      "IMEI": 4,
+      "TAC": 3,
+      "Serial": 6
+    }, {
+      "year": "1978",
+      "IMEI": 1,
+      "TAC": 2,
+      "Serial": 4
+    }];
+
+    // Create category axis
+    let categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
+    categoryAxis.dataFields.category = "year";
+    categoryAxis.renderer.opposite = false;
+
+    // Create value axis
+    let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+    valueAxis.renderer.inversed = false;
+    valueAxis.renderer.minLabelPosition = 0.01;
+
+    // Create series
+    let series1 = chart.series.push(new am4charts.LineSeries());
+    series1.dataFields.valueY = "TAC";
+    series1.dataFields.categoryX = "year";
+    series1.name = "TAC";
+    series1.bullets.push(new am4charts.CircleBullet());
+    series1.tooltipText = "{name}: {valueY}";
+    series1.legendSettings.valueText = "{valueY}";
+    series1.visible = false;
+
+    let series2 = chart.series.push(new am4charts.ColumnSeries());
+    series2.dataFields.valueY = "IMEI";
+    series2.dataFields.categoryX = "year";
+    series2.name = "IMEI";
+    series2.bullets.push(new am4charts.CircleBullet());
+    series2.tooltipText = "{name}: {valueY}";
+    series2.legendSettings.valueText = "{valueY}";
+
+    let series3 = chart.series.push(new am4charts.ColumnSeries());
+    series3.dataFields.valueY = "Serial";
+    series3.dataFields.categoryX = "year";
+    series3.name = "Serial";
+    series3.tooltipText = "{name}: {valueY}";
+    series3.legendSettings.valueText = "{valueY}";
+
+    // Add chart cursor
+    chart.cursor = new am4charts.XYCursor();
+    chart.cursor.behavior = "zoomY";
+
+    let hs1 = series1.segments.template.states.create("hover");
+    hs1.properties.strokeWidth = 5;
+    series1.segments.template.strokeWidth = 1;
+
+
+    this.chart4 = chart;
+  }
+
   isAllowed = (optional) => {
     return optional === 0 ? true : this.state;
   };
 
   changeState = () => {
     this.state = !this.state;
+    setTimeout(() => {
+      this.MasterChart()
+    }, 3000);
   };
 
   entryChange($event) {
@@ -610,7 +763,7 @@ export class ReportComponent implements OnInit, OnDestroy {
     this.VisitorCounterService.get().subscribe(
       (res) => {
         this.VisitorGetTable = res;
-        console.log("counter visitor",this.VisitorGetTable.length);
+        console.log("counter visitor", this.VisitorGetTable.length);
       },
       (err) => {},
       () => {

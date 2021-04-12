@@ -10,9 +10,19 @@ import { MocksService } from 'src/app/shared/services/mocks/mocks.service';
 import { ProductGenerationService } from 'src/app/shared/services/ProductRegistration/ProductGeneration.service';
 import { emailTemplateService } from 'src/app/shared/services/emailTemplate/emailTemplate.service';
 import { certifiedAgencyService } from 'src/app/shared/services/certifiedAgency/certifiedAgency.service';
+import { CallAPIService } from 'src/app/shared/services/CallAPI/CallAPI.service';
+CallAPIService
 
 
 am4core.useTheme(am4themes_animated);
+
+export enum SelectionType {
+  single = "single",
+  multi = "multi",
+  multiClick = "multiClick",
+  cell = "cell",
+  checkbox = "checkbox",
+}
 
 @Component({
   selector: 'app-system-API',
@@ -39,6 +49,11 @@ export class SystemAPIComponent implements OnInit, OnDestroy {
     class: "modal-dialog-centered "
   };
 
+  tableEntries: number = 5;
+  tableSelected: any[] = [];
+  tableActiveRow: any;
+  SelectionType = SelectionType;
+
   constructor(
     private zone: NgZone,
     private formBuilder: FormBuilder,
@@ -48,6 +63,7 @@ export class SystemAPIComponent implements OnInit, OnDestroy {
     private productGenerationService: ProductGenerationService,
     private emailTemplateService: emailTemplateService,
     private certifiedAgencyService: certifiedAgencyService,
+    private CallAPIService: CallAPIService,
   ) { }
 
   ngOnInit() {
@@ -160,7 +176,7 @@ export class SystemAPIComponent implements OnInit, OnDestroy {
 
   getData() {
     this.loadingBar.start(); 
-    this.mockService.getAll('dummy-api/serial.json').subscribe(
+    this.CallAPIService.getAll('dummy-api/serial.json').subscribe(
       (res) => {
         // Success
         this.tableRows = [...res]
@@ -440,6 +456,10 @@ export class SystemAPIComponent implements OnInit, OnDestroy {
         this.editAgencyForm.reset()
       }
     })
+  }
+
+  entryChange($event) {
+    this.tableEntries = $event.target.value;
   }
 
 }

@@ -11,6 +11,14 @@ import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms'
 
 am4core.useTheme(am4themes_animated);
 
+export enum SelectionType {
+  single = "single",
+  multi = "multi",
+  multiClick = "multiClick",
+  cell = "cell",
+  checkbox = "checkbox",
+}
+
 @Component({
   selector: 'app-system-variable',
   templateUrl: './system-variable.component.html',
@@ -32,6 +40,11 @@ export class SystemVariableComponent implements OnInit {
     keyboard: true,
     class: "modal-dialog-centered modal-sm"
   };
+
+  tableEntries: number = 5;
+  tableSelected: any[] = [];
+  tableActiveRow: any;
+  SelectionType = SelectionType;
 
   constructor(
     private zone: NgZone,
@@ -221,6 +234,10 @@ openModal(modalRef: TemplateRef<any>, process: string, row) {
 
 closeModal() {
   this.modal.hide()
+}
+
+entryChange($event) {
+  this.tableEntries = $event.target.value;
 }
 
 

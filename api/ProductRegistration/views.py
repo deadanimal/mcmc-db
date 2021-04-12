@@ -1,3 +1,10 @@
+import time
+import uuid
+import datetime
+import pytz
+
+from django.utils import timezone
+
 from django.http.response import JsonResponse
 from django.shortcuts import render
 from django.db.models import Q
@@ -118,3 +125,58 @@ class ProductRegistrationViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
 
         serializer = ProductRegistrationSerializer(result, many=True)
         return Response(serializer.data)
+
+    @action(methods=['GET'], detail=False)
+    def get_search_counter(self, request, *args, **kwargs):
+
+        timezone_ = pytz.timezone('Asia/Kuala_Lumpur')
+        current_year = str(datetime.datetime.now(timezone_).year)
+        filter_year = datetime.datetime.now(tz=timezone.utc).year
+
+        ProductChart = ProductRegistration.objects.get(ApproveDate__icontains=ApproveDate)
+        print (ProductChart)
+        TAC_by_month = {
+            'january': len(ProductChart.filter(
+                ApproveDate=1,
+            )),
+            'february': len(ProductChart.filter(
+                ApproveDate=2,
+            )),
+            'march': len(ProductChart.filter(
+                ApproveDate=3,
+            )),
+            'april': len(ProductChart.filter(
+                ApproveDate=4,
+            )),
+            'may': len(ProductChart.filter(
+
+                ApproveDate=5,
+            )),
+            'june': len(ProductChart.filter(
+                ApproveDate=6,
+            )),
+            'july': len(ProductChart.filter(
+                ApproveDate=7,
+            )),
+            'august': len(ProductChart.filter(
+                ApproveDate=8,
+            )),
+            'september': len(ProductChart.filter(
+                ApproveDate=9,
+            )),
+            'october': len(ProductChart.filter(
+                ApproveDate=10,
+            )),
+            'november': len(ProductChart.filter(
+                ApproveDate=11,
+            )),
+            'december': len(ProductChart.filter(
+                ApproveDate=12,
+            ))
+        }
+
+        statistic_data = {
+            'TAC_by_month': TAC_by_month
+        }
+
+        return JsonResponse(statistic_data)

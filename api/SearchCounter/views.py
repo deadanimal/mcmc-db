@@ -1,3 +1,11 @@
+import json
+import time
+import uuid
+import datetime
+import pytz
+
+from django.utils import timezone
+
 from django.http.response import JsonResponse
 from django.shortcuts import render
 from django.db.models import Q
@@ -76,3 +84,68 @@ class SearchCounterViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
 
         serializer = SearchCounterSerializer(result, many=True)
         return Response(serializer.data)
+    
+    @action(methods=['GET'], detail=False)
+    def get_search_counter(self, request, *args, **kwargs):
+
+        timezone_ = pytz.timezone('Asia/Kuala_Lumpur')
+        current_year = str(datetime.datetime.now(timezone_).year)
+        filter_year = datetime.datetime.now(tz=timezone.utc).year
+
+        search_counter = SearchCounter.objects.all()
+        search_by_month = {
+            'january': len(search_counter.filter(
+                # created_date=filter_year,
+                Counter=1,
+            )),
+            'february': len(search_counter.filter(
+                # created_date=filter_year,
+                Counter=2,
+            )),
+            'march': len(search_counter.filter(
+                # created_date=filter_year,
+                Counter=3,
+            )),
+            'april': len(search_counter.filter(
+                # created_date=filter_year,
+                Counter=4,
+            )),
+            'may': len(search_counter.filter(
+                # created_date=filter_year,
+                Counter=5,
+            )),
+            'june': len(search_counter.filter(
+                # created_date=filter_year,
+                Counter=6,
+            )),
+            'july': len(search_counter.filter(
+                # created_date=filter_year,
+                Counter=7,
+            )),
+            'august': len(search_counter.filter(
+                # created_date=filter_year,
+                Counter=8,
+            )),
+            'september': len(search_counter.filter(
+                # created_date=filter_year,
+                Counter=9,
+            )),
+            'october': len(search_counter.filter(
+                # created_date=filter_year,
+                Counter=10,
+            )),
+            'november': len(search_counter.filter(
+                # created_date=filter_year,
+                Counter=11,
+            )),
+            'december': len(search_counter.filter(
+                # created_date=filter_year,
+                Counter=12,
+            ))
+        }
+
+        statistic_data = {
+            'search_by_month': search_by_month
+        }
+
+        return JsonResponse(statistic_data)
