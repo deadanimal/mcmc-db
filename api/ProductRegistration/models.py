@@ -11,6 +11,14 @@ from simple_history.models import HistoricalRecords
 
 from core.helpers import PathAndRename
 
+from SLP.models import (
+    SLP
+)
+
+from productCertification.models import (
+    productCertification
+)
+
 class ProductRegistration(models.Model):
 
     Id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)

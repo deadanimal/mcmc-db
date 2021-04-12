@@ -10,6 +10,7 @@ import { ViewChild } from '@angular/core';
 import { environment } from "src/environments/environment";
 import { variableConfigureService } from 'src/app/shared/services/variableConfigure/variableConfigure.service';
 import { SearchCounterService } from 'src/app/shared/services/SearchCounter/SearchCounter.service';
+import { productCertificationService } from 'src/app/shared/services/productCertification/productCertification.service';
 
 
 @Component({
@@ -22,11 +23,15 @@ export class EmeiComponent implements OnInit {
   @ViewChild('captchaElem') captchaElem;
   @ViewChild('showResult') modalRef: any;
   infoTable = []
-  variableTable = []
+  variableTable : any
+  TACTable = []
   searchIMEIForm: FormGroup
+  SearchIMEIFormMore: FormGroup
   test: Date = new Date();
   imei
   focusImei
+  cubaan : any
+  is_enable = true
 
   siteKey: string = environment.reCaptchaSiteKey;
   size: string = "normal";
@@ -61,6 +66,7 @@ export class EmeiComponent implements OnInit {
     private modalService: BsModalService,
     private variableConfigureService: variableConfigureService,
     private SearchCounterService: SearchCounterService,
+    private productCertificationService: productCertificationService,
   ) { }
 
   ngOnInit() {
@@ -72,6 +78,10 @@ export class EmeiComponent implements OnInit {
       ])),
       recaptcha: ["", Validators.required],
     }) 
+
+    this.SearchIMEIFormMore = this.formBuilder.group({
+      TAC: new FormControl('')
+    })
     
   }
 
@@ -84,13 +94,14 @@ export class EmeiComponent implements OnInit {
   productGeneration() {
     this.loadingBar.start();
     console.log("HTTP",this.searchIMEIForm.value.IMEI)
-    let datafield = "imeiNo="+this.searchIMEIForm.value.IMEI 
+    let datafield = "IMEI="+this.searchIMEIForm.value.IMEI 
     this.productGenerationService.filter(datafield).subscribe(
       (res) => {
         this.loadingBar.complete();
         this.IMEICounter();
         this.infoTable=res;
-        console.log("wewe",this.infoTable.length);
+        console.log("wewe",this.infoTable.length)
+        console.log("TAC", this.infoTable[0].TAC)
         if (this.infoTable.length == 0){
           this.errorMessage();
           this.searchIMEIForm.reset()
@@ -98,6 +109,15 @@ export class EmeiComponent implements OnInit {
         }
         else {
           this.openModal(this.modalRef)
+          let TACData = "TAC="+this.infoTable[0].TAC
+          this.productCertificationService.filter(TACData).subscribe(
+            (res) => {
+              this.TACTable = res;
+              console.log(this.TACTable)
+            },
+            (err) => {
+            }
+          );
 
         }
       },
@@ -112,7 +132,7 @@ export class EmeiComponent implements OnInit {
   }
 
   IMEICounter(){
-    let imeicounter = { Name: "IMEI"};
+    let imeicounter = { Name:"IMEI", Counter:"4"};
     this.SearchCounterService.post(imeicounter).subscribe(
       (res) => {
         console.log("+1 IMEI Counter")

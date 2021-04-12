@@ -33,6 +33,7 @@ export class SystemNotiComponent implements OnInit {
   editForm = {email:"", Id:''}
   infoTable = []
   templateTable = []
+  entries: number = 10;
 
   private chart: any
   private chart1: any
@@ -414,6 +415,10 @@ export class SystemNotiComponent implements OnInit {
   onSelect({ selected }) {
     this.tableSelected.splice(0, this.tableSelected.length);
     this.tableSelected.push(...selected);
+  }
+
+  entriesChange($event) {
+    this.entries = $event.target.value;
   }
 
   testSendEmail(){

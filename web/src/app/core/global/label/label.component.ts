@@ -9,6 +9,7 @@ import Swal from 'sweetalert2';
 import { environment } from "src/environments/environment";
 import { variableConfigureService } from 'src/app/shared/services/variableConfigure/variableConfigure.service';
 import { SearchCounterService } from 'src/app/shared/services/SearchCounter/SearchCounter.service';
+import { SLPService } from 'src/app/shared/services/SLP/SLP.service';
 
 export enum SelectionType {
   single = 'single',
@@ -28,7 +29,7 @@ export class LabelComponent implements OnInit {
   @ViewChild('captchaElem') captchaElem;
   @ViewChild('showResult') modalRef: any;
   infoTable = []
-  variableTable = []
+  variableTable : any
   searchLABELForm: FormGroup
   test: Date = new Date();
   label
@@ -71,7 +72,7 @@ export class LabelComponent implements OnInit {
     private modalService: BsModalService,
     private variableConfigureService: variableConfigureService,
     private SearchCounterService: SearchCounterService,
-    
+    private SLPService: SLPService
   ) { }
 
   ngOnInit() {
@@ -94,9 +95,9 @@ export class LabelComponent implements OnInit {
   productGeneration() {
     this.loadingBar.start();
     console.log("HTTP",this.searchLABELForm.value.LABEL)
-    let datafield = "SLPID="+this.searchLABELForm.value.LABEL 
+    let datafield = "SLP_ID="+this.searchLABELForm.value.LABEL 
     this.LabelCounter();
-    this.productGenerationService.filter(datafield).subscribe(
+    this.SLPService.filter(datafield).subscribe(
       (res) => {
         this.infoTable=res
         console.log("wewe",this.infoTable)
@@ -122,7 +123,7 @@ export class LabelComponent implements OnInit {
   }
 
   LabelCounter(){
-    let imeicounter = { Name: "LABEL"};
+    let imeicounter = { Name:"LABEL", Counter:"4"};
     this.SearchCounterService.post(imeicounter).subscribe(
       (res) => {
         console.log("+1 LABEL Counter")

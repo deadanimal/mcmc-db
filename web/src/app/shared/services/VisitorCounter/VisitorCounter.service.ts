@@ -90,4 +90,14 @@ export class VisitorCounterService {
       );
     }
 
+    getVisitorChart() {
+      let urlTemp = this.url + 'get_visitor_counter'
+      return this.http.get<any>(urlTemp).pipe(
+        tap((res) => {
+          this.VisitorCounter = res
+          // console.log('Statistics: ', this.trainingStatistics)
+        })
+      )
+    }
+
   }

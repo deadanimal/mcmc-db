@@ -288,23 +288,23 @@
         <td style="vertical-align: top"><b>Serial No.</b></td>
         <td style="width: 80%">
           <div *ngFor="let data of infoTable">
-            <span>{{ data.serialNo }}</span>
+            <span>{{ data.SerialNo }}</span>
           </div>
         </td>
       </tr>
       <tr>
         <td style="vertical-align: top"><b>Model</b></td>
         <td>
-          <div *ngFor="let data of infoTable">
-            <span>{{ data.modelDescription }}</span>
+          <div *ngFor="let data of TACTable">
+            <span>{{ data.Model }}</span>
           </div>
         </td>
       </tr>
       <tr>
-        <td style="vertical-align: top"><b>Product Category</b></td>
-        <td>
+        <td style="vertical-align: top"><b>Product Registration No.</b></td>
+        <td style="vertical-align: top">
           <div *ngFor="let data of infoTable">
-            <span>{{ data.productCategory }}</span>
+            <span>{{ data.ProductRegistrationNo }}</span>
           </div>
         </td>
       </tr>
@@ -319,8 +319,8 @@
       <tr>
         <td style="vertical-align: top"><b>Cert Holder</b></td>
         <td>
-          <div *ngFor="let data of infoTable">
-            <span>{{ data.consigneeName }}</span>
+          <div *ngFor="let data of TACTable">
+            <span>{{ data.CertholderName }}</span>
           </div>
         </td>
       </tr>
@@ -335,8 +335,8 @@
       <tr>
         <td><b>Approved Date</b></td>
         <td>
-          <div *ngFor="let data of infoTable">
-            <span>{{ data.approveDate }}</span>
+          <div *ngFor="let data of TACTable">
+            <span>{{ data.ApproveDate }}</span>
           </div>
         </td>
       </tr>

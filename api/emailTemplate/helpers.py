@@ -20,7 +20,7 @@ def send_email_result(data):
         res = send_mail(
             'Notification from MCMC RECCE System',
             data['plain_message_'],
-            'raziman@mcmc.my',
+            'recceadmin@mcmc.gov.my',
             useremail,
         )
 

@@ -9,6 +9,7 @@ import { NotifyService } from 'src/app/shared/handler/notify/notify.service';
 import Swal from 'sweetalert2';
 import { variableConfigureService } from 'src/app/shared/services/variableConfigure/variableConfigure.service';
 import { SearchCounterService } from 'src/app/shared/services/SearchCounter/SearchCounter.service';
+import { productCertificationService } from 'src/app/shared/services/productCertification/productCertification.service';
 
 export enum SelectionType {
   single = 'single',
@@ -28,7 +29,7 @@ export class ProductInfoComponent implements OnInit {
   @ViewChild('captchaElem') captchaElem;
   @ViewChild('showResult') modalRef: any;
   infoTable = []
-  variableTable = []
+  variableTable: any
   searchPRODUCTForm: FormGroup
   test: Date = new Date();
   product = null
@@ -80,6 +81,7 @@ export class ProductInfoComponent implements OnInit {
     private modalService: BsModalService,
     private variableConfigureService: variableConfigureService,
     private SearchCounterService: SearchCounterService,
+    private productCertificationService: productCertificationService,
   ) { }
 
   ngOnInit() {
@@ -108,12 +110,12 @@ export class ProductInfoComponent implements OnInit {
 
   productGeneration() {
     console.log("form",this.searchPRODUCTForm.value.PRODUCT, this.searchPRODUCTForm.value.MODEL)
-    let datafield = "consigneeName="+this.searchPRODUCTForm.value.PRODUCT
-    let datafield2 = "consigneeName="+this.searchPRODUCTForm.value.PRODUCT+"&modelDescription="+this.searchPRODUCTForm.value.MODEL
+    let datafield = "Brand="+this.searchPRODUCTForm.value.PRODUCT
+    let datafield2 = "Brand="+this.searchPRODUCTForm.value.PRODUCT+"&Model="+this.searchPRODUCTForm.value.MODEL
     console.log("wewe",datafield2)
     this.loadingBar.start()
-    if (datafield2=="consigneeName="+this.searchPRODUCTForm.value.PRODUCT+"&modelDescription="+null){
-    this.masterDataService.filter(datafield).subscribe(
+    if (datafield2=="Brand="+this.searchPRODUCTForm.value.PRODUCT+"&Model="+null){
+    this.productCertificationService.filter(datafield).subscribe(
       (res) => {
         this.infoTable=res;
         console.log("if loop 1");
@@ -139,7 +141,7 @@ export class ProductInfoComponent implements OnInit {
     );
     }
     else {
-      this.masterDataService.filter(datafield2).subscribe(
+      this.productCertificationService.filter(datafield2).subscribe(
         (res) => {
           this.infoTable=res;
           console.log("if loop 2");
@@ -168,11 +170,11 @@ export class ProductInfoComponent implements OnInit {
   productGeneration2() {
     this.loadingBar.start()
     console.log("form",this.searchPRODUCTForm.value.PRODUCT, this.searchPRODUCTForm.value.MODEL)
-    let datafield = "consigneeName="+this.searchPRODUCTForm.value.PRODUCT
-    let datafield2 = "consigneeName="+this.searchPRODUCTForm.value.PRODUCT+"&modelDescription="+this.searchPRODUCTForm.value.MODEL
-    console.log("wewe",datafield, "modelDescription="+null)
-    if (datafield2=="consigneeName="+this.searchPRODUCTForm.value.PRODUCT+"&modelDescription="+null){
-    this.masterDataService.filterMix(datafield).subscribe(
+    let datafield = "Brand="+this.searchPRODUCTForm.value.PRODUCT
+    let datafield2 = "Brand="+this.searchPRODUCTForm.value.PRODUCT+"&Model="+this.searchPRODUCTForm.value.MODEL
+    console.log("wewe",datafield, "Model="+null)
+    if (datafield2=="Brand="+this.searchPRODUCTForm.value.PRODUCT+"&Model="+null){
+    this.productCertificationService.filterMix(datafield).subscribe(
       (res) => {
         this.infoTable=res;
         console.log("if loop 1");
@@ -197,7 +199,7 @@ export class ProductInfoComponent implements OnInit {
     );
     }
     else {
-      this.masterDataService.filterMix(datafield2).subscribe(
+      this.productCertificationService.filterMix(datafield2).subscribe(
         (res) => {
           this.infoTable=res;
           console.log("if loop 2");
@@ -223,7 +225,7 @@ export class ProductInfoComponent implements OnInit {
   }
 
   LabelCounter(){
-    let imeicounter = { Name: "PRODUCT"};
+    let imeicounter = { Name:"PRODUCT", Counter:"4"};
     this.SearchCounterService.post(imeicounter).subscribe(
       (res) => {
         console.log("+1 PRODUCT Counter")

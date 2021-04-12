@@ -210,7 +210,7 @@
                       <form [formGroup]="RegisterSearchForm">
                         <div class="form-group">
                           <label class="form-control-label" for="SerialNo">
-                            SerialNo
+                            Serial Number
                           </label>
                           <input
                             class="form-control form-control-sm"
@@ -406,7 +406,7 @@
                       <form [formGroup]="CertificationSearchForm">
                         <div class="form-group">
                           <label class="form-control-label" for="FileNo">
-                            FileNo
+                            File Number
                           </label>
                           <input
                             class="form-control form-control-sm"
@@ -476,13 +476,25 @@
                             formControlName="Brand"
                           />
                         </div>
+                        <div class="form-group">
+                          <label class="form-control-label" for="ROCROB">
+                            ROC/ROB
+                          </label>
+                          <input
+                            class="form-control form-control-sm"
+                            id="example2cols1Input"
+                            placeholder="Show All"
+                            type="text"
+                            formControlName="ROCROB"
+                          />
+                        </div>
                       </form>
                     </div>
                     <div class="col-4">
                       <form [formGroup]="CertificationSearchForm">
                         <div class="form-group">
                           <label class="form-control-label" for="ApproveDate">
-                            ApproveDate
+                            Approved Date
                           </label>
                           <input
                             class="form-control form-control-sm"
@@ -493,15 +505,15 @@
                           />
                         </div>
                         <div class="form-group">
-                          <label class="form-control-label" for="ROCROB">
-                            ROCROB
+                          <label class="form-control-label" for="ExpiryDate">
+                            Expiry Date
                           </label>
                           <input
                             class="form-control form-control-sm"
                             id="example2cols1Input"
                             placeholder="Show All"
                             type="text"
-                            formControlName="ROCROB"
+                            formControlName="ExpiryDate"
                           />
                         </div>
                       </form>
@@ -765,7 +777,7 @@
                     </ngx-datatable-column>
 
                     <ngx-datatable-column
-                      [width]="100"
+                      [width]="160"
                       [sortable]="true"
                       [resizeable]="false"
                     >
@@ -778,12 +790,12 @@
                     </ngx-datatable-column>
 
                     <ngx-datatable-column
-                      [width]="120"
+                      [width]="160"
                       [sortable]="true"
                       [resizeable]="false"
                     >
                       <ng-template ngx-datatable-header-template>
-                        <span>Approve Date</span>
+                        <span>Approved Date</span>
                       </ng-template>
                       <ng-template let-row="row" ngx-datatable-cell-template>
                         {{ row.ApproveDate }}
@@ -811,7 +823,7 @@
                       <form [formGroup]="SLPSearchForm">
                         <div class="form-group">
                           <label class="form-control-label" for="SLP_ID">
-                            SLIP ID
+                            SLP ID
                           </label>
                           <input
                             class="form-control form-control-sm"
@@ -833,23 +845,6 @@
                             formControlName="SLPID_owner"
                           />
                         </div>
-                        <!--<div class="form-group">
-                          <label class="form-control-label" for="ProductCategory">
-                            Product Category
-                          </label>
-                          <select
-                            type="search"
-                            class="form-control form-control-sm"
-                            aria-controls="datatable"
-                            formControlName="ProductCategory"
-                          >
-                            <option value="RADIO">Radio</option>
-                            <option value="TELEPHONE">Telephone</option>
-                            <option value="" selected class="text-muted">
-                              -- Please Choose --
-                            </option>
-                          </select>
-                        </div>-->
                       </form>
                     </div>
                     <div class="col-4">
@@ -869,13 +864,25 @@
                             formControlName="principal_certificate"
                           />
                         </div>
+                        <div class="form-group">
+                          <label class="form-control-label" for="ExpiryDate">
+                            Expiry Date
+                          </label>
+                          <input
+                            class="form-control form-control-sm"
+                            id="example2cols1Input"
+                            placeholder="Show All"
+                            type="text"
+                            formControlName="ExpiryDate"
+                          />
+                        </div>
                       </form>
                     </div>
                     <div class="col-4">
                       <form [formGroup]="SLPSearchForm">
                         <div class="form-group">
                           <label class="form-control-label" for="ApproveDate">
-                            ApproveDate
+                            Approved Date
                           </label>
                           <input
                             class="form-control form-control-sm"
@@ -1038,7 +1045,7 @@
                       <button
                         class="btn btn-sm btn-secondary"
                         style="width: 200px"
-                        (click)="exportexcelSLP();openPDF()"
+                        (click)="exportexcelSLP()"
                       >
                         Export
                       </button>
@@ -1095,7 +1102,7 @@
 
                     <ngx-datatable-column>
                       <ng-template ngx-datatable-header-template>
-                        <span>Approve Date</span>
+                        <span>Approved Date</span>
                       </ng-template>
                       <ng-template let-row="row" ngx-datatable-cell-template>
                         {{ row.ApproveDate }}

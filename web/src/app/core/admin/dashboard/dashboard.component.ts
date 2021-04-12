@@ -7,6 +7,7 @@ import { SearchCounterService } from "src/app/shared/services/SearchCounter/Sear
 import { ProductGenerationService } from "src/app/shared/services/ProductRegistration/ProductGeneration.service";
 import { productCertificationService } from "src/app/shared/services/productCertification/productCertification.service";
 import { VisitorCounterService } from "src/app/shared/services/VisitorCounter/VisitorCounter.service";
+import * as moment from 'moment';
 
 am4core.useTheme(am4themes_animated);
 
@@ -27,6 +28,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
   private chart2: any;
   private chart3: any;
 
+  counter: any
+  visitorbymonth: any
+  searchbymonth: any
+
   IMEITable = [];
   SerialTable = [];
   CertTable = [];
@@ -37,6 +42,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
   filterSERIAL = [];
   filterPRODUCT = [];
   filterLABEL = [];
+  newdata = []
+  checkerDate = []
 
   constructor(
     private zone: NgZone,
@@ -51,8 +58,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.CounterSearchGet();
     this.VisitorCounterGet();
     setTimeout(() => {
-      this.getCharts();
-    }, 2000);
+      this.getData();
+    }, 3000);
   }
 
   ngOnDestroy() {
@@ -75,6 +82,28 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this.getChart2();
       this.getChart3();
     });
+  }
+
+  getData(){
+    this.VisitorCounterService.getVisitorChart().subscribe(
+      () => {},
+      () => {},
+      () => {
+        this.counter = this.VisitorCounterService.VisitorCounter
+        this.visitorbymonth = this.counter['visitor_by_month']
+        console.log("visitorchart",this.visitorbymonth )
+        this.getCharts()
+      })
+
+      this.SearchCounterService.getSearchChart().subscribe(
+        () => {},
+        () => {},
+        () => {
+          this.counter = this.SearchCounterService.SearchCounter
+          this.searchbymonth = this.counter['search_by_month']
+          console.log("searchchart",this.visitorbymonth )
+          this.getCharts()
+        }) 
   }
 
   getChart1() {
@@ -124,6 +153,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   getChart2() {
     let chart = am4core.create("data", am4charts.XYChart);
+    console.log("new data", this.newdata)
 
     // Add data
     chart.data = [
@@ -945,69 +975,69 @@ export class DashboardComponent implements OnInit, OnDestroy {
     chart.data = [
       {
         year: "Jan",
-        visitor: 1,
-        search: 3,
+        visitor: this.visitorbymonth['january'],
+        search: this.searchbymonth['january'],
       },
       {
         year: "Feb",
-        visitor: 1,
-        search: 6,
+        visitor: this.visitorbymonth['february'],
+        search: this.searchbymonth['february'],
       },
       {
         year: "Mar",
-        visitor: 2,
-        search: 1,
+        visitor: this.visitorbymonth['march'],
+        search: this.searchbymonth['march'],
       },
       {
         year: "Apr",
-        visitor: 3,
-        search: 1,
+        visitor: this.visitorbymonth['april'],
+        search: this.searchbymonth['april'],
       },
       {
         year: "May",
-        visitor: 5,
-        search: 2,
+        visitor: this.visitorbymonth['may'],
+        search: this.searchbymonth['may'],
       },
       {
         year: "Jun",
-        visitor: 3,
-        search: 1,
+        visitor: this.visitorbymonth['june'],
+        search: this.searchbymonth['june'],
       },
       {
         year: "Jul",
-        visitor: 1,
-        search: 3,
+        visitor: this.visitorbymonth['july'],
+        search: this.searchbymonth['july'],
       },
       {
         year: "Aug",
-        visitor: 2,
-        search: 5,
+        visitor: this.visitorbymonth['august'],
+        search: this.searchbymonth['august'],
       },
       {
         year: "Sept",
-        visitor: 3,
-        search: 2,
+        visitor: this.visitorbymonth['september'],
+        search: this.searchbymonth['september'],
       },
       {
         year: "Oct",
-        visitor: 4,
-        search: 6,
+        visitor: this.visitorbymonth['october'],
+        search: this.searchbymonth['october'],
       },
       {
         year: "Nov",
-        visitor: 1,
-        search: 4,
+        visitor: this.visitorbymonth['november'],
+        search: this.searchbymonth['november'],
       },
     ];
 
     // Create category axis
     let categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
     categoryAxis.dataFields.category = "year";
-    categoryAxis.renderer.opposite = true;
+    categoryAxis.renderer.opposite = false;
 
     // Create value axis
     let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
-    valueAxis.renderer.inversed = true;
+    valueAxis.renderer.inversed = false;
     // valueAxis.title.text = "Place taken";
     valueAxis.renderer.minLabelPosition = 0.01;
 
@@ -1029,11 +1059,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
     series2.tooltipText = "{name}: {valueY}";
     series2.legendSettings.valueText = "{valueY}";
 
-    let series3 = chart.series.push(new am4charts.LineSeries());
+    let series3 = chart.series.push(new am4charts.ColumnSeries());
     series3.dataFields.valueY = "search";
     series3.dataFields.categoryX = "year";
     series3.name = "Total Search";
-    series3.bullets.push(new am4charts.CircleBullet());
     series3.tooltipText = "{name}: {valueY}";
     series3.legendSettings.valueText = "{valueY}";
 
@@ -1049,9 +1078,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
     hs2.properties.strokeWidth = 5;
     series2.segments.template.strokeWidth = 1;
 
-    let hs3 = series3.segments.template.states.create("hover");
-    hs3.properties.strokeWidth = 5;
-    series3.segments.template.strokeWidth = 1;
+    // let hs3 = series3.segments.template.states.create("hover");
+    // hs3.properties.strokeWidth = 5;
+    // series3.segments.template.strokeWidth = 1;
 
     // // Add legend
     // chart.legend = new am4charts.Legend();
@@ -1105,9 +1134,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     this.SearchCounterService.filter("Name=LABEL").subscribe(
       (res) => {
-        this.filterLABEL = res;
-        console.log("label", this.filterLABEL.length);
-        label = this.filterLABEL.length;
+        this.filterLABEL = res
+        console.log("label", this.filterLABEL.length)
+        label = this.filterLABEL.length
       },
       (err) => {
         console.log(err);
@@ -1115,15 +1144,15 @@ export class DashboardComponent implements OnInit, OnDestroy {
       () => {}
     );
 
-    console.log(
-      "label = ",
-      this.filterLABEL.length,
-      " serial = ",
-      this.filterSERIAL.length,
-      " imei = ",
-      this.filterIMEI.length,
-      "product = ",
-      this.filterPRODUCT.length
+    this.ProductGenerationService.get().subscribe(
+      (res) => {
+         this.newdata = res
+        console.log("new data", this.newdata)
+      },
+      (err) => {
+        console.log(err);
+      },
+      () => {}
     );
 
     let label = this.filterLABEL.length;
