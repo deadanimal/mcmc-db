@@ -11,7 +11,6 @@ import { ProductGenerationService } from 'src/app/shared/services/ProductRegistr
 import { emailTemplateService } from 'src/app/shared/services/emailTemplate/emailTemplate.service';
 import { certifiedAgencyService } from 'src/app/shared/services/certifiedAgency/certifiedAgency.service';
 import { CallAPIService } from 'src/app/shared/services/CallAPI/CallAPI.service';
-CallAPIService
 
 
 am4core.useTheme(am4themes_animated);
@@ -176,7 +175,7 @@ export class SystemAPIComponent implements OnInit, OnDestroy {
 
   getData() {
     this.loadingBar.start(); 
-    this.CallAPIService.getAll('dummy-api/serial.json').subscribe(
+    this.CallAPIService.post().subscribe(
       (res) => {
         // Success
         this.tableRows = [...res]

@@ -9,7 +9,7 @@ import { tap } from 'rxjs/operators';
 export class CallAPIService {
 
   // URL
-  public urlMock: string = 'assets/mock/';
+  public urlMock: string = 'http://ecommdev.esource.my/restapi/api/GetSLP/';
 
   // Data
   public datas: any = []
@@ -18,14 +18,24 @@ export class CallAPIService {
     private http: HttpClient
   ) { }
 
-  getAll(path: string): Observable<any> {
-    let urlPath = this.urlMock + path
+  getAll(): Observable<any> {
+    let urlPath = this.urlMock 
     return this.http.get<any>(urlPath).pipe(
       tap((res) => {
         this.datas = res
         console.log('Data: ', this.datas)
       })
     )
+  }
+
+  post(): Observable<any> {
+    let urltest = this.urlMock
+    return this.http.post<any>(urltest, this.datas).pipe(
+      tap((res) => {
+        this.datas = res
+        console.log("testCall: ", res);
+      })
+    );
   }
 
 }
