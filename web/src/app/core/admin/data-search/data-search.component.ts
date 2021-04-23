@@ -822,8 +822,8 @@ export class DataSearchComponent implements OnInit, OnDestroy {
       formDataSLP = [
         {
           SLP_ID: loopval.SLPID,
-          ExpiryDate: loopval.ApprovedDate,
-          ApproveDate: loopval.ExpiryDate,
+          ExpiryDate: loopval.ExpiryDate,
+          ApproveDate: loopval.ApprovedDate,
           SLPID_owner: loopval.SLPIDOwnerInformation,
           principal_certificate: loopval.PrincipalCertificateHolderInformation,
         },

@@ -126,6 +126,7 @@ class ProductRegistrationViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         serializer = ProductRegistrationSerializer(result, many=True)
         return Response(serializer.data)
 
+
     @action(methods=['GET'], detail=False)
     def get_search_counter(self, request, *args, **kwargs):
 
@@ -133,6 +134,7 @@ class ProductRegistrationViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         current_year = str(datetime.datetime.now(timezone_).year)
         filter_year = datetime.datetime.now(tz=timezone.utc).year
 
+        
         ProductChart = ProductRegistration.objects.get(ApproveDate__icontains=ApproveDate)
         print (ProductChart)
         TAC_by_month = {
