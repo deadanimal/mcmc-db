@@ -15,6 +15,8 @@ export class FAQCategoriesService {
   public url: string = environment.baseUrl + "v1/FAQCategory/";
   // Data
   public FAQCategories: FAQCategories[] = [];
+  public urlHistory: string = environment.baseUrl + "v1/FAQCategoryHistory/"
+  public urlHistory2: string = environment.baseUrl + "v1/emailNotiHistory/"
 
   constructor(private http: HttpClient) { }
 
@@ -31,6 +33,24 @@ export class FAQCategoriesService {
       tap((res) => {
         this.FAQCategories = res;
         console.log("FAQCategories: ", res);
+      })
+    );
+  }
+
+  getHistory(): Observable<FAQCategories[]> {
+    return this.http.get<FAQCategories[]>(this.urlHistory).pipe(
+      tap((res) => {
+        this.FAQCategories = res;
+        console.log("FAQCategoriesHistory: ", res);
+      })
+    );
+  }
+
+  getHistory2(): Observable<FAQCategories[]> {
+    return this.http.get<FAQCategories[]>(this.urlHistory2).pipe(
+      tap((res) => {
+        this.FAQCategories = res;
+        console.log("FAQCategoriesHistory2: ", res);
       })
     );
   }

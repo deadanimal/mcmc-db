@@ -90,4 +90,14 @@ export class productCertificationService {
       );
     }
 
+    GetTACChart() {
+      let urlTemp = this.url + 'get_TAC_data'
+      return this.http.get<any>(urlTemp).pipe(
+        tap((res) => {
+          this.productCertification = res
+          // console.log('Statistics: ', this.trainingStatistics)
+        })
+      )
+    }
+
   }

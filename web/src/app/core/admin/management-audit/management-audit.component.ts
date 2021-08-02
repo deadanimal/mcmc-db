@@ -102,7 +102,7 @@ export class ManagementAuditComponent implements OnInit, OnDestroy {
   }
 
   getData() {
-    this.mockService.getAll('admin-audit/audit.data.json').subscribe(
+    this.mockService.getAll('dummy-api/serial2.json').subscribe(
       (res) => {
         // Success
         this.tableRows = [...res]

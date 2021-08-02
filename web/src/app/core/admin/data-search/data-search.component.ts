@@ -22,6 +22,7 @@ import { SLPService } from "src/app/shared/services/SLP/SLP.service";
 import { productCertificationService } from "src/app/shared/services/productCertification/productCertification.service";
 import { NgxSpinnerService } from "ngx-spinner";
 import { VisitorCounterService } from 'src/app/shared/services/VisitorCounter/VisitorCounter.service';
+
 // import jsPDF from 'jspdf';
 // import html2canvas from 'html2canvas';
 
@@ -68,8 +69,9 @@ export class DataSearchComponent implements OnInit, OnDestroy {
 
   //Export table
   isSummaryTableHidden: boolean = true
-  fileName= 'Export_Table.xlsx'; 
-  fileNameCert = 'Export_Table_Cert.xlsx';
+  fileNameRegistration= 'Export_Table_Registration.xlsx'
+  fileNameSLPID= 'Export_Table_SLP_ID.xlsx'; 
+  fileNameCert = 'Export_Table_Certification.xlsx';
 
   private categoryAxis: any;
 
@@ -306,28 +308,6 @@ export class DataSearchComponent implements OnInit, OnDestroy {
   //   );
   // }
 
-  // filterTableSerial($event) {
-  //   let val = $event.target.value;
-  //   let datafield = "serialNo=" + val;
-  //   console.log(datafield);
-  //   this.productGenerationService.filterMix(datafield).subscribe(
-  //     (res) => {
-  //       this.infoTable = res;
-
-  //       this.infoTable = this.infoTable.map((prop, key) => {
-  //         return {
-  //           ...prop,
-  //           id: key,
-  //         };
-  //       });
-  //     },
-  //     (err) => {},
-  //     () => {
-  //       console.log("HTTP request completed.");
-  //     }
-  //   );
-  // }
-
   // filterTableSLPID($event) {
   //   let val = $event.target.value;
   //   let datafield = "SLPID=" + val;
@@ -363,10 +343,11 @@ export class DataSearchComponent implements OnInit, OnDestroy {
       "&ProductRegistrationNo=" +
       this.RegisterSearchForm.value.ProductRegistrationNo;
     console.log(datafield);
+    this.spinner.show()
     this.productGenerationService.filterMix(datafield).subscribe(
       (res) => {
         this.infoTable = res;
-
+        this.spinner.hide()
         this.infoTable = this.infoTable.map((prop, key) => {
           return {
             ...prop,
@@ -392,10 +373,11 @@ export class DataSearchComponent implements OnInit, OnDestroy {
       "&ApproveDate=" +
       this.SLPSearchForm.value.ApproveDate;
     console.log(datafield);
+    this.spinner.show()
     this.SLPService.filterMix(datafield).subscribe(
       (res) => {
         this.SLPTable = res;
-
+        this.spinner.hide()
         this.SLPTable = this.SLPTable.map((prop, key) => {
           return {
             ...prop,
@@ -424,10 +406,11 @@ export class DataSearchComponent implements OnInit, OnDestroy {
       "&ApproveDate=" + this.CertificationSearchForm.value.ApproveDate +
       "&ROCROB=" + this.CertificationSearchForm.value.ROCROB;
     console.log(datafield);
+    this.spinner.show()
     this.productCertificationService.filterMix(datafield).subscribe(
       (res) => {
         this.productCertificationTable = res;
-
+        this.spinner.hide()
         this.productCertificationTable = this.productCertificationTable.map((prop, key) => {
           return {
             ...prop,
@@ -478,150 +461,6 @@ export class DataSearchComponent implements OnInit, OnDestroy {
       }
     );
   }
-
-  // calculateCharts() {
-  //   // console.log('infoTable = ',this.infoTable)
-  //   this.chartJan = 0
-  //   this.chartFeb = 0
-  //   this.chartMar = 0
-  //   this.chartApr = 0
-  //   this.chartMay = 0
-  //   this.chartJun = 0
-  //   this.chartJul = 0
-  //   this.chartAug = 0
-  //   this.chartSep = 0
-  //   this.chartOct = 0
-  //   this.chartNov = 0
-  //   this.chartDec = 0
-  //   this.infoTable.forEach(
-  //     ((row) => {
-  //       let checkerDate = moment(row.approveDate).format('MM')
-  //       var date = moment('15-06-2010', 'DD-MM-YYYY')
-  //       console.log(date.format('MM-DD-YYYY'))
-  //       // let checkerDateMonth = checkerDate.month()
-
-  //       console.log("row",row)
-  //       console.log('qqqqq - ',new Date(row.approveDate),"--",moment(new Date()).format("MM") );
-  //       console.log('row.approveDate = ',row.approveDate)
-  //       console.log('checkerDate = ',checkerDate)
-  //       // console.log('checkerDateMonth = ',checkerDateMonth)
-
-  //       // if (checkerDateMonth == 0) {
-  //       //   this.chartJan += 1
-  //       // }
-  //       // else if (checkerDateMonth == 1) {
-  //       //   this.chartFeb += 1
-  //       // }
-  //       // else if (checkerDateMonth == 2) {
-  //       //   this.chartMar += 1
-  //       // }
-  //       // else if (checkerDateMonth == 3) {
-  //       //   this.chartApr += 1
-  //       // }
-  //       // else if (checkerDateMonth == 4) {
-  //       //   this.chartMay += 1
-  //       // }
-  //       // else if (checkerDateMonth == 5) {
-  //       //   this.chartJun += 1
-  //       // }
-  //       // else if (checkerDateMonth == 6) {
-  //       //   this.chartJul += 1
-  //       // }
-  //       // else if (checkerDateMonth == 7) {
-  //       //   this.chartAug += 1
-  //       // }
-  //       // else if (checkerDateMonth == 8) {
-  //       //   this.chartSep += 1
-  //       // }
-  //       // else if (checkerDateMonth == 9) {
-  //       //   this.chartOct += 1
-  //       // }
-  //       // else if (checkerDateMonth == 10) {
-  //       //   this.chartNov += 1
-  //       // }
-  //       // else if (checkerDateMonth == 11) {
-  //       //   this.chartDec += 1
-  //       // }
-  //     })
-  //   )
-
-  //   this.getPortalChart()
-  // }
-
-  // getPortalChart() {
-  //   let chart = am4core.create("portalchart", am4charts.XYChart);
-
-  //   // Add data
-  //   chart.data = [{
-  //     "month": "Jan",
-  //     "count": this.chartJan
-  //   }, {
-  //     "month": "Feb",
-  //     "count": this.chartFeb
-  //   }, {
-  //     "month": "Mar",
-  //     "count": this.chartMar
-  //   }, {
-  //     "month": "Apr",
-  //     "count": this.chartApr
-  //   }, {
-  //     "month": "May",
-  //     "count": this.chartMar
-  //   }, {
-  //     "month": "Jun",
-  //     "count": this.chartJun
-  //   }, {
-  //     "month": "Jul",
-  //     "count": this.chartJul
-  //   }, {
-  //     "month": "Aug",
-  //     "count": this.chartAug
-  //   }, {
-  //     "month": "Sep",
-  //     "count": this.chartSep
-  //   }, {
-  //     "month": "Oct",
-  //     "count": this.chartOct
-  //   }, {
-  //     "month": "Nov",
-  //     "count": this.chartNov
-  //   }, {
-  //     "month": "Dec",
-  //     "count": this.chartDec
-  //   }
-  // ];
-
-  //   // Create axes
-
-  //   let categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
-  //   categoryAxis.dataFields.category = "month";
-  //   categoryAxis.renderer.grid.template.location = 0;
-  //   categoryAxis.renderer.minGridDistance = 30;
-
-  //   categoryAxis.renderer.labels.template.adapter.add("dy", function (dy, target) {
-  //     if (target.dataItem && target.dataItem.index && 2 == 2) {
-  //       return dy + 25;
-  //     }
-  //     return dy;
-  //   });
-
-  //   let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
-
-  //   // Create series
-  //   let series = chart.series.push(new am4charts.ColumnSeries());
-  //   series.dataFields.valueY = "count";
-  //   series.dataFields.categoryX = "month";
-  //   series.name = "count";
-  //   series.columns.template.tooltipText = "{categoryX}: [bold]{valueY}[/]";
-  //   series.columns.template.fillOpacity = .8;
-
-  //   let columnTemplate = series.columns.template;
-  //   columnTemplate.strokeWidth = 2;
-  //   columnTemplate.strokeOpacity = 1;
-
-  //   this.chart = chart
-
-  // }
 
   entryChange($event) {
     this.tableEntries = $event.target.value;
@@ -760,9 +599,6 @@ export class DataSearchComponent implements OnInit, OnDestroy {
       productCertificertServ.post(formDataaaaa[0]).subscribe(
         (res) => {
           console.log("res = ", res);
-          this.productGeneration();
-          this.modal.hide();
-          this.spinner.hide();
         },
         (error) => {
           console.error("err", error);
@@ -770,6 +606,9 @@ export class DataSearchComponent implements OnInit, OnDestroy {
           this.spinner.hide();
         }
       );
+      this.spinner.hide();
+      this.modal.hide();
+      this.productGeneration()
     });
   }
 
@@ -798,14 +637,14 @@ export class DataSearchComponent implements OnInit, OnDestroy {
       console.log("formDataaaaa = ", formDataaaaa[0]);
 
       // dalam foreach
-      // productCertificertServ.post(formDataaaaa[0]).subscribe(
-      //   (res) => {
-      //     console.log("res = ", res);
-      //   },
-      //   (error) => {
-      //     console.error("err", error);
-      //   }
-      // );
+      productCertificertServ.post(formDataaaaa[0]).subscribe(
+        (res) => {
+          console.log("res = ", res);
+        },
+        (error) => {
+          console.error("err", error);
+        }
+      );
     });
     this.productCertificationGet();
     this.modal.hide();
@@ -877,15 +716,14 @@ export class DataSearchComponent implements OnInit, OnDestroy {
     /* table id is passed over here */   
     let element = document.getElementById('excel-table'); 
     const ws: XLSX.WorkSheet =XLSX.utils.table_to_sheet(element);
-    console.log("export",element)
+    console.log("registration",element)
     /* generate workbook and add the worksheet */
-    // const wb: XLSX.WorkBook = XLSX.utils.book_new();
-    // XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
 
     // /* save to file */
-    // XLSX.writeFile(wb, this.fileName);
-   
- }
+    XLSX.writeFile(wb, this.fileNameRegistration);
+  }
 
  exportexcelCert() {
   /* table id is passed over here */   
@@ -893,42 +731,23 @@ export class DataSearchComponent implements OnInit, OnDestroy {
   const ws: XLSX.WorkSheet =XLSX.utils.table_to_sheet(elementCert);
   console.log("export",elementCert)
   /* generate workbook and add the worksheet */
-  // const wb: XLSX.WorkBook = XLSX.utils.book_new();
-  // XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
-
-  // /* save to file */
-  // XLSX.writeFile(wb, this.fileNameCert);
- 
-}
-
-exportexcelSLP() {
-  /* table id is passed over here */   
-  let element = document.getElementById('excel_table_SLP'); 
-  const ws: XLSX.WorkSheet =XLSX.utils.table_to_sheet(element);
-  console.log("export",element)
-  /* generate workbook and add the worksheet */
   const wb: XLSX.WorkBook = XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
 
-  /* save to file */
-  XLSX.writeFile(wb, this.fileName);
- 
-}
+  // /* save to file */
+  XLSX.writeFile(wb, this.fileNameCert);
+  }
 
-// openPDF() {
-//   let DATA = document.getElementById('excel_table_SLP');
-      
-//   html2canvas(DATA).then(canvas => {
-      
-//       let fileWidth = 208;
-//       let fileHeight = canvas.height * fileWidth / canvas.width;
-      
-//       const FILEURI = canvas.toDataURL('image/png')
-//       let PDF = new jsPDF('p', 'mm', 'a4');
-//       let position = 0;
-//       PDF.addImage(FILEURI, 'PNG', 0, position, fileWidth, fileHeight)
-      
-//       PDF.save('angular-demo.pdf');
-//   });     
-// }
+  exportexcelSLP() {
+    /* table id is passed over here */   
+    let element = document.getElementById('excel_table_SLP'); 
+    const ws: XLSX.WorkSheet =XLSX.utils.table_to_sheet(element);
+    console.log("export",element)
+    /* generate workbook and add the worksheet */
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+    /* save to file */
+    XLSX.writeFile(wb, this.fileNameSLPID);
+  }
+
 }

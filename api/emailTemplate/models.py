@@ -11,6 +11,9 @@ from simple_history.models import HistoricalRecords
 
 from core.helpers import PathAndRename
 
+from users.models import (
+    CustomUser
+)
 
 class emailTemplate(models.Model):
 
@@ -25,6 +28,7 @@ class emailTemplate(models.Model):
     template_content = models.CharField(max_length=100000, blank=True)
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
+    history = HistoricalRecords(user_model=CustomUser)
  
     class Meta:
         ordering = ['created_date']

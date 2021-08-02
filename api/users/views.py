@@ -32,7 +32,8 @@ from users.models import (
 )
 
 from users.serializers import (
-    CustomUserSerializer
+    CustomUserSerializer,
+    CustomuserHistorySerializer
 )
 
 class CustomUserViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
@@ -73,5 +74,20 @@ class CustomUserViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
             else:
                 queryset = User.objects.filter(company=company.id)
         """
-        return queryset    
- 
+        return queryset 
+
+class CustomUserHistoryViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
+    queryset = CustomUser.history.all()
+    serializer_class = CustomuserHistorySerializer
+    filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
+    # filterset_fields = []
+
+    def get_permissions(self):
+        permission_classes = [AllowAny]
+
+        return [permission() for permission in permission_classes]    
+
+    
+    def get_queryset(self):
+        queryset = CustomUser.history.all()
+        return queryset

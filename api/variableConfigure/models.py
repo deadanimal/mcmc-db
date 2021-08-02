@@ -11,6 +11,10 @@ from simple_history.models import HistoricalRecords
 
 from core.helpers import PathAndRename
 
+from users.models import (
+    CustomUser
+)
+
 class variableConfigure(models.Model):
 
     Id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -19,7 +23,8 @@ class variableConfigure(models.Model):
     createdBy = models.CharField(max_length=255, blank=True, null=True)
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
-
+    history = HistoricalRecords(user_model=CustomUser)
+    
     class Meta:
         ordering = ['created_date']
 

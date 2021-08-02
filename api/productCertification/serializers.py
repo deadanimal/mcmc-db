@@ -35,4 +35,4 @@ class productCertificationSerializer(serializers.ModelSerializer):
             
         )
         # read_only_fields = ('email', 'id', 'TACInd')
-
+        

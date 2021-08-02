@@ -25,6 +25,7 @@ export class SystemFaqComponent implements OnInit {
   categoryForm: FormGroup
   registerForm: FormGroup
   title
+  audit
 
 
   modal: BsModalRef;
@@ -81,6 +82,7 @@ export class SystemFaqComponent implements OnInit {
       active: new FormControl(""),
       content: new FormControl(""),
     });
+    this.history()
 
   }
 
@@ -277,6 +279,15 @@ export class SystemFaqComponent implements OnInit {
 
   newTitle2(){
     console.log("newTitle()",this.registerForm.value.TITLE)
+  }
+
+  history(){
+    this.FAQCategoriesService.getHistory().subscribe(
+      (res)=> {
+        console.log(res)
+        this.audit = res
+        console.log(this.audit.history_type)
+      })
   }
 
 }

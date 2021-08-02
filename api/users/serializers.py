@@ -4,6 +4,7 @@ import json
 
 from django.contrib.auth.forms import PasswordResetForm
 from django.conf import settings
+from django.db.models import fields
 from django.utils.translation import gettext as _
 from rest_framework import serializers
 from django.utils.timezone import now
@@ -34,3 +35,9 @@ class CustomUserSerializer(serializers.ModelSerializer):
         )
         read_only_fields = ('email', 'id')
 
+
+class CustomuserHistorySerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = CustomUser.history.model
+        fields = '__all__'

@@ -5,6 +5,7 @@ export class FAQCategories {
   public createdBy: string;
   public created_date: string;
   public modified_date: string;
+  public history: string;
 
   constructor(
     categoryId: string,
@@ -13,6 +14,7 @@ export class FAQCategories {
     createdBy: string,
     created_date: string,
     modified_date: string,
+    history: string,
 
 
   ) {
@@ -22,5 +24,6 @@ export class FAQCategories {
     this.createdBy = createdBy;
     this.created_date = created_date;
     this.modified_date = modified_date;
+    this.history = history;
   }
 }

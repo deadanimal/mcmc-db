@@ -10,36 +10,27 @@ from django.utils.timezone import now
 #from api.settings import AWS_S3_ENDPOINT_URL, AWS_STORAGE_BUCKET_NAME
 
 from .models import (
-    certifiedAgency
+    certifiedAgency,
+    APIDetails
 )
 
 class certifiedAgencySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = certifiedAgency
-        fields = (
-            'Id', 
-            'ca_name',
-            'createdBy',
-            'created_date',
-            'modified_date',
-            'appoint_date',
-            'expiry_date',
-            'pic_name',
-            'ip_address',
-            'url',
-            'is_active',
-            'path',
-            'port',
-            'remarks',
-            'ca_id',
-
-
-
-
-
-
-            
-        )
+        fields =('__all__')
         # read_only_fields = ('email', 'id', 'TACInd')
+
+class APIDetailsSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = APIDetails
+        fields = ('__all__')
+
+class APIDetailsHistorySerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = APIDetails.history.model
+        fields = ('__all__')
+
 

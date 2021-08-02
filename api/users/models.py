@@ -32,6 +32,7 @@ class CustomUser(AbstractUser):
     user_type = models.CharField(max_length=2,choices=USER_TYPE_OPTION,default='US')
     created_date = models.DateTimeField(auto_now=True)
     modified_date = models.DateTimeField(auto_now=True)
+    history = HistoricalRecords()
 
     class Meta:
         ordering = ['name']

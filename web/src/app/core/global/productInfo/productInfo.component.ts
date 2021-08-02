@@ -33,10 +33,13 @@ export class ProductInfoComponent implements OnInit {
   searchPRODUCTForm: FormGroup
   test: Date = new Date();
   product = null
-  model = null 
+  model = null
   focusUsername
   focustype
   searchType:any
+
+  // date counter
+  date: number = new Date().getMonth() + 1
 
   siteKey: string = environment.reCaptchaSiteKey;
   size: string = "normal";
@@ -70,7 +73,7 @@ export class ProductInfoComponent implements OnInit {
     class: "modal-dialog-centered modal-xl"
   };
 
-  
+
 
   constructor(
     private router: Router,
@@ -98,8 +101,8 @@ export class ProductInfoComponent implements OnInit {
         Validators.required,
       ])),
       recaptcha: ["", Validators.required],
-    }) 
-    
+    })
+
   }
 
   navigatePage(path: String) {
@@ -110,12 +113,12 @@ export class ProductInfoComponent implements OnInit {
 
   productGeneration() {
     console.log("form",this.searchPRODUCTForm.value.PRODUCT, this.searchPRODUCTForm.value.MODEL)
-    let datafield = "Brand="+this.searchPRODUCTForm.value.PRODUCT
-    let datafield2 = "Brand="+this.searchPRODUCTForm.value.PRODUCT+"&Model="+this.searchPRODUCTForm.value.MODEL
+    const datafield = "Brand="+this.searchPRODUCTForm.value.PRODUCT
+    const datafield2 = "Brand="+this.searchPRODUCTForm.value.PRODUCT+"&MarketingName="+this.searchPRODUCTForm.value.MODEL
     console.log("wewe",datafield2)
     this.loadingBar.start()
-    if (datafield2=="Brand="+this.searchPRODUCTForm.value.PRODUCT+"&Model="+null){
-    this.productCertificationService.filter(datafield).subscribe(
+    if (datafield2=="Brand="+this.searchPRODUCTForm.value.PRODUCT+"&MarketingName="+null){
+    this.productCertificationService.filterMix(datafield).subscribe(
       (res) => {
         this.infoTable=res;
         console.log("if loop 1");
@@ -141,7 +144,7 @@ export class ProductInfoComponent implements OnInit {
     );
     }
     else {
-      this.productCertificationService.filter(datafield2).subscribe(
+      this.productCertificationService.filterMix(datafield2).subscribe(
         (res) => {
           this.infoTable=res;
           console.log("if loop 2");
@@ -164,16 +167,16 @@ export class ProductInfoComponent implements OnInit {
         },
         () => console.log("HTTP request completed.")
       );
-      }   
+      }
   }
 
   productGeneration2() {
     this.loadingBar.start()
     console.log("form",this.searchPRODUCTForm.value.PRODUCT, this.searchPRODUCTForm.value.MODEL)
-    let datafield = "Brand="+this.searchPRODUCTForm.value.PRODUCT
-    let datafield2 = "Brand="+this.searchPRODUCTForm.value.PRODUCT+"&Model="+this.searchPRODUCTForm.value.MODEL
+    const datafield = "Brand="+this.searchPRODUCTForm.value.PRODUCT
+    const datafield2 = "Brand="+this.searchPRODUCTForm.value.PRODUCT+"&MarketingName="+this.searchPRODUCTForm.value.MODEL
     console.log("wewe",datafield, "Model="+null)
-    if (datafield2=="Brand="+this.searchPRODUCTForm.value.PRODUCT+"&Model="+null){
+    if (datafield2=="Brand="+this.searchPRODUCTForm.value.PRODUCT+"&MarketingName="+null){
     this.productCertificationService.filterMix(datafield).subscribe(
       (res) => {
         this.infoTable=res;
@@ -211,7 +214,7 @@ export class ProductInfoComponent implements OnInit {
           else {
             this.openModal(this.modalRef)
           }
-          
+
         },
         (err) => {
           console.log("HTTP Error", err);
@@ -221,11 +224,12 @@ export class ProductInfoComponent implements OnInit {
         },
         () => console.log("HTTP request completed.")
       );
-      }   
+      }
   }
 
   LabelCounter(){
-    let imeicounter = { Name:"PRODUCT", Counter:"4"};
+    const month = this.date
+    const imeicounter = { Name:"PRODUCT", Counter:month};
     this.SearchCounterService.post(imeicounter).subscribe(
       (res) => {
         console.log("+1 PRODUCT Counter")
@@ -278,7 +282,7 @@ export class ProductInfoComponent implements OnInit {
     this.modal.hide()
     this.searchPRODUCTForm.reset()
     this.captchaElem.reloadCaptcha()
- 
+
 
   }
 
@@ -302,7 +306,7 @@ export class ProductInfoComponent implements OnInit {
       text: "Please enter valid brand/model!",
       type: "error",
       timer: 3000,
-    })  
+    })
   }
 
   // ReCaptcha
@@ -334,35 +338,35 @@ export class ProductInfoComponent implements OnInit {
   }
 
   verifyRecaptcha(response: string) {
-    let obj = {
+    const obj = {
       secret: environment.reCaptchaSecretKey,
-      response: response,
+      response,
     };
     this.masterDataService.verify_recaptcha(obj).subscribe(
       (res) => {
         // console.log("res", res);
       },
       (err) => {
-        console.error("err", err);
+        console.error('err', err);
       }
     );
   }
 
   disableSearch(){
-    let varID = 'd8991bb4-07be-4264-8dfb-3da69a4d2bf7';
+    const varID = 'd8991bb4-07be-4264-8dfb-3da69a4d2bf7';
     this.variableConfigureService.getOne(varID).subscribe(
       (res) => {
         this.variableTable = [res]
         this.variableTable = this.variableTable[0]
-        console.log("wewe", this.variableTable);
-        console.log("array",this.variableTable[0],[2])
+        console.log('wewe', this.variableTable);
+        console.log('array',this.variableTable[0],[2])
       },
       (err) => {
         // this.loadingBar.complete();
         // this.errorMessage();
         // console.log("HTTP Error", err), this.errorMessage();
       },
-      () => console.log("HTTP request completed.")
+      () => console.log('HTTP request completed.')
     );
     console.log()
 

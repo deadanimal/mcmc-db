@@ -23,11 +23,13 @@ export class SerialComponent implements OnInit {
   infoTable = []
   variableTable: any
   TACTable = []
+  testTable = []
   searchSERIALForm: FormGroup
   test: Date = new Date();
   serial
   focusSerial
-  
+
+  date: number = new Date().getMonth() + 1
 
   siteKey: string = environment.reCaptchaSiteKey;
   size: string = "normal";
@@ -96,7 +98,6 @@ export class SerialComponent implements OnInit {
           this.errorMessage();
           this.searchSERIALForm.reset()
           this.captchaElem.reloadCaptcha()
-          
         }
         else {
           this.openModal(this.modalRef)
@@ -104,7 +105,8 @@ export class SerialComponent implements OnInit {
           this.productCertificationService.filter(TACData).subscribe(
             (res) => {
               this.TACTable = res
-              console.log(this.TACTable)
+              this.testTable = this.TACTable[0]
+              console.log("array TAC",this.testTable)
             }
           )
         }
@@ -122,7 +124,8 @@ export class SerialComponent implements OnInit {
   }
 
   SerialCounter(){
-    let imeicounter = { Name:"SERIAL", Counter:"4"};
+    let month = this.date
+    let imeicounter = { Name:"SERIAL", Counter:month};
     this.SearchCounterService.post(imeicounter).subscribe(
       (res) => {
         console.log("+1 SERIAL Counter")

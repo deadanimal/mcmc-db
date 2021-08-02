@@ -66,7 +66,7 @@ export const ROUTES: RouteInfo[] = [
     isCollapsed: true,
     children: [
       { path: 'user', title: 'User Configuration', type: 'link' },
-      { path: 'access', title: 'Role-Based Access Control', type: 'link' },
+      // { path: 'access', title: 'Role-Based Access Control', type: 'link' },
     ]
   },
   {
@@ -104,57 +104,64 @@ export const ROUTES: RouteInfo[] = [
 
 export const ROUTESUSER: RouteInfo[] = [
   {
-    path: '/dashboard',
+    path: '/user/dashboard',
     title: 'Dashboard',
     type: 'link',
-    icontype: 'fas fa-desktop text-warning'
+    icontype: 'fas fa-home text-blue'
   },
   {
-    path: '/applications',
-    title: 'Applications',
+    path: '/admin/data-search',
+    title: 'Data Search',
     type: 'link',
-    icontype: 'fas fa-file-invoice text-pink'
+    icontype: 'fas fa-chart-bar text-blue'
   },
   {
-    path: '/houses',
-    title: 'Houses',
+    path: '/admin/report',
+    title: 'Reporting',
     type: 'link',
-    icontype: 'fas fa-home text-purple'
+    icontype: 'fas fa-chart-pie text-blue'
   },
   {
-    path: '/management',
+    path: '/admin/system',
+    title: 'System Configuration',
+    type: 'sub',
+    icontype: 'fas fa-wrench text-blue',
+    collapse: 'system',
+    isCollapsed: true,
+    children :[
+      // { path:'api', title:'API Configuration', type: 'link' },
+      // { path:'variable', title:'System Variables', type: 'link'},
+      { path: 'notification', title: 'Notification Configuration', type: 'link'},
+      { path: 'faq', title: 'FAQ Configuration', type: 'link'},
+    ]
+  },
+  {
+    path: '/admin/management',
     title: 'Management',
-    type: 'link',
-    icontype: 'fas fa-tasks text-red'
+    type: 'sub',
+    icontype: 'fas fa-list text-blue',
+    collapse: 'management',
+    isCollapsed: true,
+    children: [
+      { path: 'user', title: 'User Configuration', type: 'link' },
+      // { path: 'access', title: 'Role-Based Access Control', type: 'link' },
+    ]
   },
   {
-    path: '/report',
-    title: 'Report',
-    type: 'link',
-    icontype: 'fas fa-chart-bar text-green'
+    path: '/admin/utility',
+    title: 'Utility',
+    type: 'sub',
+    icontype: 'fas fa-file-invoice text-blue',
+    collapse: 'management',
+    isCollapsed: true,
+    children: [
+      { path: 'audit-trails', title: 'Audit Trails', type: 'link' },
+    ]
   },
   {
-    path: '/helpdesk',
-    title: 'Helpdesk',
+    path: '/global/public',
+    title: 'Back to Public Portal',
     type: 'link',
-    icontype: 'fas fa-life-ring text-blue'
+    icontype: 'fas fa-sign-out-alt text-blue'
   },
-  {
-    path: '/audit',
-    title: 'Audit Trail',
-    type: 'link',
-    icontype: 'fas fa-braille text-indigo'
-  }/*,
-  {
-    path: '/maintenance',
-    title: 'Maintenance',
-    type: 'link',
-    icontype: 'fas fa-cogs text-orange'
-  }*/
-  /*{
-    path: '/settings',
-    title: 'Settings',
-    type: 'link',
-    icontype: 'fas fa-sliders-h text-blue'
-  }*/
 ];

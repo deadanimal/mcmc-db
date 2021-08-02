@@ -11,6 +11,10 @@ from simple_history.models import HistoricalRecords
 
 from core.helpers import PathAndRename
 
+from users.models import (
+    CustomUser
+)
+
 class FAQCategory(models.Model):
 
     categoryId = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -20,6 +24,7 @@ class FAQCategory(models.Model):
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
     content = models.CharField(max_length=10000, blank=True)
+    history = HistoricalRecords(user_model=CustomUser)
  
 
     class Meta:

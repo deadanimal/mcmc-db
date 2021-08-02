@@ -319,12 +319,38 @@
       <div class="row">
         <div class="col">
           <div class="form-group">
-            <label class="form-control-label">Email</label>
-            <input
+          <label class="form-control-label">Choose Email Type</label>
+            <select
               class="form-control"
-              placeholder="Enter Email"
-              formControlName="email"
-            />
+              id="toggleEmail"
+              (change)="toggleEmail($event.target.value)"
+            >
+              <option>--Please Choose--</option>
+              <option value="new">New Email</option>
+              <option value="exist">Existing Email</option>
+            </select><br>
+            <div *ngIf="new==true">
+              <label class="form-control-label">New Email</label>
+              <input
+                class="form-control"
+                placeholder="Enter Email"
+                formControlName="email"
+              /><br>
+            </div>
+            <div *ngIf="exist==true">
+              <label class="form-control-label">Existing Email</label>
+              <select
+                class="form-control"
+                formControlName="email"
+              >
+                <option
+                  *ngFor="let option of emailTable"
+                  value="{{option.name}}"
+                >
+                  {{ option.name }}
+                </option>
+              </select>
+            </div>
           </div>
         </div>
       </div>
@@ -459,3 +485,13 @@
     </button>
   </div>
 </ng-template>
+
+<ngx-spinner
+  bdColor="rgba(0, 0, 0, 0.8)"
+  size="medium"
+  color="#fff"
+  type="square-jelly-box"
+  [fullScreen]="true"
+>
+  <p style="color: white">Loading...</p>
+</ngx-spinner>

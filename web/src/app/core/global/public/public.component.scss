@@ -63,6 +63,10 @@ video {
 .hand {
     cursor: pointer;
 }
+.disabled {
+    pointer-events: none;
+}
+
 
 .btn-success {
     background-color: #fabb00 !important;
@@ -77,4 +81,22 @@ video {
 .btn-warning {
     background-color: #E64687 !important;
     border-color: #E64687 !important;
+}
+
+.card__inner {
+    background-color: rgba(0, 0, 0, 0.9);
+    // color: #f5365c;
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    z-index: 1;
+    opacity: 0;
+    padding: 2rem 1.3rem 2rem 2rem;
+    transition: all 0.4s ease 0s;
+}
+
+.card:hover .card__inner {
+    opacity: 0.9;
 }

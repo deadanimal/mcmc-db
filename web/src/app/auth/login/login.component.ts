@@ -49,16 +49,10 @@ export class LoginComponent implements OnInit {
         Validators.minLength(8)
       ]))
     })
-
-    
   }
-
-  
 
   login() {
     this.loadingBar.start()
-    //this.loadingBar.complete()
-    //this.successMessage()
     console.log(this.loginForm.value);
     this.authService.obtainToken(this.loginForm.value).subscribe(
       (res) => {
@@ -72,7 +66,7 @@ export class LoginComponent implements OnInit {
         // console.log("HTTP Error", err), this.errorMessage();
       },
       () => console.log("HTTP request completed.")
-    );
+    )
     // if (this.loginForm.value.username == 'admin') {
     //   this.authService.userRole = 1
     //   this.navigatePage('dashboard-admin')
@@ -81,7 +75,6 @@ export class LoginComponent implements OnInit {
     //   this.authService.userRole = 2
     //   this.navigatePage('dashboard-user')
     // }
-    
   }
 
   navigatePage(path: String) {
@@ -114,6 +107,4 @@ export class LoginComponent implements OnInit {
     let message = 'Cant Logging in'
     this.notifyService.openToastrHttp(title, message)
   }
-  
-
 }

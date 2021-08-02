@@ -28,6 +28,9 @@ import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 @NgModule({
   providers: [
     NgxSpinnerService,
+    {
+      provide: HTTP_INTERCEPTORS, useClass: HttpTokenInterceptor, multi: true
+    }
   ],
   imports: [
     AppRoutingModule,
@@ -54,11 +57,12 @@ import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
     NgxSpinnerModule,
   ],
   declarations: [
-    AppComponent, 
-    AdminLayoutComponent, 
+    AppComponent,
+    AdminLayoutComponent,
     AuthLayoutComponent,
     PublicLayoutComponent
   ],
+
   bootstrap: [AppComponent]
 })
 export class AppModule {}

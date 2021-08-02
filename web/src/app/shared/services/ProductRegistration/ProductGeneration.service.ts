@@ -90,4 +90,32 @@ export class ProductGenerationService {
       );
     }
 
+    getProductChart() {
+      let urlTemp = this.url + 'get_serial_counter'
+      return this.http.get<any>(urlTemp).pipe(
+        tap((res) => {
+          this.ProductRegistration = res
+          // console.log('Statistics: ', this.trainingStatistics)
+        })
+      )
+    }
+    getSerialChart() {
+      let urlTemp = this.url + 'get_serialNo_counter'
+      return this.http.get<any>(urlTemp).pipe(
+        tap((res) => {
+          this.ProductRegistration = res
+          // console.log('Statistics: ', this.trainingStatistics)
+        })
+      )
+    }
+    getIMEIChart() {
+      let urlTemp = this.url + 'get_IMEI_counter'
+      return this.http.get<any>(urlTemp).pipe(
+        tap((res) => {
+          this.ProductRegistration = res
+          // console.log('Statistics: ', this.trainingStatistics)
+        })
+      )
+    }
+
   }

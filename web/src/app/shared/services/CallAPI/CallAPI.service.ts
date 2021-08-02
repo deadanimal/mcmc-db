@@ -20,7 +20,7 @@ export class CallAPIService {
 
   getAll(): Observable<any> {
     let urlPath = this.urlMock 
-    return this.http.get<any>(urlPath).pipe(
+    return this.http.get<any>(this.urlMock).pipe(
       tap((res) => {
         this.datas = res
         console.log('Data: ', this.datas)

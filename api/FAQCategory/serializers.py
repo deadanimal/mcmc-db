@@ -13,6 +13,8 @@ from .models import (
     FAQCategory
 )
 
+from users.serializers import CustomUserSerializer
+
 class FAQCategorySerializer(serializers.ModelSerializer):
 
     class Meta:
@@ -27,3 +29,9 @@ class FAQCategorySerializer(serializers.ModelSerializer):
         )
         # read_only_fields = ('email', 'id', 'TACInd')
 
+class FAQCategoryHistorySerializer(serializers.ModelSerializer):
+    history_user = CustomUserSerializer(read_only=True)
+    
+    class Meta:
+        model = FAQCategory.history.model
+        fields = '__all__'

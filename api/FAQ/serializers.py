@@ -24,3 +24,8 @@ class FAQSerializer(serializers.ModelSerializer):
         )
         # read_only_fields = ('email', 'id', 'TACInd')
 
+class FAQHistorySerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = FAQ.history.model
+        fields = '__all__'

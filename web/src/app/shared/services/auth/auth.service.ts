@@ -29,7 +29,7 @@ export class AuthService {
   public email: string
   public userID: string
   public username: string
-  // public userType: string
+  public userType: string
   public userRole: number = 1
 
   // Temp
@@ -77,7 +77,7 @@ export class AuthService {
         this.email = decodedToken.email
         this.username = decodedToken.username
         this.userID = decodedToken.user_id
-        // this.userType = decodedToken.user_type
+        this.userType = decodedToken.user_type
         console.log('Decoded token: ', decodedToken)
         // console.log('Post response: ', res)
         // console.log('Refresh token', this.tokenRefresh)
@@ -86,9 +86,15 @@ export class AuthService {
         // console.log('Email: ', this.email)
         // console.log('Username: ', this.username)
         // console.log('User ID: ', this.userID)
-        // console.log('User type: ', this.userType)
+        console.log('User type: ', this.userType)
         this.jwtService.saveToken('accessToken', this.tokenAccess)
         this.jwtService.saveToken('refreshToken', this.tokenRefresh)
+        if (this.userType == 'AD') {
+          this.userRole = 1
+        }
+        else if (this.userType == 'US'){
+          this.userRole = 1
+        }
       })
     )
   }

@@ -18,7 +18,8 @@ from variableConfigure.models import (
 )
 
 from variableConfigure.serializers import (
-    variableConfigureSerializer
+    variableConfigureSerializer,
+    variableConfigureHistorySerializer
 )
 
 
@@ -60,4 +61,20 @@ class variableConfigureViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
             else:
                 queryset = User.objects.filter(company=company.id)
         """
+        return queryset
+    
+class variableConfigureHistoryViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
+    queryset = variableConfigure.history.all()
+    serializer_class = variableConfigureHistorySerializer
+    filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
+    # filterset_fields = []
+
+    def get_permissions(self):
+        permission_classes = [AllowAny]
+
+        return [permission() for permission in permission_classes]    
+
+    
+    def get_queryset(self):
+        queryset = variableConfigure.history.all()
         return queryset

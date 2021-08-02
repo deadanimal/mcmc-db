@@ -1,0 +1,110 @@
+{
+    "ResponseCode": "S0001",
+    "ResponseDesc": "Record available.",
+    "TACList": [
+      {
+        "FileNo": "SQASI/TA/20/1886",
+        "TAC": "RFFS/96C/0620/S(20-1886)",
+        "TypeOfProduct": "WIRELESS EARPHONE (HYBRID-WEARABLE)",
+        "Model": "ETI41 [Support: Bluetooth]",
+        "Brand": "OPPO",
+        "MarketingName": "W11",
+        "ApproveDate": "2020-06-02T00:00:00",
+        "ExpiryDate": "2022-06-01T00:00:00",
+        "ProductCategory": "RADIO",
+        "CertHolderName": "JIE BUSINESS SDN. BHD.",
+        "ROCROB": "1075187-D"
+      },
+      {
+        "FileNo": "SQASI/TA/20/2178",
+        "TAC": "RGLB/01A/0720/S(20-2178)",
+        "TypeOfProduct": "SET TOP BOX (DVB-S2)",
+        "Model": "KSTB6112 [Marketing Name: HD Zapper Plus] [Support: 802.11a/b/g/n/ac & Bluetooth][802.11b/g/n & Bluetooth : 2400 MHz - 2483.5 MHz][802.11a/n/ac: 5150 MHz - 5350 MHz, 5470 MHz - 5650 MHz, 5725 MHz - 5875 MHz]",
+        "Brand": "ASTRO",
+        "MarketingName": "HD Zapper Plus",
+        "ApproveDate": "2020-07-01T00:00:00",
+        "ExpiryDate": "2023-06-30T00:00:00",
+        "ProductCategory": "RADIO",
+        "CertHolderName": "THREE A DIAMOND RESOURCES",
+        "ROCROB": "002040060-M"
+      },
+      {
+        "FileNo": "SQASI/TA/18/4891",
+        "TAC": "RAMI/99D/1218/S(18-4891)",
+        "TypeOfProduct": "WIRELESS ROUTER",
+        "Model": "Deco M4R [Support: 802.11 a/b/g/n/ac] [802.11 b/g/n: 2400 MHz – 2483.5 MHz] [802.11 a/n/ac: 5150 MHz – 5250 MHz]",
+        "Brand": "tp-link",
+        "MarketingName": "",
+        "ApproveDate": "2018-12-26T00:00:00",
+        "ExpiryDate": "2021-12-25T00:00:00",
+        "ProductCategory": "RADIO",
+        "CertHolderName": "TP LINK DISTRIBUTION MALAYSIA SDN BHD",
+        "ROCROB": "1050088-K"
+      },
+      {
+        "FileNo": "SQASI/TA/20/4063",
+        "TAC": "RCCT/75E/1020/S(20-4063)",
+        "TypeOfProduct": "DIGITAL AUDIO PLAYER  DEVICE (HYBRID-VEHICLE)",
+        "Model": "T3-K2001 [Support: 802.11b/g/n & Bluetooth]",
+        "Brand": "Sparko",
+        "MarketingName": "",
+        "ApproveDate": "2020-10-06T00:00:00",
+        "ExpiryDate": "2021-10-05T00:00:00",
+        "ProductCategory": "RADIO",
+        "CertHolderName": "ELEVEN A AUTOMART SDN BHD",
+        "ROCROB": "777608-K"
+      },
+      {
+        "FileNo": "SQASI/TA/20/2554",
+        "TAC": "RFBH/28A/0720/S(20-2554)",
+        "TypeOfProduct": "GSM 850/900/1800/1900/3G(900/2100)/LTE(900/1800/2100/2300/2600(B7/B38))/ISM MOBILE STATION (WITH PDA)",
+        "Model": "M685Y4 [Support: 802.11b/g/n & Bluetooth] [2 SIM, 2 IMEI]",
+        "Brand": "YES",
+        "MarketingName": "Altitude 3",
+        "ApproveDate": "2020-07-17T00:00:00",
+        "ExpiryDate": "2021-07-16T00:00:00",
+        "ProductCategory": "RADIO",
+        "CertHolderName": "YTL COMMUNICATIONS SDN BHD",
+        "ROCROB": "793634-V"
+      },
+      {
+        "FileNo": "SQASI/TA/20/2463",
+        "TAC": "RGIC/06A/0620/S(20-2463)",
+        "TypeOfProduct": "MOBILE PHONE 5G(700/3500/3700)  LTE(850/900/1800/2100/2300/2600(B7/B38)) 3G(900/2100) GSM 850/900/1800/1900 & ISM",
+        "Model": "JEF-NX9  [Support: 802.11 a/b/g/n/ac, Bluetooth, NFC & VoLTE] [802.11 b/g/n & Bluetooth : 2400 MHz - 2483.5 MHz] [802.11 a/n/ac: 5150 MHz - 5350 MHz, 5470 MHz - 5650 MHz & 5725 MHz - 5875 MHz] [NFC: 13.56 MHz] [2 SIM, 2 IMEI]",
+        "Brand": "HUAWEI",
+        "MarketingName": "Huawei Nova 7",
+        "ApproveDate": "2020-07-02T00:00:00",
+        "ExpiryDate": "2021-07-01T00:00:00",
+        "ProductCategory": "RADIO",
+        "CertHolderName": "ZITRON ENTERPRISE (M) SDN. BHD.",
+        "ROCROB": "242481-M"
+      },
+      {
+        "FileNo": "SQASI/TA/20/2527",
+        "TAC": "ROAE/38A/0620/S(20-2527)",
+        "TypeOfProduct": "GSM 850/900/1800/1900/3G(900/2100)/LTE(850/900/1800/2100 /2300/2600(B7/B38)/ISM MOBILE STATION (WITH PDA)",
+        "Model": "M2006C3LG [Support: 802.11b/g/n, Bluetooth, & GPS] [802.11 b/g/n: 2400 MHz - 2483.5 MHz] [2 SIM, 2 IMEI]",
+        "Brand": "Redmi",
+        "MarketingName": "",
+        "ApproveDate": "2020-06-30T00:00:00",
+        "ExpiryDate": "2021-06-29T00:00:00",
+        "ProductCategory": "RADIO",
+        "CertHolderName": "ERA INTERNATIONAL NETWORK SDN BHD",
+        "ROCROB": "1051106-H"
+      },
+      {
+        "FileNo": "SQASI/TA/20/1752",
+        "TAC": "REAM/72C/0420/S(20-1752)",
+        "TypeOfProduct": "WIRELESS MOUSE (HYBRID - ICT)",
+        "Model": "CD20 [Support: Bluetooth]",
+        "Brand": "HUAWEI",
+        "MarketingName": "HUAWEI Bluetooth Mouse Swift",
+        "ApproveDate": "2020-04-27T00:00:00",
+        "ExpiryDate": "2025-04-26T00:00:00",
+        "ProductCategory": "RADIO",
+        "CertHolderName": "HUAWEI TECHNOLOGIES (MALAYSIA) SDN. BHD.",
+        "ROCROB": "545949-D"
+      }
+    ]
+  }

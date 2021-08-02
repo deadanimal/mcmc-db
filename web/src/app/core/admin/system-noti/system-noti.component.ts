@@ -1,3 +1,6 @@
+import { AuthService } from 'src/app/shared/services/auth/auth.service';
+import { UsersService } from './../../../shared/services/users/users.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { Component, OnInit, OnDestroy, NgZone, TemplateRef } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
@@ -32,8 +35,11 @@ export class SystemNotiComponent implements OnInit {
   searchNOTIForm: FormGroup
   editForm = {email:"", Id:''}
   infoTable = []
+  emailTable= []
   templateTable = []
   entries: number = 10;
+  new: boolean = false
+  exist: boolean = false
 
   private chart: any
   private chart1: any
@@ -83,7 +89,9 @@ export class SystemNotiComponent implements OnInit {
     private zone: NgZone,
     private modalService: BsModalService,
     private emailTemplateService: emailTemplateService,
-  ) { 
+    private spinner: NgxSpinnerService,
+    private userService: UsersService,
+  ) {
     this.emailGet()
     this.emailTemplateGet()
   }
@@ -109,6 +117,7 @@ export class SystemNotiComponent implements OnInit {
   }
 
 
+  // tslint:disable-next-line:use-life-cycle-interface
   ngOnDestroy() {
     this.zone.runOutsideAngular(() => {
       if (this.chart) {
@@ -187,8 +196,8 @@ export class SystemNotiComponent implements OnInit {
     this.chart2 = chart
   }
 
+
   emailGet() {
-    
     this.EmailNotiService.get().subscribe(
       (res) => {
         this.infoTable=res
@@ -203,8 +212,31 @@ export class SystemNotiComponent implements OnInit {
     );
   }
 
+  getUserList(){
+    this.userService.getAll().subscribe(
+      (res)=> {
+        this.emailTable = res
+      },
+      (err) => {
+        console.log(err)
+      }
+    )
+  }
+
+  toggleEmail(event){
+    this.getUserList()
+    console.log(event)
+    if(event ==='new'){
+      this.new = true
+      this.exist = false
+    }
+    else{
+      this.exist = true
+      this.new = false
+    }
+  }
+
   emailTemplateGet() {
-    
     this.emailTemplateService.get().subscribe(
       (res) => {
         this.templateTable=res
@@ -222,6 +254,7 @@ export class SystemNotiComponent implements OnInit {
   newEmail() {
     console.log("qqqq");
     console.log(this.newEmailForm.value)
+    this.spinner.show()
     this.EmailNotiService.post(this.newEmailForm.value).subscribe(
       () => {
         // Success
@@ -229,6 +262,7 @@ export class SystemNotiComponent implements OnInit {
         // this.successMessage();
         // this.loadingBar.complete();
         // this.successAlert("create project");
+        this.spinner.hide()
         this.register()
         console.log("success")
       },
@@ -248,9 +282,11 @@ export class SystemNotiComponent implements OnInit {
   update(){
     console.log(this.editEmailForm.value.email)
     console.log(this.editEmailForm.value.Id)
+    this.spinner.show
     this.EmailNotiService.update({'email': this.editEmailForm.value.email},this.editEmailForm.value.Id).subscribe(
       (res) => {
         console.log("success",res)
+        this.spinner.hide()
         this.editMessage()
       },
       () => {
@@ -262,12 +298,12 @@ export class SystemNotiComponent implements OnInit {
         // this.navigateHomePage();
       }
     );
-  
   }
 
   template(){
     console.log(this.editTemplateForm.value.template_name)
     console.log(this.editTemplateForm.value.Id)
+    this.spinner.show()
     this.emailTemplateService.update({ 'template_content': this.editTemplateForm.value.template_content },this.editTemplateForm.value.Id).subscribe(
       (res) => {
         // Success
@@ -277,6 +313,7 @@ export class SystemNotiComponent implements OnInit {
         // this.successAlert("create project");
         // this.editMessage()
         console.log("success",res)
+        this.spinner.hide()
         this.editTemplateMessage()
       },
       () => {
@@ -330,9 +367,11 @@ export class SystemNotiComponent implements OnInit {
     }).then((result) => {
       if (result.value) {
         console.log(row.Id)
+        this.spinner.show()
         this.EmailNotiService.delete(row.Id).subscribe(
         (res) => {
         console.log("res", res);
+        this.spinner.hide()
         this.deleteMessage()
         },
         (err) => {
@@ -411,7 +450,7 @@ export class SystemNotiComponent implements OnInit {
   onActivate(event) {
     this.tableActiveRow = event.row;
   }
-  
+
   onSelect({ selected }) {
     this.tableSelected.splice(0, this.tableSelected.length);
     this.tableSelected.push(...selected);

@@ -11,6 +11,10 @@ from simple_history.models import HistoricalRecords
 
 from core.helpers import PathAndRename
 
+from users.models import (
+    CustomUser
+)
+
 class certifiedAgency(models.Model):
 
     Id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -18,8 +22,8 @@ class certifiedAgency(models.Model):
     createdBy = models.CharField(max_length=255, blank=True, null=True)
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
-    appoint_date = models.DateField(null=True)
-    expiry_date = models.DateField(null=True)
+    appoint_date = models.CharField(max_length=255, blank=True, null=True)
+    expiry_date = models.CharField(max_length=255, blank=True, null=True)
     pic_name = models.CharField(max_length=255, blank=True, null=True)
     ip_address = models.CharField(max_length=255, blank=True, null=True)
     url = models.CharField(max_length=255, blank=True, null=True)
@@ -28,12 +32,29 @@ class certifiedAgency(models.Model):
     port = models.CharField(max_length=255, blank=True, null=True)
     remarks = models.CharField(max_length=255, blank=True, null=True)
     ca_id = models.CharField(max_length=255, blank=True, null=True)
-
- 
+    history = HistoricalRecords(user_model=CustomUser)
 
     class Meta:
         ordering = ['created_date']
 
     def __str__(self):
         return self.ca_id
-
+    
+    
+class APIDetails(models.Model):
+    
+    Id =models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    url = models.CharField(max_length=255, blank=True, null=True)
+    user = models.CharField(max_length=255, blank=True, null=True)
+    password = models.CharField(max_length=255, blank=True, null=True)
+    token = models.CharField(max_length=255, blank=True, null=True)
+    created_by = models.CharField(max_length=255, blank=True, null=True)
+    created_date = models.DateTimeField(auto_now_add=True)
+    modified_date = models.DateTimeField(auto_now=True)
+    history = HistoricalRecords()
+    
+    class Meta:
+        ordering = ['created_date']
+        
+    def __str__(self):
+        return self.url

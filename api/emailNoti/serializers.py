@@ -1,6 +1,7 @@
 from datetime import datetime
 from calendar import timegm
 import json
+from simple_history.models import HistoricalRecords
 
 from django.contrib.auth.forms import PasswordResetForm
 from django.conf import settings
@@ -13,19 +14,18 @@ from .models import (
     emailNoti
 )
 
+from users.serializers import CustomUserSerializer
+
 class emailNotiSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = emailNoti
-        fields = (
-            'Id', 
-            'emailCode',
-            'email',
-            'created_date',
-            'modified_date',
+        fields = '__all__'
 
-
-            
-        )
-        # read_only_fields = ('email', 'id', 'TACInd')
+class emailNotiHistorySerializer(serializers.ModelSerializer):
+    history_user = CustomUserSerializer(read_only=True)
+    
+    class Meta:
+        model = emailNoti.history.model
+        fields = '__all__'
 

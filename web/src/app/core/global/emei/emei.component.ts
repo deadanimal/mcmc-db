@@ -33,6 +33,8 @@ export class EmeiComponent implements OnInit {
   cubaan : any
   is_enable = true
 
+  date: number = new Date().getMonth() + 1
+
   siteKey: string = environment.reCaptchaSiteKey;
   size: string = "normal";
   lang: string = "en";
@@ -71,18 +73,15 @@ export class EmeiComponent implements OnInit {
 
   ngOnInit() {
     this.disableSearch()
-    
     this.searchIMEIForm = this.formBuilder.group({
       IMEI: new FormControl('' ,Validators.compose([
         Validators.required,
       ])),
       recaptcha: ["", Validators.required],
-    }) 
-
+    })
     this.SearchIMEIFormMore = this.formBuilder.group({
       TAC: new FormControl('')
     })
-    
   }
 
   navigatePage(path: String) {
@@ -132,7 +131,8 @@ export class EmeiComponent implements OnInit {
   }
 
   IMEICounter(){
-    let imeicounter = { Name:"IMEI", Counter:"4"};
+    let month = this.date
+    let imeicounter = { Name:"IMEI", Counter:month};
     this.SearchCounterService.post(imeicounter).subscribe(
       (res) => {
         console.log("+1 IMEI Counter")

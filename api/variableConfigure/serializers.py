@@ -13,6 +13,8 @@ from .models import (
     variableConfigure
 )
 
+from users.serializers import CustomUserSerializer
+
 class variableConfigureSerializer(serializers.ModelSerializer):
 
     class Meta:
@@ -25,4 +27,11 @@ class variableConfigureSerializer(serializers.ModelSerializer):
             'modified_date',
         )
         # read_only_fields = ('email', 'id', 'TACInd')
+
+class variableConfigureHistorySerializer(serializers.ModelSerializer):
+    history_user = CustomUserSerializer(read_only=True)
+    
+    class Meta:
+        model = variableConfigure.history.model
+        fields = '__all__'
 

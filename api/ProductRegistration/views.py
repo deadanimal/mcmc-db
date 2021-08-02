@@ -8,6 +8,7 @@ from django.utils import timezone
 from django.http.response import JsonResponse
 from django.shortcuts import render
 from django.db.models import Q
+from django.db.models import Count
 
 import json
 import requests
@@ -128,57 +129,156 @@ class ProductRegistrationViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
 
 
     @action(methods=['GET'], detail=False)
-    def get_search_counter(self, request, *args, **kwargs):
+    def get_serialNo_counter(self, request, *args, **kwargs):
 
         timezone_ = pytz.timezone('Asia/Kuala_Lumpur')
         current_year = str(datetime.datetime.now(timezone_).year)
         filter_year = datetime.datetime.now(tz=timezone.utc).year
-
         
-        ProductChart = ProductRegistration.objects.get(ApproveDate__icontains=ApproveDate)
-        print (ProductChart)
-        TAC_by_month = {
-            'january': len(ProductChart.filter(
-                ApproveDate=1,
+        serial_counter = ProductRegistration.objects.all()
+        value = len(serial_counter.filter(RegType='SerialNo'))
+        serial_by_month = {
+            'january': len(serial_counter.filter(
+                RegType='SerialNo',
+                created_date__month=1,
+            
             )),
-            'february': len(ProductChart.filter(
-                ApproveDate=2,
+            'february': len(serial_counter.filter(
+                RegType='SerialNo',
+                created_date__month=2,
             )),
-            'march': len(ProductChart.filter(
-                ApproveDate=3,
+            'march': len(serial_counter.filter(
+                RegType='SerialNo',
+                created_date__month=3,
             )),
-            'april': len(ProductChart.filter(
-                ApproveDate=4,
+            'april': len(serial_counter.filter(
+                RegType='SerialNo',
+                created_date__month=4,
             )),
-            'may': len(ProductChart.filter(
-
-                ApproveDate=5,
+            'may': len(serial_counter.filter(
+                RegType='SerialNo',
+                created_date__month=5,
             )),
-            'june': len(ProductChart.filter(
-                ApproveDate=6,
+            'june': len(serial_counter.filter(
+                RegType='SerialNo',
+                created_date__month=6,
             )),
-            'july': len(ProductChart.filter(
-                ApproveDate=7,
+            'july': len(serial_counter.filter(
+                RegType='SerialNo',
+                created_date__month=7,
             )),
-            'august': len(ProductChart.filter(
-                ApproveDate=8,
+            'august': len(serial_counter.filter(
+                RegType='SerialNo',
+                created_date__month=8,
             )),
-            'september': len(ProductChart.filter(
-                ApproveDate=9,
+            'september': len(serial_counter.filter(
+                RegType='SerialNo',
+                created_date__month=9,
             )),
-            'october': len(ProductChart.filter(
-                ApproveDate=10,
+            'october': len(serial_counter.filter(
+                RegType='SerialNo',
+                created_date__month=10,
             )),
-            'november': len(ProductChart.filter(
-                ApproveDate=11,
+            'november': len(serial_counter.filter(
+                RegType='SerialNo',
+                created_date__month=11,
             )),
-            'december': len(ProductChart.filter(
-                ApproveDate=12,
+            'december': len(serial_counter.filter(
+                RegType='SerialNo',
+                created_date__month=12,
             ))
         }
 
         statistic_data = {
-            'TAC_by_month': TAC_by_month
+            'value': value,
+            'serial_by_month': serial_by_month
+        }
+
+        return JsonResponse(statistic_data)
+    
+    @action(methods=['GET'], detail=False)
+    def get_IMEI_counter(self, request, *args, **kwargs):
+
+        timezone_ = pytz.timezone('Asia/Kuala_Lumpur')
+        current_year = str(datetime.datetime.now(timezone_).year)
+        filter_year = datetime.datetime.now(tz=timezone.utc).year
+        
+        imei_counter = ProductRegistration.objects.all()
+        value = len(imei_counter.filter(RegType='IMEI'))
+        imei_by_month = {
+            'january': len(imei_counter.filter(
+                RegType='IMEI',
+                created_date__month=1,
+            
+            )),
+            'february': len(imei_counter.filter(
+                RegType='IMEI',
+                created_date__month=2,
+            )),
+            'march': len(imei_counter.filter(
+                RegType='IMEI',
+                created_date__month=3,
+            )),
+            'april': len(imei_counter.filter(
+                RegType='IMEI',
+                created_date__month=4,
+            )),
+            'may': len(imei_counter.filter(
+                RegType='IMEI',
+                created_date__month=5,
+            )),
+            'june': len(imei_counter.filter(
+                RegType='IMEI',
+                created_date__month=6,
+            )),
+            'july': len(imei_counter.filter(
+                RegType='IMEI',
+                created_date__month=7,
+            )),
+            'august': len(imei_counter.filter(
+                RegType='IMEI',
+                created_date__month=8,
+            )),
+            'september': len(imei_counter.filter(
+                RegType='IMEI',
+                created_date__month=9,
+            )),
+            'october': len(imei_counter.filter(
+                RegType='IMEI',
+                created_date__month=10,
+            )),
+            'november': len(imei_counter.filter(
+                RegType='IMEI',
+                created_date__month=11,
+            )),
+            'december': len(imei_counter.filter(
+                RegType='IMEI',
+                created_date__month=12,
+            ))
+        }
+
+        statistic_data = {
+            'value': value,
+            'imei_by_month': imei_by_month
+        }
+
+        return JsonResponse(statistic_data)
+    
+    @action(methods=['GET'], detail=False)
+    def get_serial_counter(self, request, *args, **kwargs):
+
+        ProductChart = (ProductRegistration.objects.values('created_date__date').annotate(dcount=Count('created_date__date')).order_by("created_date__date"))
+        # print (ProductChart.query)
+        
+        data = []
+        for productChart in ProductChart:
+            data.append({
+                'date': productChart['created_date__date'],
+                'count': productChart['dcount']
+            })
+        
+        statistic_data = {
+            'product_by_month': data
         }
 
         return JsonResponse(statistic_data)

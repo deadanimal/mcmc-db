@@ -663,6 +663,7 @@
                     <div class="col-sm-4 col-md-6 text-right ml--4">
                       <button
                         class="btn btn-sm btn-neutral"
+                        style="width: 200px"
                         (click)="openModal(addCertData)"
                       >
                         Add File
@@ -679,16 +680,16 @@
 
                   <ngx-datatable
                     class="bootstrap selection-cell"
-                    [columnMode]="'standard'"
+                    [columnMode]="'force'"
                     [headerHeight]="50"
                     [footerHeight]="50"
                     [rowHeight]="'auto'"
                     [limit]="tableEntries != -1 ? tableEntries : undefined"
                     [rows]="productCertificationTable"
                     (activate)="onActivate($event)"
-                    [sorts]="[{ prop: 'email', dir: 'asc' }]"
+                    [scrollbarH]="true"
                   >
-                    <ngx-datatable-column name="No" [width]="40">
+                    <ngx-datatable-column name="No" [width]="100">
                       <ng-template
                         let-rowIndex="rowIndex"
                         let-row="row"
@@ -706,7 +707,7 @@
                       <ng-template ngx-datatable-header-template>
                         <span>File No.</span>
                       </ng-template>
-                      <ng-template let-row="row" ngx-datatable-cell-template>
+                      <ng-template let-row="row" ngx-datatable-cell-template [vertical-align]="top">
                         {{ row.FileNo }}
                       </ng-template>
                     </ngx-datatable-column>
@@ -725,7 +726,7 @@
                     </ngx-datatable-column>
 
                     <ngx-datatable-column
-                      [width]="100"
+                      [width]="200"
                       [sortable]="true"
                       [resizeable]="false"
                     >
@@ -738,7 +739,7 @@
                     </ngx-datatable-column>
 
                     <ngx-datatable-column
-                      [width]="100"
+                      [width]="140"
                       [sortable]="true"
                       [resizeable]="false"
                     >
@@ -751,7 +752,7 @@
                     </ngx-datatable-column>
 
                     <ngx-datatable-column
-                      [width]="100"
+                      [width]="250"
                       [sortable]="true"
                       [resizeable]="false"
                     >
@@ -764,7 +765,7 @@
                     </ngx-datatable-column>
 
                     <ngx-datatable-column
-                      [width]="100"
+                      [width]="150"
                       [sortable]="true"
                       [resizeable]="false"
                     >
@@ -777,7 +778,7 @@
                     </ngx-datatable-column>
 
                     <ngx-datatable-column
-                      [width]="160"
+                      [width]="180"
                       [sortable]="true"
                       [resizeable]="false"
                     >
@@ -1038,6 +1039,7 @@
                     <div class="col-sm-4 col-md-6 text-right ml--4">
                       <button
                         class="btn btn-sm btn-neutral"
+                        style="width: 200px"
                         (click)="openModal(addSLPIDData)"
                       >
                         Add File
@@ -1068,6 +1070,7 @@
                         let-rowIndex="rowIndex"
                         let-row="row"
                         ngx-datatable-cell-template
+                        vertical-align: top;
                       >
                         <strong>{{ rowIndex + 1 }}</strong>
                       </ng-template>
@@ -1885,6 +1888,7 @@
           (change)="onFileChange($event)"
           type="file"
         />
+        <a class=" btn btn-vimeo btn-sm btn-icon mt-2" type="button" href="assets/(Example)Table_Certification.xlsx" download="(Example)Export_Table_Certification.xlsx"><span class=" btn-inner--icon"><i class="ni ni-cloud-download-95"></i></span> Example</a>
       </div>
     </form>
   </div>
@@ -1936,6 +1940,7 @@
           (change)="onFileChange($event)"
           type="file"
         />
+        <a class=" btn btn-vimeo btn-sm btn-icon mt-2" type="button" href="assets/(Example)Export_Table_Registration.xlsx" download="(Example)Export_Table_Registration.xlsx"><span class=" btn-inner--icon"><i class="ni ni-cloud-download-95"></i></span> Example</a>
       </div>
     </form>
   </div>
@@ -1987,6 +1992,7 @@
           (change)="onFileChange($event)"
           type="file"
         />
+        <a class=" btn btn-vimeo btn-sm btn-icon mt-2" type="button" href="assets/(Example)Export_Table_SLP_ID.xlsx" download="(Example)Export_Table_SLP_ID.xlsx"><span class=" btn-inner--icon"><i class="ni ni-cloud-download-95"></i></span> Example</a>
       </div>
     </form>
   </div>

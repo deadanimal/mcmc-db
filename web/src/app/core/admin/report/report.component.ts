@@ -1,3 +1,4 @@
+import { productCertification } from './../../../shared/services/productCertification/productCertification.model';
 import {
   Component,
   OnInit,
@@ -42,37 +43,50 @@ export enum SelectionType {
 })
 export class ReportComponent implements OnInit, OnDestroy {
   // Chart
-  chart: any;
-  chart1: any;
-  chart2: any;
-  chart3: any;
-  chart4: any;
-  dataChart: any[] = [];
-  dataChart2: any[] = [];
-  dataChart3: any[] = [];
-  user: any;
+  chart: any
+  chart1: any
+  chart2: any
+  chart3: any
+  chart4: any
+  dataChart: any[] = []
+  dataChart2: any[] = []
+  dataChart3: any[] = []
+  chartData: any[] = []
+  chartData2: any[] = []
+  user: any
+  counter: any
+  visitorbymonth: any
+  searchbymonth: any
+  imeiData: any
+  serialData: any
+  tacData: any
 
-  tableEntries: number = 5;
-  tableSelected: any[] = [];
-  tableTemp = [];
-  tableActiveRow: any;
-  SelectionType = SelectionType;
-  infoTable = [];
-  CounterTable = [];
-  SLPTable = [];
-  IMEITable = [];
-  SerialTable = [];
-  CertTable = [];
-  filterIMEI = [];
-  filterSERIAL = [];
-  filterPRODUCT = [];
-  filterLABEL = [];
-  VisitorGetTable = [];
-  dataSearchForm: FormGroup;
+  tableEntries: number = 5
+  tableSelected: any[] = []
+  tableTemp = []
+  tableActiveRow: any
+  SelectionType = SelectionType
+  infoTable = []
+  CounterTable = []
+  SLPTable = []
+  IMEITable = []
+  SerialTable = []
+  CertTable = []
+  filterIMEI = []
+  filterSERIAL = []
+  filterPRODUCT = []
+  filterLABEL = []
+  VisitorGetTable = []
+  dataSearchForm: FormGroup
 
-  state: boolean = false;
-  isSummaryTableHidden: boolean = true;
-  fileName = "MasterTable.xlsx";
+  new
+  exist
+
+  event = 'new'
+
+  state: boolean = false
+  isSummaryTableHidden: boolean = true
+  fileName = "MasterTable.xlsx"
 
   // Datepicker
   bsDPConfig = {
@@ -97,10 +111,104 @@ export class ReportComponent implements OnInit, OnDestroy {
     this.VisitorCounterGet();
     this.CounterSearchGet();
     this.calculateCharts();
+    this.getData()
     setTimeout(() => {
-      this.getData();
-      this.getChart3();
-    }, 5000);
+      this.getCharts()
+      this.chartData = [
+        {
+          year: "Jan",
+          search: this.searchbymonth['january'],
+        },
+        {
+          year: "Feb",
+          search: this.searchbymonth['february'],
+        },
+        {
+          year: "Mar",
+          search: this.searchbymonth['march'],
+        },
+        {
+          year: "Apr",
+          search: this.searchbymonth['april'],
+        },
+        {
+          year: "May",
+          search: this.searchbymonth['may'],
+        },
+        {
+          year: "Jun",
+          search: this.searchbymonth['june'],
+        },
+        {
+          year: "Jul",
+          search: this.searchbymonth['july'],
+        },
+        {
+          year: "Aug",
+          search: this.searchbymonth['august'],
+        },
+        {
+          year: "Sept",
+          search: this.searchbymonth['september'],
+        },
+        {
+          year: "Oct",
+          search: this.searchbymonth['october'],
+        },
+        {
+          year: "Nov",
+          search: this.searchbymonth['november'],
+        },
+      ]
+      this.getChart2()
+      this.chartData2 = [
+        {
+          year: "Jan",
+          visitor: this.visitorbymonth['january'],  
+        },
+        {
+          year: "Feb",
+          visitor: this.visitorbymonth['february'],
+        },
+        {
+          year: "Mar",
+          visitor: this.visitorbymonth['march'],
+        },
+        {
+          year: "Apr",
+          visitor: this.visitorbymonth['april'],
+        },
+        {
+          year: "May",
+          visitor: this.visitorbymonth['may'],
+        },
+        {
+          year: "Jun",
+          visitor: this.visitorbymonth['june'],
+        },
+        {
+          year: "Jul",
+          visitor: this.visitorbymonth['july'],
+        },
+        {
+          year: "Aug",
+          visitor: this.visitorbymonth['august'],
+        },
+        {
+          year: "Sept",
+          visitor: this.visitorbymonth['september'],
+        },
+        {
+          year: "Oct",
+          visitor: this.visitorbymonth['october'],
+        },
+        {
+          year: "Nov",
+          visitor: this.visitorbymonth['november']
+        },
+      ]
+      this.getChart()
+    }, 10000);
   }
 
   ngOnDestroy() {
@@ -124,45 +232,51 @@ export class ReportComponent implements OnInit, OnDestroy {
   }
 
   getData() {
-    this.mockService.getAll("admin-report/report-data-1.json").subscribe(
-      (res) => {
-        // Success
-        this.dataChart = res;
-      },
+    this.VisitorCounterService.getVisitorChart().subscribe(
+      () => {},
+      () => {},
       () => {
-        // Unsuccess
-      },
+        this.counter = this.VisitorCounterService.VisitorCounter
+        this.visitorbymonth = this.counter['visitor_by_month']
+        console.log("visitorchart",this.visitorbymonth)
+      })
+
+    this.SearchCounterService.getSearchChart().subscribe(
+      () => {},
+      () => {},
       () => {
-        // After
-        this.mockService.getAll("admin-report/report-data-2.json").subscribe(
-          (res) => {
-            // Success
-            this.dataChart2 = res;
-          },
-          () => {
-            // Unsuccess
-          },
-          () => {
-            // After
-            this.mockService
-              .getAll("admin-report/report-data-3.json")
-              .subscribe(
-                (res) => {
-                  // Success
-                  this.dataChart3 = res;
-                },
-                () => {
-                  // Unsuccess
-                },
-                () => {
-                  // After
-                  this.getCharts();
-                }
-              );
-          }
-        );
-      }
-    );
+        this.counter = this.SearchCounterService.SearchCounter
+        this.searchbymonth = this.counter['search_by_month']
+        console.log("searchchart",this.visitorbymonth )
+        this.getCharts()
+      })
+
+      this.ProductGenerationService.getIMEIChart().subscribe(
+        () =>{},
+        () => {},
+        () =>{
+          this.counter = this.ProductGenerationService.ProductRegistration
+          this.imeiData = this.counter['imei_by_month']
+        }
+      )
+
+      this.ProductGenerationService.getSerialChart().subscribe(
+        () =>{},
+        () => {},
+        () =>{
+          this.counter = this.ProductGenerationService.ProductRegistration
+          this.serialData = this.counter['serial_by_month']
+        }
+      )
+
+      this.productCertificationService.GetTACChart().subscribe(
+        () =>{},
+        () => {},
+        () =>{
+          this.counter = this.productCertificationService.productCertification
+          this.tacData = this.counter['tac_by_month']
+        }
+      )
   }
 
   productGeneration() {
@@ -194,172 +308,142 @@ export class ReportComponent implements OnInit, OnDestroy {
 
   getCharts() {
     this.zone.runOutsideAngular(() => {
-      this.getChart();
-      this.getChart1();
-      this.getChart2();
-      // this.MasterChart();
+      this.getChart()
+      // this.getChart2()
+      this.getChart3()
     });
   }
 
   getChart() {
     let chart = am4core.create("visitorChart", am4charts.XYChart);
-    chart.paddingRight = 20;
 
-    let data = this.dataChart;
+    chart.data=this.chartData2
 
-    chart.data = data;
-    chart.dateFormatter.inputDateFormat = "yyyy";
+    chart.exporting.menu = new am4core.ExportMenu();
 
-    let dateAxis = chart.xAxes.push(new am4charts.DateAxis());
-    dateAxis.renderer.minGridDistance = 50;
-    dateAxis.baseInterval = { timeUnit: "year", count: 2 };
+    chart.exporting.menu.items = [{
+          "label": "...",
+          "menu": [
+            {
+              "label": "Image",
+              "menu": [
+                { "type": "png", "label": "PNG" },
+                { "type": "jpg", "label": "JPG" },
+                { "type": "svg", "label": "SVG" },
+                { "type": "pdf", "label": "PDF" }
+              ]
+            }, {
+              "label": "Print", "type": "print"
+            }
+          ]
+    }];
 
+    // Create category axis
+    let categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
+    categoryAxis.dataFields.category = "year";
+    categoryAxis.renderer.opposite = false;
+
+    // Create value axis
     let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
-    valueAxis.tooltip.disabled = true;
+    valueAxis.renderer.inversed = false;
+    // valueAxis.title.text = "Place taken";
+    valueAxis.renderer.minLabelPosition = 0.01;
 
-    let series = chart.series.push(new am4charts.StepLineSeries());
-    series.dataFields.dateX = "year";
-    series.dataFields.valueY = "amount";
-    series.tooltipText = "{valueY.amount}";
-    series.strokeWidth = 3;
-
-    chart.cursor = new am4charts.XYCursor();
-    chart.cursor.xAxis = dateAxis;
-    chart.cursor.fullWidthLineX = true;
-    chart.cursor.lineX.strokeWidth = 0;
-    chart.cursor.lineX.fill = chart.colors.getIndex(2);
-    chart.cursor.lineX.fillOpacity = 0.1;
-
-    this.chart = chart;
-  }
-
-  getChart1() {
-    let chart = am4core.create("totalDataChart", am4charts.XYChart);
-    chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
-
-    let data = [];
-    let open = 100;
-    let close = 250;
-
-    for (var i = 1; i < 120; i++) {
-      open += Math.round((Math.random() < 0.5 ? 1 : -1) * Math.random() * 4);
-      close = Math.round(
-        open +
-          Math.random() * 5 +
-          i / 5 -
-          (Math.random() < 0.5 ? 1 : -1) * Math.random() * 2
-      );
-      data.push({ date: new Date(2018, 0, i), open: open, close: close });
-    }
-
-    chart.data = data;
-    console.log("-----------");
-
-    console.log("show data", this.chart.data);
-    let dateAxis = chart.xAxes.push(new am4charts.DateAxis());
-
-    let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
-    valueAxis.tooltip.disabled = true;
-
-    let series = chart.series.push(new am4charts.LineSeries());
-    series.dataFields.dateX = "date";
-    series.dataFields.openValueY = "open";
-    series.dataFields.valueY = "close";
-    series.tooltipText = "open: {openValueY.value} close: {valueY.value}";
-    series.sequencedInterpolation = true;
-    series.fillOpacity = 0.3;
-    series.defaultState.transitionDuration = 1000;
-    series.tensionX = 0.8;
+    // Create series
+    let series1 = chart.series.push(new am4charts.LineSeries());
+    series1.dataFields.valueY = "visitor";
+    series1.dataFields.categoryX = "year";
+    series1.name = "Total Visitor";
+    series1.bullets.push(new am4charts.CircleBullet());
+    series1.tooltipText = "{name}: {valueY}";
+    series1.legendSettings.valueText = "{valueY}";
+    series1.strokeWidth = 3; // 3px
+    series1.visible = false;
 
     let series2 = chart.series.push(new am4charts.LineSeries());
-    series2.dataFields.dateX = "date";
-    series2.dataFields.valueY = "open";
-    series2.sequencedInterpolation = true;
-    series2.defaultState.transitionDuration = 1500;
-    series2.stroke = chart.colors.getIndex(6);
-    series2.tensionX = 0.8;
+    series2.dataFields.valueY = "unique";
+    series2.dataFields.categoryX = "year";
+    series2.name = "Unique Visitor";
+    series2.bullets.push(new am4charts.CircleBullet());
+    series2.tooltipText = "{name}: {valueY}";
+    series2.legendSettings.valueText = "{valueY}";
 
+    // Add chart cursor
     chart.cursor = new am4charts.XYCursor();
-    chart.cursor.xAxis = dateAxis;
+    chart.cursor.behavior = "zoomY";
 
-    this.chart1 = chart;
+    let hs1 = series1.segments.template.states.create("hover");
+    hs1.properties.strokeWidth = 5;
+    series1.segments.template.strokeWidth = 1;
+
+    let hs2 = series2.segments.template.states.create("hover");
+    hs2.properties.strokeWidth = 5;
+    series2.segments.template.strokeWidth = 1;
+
+    this.chart = chart;
   }
 
   getChart2() {
     let chart = am4core.create("systemChart", am4charts.XYChart);
 
-    // Add data
-    chart.data = this.dataChart2;
+    console.log("chartData", this.chartData)
+    chart.data = this.chartData
 
-    // Create axes
-    let valueAxisX = chart.xAxes.push(new am4charts.ValueAxis());
-    valueAxisX.title.text = "X Axis";
-    valueAxisX.renderer.minGridDistance = 40;
+    chart.exporting.menu = new am4core.ExportMenu();
+
+    chart.exporting.menu.items = [{
+          "label": "...",
+          "menu": [
+            {
+              "label": "Image",
+              "menu": [
+                { "type": "png", "label": "PNG" },
+                { "type": "jpg", "label": "JPG" },
+                { "type": "svg", "label": "SVG" },
+                { "type": "pdf", "label": "PDF" }
+              ]
+            }, {
+              "label": "Print", "type": "print"
+            }
+          ]
+    }];
+
+    // Create category axis
+    let categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
+    categoryAxis.dataFields.category = "year";
+    categoryAxis.renderer.opposite = false;
+    categoryAxis.renderer.minGridDistance = 40;
 
     // Create value axis
-    let valueAxisY = chart.yAxes.push(new am4charts.ValueAxis());
-    valueAxisY.title.text = "Y Axis";
+    let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+    valueAxis.renderer.inversed = false;
+    // valueAxis.title.text = "Place taken";
+    valueAxis.renderer.minLabelPosition = 0.01;
 
     // Create series
-    let lineSeries = chart.series.push(new am4charts.LineSeries());
-    lineSeries.dataFields.valueY = "ay";
-    lineSeries.dataFields.valueX = "ax";
-    lineSeries.strokeOpacity = 0;
+    let series1 = chart.series.push(new am4charts.LineSeries());
+    series1.dataFields.valueY = "visitor";
+    series1.dataFields.categoryX = "year";
+    series1.name = "Total Visitor";
+    series1.bullets.push(new am4charts.CircleBullet());
+    series1.tooltipText = "{name}: {valueY}";
+    series1.legendSettings.valueText = "{valueY}";
+    series1.visible = false;
 
-    let lineSeries2 = chart.series.push(new am4charts.LineSeries());
-    lineSeries2.dataFields.valueY = "by";
-    lineSeries2.dataFields.valueX = "bx";
-    lineSeries2.strokeOpacity = 0;
+    let series3 = chart.series.push(new am4charts.ColumnSeries());
+    series3.dataFields.valueY = "search";
+    series3.dataFields.categoryX = "year";
+    series3.name = "Total Search";
+    series3.tooltipText = "{name}: {valueY}";
+    series3.legendSettings.valueText = "{valueY}";
 
-    // Add a bullet
-    let bullet = lineSeries.bullets.push(new am4charts.Bullet());
+    // Add chart cursor
+    chart.cursor = new am4charts.XYCursor();
+    chart.cursor.behavior = "zoomY";
 
-    // Add a triangle to act as am arrow
-    let arrow = bullet.createChild(am4core.Triangle);
-    arrow.horizontalCenter = "middle";
-    arrow.verticalCenter = "middle";
-    arrow.strokeWidth = 0;
-    arrow.fill = chart.colors.getIndex(0);
-    arrow.direction = "top";
-    arrow.width = 12;
-    arrow.height = 12;
-
-    // Add a bullet
-    let bullet2 = lineSeries2.bullets.push(new am4charts.Bullet());
-
-    // Add a triangle to act as am arrow
-    let arrow2 = bullet2.createChild(am4core.Triangle);
-    arrow2.horizontalCenter = "middle";
-    arrow2.verticalCenter = "middle";
-    arrow2.rotation = 180;
-    arrow2.strokeWidth = 0;
-    arrow2.fill = chart.colors.getIndex(3);
-    arrow2.direction = "top";
-    arrow2.width = 12;
-    arrow2.height = 12;
-
-    //add the trendlines
-    let trend = chart.series.push(new am4charts.LineSeries());
-    trend.dataFields.valueY = "value2";
-    trend.dataFields.valueX = "value";
-    trend.strokeWidth = 2;
-    trend.stroke = chart.colors.getIndex(0);
-    trend.strokeOpacity = 0.7;
-    trend.data = [
-      { value: 1, value2: 2 },
-      { value: 12, value2: 11 },
-    ];
-
-    let trend2 = chart.series.push(new am4charts.LineSeries());
-    trend2.dataFields.valueY = "value2";
-    trend2.dataFields.valueX = "value";
-    trend2.strokeWidth = 2;
-    trend2.stroke = chart.colors.getIndex(3);
-    trend2.strokeOpacity = 0.7;
-    trend2.data = [
-      { value: 1, value2: 1 },
-      { value: 12, value2: 19 },
-    ];
+    let hs1 = series1.segments.template.states.create("hover");
+    hs1.properties.strokeWidth = 5;
+    series1.segments.template.strokeWidth = 1;
 
     this.chart2 = chart;
   }
@@ -413,6 +497,25 @@ export class ReportComponent implements OnInit, OnDestroy {
     let chart = am4core.create("totalSearch", am4charts.PieChart);
     chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
 
+    chart.exporting.menu = new am4core.ExportMenu();
+
+    chart.exporting.menu.items = [{
+          "label": "...",
+          "menu": [
+            {
+              "label": "Image",
+              "menu": [
+                { "type": "png", "label": "PNG" },
+                { "type": "jpg", "label": "JPG" },
+                { "type": "svg", "label": "SVG" },
+                { "type": "pdf", "label": "PDF" }
+              ]
+            }, {
+              "label": "Print", "type": "print"
+            }
+          ]
+    }];
+
     let label = this.filterLABEL.length;
     let serial = this.filterSERIAL.length;
     let imei = this.filterIMEI.length;
@@ -450,7 +553,7 @@ export class ReportComponent implements OnInit, OnDestroy {
     chart.radius = am4core.percent(70);
     chart.innerRadius = am4core.percent(40);
     chart.startAngle = 0;
-    chart.endAngle = 180;
+    chart.endAngle = 360;
 
     let series = chart.series.push(new am4charts.PieSeries());
     series.dataFields.value = "value";
@@ -464,8 +567,8 @@ export class ReportComponent implements OnInit, OnDestroy {
     series.slices.template.inert = true;
     series.alignLabels = false;
 
-    series.hiddenState.properties.startAngle = 90;
-    series.hiddenState.properties.endAngle = 90;
+    series.hiddenState.properties.startAngle = 0;
+    series.hiddenState.properties.endAngle = 360;
 
     this.chart3 = chart;
   }
@@ -474,125 +577,162 @@ export class ReportComponent implements OnInit, OnDestroy {
     let chart = am4core.create("MasterGraphChart", am4charts.XYChart);
 
     // Add data
-    // chart.data = [
-    //   {
-    //     year: "Jan",
-    //     visitor: this.visitorbymonth['january'],
-    //     search: this.searchbymonth['january'],
-    //   },
-    //   {
-    //     year: "Feb",
-    //     visitor: this.visitorbymonth['february'],
-    //     search: this.searchbymonth['february'],
-    //   },
-    //   {
-    //     year: "Mar",
-    //     visitor: this.visitorbymonth['march'],
-    //     search: this.searchbymonth['march'],
-    //   },
-    //   {
-    //     year: "Apr",
-    //     visitor: this.visitorbymonth['april'],
-    //     search: this.searchbymonth['april'],
-    //   },
-    //   {
-    //     year: "May",
-    //     visitor: this.visitorbymonth['may'],
-    //     search: this.searchbymonth['may'],
-    //   },
-    //   {
-    //     year: "Jun",
-    //     visitor: this.visitorbymonth['june'],
-    //     search: this.searchbymonth['june'],
-    //   },
-    //   {
-    //     year: "Jul",
-    //     visitor: this.visitorbymonth['july'],
-    //     search: this.searchbymonth['july'],
-    //   },
-    //   {
-    //     year: "Aug",
-    //     visitor: this.visitorbymonth['august'],
-    //     search: this.searchbymonth['august'],
-    //   },
-    //   {
-    //     year: "Sept",
-    //     visitor: this.visitorbymonth['september'],
-    //     search: this.searchbymonth['september'],
-    //   },
-    //   {
-    //     year: "Oct",
-    //     visitor: this.visitorbymonth['october'],
-    //     search: this.searchbymonth['october'],
-    //   },
-    //   {
-    //     year: "Nov",
-    //     visitor: this.visitorbymonth['november'],
-    //     search: this.searchbymonth['november'],
-    //   },
-    // ];
+    chart.data = [
+      {
+        year: "Jan",
+        IMEI: this.imeiData['january'],
+        Serial: this.serialData['january'],
+        TAC: this.tacData['january']
+      },
+      {
+        year: "Feb",
+        IMEI: this.imeiData['february'],
+        Serial: this.serialData['february'],
+        TAC: this.tacData['february']
+      },
+      {
+        year: "Mar",
+        IMEI: this.imeiData['march'],
+        Serial: this.serialData['march'],
+        TAC: this.tacData['march']
+      },
+      {
+        year: "Apr",
+        IMEI: this.imeiData['april'],
+        Serial: this.serialData['april'],
+        TAC: this.tacData['april'],
+      },
+      {
+        year: "May",
+        IMEI: this.imeiData['may'],
+        Serial: this.serialData['may'],
+        TAC: this.tacData['may']
+      },
+      {
+        year: "Jun",
+        IMEI: this.imeiData['june'],
+        Serial: this.serialData['june'],
+        TAC: this.tacData['june'],
+      },
+      {
+        year: "Jul",
+        IMEI: this.imeiData['july'],
+        Serial: this.serialData['july'],
+        TAC: this.tacData['july']
+      },
+      {
+        year: "Aug",
+        IMEI: this.imeiData['august'],
+        Serial: this.serialData['august'],
+        TAC: this.tacData['august']
+      },
+      {
+        year: "Sept",
+        IMEI: this.imeiData['september'],
+        Serial: this.serialData['september'],
+        TAC: this.tacData['september']
+      },
+      {
+        year: "Oct",
+        IMEI: this.imeiData['october'],
+        Serial: this.serialData['october'],
+        TAC: this.tacData['october']
+      },
+      {
+        year: "Nov",
+        IMEI: this.imeiData['november'],
+        Serial: this.serialData['november'],
+        TAC: this.tacData['november']
+      },
+    ];
+    // chart.data = [{
+    //   "year": "Jan",
+    //   "IMEI": 1,
+    //   "TAC": 5,
+    //   "Serial": 3
+    // }, {
+    //   "year": "Feb",
+    //   "IMEI": 1,
+    //   "TAC": 2,
+    //   "Serial": 6
+    // }, {
+    //   "year": "Mar",
+    //   "IMEI": 2,
+    //   "TAC": 3,
+    //   "Serial": 1
+    // }, {
+    //   "year": "Apr",
+    //   "IMEI": 3,
+    //   "TAC": 4,
+    //   "Serial": 1
+    // }, {
+    //   "year": "May",
+    //   "IMEI": 5,
+    //   "TAC": 1,
+    //   "Serial": 2
+    // }, {
+    //   "year": "June",
+    //   "IMEI": 3,
+    //   "TAC": 2,
+    //   "Serial": 1
+    // }, {
+    //   "year": "July",
+    //   "IMEI": 1,
+    //   "TAC": 2,
+    //   "Serial": 3
+    // }, {
+    //   "year": "Aug",
+    //   "IMEI": 0,
+    //   "TAC": 0,
+    //   "Serial": 0
+    // }, {
+    //   "year": "Sept",
+    //   "IMEI": 0,
+    //   "TAC": 0,
+    //   "Serial": 0
+    // }, {
+    //   "year": "Oct",
+    //   "IMEI": 0,
+    //   "TAC": 0,
+    //   "Serial": 0
+    // }, 
+    // {
+    //   "year": "Nov",
+    //   "IMEI": 0,
+    //   "TAC": 0,
+    //   "Serial": 0
+    // },
+    // {
+    //   "year": "Dec",
+    //   "IMEI": 0,
+    //   "TAC": 0,
+    //   "Serial": 0
+    // }];
 
-    chart.data = [{
-      "year": "1930",
-      "IMEI": 1,
-      "TAC": 5,
-      "Serial": 3
-    }, {
-      "year": "1934",
-      "IMEI": 1,
-      "TAC": 2,
-      "Serial": 6
-    }, {
-      "year": "1938",
-      "IMEI": 2,
-      "TAC": 3,
-      "Serial": 1
-    }, {
-      "year": "1950",
-      "IMEI": 3,
-      "TAC": 4,
-      "Serial": 1
-    }, {
-      "year": "1954",
-      "IMEI": 5,
-      "TAC": 1,
-      "Serial": 2
-    }, {
-      "year": "1958",
-      "IMEI": 3,
-      "TAC": 2,
-      "Serial": 1
-    }, {
-      "year": "1962",
-      "IMEI": 1,
-      "TAC": 2,
-      "Serial": 3
-    }, {
-      "year": "1966",
-      "IMEI": 2,
-      "TAC": 1,
-      "Serial": 5
-    }, {
-      "year": "1970",
-      "IMEI": 3,
-      "TAC": 5,
-      "Serial": 2
-    }, {
-      "year": "1974",
-      "IMEI": 4,
-      "TAC": 3,
-      "Serial": 6
-    }, {
-      "year": "1978",
-      "IMEI": 1,
-      "TAC": 2,
-      "Serial": 4
+    chart.exporting.menu = new am4core.ExportMenu();
+
+    chart.exporting.menu.items = [{
+          "label": "...",
+          "menu": [
+            {
+              "label": "Image",
+              "menu": [
+                { "type": "png", "label": "PNG" },
+                { "type": "jpg", "label": "JPG" },
+                { "type": "svg", "label": "SVG" },
+                { "type": "pdf", "label": "PDF" }
+              ]
+            }, {
+              "label": "Print", "type": "print"
+            }
+          ]
     }];
 
     // Create category axis
     let categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
     categoryAxis.dataFields.category = "year";
     categoryAxis.renderer.opposite = false;
+    categoryAxis.renderer.minGridDistance = 40;
 
     // Create value axis
     let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
@@ -608,14 +748,16 @@ export class ReportComponent implements OnInit, OnDestroy {
     series1.tooltipText = "{name}: {valueY}";
     series1.legendSettings.valueText = "{valueY}";
     series1.visible = false;
+    series1.fill = am4core.color("yellow");
+    series1.strokeWidth = 3;
 
     let series2 = chart.series.push(new am4charts.ColumnSeries());
     series2.dataFields.valueY = "IMEI";
     series2.dataFields.categoryX = "year";
     series2.name = "IMEI";
-    series2.bullets.push(new am4charts.CircleBullet());
     series2.tooltipText = "{name}: {valueY}";
     series2.legendSettings.valueText = "{valueY}";
+    series2.fill = am4core.color("#ff5733")
 
     let series3 = chart.series.push(new am4charts.ColumnSeries());
     series3.dataFields.valueY = "Serial";
@@ -623,6 +765,7 @@ export class ReportComponent implements OnInit, OnDestroy {
     series3.name = "Serial";
     series3.tooltipText = "{name}: {valueY}";
     series3.legendSettings.valueText = "{valueY}";
+    series3.fill = am4core.color("#355C7D")
 
     // Add chart cursor
     chart.cursor = new am4charts.XYCursor();
@@ -646,6 +789,147 @@ export class ReportComponent implements OnInit, OnDestroy {
       this.MasterChart()
     }, 3000);
   };
+
+  toggleEmail(event){
+    console.log(event)
+    if(event ==='new'){
+      this.chartData = [{
+        year: "2020",
+        search: 0,
+      }, {
+        "year": "2021",
+        search: this.CounterTable.length,
+      }, {
+        year: "2022",
+        search: 0,
+      }, {
+        year: "2023",
+        search: 0,
+      }
+      ];
+        this.getChart2()
+    }
+    else{
+      this.chartData = [
+        {
+          year: "Jan",
+          search: this.searchbymonth['january'],
+        },
+        {
+          year: "Feb",
+          search: this.searchbymonth['february'],
+        },
+        {
+          year: "Mar",
+          search: this.searchbymonth['march'],
+        },
+        {
+          year: "Apr",
+          search: this.searchbymonth['april'],
+        },
+        {
+          year: "May",
+          search: this.searchbymonth['may'],
+        },
+        {
+          year: "Jun",
+          search: this.searchbymonth['june'],
+        },
+        {
+          year: "Jul",
+          search: this.searchbymonth['july'],
+        },
+        {
+          year: "Aug",
+          search: this.searchbymonth['august'],
+        },
+        {
+          year: "Sept",
+          search: this.searchbymonth['september'],
+        },
+        {
+          year: "Oct",
+          search: this.searchbymonth['october'],
+        },
+        {
+          year: "Nov",
+          search: this.searchbymonth['november'],
+        },
+      ]
+        this.getChart2()
+    }
+  }
+
+  toggleEmail2(event){
+    console.log(event)
+    if(event ==='new'){
+      console.log("new",this.VisitorGetTable.length)
+      this.chartData2 = [{
+        year: "2020",
+        visitor: 25,
+      }, {
+        "year": "2021",
+        visitor: this.VisitorGetTable.length,
+      }, {
+        year: "2022",
+        visitor: 0,
+      }, {
+        year: "2023",
+        visitor: 0,
+      }
+      ];
+        this.getChart()
+    }
+    else{
+      this.chartData2 = [
+        {
+          year: "Jan",
+          visitor: this.visitorbymonth['january'],  
+        },
+        {
+          year: "Feb",
+          visitor: this.visitorbymonth['february'],
+        },
+        {
+          year: "Mar",
+          visitor: this.visitorbymonth['march'],
+        },
+        {
+          year: "Apr",
+          visitor: this.visitorbymonth['april'],
+        },
+        {
+          year: "May",
+          visitor: this.visitorbymonth['may'],
+        },
+        {
+          year: "Jun",
+          visitor: this.visitorbymonth['june'],
+        },
+        {
+          year: "Jul",
+          visitor: this.visitorbymonth['july'],
+        },
+        {
+          year: "Aug",
+          visitor: this.visitorbymonth['august'],
+        },
+        {
+          year: "Sept",
+          visitor: this.visitorbymonth['september'],
+        },
+        {
+          year: "Oct",
+          visitor: this.visitorbymonth['october'],
+        },
+        {
+          year: "Nov",
+          visitor: this.visitorbymonth['november']
+        },
+      ]
+        this.getChart()
+    }
+  }
 
   entryChange($event) {
     this.tableEntries = $event.target.value;

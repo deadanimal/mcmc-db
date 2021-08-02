@@ -11,6 +11,7 @@ import { ProductGenerationService } from 'src/app/shared/services/ProductRegistr
 import { emailTemplateService } from 'src/app/shared/services/emailTemplate/emailTemplate.service';
 import { certifiedAgencyService } from 'src/app/shared/services/certifiedAgency/certifiedAgency.service';
 import { CallAPIService } from 'src/app/shared/services/CallAPI/CallAPI.service';
+import { NotifyService } from 'src/app/shared/handler/notify/notify.service';
 
 
 am4core.useTheme(am4themes_animated);
@@ -59,6 +60,7 @@ export class SystemAPIComponent implements OnInit, OnDestroy {
     private loadingBar: LoadingBarService,
     private mockService: MocksService,
     private modalService: BsModalService,
+    private notifyService: NotifyService,
     private productGenerationService: ProductGenerationService,
     private emailTemplateService: emailTemplateService,
     private certifiedAgencyService: certifiedAgencyService,
@@ -66,8 +68,9 @@ export class SystemAPIComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    this.getCharts()
+    // this.getCharts()
     this.getAgencyData()
+    // this.getData()
 
     this.newAgencyForm = this.formBuilder.group({
       Id: new FormControl(""),
@@ -100,7 +103,7 @@ export class SystemAPIComponent implements OnInit, OnDestroy {
       createdBy: new FormControl(""),
       is_active: new FormControl("")
     });
-    
+
     this.editTemplateForm = this.formBuilder.group({
       Id: new FormControl(""),
       template_name: new FormControl(""),
@@ -173,43 +176,7 @@ export class SystemAPIComponent implements OnInit, OnDestroy {
     );
   }
 
-  getData() {
-    this.loadingBar.start(); 
-    this.CallAPIService.post().subscribe(
-      (res) => {
-        // Success
-        this.tableRows = [...res]
-        console.log("wewe",this.tableRows.length);
-        this.tableTemp = this.tableRows.map((prop, key) => {
-          return {
-            ...prop,
-            id: key
-          };
-        });
-        // console.log
-        this.loadingBar.complete();
-      },
-      () => {
-        // Unsuccess
-      },
-      () => {
-          swal.fire({
-            title: "API Call",
-            text: "Data is successfully retrieved!",
-            type: "info",
-            confirmButtonClass: "btn btn-info",
-            confirmButtonText: "Add Data",
-            showCancelButton: true,
-            cancelButtonClass: "btn btn-danger",
-            cancelButtonText: "Cancel"
-            }).then((result) => {
-              if (result.value) {
-                // this.NewData()
-                this.testSendEmail()
-              }
-              })  
-      })
-  }
+  
 
   NewData() {
     console.log()
@@ -217,90 +184,20 @@ export class SystemAPIComponent implements OnInit, OnDestroy {
       ((row) => {
         this.productGenerationService.post(row).subscribe(
           () => {
-            // Success
-            // this.isLoading = false
-            // this.successMessage();
-            // this.loadingBar.complete();
-            // this.successAlert("create project");
+
             console.log("success")
           },
           () => {
-            // Failed
-            // this.isLoading = false
-            // this.successMessage();
-            // this.errorAlert("edit");
+
           },
           () => {
-            // After
-            // this.notifyService.openToastr("Success", "Welcome back");
-            // this.navigateHomePage();
+
           }
         );
       })
       )
   }
 
-  getCharts() {
-    this.zone.runOutsideAngular(() => {
-      this.getChart2()
-    })
-  }
-
-  getChart2(){
-    let chart = am4core.create("bounce", am4charts.XYChart);
-    chart.paddingRight = 20;
-
-    chart.data = generateChartData();
-
-    let dateAxis = chart.xAxes.push(new am4charts.DateAxis());
-    dateAxis.baseInterval = {
-      "timeUnit": "minute",
-      "count": 1
-    };
-    dateAxis.tooltipDateFormat = "HH:mm, d MMMM";
-
-    let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
-    valueAxis.tooltip.disabled = false;
-    // valueAxis.title.text = "Unique visitors";
-
-    let series = chart.series.push(new am4charts.LineSeries());
-    series.dataFields.dateX = "date";
-    series.dataFields.valueY = "visits";
-    series.tooltipText = "Visits: [bold]{valueY}[/]";
-    series.fillOpacity = 0.3;
-
-
-    chart.cursor = new am4charts.XYCursor();
-    chart.cursor.lineY.opacity = 0;
-
-    dateAxis.start = 0.8;
-    dateAxis.keepSelection = true;
-
-    function generateChartData() {
-        let chartData = [];
-        // current date
-        let firstDate = new Date();
-        // now set 500 minutes back
-        firstDate.setMinutes(firstDate.getDate() - 500);
-
-        // and generate 500 data items
-        let visits = 500;
-        for (var i = 0; i < 500; i++) {
-            let newDate = new Date(firstDate);
-            // each time we add one minute
-            newDate.setMinutes(newDate.getMinutes() + i);
-            // some random number
-            visits += Math.round((Math.random()<0.5?1:-1)*Math.random()*10);
-            // add data item to the array
-            chartData.push({
-                date: newDate,
-                visits: visits
-            });
-        }
-        return chartData;
-    }
-    this.chart2 = chart
-  }
 
   testSendEmail(){
     let obj= {
@@ -319,7 +216,7 @@ export class SystemAPIComponent implements OnInit, OnDestroy {
   }
 
   getAgencyData() {
-    this.loadingBar.start(); 
+    this.loadingBar.start();
     this.certifiedAgencyService.get().subscribe(
       (res) => {
         // Success
@@ -358,7 +255,6 @@ export class SystemAPIComponent implements OnInit, OnDestroy {
         // this.navigateHomePage();
       }
     );
-  
   }
 
   update(){
@@ -459,6 +355,42 @@ export class SystemAPIComponent implements OnInit, OnDestroy {
 
   entryChange($event) {
     this.tableEntries = $event.target.value;
+  }
+
+  apitest(){
+    let data = 'dummy-api/serial2.json'
+    this.certifiedAgencyService.getAll(data).subscribe(
+      (res)=>{
+        console.log(res)
+      }
+    )
+  }
+
+  Test(){
+    // buat foreach tuk ambil semua row dari datatable - buat masa skang dah mmg ada 1
+    // buat 1 object untuk simpan body
+    this.tableAgencyData.forEach (
+      (row)=>{
+        let body = {
+          url: row['url']
+        }
+        console.log(body)
+        this.certifiedAgencyService.APIcall(body).subscribe(
+          (res)=> {
+            console.log(res)
+          },
+          (err)=> {
+            console.log(err)
+          }
+        )
+      }
+    )
+  }
+
+  errorMessage() {
+    let title = 'Error'
+    let message = 'cant connect with API '
+    this.notifyService.openToastrHttp(title, message)
   }
 
 }

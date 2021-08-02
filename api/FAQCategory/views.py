@@ -15,7 +15,8 @@ from FAQCategory.models import (
 )
 
 from FAQCategory.serializers import (
-    FAQCategorySerializer
+    FAQCategorySerializer,
+    FAQCategoryHistorySerializer
 )
 
 class FAQCategoryViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
@@ -61,5 +62,26 @@ class FAQCategoryViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
                 queryset = User.objects.filter(company=company.id)
         """
         return queryset   
+    
+    @action(methods=['GET','POST'], detail=True)
+    def history(self, request, *args, **kwargs):
+        history = FAQCategory.history.all()
+        serializer = FAQCategorySerializer(history, many=True)
+        return Response(serializer.data)
+    
+class FAQCategoryHistoryViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
+    queryset = FAQCategory.history.all()
+    serializer_class = FAQCategoryHistorySerializer
+    filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
+    # filterset_fields = []
 
+    def get_permissions(self):
+        permission_classes = [AllowAny]
+
+        return [permission() for permission in permission_classes]    
+
+    
+    def get_queryset(self):
+        queryset = FAQCategory.history.all()
+        return queryset
 

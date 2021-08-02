@@ -22,7 +22,8 @@ from emailTemplate.models import (
 )
 
 from emailTemplate.serializers import (
-    emailTemplateSerializer
+    emailTemplateSerializer,
+    emailTemplateHistorySerializer
 )
 
 from emailNoti.models import emailNoti
@@ -95,7 +96,18 @@ class emailTemplateViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
 
     #     else:
     #         return Response(status=status.HTTP_404_NOT_FOUND)
-
+    
+    @action(methods=['GET','POST'], detail=False)
+    def history(self, request, *args, **kwargs):
+        emails = emailTemplate.objects.all()
+        histories = []
+        for email in emails:
+            temp_obj = email.history.all()
+            histories.append(temp_obj)
+            
+        serializer = emailTemplateSerializer(histories, many=True)
+        return Response(serializer.data)
+    
     @action(methods=['POST'], detail=False)
     def send_email(self, request, *args, **kwargs):
 
@@ -126,4 +138,21 @@ class emailTemplateViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
             # print(data)
 
             send_email_result(data)
+
+
+class emailTemplateHistoryViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
+    queryset = emailTemplate.history.all()
+    serializer_class = emailTemplateHistorySerializer
+    filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
+    # filterset_fields = []
+
+    def get_permissions(self):
+        permission_classes = [AllowAny]
+
+        return [permission() for permission in permission_classes]    
+
+    
+    def get_queryset(self):
+        queryset = emailTemplate.history.all()
+        return queryset
         

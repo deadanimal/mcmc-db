@@ -64,6 +64,7 @@
                     [(ngModel)]="label"
                     (focus)="focusLabel = true"
                     (blur)="focusLabel = false"
+                    maxLength="12"
                   />
                   <ng-container *ngFor="let message of LabelMessages.LABEL">
                     <div

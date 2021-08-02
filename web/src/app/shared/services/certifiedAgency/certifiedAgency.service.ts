@@ -13,9 +13,11 @@ import { certifiedAgency } from './certifiedAgency.model';
 })
 export class certifiedAgencyService {
 
-  public url: string = environment.baseUrl + "v1/certifiedAgency/";
+  public url: string = environment.baseUrl + "v1/certifiedAgency/"
   // Data
+  public API: string = 'assets/mock/';
   public certifiedAgency: certifiedAgency[] = [];
+  public datas: any = []
 
   constructor(private http: HttpClient) { }
 
@@ -84,9 +86,26 @@ export class certifiedAgencyService {
   send_email(body): Observable<any> {
     return this.http.post<any>(this.url + 'send_email/', body).pipe(
       tap((res) => {
-        console.log("send_email: ", res);
+        console.log("send_email:", res);
+      })
+    );
+  }
+
+  getAll(path: string): Observable<any> {
+    let urlPath = this.API + path
+    return this.http.get<any>(urlPath).pipe(
+      tap((res) => {
+        this.datas = res
+        console.log('Data: ', this.datas)
+      })
+    )
+  }
+
+  APIcall(body): Observable<certifiedAgency> {
+    return this.http.post<certifiedAgency>(this.url+"script/", body).pipe(
+      tap((res) => {
+        console.log("api call: ", res);
       })
     );
   }
   }
-  

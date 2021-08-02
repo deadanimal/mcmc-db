@@ -21,7 +21,8 @@ from emailNoti.models import (
 )
 
 from emailNoti.serializers import (
-    emailNotiSerializer
+    emailNotiSerializer,
+    emailNotiHistorySerializer
 )
 
 class emailNotiViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
@@ -65,28 +66,27 @@ class emailNotiViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
                 queryset = User.objects.filter(company=company.id)
         """
         return queryset  
+    
+    @action(methods=['GET','POST'], detail=True)
+    def history(self, request, *args, **kwargs):
+        history = emailNoti.history.all()
+        serializer = emailNotiSerializer(history, many=True)
+        return Response(serializer.data)
+    
+    
+class emailNotiHistoryViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
+    queryset = emailNoti.history.all()
+    serializer_class = emailNotiHistorySerializer
+    filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
+    # filterset_fields = []
 
-    # @action(methods=['POST'], detail=False)
-    # def sending_email(self, request, *args, **kwargs):
+    def get_permissions(self):
+        permission_classes = [AllowAny]
 
-    #     code = self.request.data['code']
-    #     to = self.request.data['to']
-    #     context = json.loads(self.request.data['context']) if self.request.data['context'] else None
-    #     email_template = emailNoti.objects.filter(code=code)
-    #     if email_template:
-    #         subject = email_template[0].subject
-    #         t = Template(email_template[0].body)
-    #         c = Context(context) if context else Context()
-    #         html_message = t.render(c)
-    #         plain_message = strip_tags(html_message)
-    #         to = to
+        return [permission() for permission in permission_classes]    
 
-    #         res = send_mail(subject, plain_message, None, [to], html_message=html_message, fail_silently=False)
-    #         return Response(data=res, status=status.HTTP_200_OK)
-
-    #     else:
-    #         return Response(status=status.HTTP_404_NOT_FOUND)
-
-    # send_mail('Email Notification', 'Berikut merupakan cubaan menghantar email menggunakan sendgrid', 'admin@mcmc.com', ['raziman@pipeline.com.my'], fail_silently=False)
-
+    
+    def get_queryset(self):
+        queryset = emailNoti.history.all()
+        return queryset
 

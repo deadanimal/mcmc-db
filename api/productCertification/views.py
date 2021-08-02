@@ -4,6 +4,8 @@ from django.db.models import Q
 
 import json
 import requests
+import pandas as pd
+import dateutil.parser
 
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
@@ -11,6 +13,8 @@ from rest_framework.decorators import action
 from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework import viewsets, status
 from rest_framework_extensions.mixins import NestedViewSetMixin
+from django.db.models.functions import TruncDay
+from django.db.models import Count
 
 from django_filters.rest_framework import DjangoFilterBackend
 
@@ -111,13 +115,68 @@ class productCertificationViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
                                  ('secret', secret), ('response', response)])
 
         return JsonResponse(response.json())
+    
+    @action(methods=['GET'], detail=False)
+    def get_TAC_data(self, request, *args, **kwargs):
+        result = (productCertification.objects.values('created_date__month').annotate(dcount=Count('created_date__month')).order_by())
+        print (result)
+        serial_counter = productCertification.objects.all()
+        tac_by_month = {
+            'january': len(serial_counter.filter(
+                # created_date=filter_year,
+                created_date__month=1,
+            
+            )),
+            'february': len(serial_counter.filter(
+                # created_date=filter_year,
+                created_date__month=2,
+            )),
+            'march': len(serial_counter.filter(
+                # created_date=filter_year,
+                created_date__month=3,
 
-    # @action(methods=['GET'], detail=False)
-    # def filter_daterange(self, request, *args, **kwargs):
+            )),
+            'april': len(serial_counter.filter(
+                # created_date=filter_year,
+                created_date__month=4,
+            )),
+            'may': len(serial_counter.filter(
+                # created_date=filter_year,
+                created_date__month=5,
+            )),
+            'june': len(serial_counter.filter(
+                # created_date=filter_year,
+                created_date__month=6,
+            )),
+            'july': len(serial_counter.filter(
+                # created_date=filter_year,
+                created_date__month=7,
+            )),
+            'august': len(serial_counter.filter(
+                # created_date=filter_year,
+                created_date__month=8,
+            )),
+            'september': len(serial_counter.filter(
+                # created_date=filter_year,
+                created_date__month=9,
+            )),
+            'october': len(serial_counter.filter(
+                # created_date=filter_year,
+                created_date__month=10,
+            )),
+            'november': len(serial_counter.filter(
+                # created_date=filter_year,
+                created_date__month=11,
+            )),
+            'december': len(serial_counter.filter(
+                # created_date=filter_year,
+                created_date__month=12,
+            ))
+        }
 
-    #     approveDate = request.GET.get('approveDate', '')
+        statistic_data = {
+            'value': 'value',
+            'tac_by_month': tac_by_month
+        }
 
-    #     result = productCertification.objects.filter(approveDate__range=[approveDate])
-
-    #     serializer = productCertificationSerializer(result, many=True)
-    #     return Response(serializer.data)
+        return JsonResponse(statistic_data)

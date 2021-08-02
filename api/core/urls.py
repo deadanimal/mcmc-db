@@ -1,3 +1,4 @@
+
 from datetime import datetime, timedelta
 
 from django.conf import settings
@@ -83,19 +84,29 @@ masterTable_router = router.register(
 )
 
 from FAQ.views import (
-    FAQViewSet
+    FAQViewSet,
+    FAQHistoryViewSet
 )
 
 FAQ_router = router.register(
     'FAQ', FAQViewSet
 )
 
+FAQ_History_router = router.register(
+    'FAQHistory', FAQHistoryViewSet
+)
+
 from FAQCategory.views import (
-    FAQCategoryViewSet
+    FAQCategoryViewSet,
+    FAQCategoryHistoryViewSet
 )
 
 FAQCategory_router = router.register(
     'FAQCategory', FAQCategoryViewSet
+)
+
+FAQCategory_router = router.register(
+    'FAQCategoryHistory', FAQCategoryHistoryViewSet
 )
 
 from FAQTitle.views import (
@@ -107,36 +118,57 @@ FAQTitle_router = router.register(
 )
 
 from emailNoti.views import (
-    emailNotiViewSet
+    emailNotiViewSet,
+    emailNotiHistoryViewSet
 )
 
 emailNoti_router = router.register(
     'emailNoti', emailNotiViewSet
 )
 
+emailNoti_History_router = router.register(
+    'emailNotiHistory', emailNotiHistoryViewSet
+)
+
 from emailTemplate.views import (
-    emailTemplateViewSet
+    emailTemplateViewSet,
+    emailTemplateHistoryViewSet
 )
 
 emailTemplate_router = router.register(
     'emailTemplate', emailTemplateViewSet
 )
 
+emailTemplate_History_router = router.register(
+    'emailTemplateHistory', emailTemplateHistoryViewSet
+)
+
 from certifiedAgency.views import (
-    certifiedAgencyViewSet
+    certifiedAgencyViewSet,
+    APIDetailsViewSet
 )
 
 certifiedAgency_router = router.register(
     'certifiedAgency', certifiedAgencyViewSet
 )
 
+APIDetails_router = router.register(
+    'APIDetails', APIDetailsViewSet
+)
+
 from variableConfigure.views import (
-    variableConfigureViewSet
+    variableConfigureViewSet,
+    variableConfigureHistoryViewSet
 )
 
 variableConfigure_router = router.register(
     'variableConfigure', variableConfigureViewSet
 )
+
+variableConfigure_History_router = router.register(
+    'variableConfigureHistory', variableConfigureHistoryViewSet
+)
+
 
 from productCertification.views import (
     productCertificationViewSet

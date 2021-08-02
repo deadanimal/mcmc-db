@@ -35,6 +35,8 @@ export class LabelComponent implements OnInit {
   label
   focusLabel
 
+  date: number = new Date().getMonth() + 1
+
   siteKey: string = environment.reCaptchaSiteKey;
   size: string = "normal";
   lang: string = "en";
@@ -123,7 +125,8 @@ export class LabelComponent implements OnInit {
   }
 
   LabelCounter(){
-    let imeicounter = { Name:"LABEL", Counter:"4"};
+    let month = this.date
+    let imeicounter = { Name:"LABEL", Counter:month};
     this.SearchCounterService.post(imeicounter).subscribe(
       (res) => {
         console.log("+1 LABEL Counter")
