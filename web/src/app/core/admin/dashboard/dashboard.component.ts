@@ -45,6 +45,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
   filterLABEL = [];
   newdata = []
   checkerDate = []
+  TACData = []
+  serialData = []
+  IMEIData = []
 
   constructor(
     private zone: NgZone,
@@ -60,7 +63,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.VisitorCounterGet();
     setTimeout(() => {
       this.getData();
-    }, 3000);
+    }, 1000);
   }
 
   ngOnDestroy() {
@@ -86,6 +89,26 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   getData(){
+    this.productCertificationService.get_TAC().subscribe(
+      (res)=>{
+        this.TACData = res['TAC_count']
+
+      },
+
+    )
+
+    this.ProductGenerationService.get_IMEI().subscribe(
+      (res)=>{
+        this.IMEIData = res['IMEI_count']
+      }
+    )
+
+    this.ProductGenerationService.get_serial().subscribe(
+      (res)=>{
+        this.serialData = res['serial_count']
+      }
+    )
+
     this.ProductGenerationService.getProductChart().subscribe(
       () =>{},
       () =>{},

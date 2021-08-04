@@ -81,7 +81,7 @@ export const ROUTES: RouteInfo[] = [
     ]
   },
   {
-    path: '/global/public',
+    path: 'href="www.google.com"',
     title: 'Back to Public Portal',
     type: 'link',
     icontype: 'fas fa-sign-out-alt text-blue'
@@ -159,7 +159,7 @@ export const ROUTESUSER: RouteInfo[] = [
     ]
   },
   {
-    path: '/global/public',
+    path: 'href="www.google.com"',
     title: 'Back to Public Portal',
     type: 'link',
     icontype: 'fas fa-sign-out-alt text-blue'

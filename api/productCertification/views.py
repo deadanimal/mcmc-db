@@ -13,6 +13,7 @@ from rest_framework.decorators import action
 from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework import viewsets, status
 from rest_framework_extensions.mixins import NestedViewSetMixin
+from rest_framework.pagination import PageNumberPagination
 from django.db.models.functions import TruncDay
 from django.db.models import Count
 
@@ -26,10 +27,16 @@ from productCertification.serializers import (
     productCertificationSerializer
 )
 
+# class StandardResultsSetPagination(PageNumberPagination):
+#     page_size = 100
+#     page_size_query_param = 'page_size'
+#     max_page_size = 1000
+
 
 class productCertificationViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     queryset = productCertification.objects.all()
     serializer_class = productCertificationSerializer
+    # pagination_class = StandardResultsSetPagination
     filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
     filterset_fields = [
         'Id',
@@ -180,3 +187,12 @@ class productCertificationViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         }
 
         return JsonResponse(statistic_data)
+
+    @action(methods=['GET'], detail=False)
+    def get_TAC_count(self, request, *args, **kwargs):
+        TAC_counter = len(productCertification.objects.all())
+        data = {
+            "TAC_count" : TAC_counter
+        }
+        
+        return JsonResponse(data)

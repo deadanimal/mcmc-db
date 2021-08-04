@@ -21,6 +21,12 @@ class certifiedAgencySerializer(serializers.ModelSerializer):
         fields =('__all__')
         # read_only_fields = ('email', 'id', 'TACInd')
 
+class certifiedAgencyHistorySerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = certifiedAgency.history.model
+        fields = ('__all__')
+
 class APIDetailsSerializer(serializers.ModelSerializer):
     
     class Meta:

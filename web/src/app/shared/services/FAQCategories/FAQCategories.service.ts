@@ -17,6 +17,9 @@ export class FAQCategoriesService {
   public FAQCategories: FAQCategories[] = [];
   public urlHistory: string = environment.baseUrl + "v1/FAQCategoryHistory/"
   public urlHistory2: string = environment.baseUrl + "v1/emailNotiHistory/"
+  public urlHistory3: string = environment.baseUrl + "v1/emailTemplateHistory/"
+  public urlHistory4: string = environment.baseUrl + "v1/variableConfigureHistory/"
+  public urlHistory5: string = environment.baseUrl + "v1/certifiedAgencyHistory/"
 
   constructor(private http: HttpClient) { }
 
@@ -41,7 +44,6 @@ export class FAQCategoriesService {
     return this.http.get<FAQCategories[]>(this.urlHistory).pipe(
       tap((res) => {
         this.FAQCategories = res;
-        console.log("FAQCategoriesHistory: ", res);
       })
     );
   }
@@ -50,7 +52,30 @@ export class FAQCategoriesService {
     return this.http.get<FAQCategories[]>(this.urlHistory2).pipe(
       tap((res) => {
         this.FAQCategories = res;
-        console.log("FAQCategoriesHistory2: ", res);
+      })
+    );
+  }
+
+  getHistory3(): Observable<FAQCategories[]> {
+    return this.http.get<FAQCategories[]>(this.urlHistory3).pipe(
+      tap((res) => {
+        this.FAQCategories = res;
+      })
+    );
+  }
+
+  getHistory4(): Observable<FAQCategories[]> {
+    return this.http.get<FAQCategories[]>(this.urlHistory4).pipe(
+      tap((res) => {
+        this.FAQCategories = res;
+      })
+    );
+  }
+
+  getHistory5(): Observable<FAQCategories[]> {
+    return this.http.get<FAQCategories[]>(this.urlHistory5).pipe(
+      tap((res) => {
+        this.FAQCategories = res;
       })
     );
   }

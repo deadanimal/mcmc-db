@@ -19,6 +19,7 @@ from rest_framework.decorators import action
 from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework import viewsets, status
 from rest_framework_extensions.mixins import NestedViewSetMixin
+from rest_framework.pagination import PageNumberPagination
 
 from django_filters.rest_framework import DjangoFilterBackend
 
@@ -30,9 +31,15 @@ from ProductRegistration.serializers import (
     ProductRegistrationSerializer
 )
 
+# class StandardResultsSetPagination(PageNumberPagination):
+#     page_size = 100
+#     page_size_query_param = 'page_size'
+#     max_page_size = 1000
+
 
 class ProductRegistrationViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     queryset = ProductRegistration.objects.all()
+    # pagination_class = StandardResultsSetPagination
     serializer_class = ProductRegistrationSerializer
     filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
     filterset_fields = [
@@ -268,7 +275,6 @@ class ProductRegistrationViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     def get_serial_counter(self, request, *args, **kwargs):
 
         ProductChart = (ProductRegistration.objects.values('created_date__date').annotate(dcount=Count('created_date__date')).order_by("created_date__date"))
-        # print (ProductChart.query)
         
         data = []
         for productChart in ProductChart:
@@ -282,3 +288,25 @@ class ProductRegistrationViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         }
 
         return JsonResponse(statistic_data)
+    
+    @action(methods=['GET'], detail=False)
+    def get_IMEI_data(self, request, *args, **kwargs):
+        IMEI_counter = len(ProductRegistration.objects.filter(RegType='IMEI'))
+        data = {
+            "IMEI_count" : IMEI_counter
+        }
+        
+        return JsonResponse(data)
+    
+    @action(methods=['GET'], detail=False)
+    def get_serial_data(self, request, *args, **kwargs):
+        timezone_ = pytz.timezone('Asia/Kuala_Lumpur')
+        current_month = str(datetime.datetime.now(timezone_).month)
+        serial_current_month = len(ProductRegistration.objects.filter(created_date__month=current_month))
+        serial_counter = len(ProductRegistration.objects.filter(RegType='SerialNo'))
+        data = {
+            "serial_count" : serial_counter,
+            "current_product" : serial_current_month
+        }
+        
+        return JsonResponse(data)

@@ -77,6 +77,12 @@ export class ReportComponent implements OnInit, OnDestroy {
   filterPRODUCT = []
   filterLABEL = []
   VisitorGetTable = []
+  TACcount = []
+  IMEIcount = []
+  SERIALcount = []
+  thisMonthSearch = []
+  totalSearch = []
+  currentProduct = []
   dataSearchForm: FormGroup
 
   new
@@ -109,7 +115,6 @@ export class ReportComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.productGeneration();
     this.VisitorCounterGet();
-    this.CounterSearchGet();
     this.calculateCharts();
     this.getData()
     setTimeout(() => {
@@ -996,53 +1001,6 @@ export class ReportComponent implements OnInit, OnDestroy {
     );
   }
 
-  CounterSearchGet() {
-    this.SearchCounterService.get().subscribe(
-      (res) => {
-        this.CounterTable = res;
-      },
-      (err) => {},
-      () => {}
-    );
-
-    this.ProductGenerationService.get().subscribe(
-      (res) => {
-        this.SLPTable = res;
-      },
-      (err) => {},
-      () => {}
-    );
-
-    let imei = "RegType=IMEI";
-    this.ProductGenerationService.filter(imei).subscribe(
-      (res) => {
-        this.IMEITable = res;
-        console.log(this.IMEITable.length);
-      },
-      (err) => {},
-      () => {}
-    );
-
-    let serial = "RegType=SerialNo";
-    this.ProductGenerationService.filter(serial).subscribe(
-      (res) => {
-        this.SerialTable = res;
-        console.log(this.SerialTable.length);
-      },
-      (err) => {},
-      () => {}
-    );
-
-    this.productCertificationService.get().subscribe(
-      (res) => {
-        this.CertTable = res;
-        console.log(this.CertTable.length);
-      },
-      (err) => {},
-      () => {}
-    );
-  }
-
   VisitorCounterGet() {
     this.VisitorCounterService.get().subscribe(
       (res) => {
@@ -1053,6 +1011,34 @@ export class ReportComponent implements OnInit, OnDestroy {
       () => {
         console.log("HTTP request completed.");
       }
-    );
+    )
+
+    this.productCertificationService.get_TAC().subscribe(
+      (res)=>{
+        this.TACcount = res['TAC_count']
+
+      },
+    )
+
+    this.ProductGenerationService.get_IMEI().subscribe(
+      (res)=>{
+        this.IMEIcount = res['IMEI_count']
+      }
+    )
+
+    this.ProductGenerationService.get_serial().subscribe(
+      (res)=>{
+        this.SERIALcount = res['serial_count']
+        this.currentProduct = res['current_product']
+      }
+    )
+
+    this.SearchCounterService.getSearchCounter().subscribe(
+      (res) => {
+        this.thisMonthSearch = res['get_current_counter']
+        this.totalSearch = res['get_counter']
+      }
+    )
   }
+
 }

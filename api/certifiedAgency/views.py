@@ -20,6 +20,7 @@ from certifiedAgency.models import (
 
 from certifiedAgency.serializers import (
     certifiedAgencySerializer,
+    certifiedAgencyHistorySerializer,
     APIDetailsSerializer,
     APIDetailsHistorySerializer
 )
@@ -227,4 +228,20 @@ class APIDetailsHistoryViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     
     def get_queryset(self):
         queryset = APIDetails.history.all()
+        return queryset
+
+class certifiedAgencyHistoryViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
+    queryset = certifiedAgency.history.all()
+    serializer_class = certifiedAgencyHistorySerializer
+    filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
+    # filterset_fields = []
+
+    def get_permissions(self):
+        permission_classes = [AllowAny]
+
+        return [permission() for permission in permission_classes]    
+
+    
+    def get_queryset(self):
+        queryset = certifiedAgency.history.all()
         return queryset

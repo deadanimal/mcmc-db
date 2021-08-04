@@ -149,3 +149,16 @@ class SearchCounterViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         }
 
         return JsonResponse(statistic_data)
+
+    @action(methods=['GET'], detail=False)
+    def get_search_counter_data(self, request, *args, **kwargs):
+        timezone_ = pytz.timezone('Asia/Kuala_Lumpur')
+        current_month = str(datetime.datetime.now(timezone_).month)
+        search_counter = len(SearchCounter.objects.all())
+        get_current_counter = len(SearchCounter.objects.filter(Counter=current_month))
+        data = {
+            "get_counter" : search_counter,
+            "get_current_counter" : get_current_counter
+        }
+        
+        return JsonResponse(data)

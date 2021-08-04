@@ -100,4 +100,13 @@ export class SearchCounterService {
       )
     }
 
+    getSearchCounter(){
+      let urlSearch = this.url + 'get_search_counter_data'
+      return this.http.get<any>(urlSearch).pipe(
+        tap((res)=>{
+          this.SearchCounter = res
+        })
+      )
+    }
+
   }

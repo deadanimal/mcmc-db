@@ -145,7 +145,9 @@ emailTemplate_History_router = router.register(
 
 from certifiedAgency.views import (
     certifiedAgencyViewSet,
-    APIDetailsViewSet
+    APIDetailsViewSet,
+    APIDetailsHistoryViewSet,
+    certifiedAgencyHistoryViewSet
 )
 
 certifiedAgency_router = router.register(
@@ -155,6 +157,16 @@ certifiedAgency_router = router.register(
 APIDetails_router = router.register(
     'APIDetails', APIDetailsViewSet
 )
+
+certifiedAgency_History_router = router.register(
+    'certifiedAgencyHistory', certifiedAgencyHistoryViewSet
+)
+
+APIDetails_History_router = router.register(
+    'APIDetailsHistory', APIDetailsHistoryViewSet
+)
+
+
 
 from variableConfigure.views import (
     variableConfigureViewSet,

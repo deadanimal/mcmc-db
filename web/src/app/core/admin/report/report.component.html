@@ -62,7 +62,7 @@
               </h5>
 
               <span class="h2 font-weight-bold mb-0">
-                {{ this.CertTable.length }}
+                {{ this.TACcount }}
               </span>
             </div>
 
@@ -96,7 +96,7 @@
               </h5>
 
               <span class="h2 font-weight-bold mb-0">
-                {{ this.IMEITable.length }}
+                {{ this.IMEIcount }}
               </span>
             </div>
 
@@ -130,7 +130,7 @@
               </h5>
 
               <span class="h2 font-weight-bold mb-0">
-                {{ this.SerialTable.length }}
+                {{ this.SERIALcount }}
               </span>
             </div>
 
@@ -166,7 +166,7 @@
               </h6>
 
               <span class="h2 font-weight-bold mb-0">{{
-                this.CounterTable.length
+                this.thisMonthSearch
               }}</span>
             </div>
 
@@ -196,21 +196,12 @@
               </h6>
 
               <span class="h2 font-weight-bold mb-0">
-                {{ this.SLPTable.length }}
+                {{ this.currentProduct }}
               </span>
             </div>
-
-            <!--<div class="col-auto">
-									<div class="icon icon-shape bg-gradient-orange text-white rounded-circle shadow">
-										<i class="ni ni-chart-pie-35"> </i>
-									</div>
-								</div>-->
           </div>
 
           <p class="mt-4 mb-0 text-sm">
-            <!--<span class="text-success mr-2">
-              <i class="fa fa-arrow-up"> </i> 3.48%
-            </span>-->
           </p>
         </div>
       </div>
@@ -226,21 +217,12 @@
               </h6>
 
               <span class="h2 font-weight-bold mb-0">
-                {{ this.SLPTable.length }}
+                {{ this.IMEIcount + this.SERIALcount }}
               </span>
             </div>
-
-            <!--<div class="col-auto">
-									<div class="icon icon-shape bg-gradient-green text-white rounded-circle shadow">
-										<i class="ni ni-money-coins"> </i>
-									</div>
-								</div> -->
           </div>
 
           <p class="mt-4 mb-0 text-sm">
-            <!--<span class="text-success mr-2">
-              <i class="fa fa-arrow-up"> </i> 3.48%
-            </span>-->
           </p>
         </div>
       </div>
@@ -257,18 +239,9 @@
 
               <span class="h2 font-weight-bold mb-0"> 25 </span>
             </div>
-
-            <!--	<div class="col-auto">
-									<div class=" icon icon-shape bg-gradient-info text-white rounded-circle shadow">
-										<i class="ni ni-chart-bar-32"> </i>
-									</div>
-								</div> -->
           </div>
 
           <p class="mt-4 mb-0 text-sm">
-            <!--<span class="text-success mr-2">
-              <i class="fa fa-arrow-up"> </i> 3.48%
-            </span>-->
           </p>
         </div>
       </div>
@@ -306,25 +279,6 @@
         </div>
       </div>
     </div>
-
-    <!--<div class="col-xl-3 col-md-6">
-      <div class="card card-stats">
-        <div class="card-body">
-          <div class="row">
-            <div class="col">
-              <h6 class="card-title text-uppercase text-muted mb-0">
-                Total New Data This Month
-              </h6>
-
-              <span class="h2 font-weight-bold mb-0"> 2,356 </span>
-            </div>
-            <div class="chart">
-              <div class="amchart" id="totalDataChart"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>-->
 
     <div class="col-xl-4 col-md-6">
       <div class="card card-stats">
@@ -364,7 +318,7 @@
               </h6>
 
               <span class="h2 font-weight-bold mb-0">
-                {{ this.CounterTable.length }}
+                {{ this.totalSearch }}
               </span>
             </div>
             <div class="chart">

@@ -100,4 +100,13 @@ export class productCertificationService {
       )
     }
 
+    get_TAC(){
+      let urlTAC = this.url + 'get_TAC_count'
+      return this.http.get<any>(urlTAC).pipe(
+        tap((res)=>{
+          this.productCertification = res
+        })
+      )
+    }
+
   }

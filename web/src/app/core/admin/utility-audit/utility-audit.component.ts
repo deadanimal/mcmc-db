@@ -28,12 +28,11 @@ export class UtilityAuditComponent implements OnInit {
   private chart: any
   dataHistory
   dataHistory2
-  SLPTable = [];
   VisitorGetTable = []
-  productCertificationTable = []
-  IMEITable = []
-  SerialTable = []
   array = []
+  TACData = []
+  IMEIData = []
+  serialData = []
 
   // Table
   tableEntries: number = 5
@@ -57,26 +56,31 @@ export class UtilityAuditComponent implements OnInit {
   ngOnInit() {
     this.history()
     this.VisitorCounterGet()
-    this.productCertificationGet()
-    this.CounterSearchGet()
   }
 
   history(){
     this.subscription = forkJoin([
       this.faqCategoriesService.getHistory(),
-      this.faqCategoriesService.getHistory2()
+      this.faqCategoriesService.getHistory2(),
+      this.faqCategoriesService.getHistory3(),
+      this.faqCategoriesService.getHistory4(),
+      this.faqCategoriesService.getHistory5(),
     ]).subscribe(
       (res)=>{
-        this.array = res
         let arrayZero = []
         let arrayOne = []
-        // Let arrayTwo = []
+        let arrayTwo = []
+        let arrayThree = []
+        let arrayFour = []
         // let rangeArray = []
 
-        arrayZero=res[0]
-        arrayOne= res[1]
-        this.array = [...arrayZero,...arrayOne]
-        console.log("gabungan", this.array)
+        arrayZero = res[0]
+        arrayOne = res[1]
+        arrayTwo = res[2]
+        arrayThree = res[3]
+        arrayFour = res[4]
+        this.array = [...arrayZero,...arrayOne,...arrayTwo,...arrayThree,...arrayFour]
+        this.array.sort((x,y) => +new Date(y.history_date) - +new Date(x.history_date))
       },
       (err) =>{
         console.log("error", err)
@@ -108,40 +112,26 @@ export class UtilityAuditComponent implements OnInit {
         console.log("HTTP request completed.");
       }
     );
-  }
 
-  productCertificationGet() {
-    this.productCertificationService.get().subscribe(
-      (res) => {
-        this.productCertificationTable = res;
-        console.log(this.productCertificationTable.length);
+    this.productCertificationService.get_TAC().subscribe(
+      (res)=>{
+        this.TACData = res['TAC_count']
+
       },
-      (err) => {},
-      () => {
-        console.log("HTTP request completed.");
+    )
+
+    this.productGenerationService.get_IMEI().subscribe(
+      (res)=>{
+        this.IMEIData = res['IMEI_count']
       }
-    );
+    )
+
+    this.productGenerationService.get_serial().subscribe(
+      (res)=>{
+        this.serialData = res['serial_count']
+      }
+    )
+
   }
 
-  CounterSearchGet() {
-    let imei = "RegType=IMEI";
-    this.productGenerationService.filter(imei).subscribe(
-      (res) => {
-        this.IMEITable = res;
-        console.log(this.IMEITable.length);
-      },
-      (err) => {},
-      () => {}
-    );
-
-    let serial = "RegType=SerialNo";
-    this.productGenerationService.filter(serial).subscribe(
-      (res) => {
-        this.SerialTable = res;
-        console.log(this.SerialTable.length);
-      },
-      (err) => {},
-      () => {}
-    );
-  }
 }

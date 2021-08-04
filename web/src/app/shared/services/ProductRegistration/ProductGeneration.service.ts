@@ -118,4 +118,21 @@ export class ProductGenerationService {
       )
     }
 
+    get_IMEI(){
+      let urlIMEI = this.url + 'get_IMEI_data'
+      return this.http.get<any>(urlIMEI).pipe(
+        tap((res)=>{
+          this.ProductRegistration = res
+        })
+      )
+    }
+
+    get_serial(){
+      let urlSerial = this.url + 'get_serial_data'
+      return this.http.get<any>(urlSerial).pipe(
+        tap((res)=>{
+          this.ProductRegistration = res
+        })
+      )
+    }
   }

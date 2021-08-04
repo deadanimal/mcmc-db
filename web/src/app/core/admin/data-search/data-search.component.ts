@@ -66,6 +66,10 @@ export class DataSearchComponent implements OnInit, OnDestroy {
   fileUploaded: File;
   jsonData: any;
   data: [][];
+  TACData = []
+  IMEIData = []
+  serialData = []
+  rows = []
 
   //Export table
   isSummaryTableHidden: boolean = true
@@ -100,8 +104,6 @@ export class DataSearchComponent implements OnInit, OnDestroy {
     this.productGeneration();
     this.productCertificationGet();
     this.SLPGet();
-    this.filterIMEI();
-    this.filterSerial();
     this.VisitorCounterGet();
   }
 
@@ -148,6 +150,7 @@ export class DataSearchComponent implements OnInit, OnDestroy {
       ROCROB: new FormControl(""),
       ApproveDate: new FormControl(""),
     });
+
   }
 
   ngOnDestroy() {}
@@ -160,175 +163,12 @@ export class DataSearchComponent implements OnInit, OnDestroy {
         this.infoTable = res;
       },
       (err) => {},
-      () => console.log("HTTP request completed.")
     );
   }
-
-  // filterDate($event) {
-  //   let val = $event.target.value;
-  //   let datafield = "approveDate=" + val;
-  //   console.log(datafield);
-  //   // this.productGenerationService.filterMix(datafield).subscribe(
-  //   //   (res) => {
-  //   //     this.infoTable=res;
-  //   //     console.log("loop ok!!")
-  //   //     this.infoTable = this.infoTable.map((prop, key) => {
-  //   //       return {
-  //   //         ...prop,
-  //   //         id: key
-  //   //       };
-  //   //     });
-  //   //     // console.log("xxxxxx = ",this.infoTable)
-  //   //   },
-  //   //   (err) => {
-  //   //     console.log("loop not ok!!")
-  //   //     // this.loadingBar.complete();
-  //   //     // this.errorMessage();
-  //   //     // console.log("HTTP Error", err), this.errorMessage();
-  //   //   },
-  //   //   () => {
-  //   //     console.log("HTTP request completed.")
-  //   //   //   this.infoTable = [res]
-  //   //   //   console.log("zzzzz = ",this.infoTable)
-  //   //   }
-  //   // );
-  // }
 
   entriesChange($event) {
     this.entries = $event.target.value;
   }
-
-  // filterTableModel($event) {
-  //   let val = $event.target.value;
-  //   let datafield = "modelId=" + val;
-  //   console.log(datafield);
-  //   this.productGenerationService.filterMix(datafield).subscribe(
-  //     (res) => {
-  //       this.infoTable = res;
-
-  //       this.infoTable = this.infoTable.map((prop, key) => {
-  //         return {
-  //           ...prop,
-  //           id: key,
-  //         };
-  //       });
-  //       // console.log("xxxxxx = ",this.infoTable)
-  //     },
-  //     (err) => {
-  //       // this.loadingBar.complete();
-  //       // this.errorMessage();
-  //       // console.log("HTTP Error", err), this.errorMessage();
-  //     },
-  //     () => {
-  //       console.log("HTTP request completed.");
-  //       //   this.infoTable = [res]
-  //       //   console.log("zzzzz = ",this.infoTable)
-  //     }
-  //   );
-  // }
-
-  // filterTableImei($event) {
-  //   let val = $event.target.value;
-  //   let datafield = "imeiNo=" + val;
-  //   console.log(datafield);
-  //   this.productGenerationService.filterMix(datafield).subscribe(
-  //     (res) => {
-  //       this.infoTable = res;
-
-  //       this.infoTable = this.infoTable.map((prop, key) => {
-  //         return {
-  //           ...prop,
-  //           id: key,
-  //         };
-  //       });
-  //       // console.log("xxxxxx = ",this.infoTable)
-  //     },
-  //     (err) => {
-  //       // this.loadingBar.complete();
-  //       // this.errorMessage();
-  //       // console.log("HTTP Error", err), this.errorMessage();
-  //     },
-  //     () => {
-  //       console.log("HTTP request completed.");
-  //       //   this.infoTable = [res]
-  //       //   console.log("zzzzz = ",this.infoTable)
-  //     }
-  //   );
-  // }
-
-  // filterTableConsignee($event) {
-  //   let val = $event.target.value;
-  //   let datafield = "consigneeName=" + val;
-  //   console.log(datafield);
-  //   this.productGenerationService.filterMix(datafield).subscribe(
-  //     (res) => {
-  //       this.infoTable = res;
-
-  //       this.infoTable = this.infoTable.map((prop, key) => {
-  //         return {
-  //           ...prop,
-  //           id: key,
-  //         };
-  //       });
-  //       // console.log("xxxxxx = ",this.infoTable)
-  //     },
-  //     (err) => {
-  //       // this.loadingBar.complete();
-  //       // this.errorMessage();
-  //       // console.log("HTTP Error", err), this.errorMessage();
-  //     },
-  //     () => {
-  //       console.log("HTTP request completed.");
-  //       //   this.infoTable = [res]
-  //       //   console.log("zzzzz = ",this.infoTable)
-  //     }
-  //   );
-  // }
-
-  // filterTableCategory($event) {
-  //   console.log("event = ", $event);
-  //   let val = $event;
-  //   let datafield = "productCategory=" + val;
-  //   console.log(datafield);
-  //   this.productGenerationService.filterMix(datafield).subscribe(
-  //     (res) => {
-  //       this.infoTable = res;
-
-  //       this.infoTable = this.infoTable.map((prop, key) => {
-  //         return {
-  //           ...prop,
-  //           id: key,
-  //         };
-  //       });
-  //     },
-  //     (err) => {},
-  //     () => {
-  //       console.log("HTTP request completed.");
-  //     }
-  //   );
-  // }
-
-  // filterTableSLPID($event) {
-  //   let val = $event.target.value;
-  //   let datafield = "SLPID=" + val;
-  //   console.log(datafield);
-  //   this.productGenerationService.filterMix(datafield).subscribe(
-  //     (res) => {
-  //       this.infoTable = res;
-
-  //       this.infoTable = this.infoTable.map((prop, key) => {
-  //         return {
-  //           ...prop,
-  //           id: key,
-  //         };
-  //       });
-  //     },
-  //     (err) => {},
-  //     () => {
-  //       console.log("HTTP request completed.");
-  //     }
-  //   );
-  // }
 
   filterTableRegister() {
     let datafield =
@@ -357,7 +197,6 @@ export class DataSearchComponent implements OnInit, OnDestroy {
       },
       (err) => {},
       () => {
-        console.log("HTTP request completed.");
       }
     );
   } 
@@ -428,36 +267,12 @@ export class DataSearchComponent implements OnInit, OnDestroy {
   productGeneration() {
     this.productGenerationService.get().subscribe(
       (res) => {
-        this.infoTable = [...res];
-        // console.log("zzzzz = ",this.infoTable)
-        // let qweqwe = []
-        // this.infoTable.forEach( function(data){
-        //   console.log('col- - ',data)
-        //   qweqwe.push(data)
-
-        // })
-        // this.chartDataField = qweqwe
-        // console.log('bbbbbbb = ',this.chartDataField)
-        // this.calculateCharts()
-        console.log(this.infoTable.length);
-
-        this.infoTable = this.infoTable.map((prop, key) => {
-          return {
-            ...prop,
-            id: key,
-          };
-        });
-        // console.log("xxxxxx = ",this.infoTable)
+        this.infoTable = res;
       },
       (err) => {
-        // this.loadingBar.complete();
-        // this.errorMessage();
-        // console.log("HTTP Error", err), this.errorMessage();
+        console.log("HTTP Error", err)
       },
       () => {
-        console.log("HTTP request completed.");
-        //   this.infoTable = [res]
-        //   console.log("zzzzz = ",this.infoTable)
       }
     );
   }
@@ -513,11 +328,9 @@ export class DataSearchComponent implements OnInit, OnDestroy {
     this.productCertificationService.get().subscribe(
       (res) => {
         this.productCertificationTable = res;
-        console.log(this.productCertificationTable.length);
       },
       (err) => {},
       () => {
-        console.log("HTTP request completed.");
       }
     );
   }
@@ -533,30 +346,37 @@ export class DataSearchComponent implements OnInit, OnDestroy {
         console.log("HTTP request completed.");
       }
     );
+
+    this.productCertificationService.get_TAC().subscribe(
+      (res)=>{
+        this.TACData = res['TAC_count']
+
+      },
+    )
+
+    this.productGenerationService.get_IMEI().subscribe(
+      (res)=>{
+        this.IMEIData = res['IMEI_count']
+      }
+    )
+
+    this.productGenerationService.get_serial().subscribe(
+      (res)=>{
+        this.serialData = res['serial_count']
+      }
+    )
   }
 
   SLPGet() {
     this.SLPService.get().subscribe(
       (res) => {
         this.SLPTable = res;
-        console.log(this.SLPTable.length);
-        // this.productCertificationTable = this.productCertificationTable.map((prop, key) => {
-        //   return {
-        //     ...prop,
-        //     id: key
-        //   };
-        // });
-        // console.log("xxxxxx = ",this.infoTable)
+
       },
       (err) => {
-        // this.loadingBar.complete();
-        // this.errorMessage();
         // console.log("HTTP Error", err), this.errorMessage();
       },
       () => {
-        console.log("HTTP request completed.");
-        //   this.infoTable = [res]
-        //   console.log("zzzzz = ",this.infoTable)
       }
     );
   }
@@ -602,13 +422,12 @@ export class DataSearchComponent implements OnInit, OnDestroy {
         },
         (error) => {
           console.error("err", error);
-          this.modal.hide();
-          this.spinner.hide();
         }
       );
-      this.spinner.hide();
       this.modal.hide();
-      this.productGeneration()
+      setTimeout(() => {
+      this.spinner.hide();
+    }, 5000);
     });
   }
 
@@ -688,30 +507,6 @@ export class DataSearchComponent implements OnInit, OnDestroy {
     }, 5000);
   }
 
-  filterIMEI() {
-    let datafield = "RegType=IMEI";
-    this.productGenerationService.filter(datafield).subscribe(
-      (res) => {
-        this.IMEITable = res;
-        console.log("wewe", this.IMEITable.length);
-      },
-      (err) => {},
-      () => {}
-    );
-  }
-
-  filterSerial() {
-    let datafield = "RegType=SerialNo";
-    this.productGenerationService.filter(datafield).subscribe(
-      (res) => {
-        this.SerialTable = res;
-        console.log("wewe", this.SerialTable.length);
-      },
-      (err) => {},
-      () => {}
-    );
-  }
-
   exportexcel() {
     /* table id is passed over here */   
     let element = document.getElementById('excel-table'); 
@@ -725,7 +520,7 @@ export class DataSearchComponent implements OnInit, OnDestroy {
     XLSX.writeFile(wb, this.fileNameRegistration);
   }
 
- exportexcelCert() {
+  exportexcelCert() {
   /* table id is passed over here */   
   let elementCert = document.getElementById('excel-table-cert'); 
   const ws: XLSX.WorkSheet =XLSX.utils.table_to_sheet(elementCert);
@@ -749,5 +544,4 @@ export class DataSearchComponent implements OnInit, OnDestroy {
     /* save to file */
     XLSX.writeFile(wb, this.fileNameSLPID);
   }
-
 }
