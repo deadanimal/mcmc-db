@@ -43,6 +43,15 @@ users_router = router.register(
     'users', CustomUserViewSet
 )
 
+from usersHistory.views import(
+    usersHistoryViewSet
+)
+
+usersHistory_router = router.register(
+    'userHistory', usersHistoryViewSet
+)
+
+
 from ViewListingVariable.views import (
     ViewListingVariableViewSet
 )

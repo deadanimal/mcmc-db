@@ -38,7 +38,7 @@ class certifiedAgency(models.Model):
         ordering = ['created_date']
 
     def __str__(self):
-        return self.ca_id
+        return self.Id
     
     
 class APIDetails(models.Model):
@@ -51,7 +51,7 @@ class APIDetails(models.Model):
     created_by = models.CharField(max_length=255, blank=True, null=True)
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
-    history = HistoricalRecords()
+    history = HistoricalRecords(user_model=CustomUser)
     
     class Meta:
         ordering = ['created_date']

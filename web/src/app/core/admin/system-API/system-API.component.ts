@@ -274,7 +274,6 @@ export class SystemAPIComponent implements OnInit, OnDestroy {
         // this.navigateHomePage();
       }
     );
-  
   }
 
   // delete email function

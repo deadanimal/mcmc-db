@@ -23,7 +23,7 @@ class FAQCategory(models.Model):
     createdBy = models.CharField(max_length=255, blank=True)
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
-    content = models.CharField(max_length=10000, blank=True)
+    content = models.CharField(max_length=1000000, blank=True)
     history = HistoricalRecords(user_model=CustomUser)
  
 

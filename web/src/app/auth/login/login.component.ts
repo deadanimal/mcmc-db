@@ -1,9 +1,11 @@
+import { UsersService } from 'src/app/shared/services/users/users.service';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/shared/services/auth/auth.service';
 import { LoadingBarService } from '@ngx-loading-bar/core';
 import { NotifyService } from 'src/app/shared/handler/notify/notify.service';
+
 
 @Component({
   selector: 'app-login',
@@ -18,6 +20,7 @@ export class LoginComponent implements OnInit {
   // Form
   focusUsername
   focusPassword
+  userData
   loginForm: FormGroup
   loginFormMessages = {
     'username': [
@@ -35,6 +38,7 @@ export class LoginComponent implements OnInit {
     private notifyService: NotifyService,
     private formBuilder: FormBuilder,
     private loadingBar: LoadingBarService,
+    private usersService:UsersService,
     private router: Router
   ) { }
 
@@ -54,18 +58,43 @@ export class LoginComponent implements OnInit {
   login() {
     this.loadingBar.start()
     console.log(this.loginForm.value);
-    this.authService.obtainToken(this.loginForm.value).subscribe(
+    this.authService.customLogin(this.loginForm.value).subscribe(
       (res) => {
         this.loadingBar.complete();
         this.successMessage();
         this.navigatePage("dashboard-admin");
+        console.log("login data res",res)
       },
       (err) => {
         this.loadingBar.complete();
         this.errorMessage();
         // console.log("HTTP Error", err), this.errorMessage();
       },
-      () => console.log("HTTP request completed.")
+      () => {
+        this.usersService.getOne(this.authService.userID).subscribe(
+          (res)=>{
+            this.userData = res
+            console.log('userdata',this.userData)
+            const obj = {
+              history_user:this.userData,
+              history_type:'++'
+            }
+            console.log("test",obj)
+            this.usersService.postlogin(obj).subscribe(
+              (data) => {
+                console.log(data)
+              },
+              (err) => {
+                console.log("err", err)
+              },
+            )
+          }
+        )
+        // setTimeout(()=>{
+        //   this.sendLoginLog()
+        // }, 1000);
+      }
+
     )
     // if (this.loginForm.value.username == 'admin') {
     //   this.authService.userRole = 1
@@ -76,6 +105,23 @@ export class LoginComponent implements OnInit {
     //   this.navigatePage('dashboard-user')
     // }
   }
+
+  // sendLoginLog(){
+  //   console.log("userdata", this.userData)
+  //   const obj = {
+  //     history_user_id:{username:this.userData},
+  //     history_type:'++'
+  //   }
+  //   console.log("test",obj)
+  //   this.usersService.postlogin(obj).subscribe(
+  //     (res) => {
+  //       console.log('',res)
+  //     },
+  //     (err) => {
+  //       console.log("err", err)
+  //     },
+  //   )
+  // }
 
   navigatePage(path: String) {
     if (path == 'login') {

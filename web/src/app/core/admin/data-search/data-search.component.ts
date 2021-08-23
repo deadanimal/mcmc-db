@@ -397,10 +397,10 @@ export class DataSearchComponent implements OnInit, OnDestroy {
   }
 
   submitFileExcelRegister() {
-    let productCertificertServ = this.productGenerationService;
-    this.spinner.show();
+    let productRegisterationServ = this.productGenerationService;
+    this.spinner.show()
     this.dataFromExcelFile.forEach(function (loopval, index) {
-      let formDataaaaa: any;
+      let formDataaaaa: any
       formDataaaaa = [
         {
           FileNo: loopval.FileNo,
@@ -416,19 +416,19 @@ export class DataSearchComponent implements OnInit, OnDestroy {
       // console.log('loopval.ROCROB = ', loopval)
       console.log("formDataaaaa = ", formDataaaaa[0]);
       // // dalam foreach
-      productCertificertServ.post(formDataaaaa[0]).subscribe(
+      productRegisterationServ.post(formDataaaaa[0]).subscribe(
         (res) => {
           console.log("res = ", res);
         },
         (error) => {
           console.error("err", error);
         }
-      );
-      this.modal.hide();
+      )
+    })
+    this.modal.hide();
       setTimeout(() => {
       this.spinner.hide();
     }, 5000);
-    });
   }
 
   submitFileExcelCert() {

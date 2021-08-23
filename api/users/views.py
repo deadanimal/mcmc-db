@@ -1,5 +1,8 @@
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework_simplejwt.tokens import RefreshToken
+
+import json
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
@@ -75,6 +78,18 @@ class CustomUserViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
                 queryset = User.objects.filter(company=company.id)
         """
         return queryset 
+
+    @action(methods=['POST'], detail=False)
+    def get_tokens_for_user(self, request):
+        data = json.loads(request.body)
+        print('data', data)
+        user = CustomUser.objects.get(name=data['username'])
+        refresh = RefreshToken.for_user(user)
+
+        return Response({
+            'refresh': str(refresh),
+            'access': str(refresh.access_token),
+        }) 
 
 class CustomUserHistoryViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     queryset = CustomUser.history.all()

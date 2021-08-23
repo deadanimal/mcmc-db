@@ -29,8 +29,6 @@ class emailNoti(models.Model):
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
     history = HistoricalRecords(user_model=CustomUser)
-    # emailTemplate_Id = models.ForeignKey(emailTemplate, on_delete=models.CASCADE, related_name='emailTemplateContent_emailTemplate', null=True)
-
 
     class Meta:
         ordering = ['created_date']

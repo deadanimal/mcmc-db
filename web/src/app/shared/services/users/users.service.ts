@@ -13,11 +13,14 @@ export class UsersService {
 
   // URL
   public urlUser: string = environment.baseUrl + 'v1/users/'
+  public urlUserHistory: string = environment.baseUrl + 'v1/userHistory/'
 
   // Data
   public user: User
   public users: User[] = []
   public usersFiltered: User[] = []
+
+  public history: History[] = []
 
   constructor(
     private http: HttpClient
@@ -64,6 +67,13 @@ export class UsersService {
         console.log('Users', res)
       })
     )
+  }
+
+  postlogin(body): Observable<History> {
+    return this.http.post<History>(this.urlUserHistory, body).pipe(
+      tap((res) => {
+      })
+    );
   }
 
 }

@@ -7,6 +7,12 @@ import * as am4charts from "@amcharts/amcharts4/charts";
 import am4themes_animated from "@amcharts/amcharts4/themes/animated";
 import { FAQCategoriesService } from 'src/app/shared/services/FAQCategories/FAQCategories.service';
 import { VisitorCounterService } from 'src/app/shared/services/VisitorCounter/VisitorCounter.service';
+import {
+  FormGroup,
+  FormBuilder,
+  Validators,
+  FormControl,
+} from "@angular/forms";
 
 am4core.useTheme(am4themes_animated);
 
@@ -33,6 +39,7 @@ export class UtilityAuditComponent implements OnInit {
   TACData = []
   IMEIData = []
   serialData = []
+  dataSearchForm: FormGroup;
 
   // Table
   tableEntries: number = 5
@@ -50,12 +57,18 @@ export class UtilityAuditComponent implements OnInit {
     private faqCategoriesService: FAQCategoriesService,
     private visitorCounterService: VisitorCounterService,
     private productCertificationService: productCertificationService,
-    private productGenerationService :ProductGenerationService
+    private productGenerationService :ProductGenerationService,
+    private formBuilder:FormBuilder
   ) { }
 
   ngOnInit() {
     this.history()
     this.VisitorCounterGet()
+
+    this.dataSearchForm = this.formBuilder.group({
+      Action: new FormControl(""),
+      history_date: new FormControl(""),
+    });
   }
 
   history(){
@@ -65,6 +78,7 @@ export class UtilityAuditComponent implements OnInit {
       this.faqCategoriesService.getHistory3(),
       this.faqCategoriesService.getHistory4(),
       this.faqCategoriesService.getHistory5(),
+      this.faqCategoriesService.getHistory6(),
     ]).subscribe(
       (res)=>{
         let arrayZero = []
@@ -72,6 +86,7 @@ export class UtilityAuditComponent implements OnInit {
         let arrayTwo = []
         let arrayThree = []
         let arrayFour = []
+        let arrayFive = []
         // let rangeArray = []
 
         arrayZero = res[0]
@@ -79,8 +94,49 @@ export class UtilityAuditComponent implements OnInit {
         arrayTwo = res[2]
         arrayThree = res[3]
         arrayFour = res[4]
-        this.array = [...arrayZero,...arrayOne,...arrayTwo,...arrayThree,...arrayFour]
+        arrayFive = res[5]
+        this.array = [...arrayZero,...arrayOne,...arrayTwo,...arrayThree,...arrayFour,...arrayFive]
         this.array.sort((x,y) => +new Date(y.history_date) - +new Date(x.history_date))
+      },
+      (err) =>{
+        console.log("error", err)
+      }
+    )
+  }
+
+  searchFunction(){
+    let datafield =
+    "history_type="+
+    this.dataSearchForm.value.Action+
+    "&history_date="+
+    this.dataSearchForm.value.history_date
+
+    this.subscription = forkJoin([
+      this.faqCategoriesService.searchHistory(datafield),
+      this.faqCategoriesService.searchHistory2(datafield),
+      this.faqCategoriesService.searchHistory3(datafield),
+      this.faqCategoriesService.searchHistory4(datafield),
+      this.faqCategoriesService.searchHistory5(datafield),
+      this.faqCategoriesService.searchHistory6(datafield),
+    ]).subscribe(
+      (res)=>{
+        let arrayZero = []
+        let arrayOne = []
+        let arrayTwo = []
+        let arrayThree = []
+        let arrayFour = []
+        let arrayFive = []
+
+        arrayZero = res[0]
+        arrayOne = res[1]
+        arrayTwo = res[2]
+        arrayThree = res[3]
+        arrayFour = res[4]
+        arrayFive = res[5]
+        this.array = [...arrayZero,...arrayOne,...arrayTwo,...arrayThree,...arrayFour,...arrayFive]
+        this.array.sort((x,y) => +new Date(y.history_date) - +new Date(x.history_date))
+
+        console.log('array search', this.array)
       },
       (err) =>{
         console.log("error", err)

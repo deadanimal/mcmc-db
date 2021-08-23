@@ -26,7 +26,7 @@ export class SearchCounterService {
         })
       );
     }
-  
+
     get(): Observable<SearchCounter[]> {
       return this.http.get<SearchCounter[]>(this.url).pipe(
         tap((res) => {
@@ -35,7 +35,7 @@ export class SearchCounterService {
         })
       );
     }
-  
+
     update(body, id: string): Observable<SearchCounter> {
       let urlPatch = this.url + id + "/";
       return this.http.patch<SearchCounter>(urlPatch, body).pipe(
@@ -44,7 +44,7 @@ export class SearchCounterService {
         })
       );
     }
-  
+
     delete(id: string): Observable<SearchCounter> {
       let urlDelete = this.url + id + "/";
       return this.http.delete<SearchCounter>(urlDelete).pipe(
@@ -53,7 +53,7 @@ export class SearchCounterService {
         })
       );
     }
-  
+
     filter(field: String): Observable<SearchCounter[]> {
       let urlFilter = this.url + "?" + field;
       return this.http.get<SearchCounter[]>(urlFilter).pipe(
@@ -102,6 +102,24 @@ export class SearchCounterService {
 
     getSearchCounter(){
       let urlSearch = this.url + 'get_search_counter_data'
+      return this.http.get<any>(urlSearch).pipe(
+        tap((res)=>{
+          this.SearchCounter = res
+        })
+      )
+    }
+
+    getSearchMonthly(){
+      let urlSearch = this.url + 'get_search_monthly'
+      return this.http.get<any>(urlSearch).pipe(
+        tap((res)=>{
+          this.SearchCounter = res
+        })
+      )
+    }
+
+    getSearchMonth(){
+      let urlSearch = this.url + 'get_search_month'
       return this.http.get<any>(urlSearch).pipe(
         tap((res)=>{
           this.SearchCounter = res

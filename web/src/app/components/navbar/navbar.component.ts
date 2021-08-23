@@ -1,3 +1,4 @@
+import { AuthService } from 'src/app/shared/services/auth/auth.service';
 import { Component, OnInit, ElementRef } from "@angular/core";
 import { ROUTES } from "../../shared/menu/menu-items";
 import { Router, Event, NavigationStart, NavigationEnd, NavigationError } from '@angular/router';
@@ -11,6 +12,7 @@ import { UsersService } from 'src/app/shared/services/users/users.service';
 import { User } from 'src/app/shared/services/users/users.model';
 import { JwtService } from 'src/app/shared/handler/jwt/jwt.service';
 
+
 @Component({
   selector: "app-navbar",
   templateUrl: "./navbar.component.html",
@@ -21,6 +23,7 @@ export class NavbarComponent implements OnInit {
   imgLogo = 'assets/img/logo/SKMM-MCMC-2014.png'
 
   focus;
+  userData
   listTitles: any[];
   location: Location;
 
@@ -38,7 +41,9 @@ export class NavbarComponent implements OnInit {
     private jwtService: JwtService,
     private notifyService: NotifyService,
     private element: ElementRef,
-    private router: Router
+    private router: Router,
+    private usersService: UsersService,
+    private authService:AuthService
   ) {
     this.user = this.userService.user
     this.location = location;
@@ -110,6 +115,25 @@ export class NavbarComponent implements OnInit {
   logout() {
     this.jwtService.destroyToken()
     this.navigatePage('home')
+    this.usersService.getOne(this.authService.userID).subscribe(
+      (res)=>{
+        this.userData = res
+        console.log('userdata',this.userData)
+        const obj = {
+          history_user:this.userData,
+          history_type:'--'
+        }
+        console.log("test",obj)
+        this.usersService.postlogin(obj).subscribe(
+          (data) => {
+            console.log(data)
+          },
+          (err) => {
+            console.log("err", err)
+          },
+        )
+      }
+    )
   }
 
   openSearch() {

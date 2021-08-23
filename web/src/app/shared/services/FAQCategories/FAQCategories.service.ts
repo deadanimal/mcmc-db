@@ -20,6 +20,7 @@ export class FAQCategoriesService {
   public urlHistory3: string = environment.baseUrl + "v1/emailTemplateHistory/"
   public urlHistory4: string = environment.baseUrl + "v1/variableConfigureHistory/"
   public urlHistory5: string = environment.baseUrl + "v1/certifiedAgencyHistory/"
+  public urlHistory6: string = environment.baseUrl + "v1/userHistory/"
 
   constructor(private http: HttpClient) { }
 
@@ -30,7 +31,7 @@ export class FAQCategoriesService {
       })
     );
   }
-  
+
   get(): Observable<FAQCategories[]> {
     return this.http.get<FAQCategories[]>(this.url).pipe(
       tap((res) => {
@@ -80,6 +81,14 @@ export class FAQCategoriesService {
     );
   }
 
+  getHistory6(): Observable<FAQCategories[]> {
+    return this.http.get<FAQCategories[]>(this.urlHistory6).pipe(
+      tap((res) => {
+        this.FAQCategories = res;
+      })
+    );
+  }
+
   getOne(id: string): Observable<FAQCategories> {
     let urlID = this.url + id + "/";
     return this.http.get<FAQCategories>(urlID).pipe(
@@ -88,7 +97,7 @@ export class FAQCategoriesService {
       })
     );
   }
-  
+
   update(id,body: string): Observable<FAQCategories> {
     let urlPatch = this.url + id + "/";
     return this.http.patch<FAQCategories>(urlPatch, body).pipe(
@@ -97,7 +106,7 @@ export class FAQCategoriesService {
       })
     );
   }
-  
+
   delete(id: string): Observable<FAQCategories> {
     let urlDelete = this.url + id + "/";
     return this.http.delete<FAQCategories>(urlDelete).pipe(
@@ -106,7 +115,61 @@ export class FAQCategoriesService {
       })
     );
   }
-  
+
+  searchHistory(field: String): Observable<FAQCategories[]> {
+    let History = this.urlHistory + "?" + field;
+    return this.http.get<FAQCategories[]>(History).pipe(
+      tap((res) => {
+
+      })
+    );
+  }
+
+  searchHistory2(field: String): Observable<FAQCategories[]> {
+    let History2 = this.url + "?" + field;
+    return this.http.get<FAQCategories[]>(History2).pipe(
+      tap((res) => {
+
+      })
+    );
+  }
+
+  searchHistory3(field: String): Observable<FAQCategories[]> {
+    let History3 = this.urlHistory3 + "?" + field;
+    return this.http.get<FAQCategories[]>(History3).pipe(
+      tap((res) => {
+
+      })
+    );
+  }
+
+  searchHistory4(field: String): Observable<FAQCategories[]> {
+    let History4 = this.urlHistory4 + "?" + field;
+    return this.http.get<FAQCategories[]>(History4).pipe(
+      tap((res) => {
+
+      })
+    );
+  }
+
+  searchHistory5(field: String): Observable<FAQCategories[]> {
+    let History5 = this.urlHistory5 + "?" + field;
+    return this.http.get<FAQCategories[]>(History5).pipe(
+      tap((res) => {
+
+      })
+    );
+  }
+
+  searchHistory6(field: String): Observable<FAQCategories[]> {
+    let History6 = this.urlHistory6 + "?" + field;
+    return this.http.get<FAQCategories[]>(History6).pipe(
+      tap((res) => {
+
+      })
+    );
+  }
+
   filter(field: String): Observable<FAQCategories[]> {
     let urlFilter = this.url + "?" + field;
     return this.http.get<FAQCategories[]>(urlFilter).pipe(
@@ -115,7 +178,7 @@ export class FAQCategoriesService {
       })
     );
   }
-  
+
   extended(): Observable<FAQCategories[]> {
     return this.http.get<FAQCategories[]>(this.url + "extended").pipe(
       tap((res) => {
@@ -124,6 +187,5 @@ export class FAQCategoriesService {
       })
     );
   }
-  
+
   }
-  

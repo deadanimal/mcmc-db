@@ -1,5 +1,6 @@
 import json
 import time
+from typing import Counter
 import uuid
 import datetime
 import pytz
@@ -149,6 +150,53 @@ class SearchCounterViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         }
 
         return JsonResponse(statistic_data)
+    
+    @action(methods=['GET'], detail=False)
+    def get_search_monthly(self,request, *args, **kwargs):
+        timezone_ = pytz.timezone('Asia/Kuala_Lumpur')
+        current_month = str(datetime.datetime.now(timezone_).month)
+        search_counter = SearchCounter.objects.all()
+        search_by_categories_current_month = {
+            'imei':len(search_counter.filter(
+                Counter=current_month,
+                Name='IMEI',
+            )),
+            'serial':len(search_counter.filter(
+                Counter=current_month,
+                Name='SERIAL',
+            )),
+            'product':len(search_counter.filter(
+                Counter=current_month,
+                Name='PRODUCT',
+            )),
+            'label':len(search_counter.filter(
+                Counter=current_month,
+                Name='LABEL',
+            )),
+        }
+        
+        return JsonResponse(search_by_categories_current_month)
+    
+    @action(methods=['GET'], detail=False)
+    def get_search_month(self,request, *args, **kwargs):
+        search_counter = SearchCounter.objects.all()
+        search_by_categories_current_month = {
+            'imei':len(search_counter.filter(
+                Name='IMEI',
+            )),
+            'serial':len(search_counter.filter(
+                Name='SERIAL',
+            )),
+            'product':len(search_counter.filter(
+                Name='PRODUCT',
+            )),
+            'label':len(search_counter.filter(
+                Name='LABEL',
+            )),
+        }
+        
+        return JsonResponse(search_by_categories_current_month)
+        
 
     @action(methods=['GET'], detail=False)
     def get_search_counter_data(self, request, *args, **kwargs):

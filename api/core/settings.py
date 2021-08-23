@@ -68,6 +68,7 @@ INSTALLED_APPS = [
     'SLP',
     'SearchCounter',
     'VisitorCounter',
+    'usersHistory',
     # 'activity',
     # 'comment',
     # 'license',

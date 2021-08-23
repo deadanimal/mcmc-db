@@ -707,6 +707,18 @@
                         {{ row.ApproveDate }}
                       </ng-template>
                     </ngx-datatable-column>
+                    <ngx-datatable-column
+                      [width]="160"
+                      [sortable]="true"
+                      [resizeable]="false"
+                    >
+                      <ng-template ngx-datatable-header-template>
+                        <span>Expiry Date</span>
+                      </ng-template>
+                      <ng-template let-row="row" ngx-datatable-cell-template>
+                        {{ row.ExpiryDate }}
+                      </ng-template>
+                    </ngx-datatable-column>
                   </ngx-datatable>
                 </div>
               </div>

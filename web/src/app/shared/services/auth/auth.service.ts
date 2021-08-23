@@ -26,6 +26,7 @@ export class AuthService {
   public token: TokenResponse
   public tokenAccess: string
   public tokenRefresh: string
+  public name: string
   public email: string
   public userID: string
   public username: string
@@ -65,10 +66,30 @@ export class AuthService {
     )
   }
 
+  customLogin(body: Form): Observable<any> {
+    let jwtHelper: JwtHelperService = new JwtHelperService()
+    return this.http.post<any>(this.urlUser + 'get_tokens_for_user/', body).pipe(
+      tap((res) => {
+        this.token = res
+        this.tokenRefresh = res.refresh
+        this.tokenAccess = res.access
+
+        let decodedToken = jwtHelper.decodeToken(this.tokenAccess)
+        this.userID = decodedToken.user_id
+
+        this.getUserDetail()
+
+        this.jwtService.saveToken('accessToken', this.tokenAccess)
+        this.jwtService.saveToken('refreshToken', this.tokenRefresh)
+      })
+    )
+  }
+
   obtainToken(body: Form): Observable<any> {
     let jwtHelper: JwtHelperService = new JwtHelperService()
     return this.http.post<any>(this.urlTokenObtain, body).pipe(
       tap((res) => {
+        console.log('res', res)
         this.token = res
         this.tokenRefresh = res.refresh
         this.tokenAccess = res.access
@@ -89,12 +110,6 @@ export class AuthService {
         console.log('User type: ', this.userType)
         this.jwtService.saveToken('accessToken', this.tokenAccess)
         this.jwtService.saveToken('refreshToken', this.tokenRefresh)
-        if (this.userType == 'AD') {
-          this.userRole = 1
-        }
-        else if (this.userType == 'US'){
-          this.userRole = 1
-        }
       })
     )
   }
@@ -120,12 +135,20 @@ export class AuthService {
   }
 
   getUserDetail(): Observable<any> {
-    console.log('getuserdetail')
+    // console.log('getuserdetail')
     let selfInformationUrl = this.urlUser + this.userID + '/'
     return this.http.get<any>(selfInformationUrl).pipe(
       tap((res) => {
         this.userDetail = res
-        // console.log('User detail', this.userDetail)
+
+        if (this.userType == 'AD') {
+          this.userRole = 1
+        }
+
+        else if (this.userType == 'US'){
+          this.userRole = 1
+        }
+        console.log('User detail', this.userDetail)
       })
     )
   }

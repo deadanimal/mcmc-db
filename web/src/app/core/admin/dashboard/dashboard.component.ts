@@ -10,6 +10,7 @@ import { VisitorCounterService } from "src/app/shared/services/VisitorCounter/Vi
 import * as moment from 'moment';
 
 am4core.useTheme(am4themes_animated);
+am4core.addLicense('ch-custom-attribution');
 
 @Component({
   selector: "app-dashboard",
@@ -58,12 +59,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    this.getData();
     this.calculateCharts();
     this.CounterSearchGet();
     this.VisitorCounterGet();
-    setTimeout(() => {
-      this.getData();
-    }, 1000);
   }
 
   ngOnDestroy() {

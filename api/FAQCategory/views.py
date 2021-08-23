@@ -73,7 +73,7 @@ class FAQCategoryHistoryViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     queryset = FAQCategory.history.all()
     serializer_class = FAQCategoryHistorySerializer
     filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
-    # filterset_fields = []
+    filterset_fields = ['history_type','history_date']
 
     def get_permissions(self):
         permission_classes = [AllowAny]

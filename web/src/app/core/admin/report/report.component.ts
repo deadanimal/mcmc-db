@@ -27,6 +27,7 @@ import { ProductGenerationService } from "src/app/shared/services/ProductRegistr
 import { productCertificationService } from "src/app/shared/services/productCertification/productCertification.service";
 import { VisitorCounterService } from "src/app/shared/services/VisitorCounter/VisitorCounter.service";
 am4core.useTheme(am4themes_animated);
+am4core.addLicense('ch-custom-attribution');
 
 export enum SelectionType {
   single = "single",
@@ -53,6 +54,7 @@ export class ReportComponent implements OnInit, OnDestroy {
   dataChart3: any[] = []
   chartData: any[] = []
   chartData2: any[] = []
+  chartdata3: any[] = []
   user: any
   counter: any
   visitorbymonth: any
@@ -80,10 +82,12 @@ export class ReportComponent implements OnInit, OnDestroy {
   TACcount = []
   IMEIcount = []
   SERIALcount = []
-  thisMonthSearch = []
+  thisMonthSearch: any = []
   totalSearch = []
   currentProduct = []
+  userdata=[]
   dataSearchForm: FormGroup
+  percent: any 
 
   new
   exist
@@ -212,7 +216,26 @@ export class ReportComponent implements OnInit, OnDestroy {
           visitor: this.visitorbymonth['november']
         },
       ]
+      this.chartdata3 = [
+        {
+          item: "Product Info",
+          value: this.filterPRODUCT.length,
+        },
+        {
+          item: "IMEI",
+          value: this.filterIMEI.length,
+        },
+        {
+          item: "Serial",
+          value: this.filterSERIAL.length,
+        },
+        {
+          item: "SLP ID",
+          value: this.filterLABEL.length,
+        }
+      ]
       this.getChart()
+      this.calculate()
     }, 10000);
   }
 
@@ -391,7 +414,6 @@ export class ReportComponent implements OnInit, OnDestroy {
   getChart2() {
     let chart = am4core.create("systemChart", am4charts.XYChart);
 
-    console.log("chartData", this.chartData)
     chart.data = this.chartData
 
     chart.exporting.menu = new am4core.ExportMenu();
@@ -521,39 +543,8 @@ export class ReportComponent implements OnInit, OnDestroy {
           ]
     }];
 
-    let label = this.filterLABEL.length;
-    let serial = this.filterSERIAL.length;
-    let imei = this.filterIMEI.length;
-    let product = this.filterPRODUCT.length;
-    console.log(
-      "label = ",
-      label,
-      " serial = ",
-      serial,
-      " imei = ",
-      imei,
-      "product = ",
-      product
-    );
+    chart.data = this.chartdata3
 
-    chart.data = [
-      {
-        item: "Product Info",
-        value: this.filterPRODUCT.length,
-      },
-      {
-        item: "IMEI",
-        value: this.filterIMEI.length,
-      },
-      {
-        item: "Serial",
-        value: this.filterSERIAL.length,
-      },
-      {
-        item: "SLP ID",
-        value: this.filterLABEL.length,
-      },
-    ];
     console.log("chart.data", chart.data);
     chart.radius = am4core.percent(70);
     chart.innerRadius = am4core.percent(40);
@@ -936,6 +927,56 @@ export class ReportComponent implements OnInit, OnDestroy {
     }
   }
 
+  toggleEmail3(event){
+    console.log(event)
+    console.log('data chart pie1', this.filterPRODUCT.length)
+    console.log('data chart pie2', this.filterIMEI.length)
+    console.log('data chart pie3', this.filterSERIAL.length)
+    console.log('data chart pie4', this.filterLABEL.length)
+    if(event ==='new'){
+      this.chartdata3 = [
+        {
+          item: "Product Info",
+          value: this.filterPRODUCT.length,
+        },
+        {
+          item: "IMEI",
+          value: this.filterIMEI.length,
+        },
+        {
+          item: "Serial",
+          value: this.filterSERIAL.length,
+        },
+        {
+          item: "SLP ID",
+          value: this.filterLABEL.length,
+        }
+      ]
+      this.getChart3()
+    }
+    else{
+      this.chartdata3 = [
+        {
+          item: "Product Info",
+          value: 2,
+        },
+        {
+          item: "IMEI",
+          value: 2,
+        },
+        {
+          item: "Serial",
+          value: 2,
+        },
+        {
+          item: "SLP ID",
+          value: 2,
+        },
+      ]
+        this.getChart3()
+    }
+  }
+
   entryChange($event) {
     this.tableEntries = $event.target.value;
   }
@@ -1039,6 +1080,16 @@ export class ReportComponent implements OnInit, OnDestroy {
         this.totalSearch = res['get_counter']
       }
     )
+
+    this.usersService.getAll().subscribe(
+      (res)=>{
+        this.userdata = res
+      }
+    )
+  }
+
+  calculate(){
+    this.percent = (this.thisMonthSearch/this.CounterTable.length*100).toFixed(2)
   }
 
 }

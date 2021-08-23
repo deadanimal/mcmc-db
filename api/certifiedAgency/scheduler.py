@@ -34,7 +34,7 @@ try:
             }
         cert_line_count += 1
         # print(json.dumps(certification))
-        requests.post('http://192.168.11.136/v1/productCertification/', data=certification)
+        # requests.post('http://192.168.11.136/v1/productCertification/', data=certification)
         # print(row)
     print(f'Processed {cert_line_count -1} lines of Cert data.')
     
@@ -63,7 +63,7 @@ try:
             }
         SLP_line_count += 1
         # print(json.dumps(certification))
-        requests.post('http://192.168.11.136/v1/SLP/', data=SLPID)
+        # requests.post('http://192.168.11.136/v1/SLP/', data=SLPID)
         # print(row)
     print(f'Processed {SLP_line_count -1} lines of SLP data.')
     
@@ -103,7 +103,7 @@ for row in product['ProductReg']:
             }
         line_count += 1
             # print(json.dumps(certification))
-        requests.post('http://192.168.11.136/v1/ProductRegistration/', data=Product)
+        # requests.post('http://192.168.11.136/v1/ProductRegistration/', data=Product)
         print(Product)
 print(f'Processed {line_count -1} lines of product data (IMEI).')
 
@@ -148,7 +148,7 @@ for row in product2['ProductReg']:
             }
         line_count += 1
             # print(json.dumps(certification))
-        requests.post('http://192.168.11.136/v1/ProductRegistration/', data=Product)
+        # requests.post('http://192.168.11.136/v1/ProductRegistration/', data=Product)
         print(Product2)
 print(f'Processed {line_count -1} lines of product data (Serial).')
 
@@ -158,7 +158,7 @@ obj = {
     "context": "",
     }
 
-sendMail=requests.post('http://192.168.11.136/v1/emailTemplate/send_email/', json=obj)
+sendMail=requests.post('http://127.0.0.1:8000/v1/emailTemplate/send_email/', json=obj)
 print(sendMail.response.code)
 
 input("Press enter to exit ;)")

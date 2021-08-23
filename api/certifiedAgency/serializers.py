@@ -14,6 +14,8 @@ from .models import (
     APIDetails
 )
 
+from users.serializers import CustomUserSerializer
+
 class certifiedAgencySerializer(serializers.ModelSerializer):
 
     class Meta:
@@ -22,6 +24,7 @@ class certifiedAgencySerializer(serializers.ModelSerializer):
         # read_only_fields = ('email', 'id', 'TACInd')
 
 class certifiedAgencyHistorySerializer(serializers.ModelSerializer):
+    history_user = CustomUserSerializer(read_only=True)
     
     class Meta:
         model = certifiedAgency.history.model
