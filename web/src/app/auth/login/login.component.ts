@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { AuthService } from 'src/app/shared/services/auth/auth.service';
 import { LoadingBarService } from '@ngx-loading-bar/core';
 import { NotifyService } from 'src/app/shared/handler/notify/notify.service';
+import { JwtService } from 'src/app/shared/handler/jwt/jwt.service';
 
 
 @Component({
@@ -39,7 +40,8 @@ export class LoginComponent implements OnInit {
     private formBuilder: FormBuilder,
     private loadingBar: LoadingBarService,
     private usersService:UsersService,
-    private router: Router
+    private router: Router,
+    private jwtService: JwtService,
   ) { }
 
   ngOnInit() {
@@ -57,6 +59,7 @@ export class LoginComponent implements OnInit {
 
   login() {
     this.loadingBar.start()
+    this.jwtService.destroyToken()
     console.log(this.loginForm.value);
     this.authService.customLogin(this.loginForm.value).subscribe(
       (res) => {

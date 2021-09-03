@@ -55,6 +55,7 @@ export class ReportComponent implements OnInit, OnDestroy {
   chartData: any[] = []
   chartData2: any[] = []
   chartdata3: any[] = []
+  chartdataMaster: any[] = []
   user: any
   counter: any
   visitorbymonth: any
@@ -234,6 +235,80 @@ export class ReportComponent implements OnInit, OnDestroy {
           value: this.filterLABEL.length,
         }
       ]
+      this.chartdataMaster = [
+        {
+          year: "Jan",
+          IMEI: this.imeiData['january'],
+          Serial: this.serialData['january'],
+          TAC: this.tacData['january']
+        },
+        {
+          year: "Feb",
+          IMEI: this.imeiData['february'],
+          Serial: this.serialData['february'],
+          TAC: this.tacData['february']
+        },
+        {
+          year: "Mar",
+          IMEI: this.imeiData['march'],
+          Serial: this.serialData['march'],
+          TAC: this.tacData['march']
+        },
+        {
+          year: "Apr",
+          IMEI: this.imeiData['april'],
+          Serial: this.serialData['april'],
+          TAC: this.tacData['april'],
+        },
+        {
+          year: "May",
+          IMEI: this.imeiData['may'],
+          Serial: this.serialData['may'],
+          TAC: this.tacData['may']
+        },
+        {
+          year: "Jun",
+          IMEI: this.imeiData['june'],
+          Serial: this.serialData['june'],
+          TAC: this.tacData['june'],
+        },
+        {
+          year: "Jul",
+          IMEI: this.imeiData['july'],
+          Serial: this.serialData['july'],
+          TAC: this.tacData['july']
+        },
+        {
+          year: "Aug",
+          IMEI: this.imeiData['august'],
+          Serial: this.serialData['august'],
+          TAC: this.tacData['august']
+        },
+        {
+          year: "Sept",
+          IMEI: this.imeiData['september'],
+          Serial: this.serialData['september'],
+          TAC: this.tacData['september']
+        },
+        {
+          year: "Oct",
+          IMEI: this.imeiData['october'],
+          Serial: this.serialData['october'],
+          TAC: this.tacData['october']
+        },
+        {
+          year: "Nov",
+          IMEI: this.imeiData['november'],
+          Serial: this.serialData['november'],
+          TAC: this.tacData['november']
+        },
+        {
+          year: "Dec",
+          IMEI: this.imeiData['december'],
+          Serial: this.serialData['december'],
+          TAC: this.tacData['december']
+        }
+      ];
       this.getChart()
       this.calculate()
     }, 10000);
@@ -573,137 +648,7 @@ export class ReportComponent implements OnInit, OnDestroy {
     let chart = am4core.create("MasterGraphChart", am4charts.XYChart);
 
     // Add data
-    chart.data = [
-      {
-        year: "Jan",
-        IMEI: this.imeiData['january'],
-        Serial: this.serialData['january'],
-        TAC: this.tacData['january']
-      },
-      {
-        year: "Feb",
-        IMEI: this.imeiData['february'],
-        Serial: this.serialData['february'],
-        TAC: this.tacData['february']
-      },
-      {
-        year: "Mar",
-        IMEI: this.imeiData['march'],
-        Serial: this.serialData['march'],
-        TAC: this.tacData['march']
-      },
-      {
-        year: "Apr",
-        IMEI: this.imeiData['april'],
-        Serial: this.serialData['april'],
-        TAC: this.tacData['april'],
-      },
-      {
-        year: "May",
-        IMEI: this.imeiData['may'],
-        Serial: this.serialData['may'],
-        TAC: this.tacData['may']
-      },
-      {
-        year: "Jun",
-        IMEI: this.imeiData['june'],
-        Serial: this.serialData['june'],
-        TAC: this.tacData['june'],
-      },
-      {
-        year: "Jul",
-        IMEI: this.imeiData['july'],
-        Serial: this.serialData['july'],
-        TAC: this.tacData['july']
-      },
-      {
-        year: "Aug",
-        IMEI: this.imeiData['august'],
-        Serial: this.serialData['august'],
-        TAC: this.tacData['august']
-      },
-      {
-        year: "Sept",
-        IMEI: this.imeiData['september'],
-        Serial: this.serialData['september'],
-        TAC: this.tacData['september']
-      },
-      {
-        year: "Oct",
-        IMEI: this.imeiData['october'],
-        Serial: this.serialData['october'],
-        TAC: this.tacData['october']
-      },
-      {
-        year: "Nov",
-        IMEI: this.imeiData['november'],
-        Serial: this.serialData['november'],
-        TAC: this.tacData['november']
-      },
-    ];
-    // chart.data = [{
-    //   "year": "Jan",
-    //   "IMEI": 1,
-    //   "TAC": 5,
-    //   "Serial": 3
-    // }, {
-    //   "year": "Feb",
-    //   "IMEI": 1,
-    //   "TAC": 2,
-    //   "Serial": 6
-    // }, {
-    //   "year": "Mar",
-    //   "IMEI": 2,
-    //   "TAC": 3,
-    //   "Serial": 1
-    // }, {
-    //   "year": "Apr",
-    //   "IMEI": 3,
-    //   "TAC": 4,
-    //   "Serial": 1
-    // }, {
-    //   "year": "May",
-    //   "IMEI": 5,
-    //   "TAC": 1,
-    //   "Serial": 2
-    // }, {
-    //   "year": "June",
-    //   "IMEI": 3,
-    //   "TAC": 2,
-    //   "Serial": 1
-    // }, {
-    //   "year": "July",
-    //   "IMEI": 1,
-    //   "TAC": 2,
-    //   "Serial": 3
-    // }, {
-    //   "year": "Aug",
-    //   "IMEI": 0,
-    //   "TAC": 0,
-    //   "Serial": 0
-    // }, {
-    //   "year": "Sept",
-    //   "IMEI": 0,
-    //   "TAC": 0,
-    //   "Serial": 0
-    // }, {
-    //   "year": "Oct",
-    //   "IMEI": 0,
-    //   "TAC": 0,
-    //   "Serial": 0
-    // }, 
-    // {
-    //   "year": "Nov",
-    //   "IMEI": 0,
-    //   "TAC": 0,
-    //   "Serial": 0
-    // },
-    // {
-    //   "year": "Dec",
-    //   "IMEI": 0,
-    //   "TAC": 0,
-    //   "Serial": 0
-    // }];
+    chart.data = this.chartdataMaster
 
     chart.exporting.menu = new am4core.ExportMenu();
 
@@ -789,20 +734,56 @@ export class ReportComponent implements OnInit, OnDestroy {
   toggleEmail(event){
     console.log(event)
     if(event ==='new'){
-      this.chartData = [{
-        year: "2020",
-        search: 0,
-      }, {
-        "year": "2021",
-        search: this.CounterTable.length,
-      }, {
-        year: "2022",
-        search: 0,
-      }, {
-        year: "2023",
-        search: 0,
-      }
-      ];
+      this.chartData = [
+        {
+          year: "Jan",
+          search: 0,
+        },
+        {
+          year: "Feb",
+          search: 0,
+        },
+        {
+          year: "Mar",
+          search: 0,
+        },
+        {
+          year: "Apr",
+          search: 0,
+        },
+        {
+          year: "May",
+          search: 0,
+        },
+        {
+          year: "Jun",
+          search: 0,
+        },
+        {
+          year: "Jul",
+          search: 0,
+        },
+        {
+          year: "Aug",
+          search: 0,
+        },
+        {
+          year: "Sept",
+          search: 0,
+        },
+        {
+          year: "Oct",
+          search: 0,
+        },
+        {
+          year: "Nov",
+          search: 0,
+        },
+        {
+          year: "Dec",
+          search: 0
+        }
+      ]
         this.getChart2()
     }
     else{
@@ -851,6 +832,10 @@ export class ReportComponent implements OnInit, OnDestroy {
           year: "Nov",
           search: this.searchbymonth['november'],
         },
+        {
+          year: "Dec",
+          search: this.searchbymonth['december']
+        }
       ]
         this.getChart2()
     }
@@ -922,6 +907,10 @@ export class ReportComponent implements OnInit, OnDestroy {
           year: "Nov",
           visitor: this.visitorbymonth['november']
         },
+        {
+          year: "Dec",
+          visitor: this.visitorbymonth['december']
+        }
       ]
         this.getChart()
     }
@@ -974,6 +963,164 @@ export class ReportComponent implements OnInit, OnDestroy {
         },
       ]
         this.getChart3()
+    }
+  }
+
+  toggleEmail4(event){
+    console.log(event)
+    if(event ==='new'){
+      this.chartdataMaster = [
+        {
+          year: "Jan",
+          IMEI: 0,
+          Serial: 0,
+          TAC: 0
+        },
+        {
+          year: "Feb",
+          IMEI: 0,
+          Serial: 0,
+          TAC: 0
+        },
+        {
+          year: "Mar",
+          IMEI: 0,
+          Serial: 0,
+          TAC: 0
+        },
+        {
+          year: "Apr",
+          IMEI: 0,
+          Serial: 0,
+          TAC: 0,
+        },
+        {
+          year: "May",
+          IMEI: 0,
+          Serial: 0,
+          TAC: 0
+        },
+        {
+          year: "Jun",
+          IMEI: 0,
+          Serial: 0,
+          TAC: 0,
+        },
+        {
+          year: "Jul",
+          IMEI: 0,
+          Serial: 0,
+          TAC: 0
+        },
+        {
+          year: "Aug",
+          IMEI: 0,
+          Serial: 0,
+          TAC: 0
+        },
+        {
+          year: "Sept",
+          IMEI: 0,
+          Serial: 0,
+          TAC: 0
+        },
+        {
+          year: "Oct",
+          IMEI: 0,
+          Serial: 0,
+          TAC: 0
+        },
+        {
+          year: "Nov",
+          IMEI: 0,
+          Serial: 0,
+          TAC: 0
+        },
+        {
+          year: "Dec",
+          IMEI: 0,
+          Serial: 0,
+          TAC: 0
+        }
+      ];
+      this.MasterChart()
+    }
+    else{
+      this.chartdataMaster = [
+        {
+          year: "Jan",
+          IMEI: this.imeiData['january'],
+          Serial: this.serialData['january'],
+          TAC: this.tacData['january']
+        },
+        {
+          year: "Feb",
+          IMEI: this.imeiData['february'],
+          Serial: this.serialData['february'],
+          TAC: this.tacData['february']
+        },
+        {
+          year: "Mar",
+          IMEI: this.imeiData['march'],
+          Serial: this.serialData['march'],
+          TAC: this.tacData['march']
+        },
+        {
+          year: "Apr",
+          IMEI: this.imeiData['april'],
+          Serial: this.serialData['april'],
+          TAC: this.tacData['april'],
+        },
+        {
+          year: "May",
+          IMEI: this.imeiData['may'],
+          Serial: this.serialData['may'],
+          TAC: this.tacData['may']
+        },
+        {
+          year: "Jun",
+          IMEI: this.imeiData['june'],
+          Serial: this.serialData['june'],
+          TAC: this.tacData['june'],
+        },
+        {
+          year: "Jul",
+          IMEI: this.imeiData['july'],
+          Serial: this.serialData['july'],
+          TAC: this.tacData['july']
+        },
+        {
+          year: "Aug",
+          IMEI: this.imeiData['august'],
+          Serial: this.serialData['august'],
+          TAC: this.tacData['august']
+        },
+        {
+          year: "Sept",
+          IMEI: this.imeiData['september'],
+          Serial: this.serialData['september'],
+          TAC: this.tacData['september']
+        },
+        {
+          year: "Oct",
+          IMEI: this.imeiData['october'],
+          Serial: this.serialData['october'],
+          TAC: this.tacData['october']
+        },
+        {
+          year: "Nov",
+          IMEI: this.imeiData['november'],
+          Serial: this.serialData['november'],
+          TAC: this.tacData['november']
+        },
+        {
+          year: "Dec",
+          IMEI: this.imeiData['december'],
+          Serial: this.serialData['december'],
+          TAC: this.tacData['december']
+        }
+      ];
+        this.MasterChart()
     }
   }
 

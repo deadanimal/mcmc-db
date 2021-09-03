@@ -129,114 +129,192 @@ class certifiedAgencyViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
             }
             })
         
-        response = requests.request("POST", urlData+"GetNewCertifiedProduct", headers=headers, data=payload)
-
-        print(response.status_code)
-        # print(response.content)
-        data_from_json = json.loads(response.content)
-        cert_line_count = 0
-        for row in data_from_json['TACList']:
-            if cert_line_count==0:
-                cert_line_count +=1
-            certification = {
-            # #      #  database: json
-                    'FileNo': row["FileNo"],
-                    'TAC': row["TAC"],
-                    'TypeOfProduct': row["TypeOfProduct"],
-                    'Model': row["Model"],
-                    'Brand': row["Brand"],
-                    'MarketingName': row["MarketingName"],
-                    'ApproveDate': row["ApproveDate"],
-                    'ExpiryDate': row["ExpiryDate"],
-                    'ProductCategory': row["ProductCategory"],
-                    'CertholderName': row["CertHolderName"],
-                    'ROCROB': row["ROCROB"],
-                }
-            cert_line_count += 1
-            # print(json.dumps(certification))
-            # requests.post('http://192.168.11.136/v1/productCertification/', data=certification)
-            # print(row)
-        print(f'Processed {cert_line_count -1} lines of Cert data.')
+        try:
         
-        responseSLP = requests.request("POST", urlData+"GetSLP", headers=headers, data=payload)
-
-        SLP = json.loads(responseSLP.content)
-        SLP_line_count = 0
-        for row in SLP['SLPList']:
-            if SLP_line_count==0:
-                SLP_line_count +=1
-            SLPID = {
-            # #      #  database: json
-                    'SLP_ID': row["SLPID"],
-                    'ExpiryDate': row["ExpiryDate"],
-                    'SLPID_owner': row["Owner"],
-                    'principal_certificate': row["Principal"],
-                }
-            SLP_line_count += 1
-            # print(json.dumps(certification))
-            # requests.post('http://192.168.11.136/v1/SLP/', data=SLPID)
-            print(row)
-        print(f'Processed {SLP_line_count -1} lines of SLP data.')
-        
-        TAC2 = {"TAC": "RCCT/75E/1020/S(20-4063)"}
-        responseSerial = requests.post("http://ecommdev.esource.my/restapi/api/GetProductRegistration", json=TAC2)
-        print(responseSerial.status_code)
-        product2 = json.loads(responseSerial.content)
-
-        line_count = 0
-        for row in product2['ProductReg']:
-            for row2 in row['SerialNoList']:
-                if line_count==0:
-                    line_count +=1   
-                Product2 = {
-                        #  database: json
-                        'SLPID': row["SLP_ID"],
-                        'ProductRegistrationNo': row["ProductRegNo"],
-                        'RegType': row["RegType"],
-                        'SerialNo': row2["SerialNo"],
-                        # 'IMEI': row2['IMEINo'],
+            response = requests.request("POST", urlData+"GetNewCertifiedProduct", headers=headers, data=payload)
+            
+            # print(response.status_code)
+            # print(response.content)
+            data_from_json = json.loads(response.content)
+            cert_line_count = 0
+            for row in data_from_json['TACList']:
+                if cert_line_count==0:
+                    cert_line_count +=1
+                certification = {
+                # #      #  database: json
+                        'FileNo': row["FileNo"],
+                        'TAC': row["TAC"],
+                        'TypeOfProduct': row["TypeOfProduct"],
+                        'Model': row["Model"],
+                        'Brand': row["Brand"],
+                        'MarketingName': row["MarketingName"],
+                        'ApproveDate': row["ApproveDate"],
+                        'ExpiryDate': row["ExpiryDate"],
+                        'ProductCategory': row["ProductCategory"],
+                        'CertholderName': row["CertHolderName"],
+                        'ROCROB': row["ROCROB"],
+                        'CA_owner': "SIRIM"
                     }
-                line_count += 1
-                    # print(json.dumps(certification))
-                # requests.post('http://192.168.11.136/v1/ProductRegistration/', data=Product)
-                print(Product2)
-        print(f'Processed {line_count -1} lines of product data (Serial).')
+                cert_line_count += 1
+                # print(json.dumps(certification))
+                print(certification)
+                TAC = json.dumps({
+                "Authentication": {
+                    "UserName": "MCMC2021",
+                    "Password": "833c38dbdf88e210a41755f69165f54c",
+                    "Token": "1A8E29BF-00BE-47DD-AE39-31782A0F17C7",
+                    "TAC": row["TAC"]
+                }
+                })
+                # requests.post('http://192.168.11.136/v1/productCertification/', data=certification)
+                responseAck = requests.request("POST", urlData+"UpdateTACAckStatus",headers=headers, data=TAC)
+                print(cert_line_count)
+                print(responseAck.content)
+                responseIMEI = requests.request("POST", urlData+"GetProductRegistration",headers=headers, data=TAC)
+                print(responseIMEI.status_code)
+                product = json.loads(responseIMEI.content)
+                line_count = 0
+                for row in product['ProductReg']:
+                    if row['RegType']=="IMEI":
+                        for row2 in row['IMEIList']:
+                            if line_count==0:
+                                line_count +=1   
+                                Product = {
+                                        #  database: json
+                                        'SLPID': row["SLP_ID"],
+                                        'FileNo': row["FileNo"],
+                                        'TAC': row["TAC"],
+                                        'ProductRegistrationNo': row["ProductRegNo"],
+                                        'RegType': row["RegType"],
+                                        # 'SerialNo': row2["SerialNo"],
+                                        'IMEI': row2["IMEINo"],
+                                        'CA_owner': "SIRIM",
+                                    }
+                                line_count += 1
+                                # print(json.dumps(certification))
+                            # requests.post('http://192.168.11.136/v1/ProductRegistration/', data=Product)
+                            # responseAck = requests.request("POST", urlData+"UpdateProdRegAckStatus",headers=headers, data=TAC)
+                            print(Product)
+                        print(f'Processed {line_count -1} lines of product data (IMEI).')
+                    elif row['RegType']=="SerialNo":
+                        for row2 in row['SerialNoList']:
+                            if line_count==0:
+                                line_count +=1   
+                                Product = {
+                                        #  database: json
+                                        'SLPID': row["SLP_ID"],
+                                        'FileNo': row["FileNo"],
+                                        'TAC': row["TAC"],
+                                        'ProductRegistrationNo': row["ProductRegNo"],
+                                        'RegType': row["RegType"],
+                                        'SerialNo': row2["SerialNo"],
+                                        # 'IMEI': row2["IMEINo"],
+                                        'CA_owner': "SIRIM",
+                                    }
+                                line_count += 1
+                                # print(json.dumps(certification))
+                            # requests.post('http://192.168.11.136/v1/ProductRegistration/', data=Product)
+                            print(Product)
+                        print(f'Processed {line_count -1} lines of product data (SERIAL).')
+                        
+                # print(f'Processed {line_count -1} lines of product data (IMEI).')
+                
+                # print(row)
+            print(f'Processed {cert_line_count -1} lines of Cert data.')
+            
+            # responseSLP = requests.request("POST", urlData+"GetSLP", headers=headers, data=payload)
+
+            # SLP = json.loads(responseSLP.content)
+            # SLP_line_count = 0
+            # for row in SLP['SLPList']:
+            #     if SLP_line_count==0:
+            #         SLP_line_count +=1
+            #     SLPID = {
+            #     # #      #  database: json
+            #             'SLP_ID': row["SLPID"],
+            #             'ExpiryDate': row["ExpiryDate"],
+            #             'SLPID_owner': row["Owner"],
+                        # 'principal_certificate': row["Principal"],
+                        # 'CA_owner': "SIRIM"
+            #         }
+            #     SLP_line_count += 1
+            #     # print(json.dumps(certification))
+            #     # requests.post('http://192.168.11.136/v1/SLP/', data=SLPID)
+            #     print(row)
+            # print(f'Processed {SLP_line_count -1} lines of SLP data.')
+            
+            # TAC2 = {"TAC": "RCCT/75E/1020/S(20-4063)"}
+            # responseSerial = requests.post("http://ecommdev.esource.my/restapi/api/GetProductRegistration", json=TAC2)
+            # print(responseSerial.status_code)
+            # product2 = json.loads(responseSerial.content)
+
+            # line_count = 0
+            # for row in product2['ProductReg']:
+            #     for row2 in row['SerialNoList']:
+            #         if line_count==0:
+            #             line_count +=1   
+            #         Product2 = {
+            #                 #  database: json
+            #                 'SLPID': row["SLP_ID"],
+            #                 'ProductRegistrationNo': row["ProductRegNo"],
+            #                 'RegType': row["RegType"],
+            #                 'SerialNo': row2["SerialNo"],
+            #                 # 'IMEI': row2['IMEINo'],
+            #             }
+            #         line_count += 1
+            #             # print(json.dumps(certification))
+            #         # requests.post('http://192.168.11.136/v1/ProductRegistration/', data=Product)
+            #         print(Product2)
+            # print(f'Processed {line_count -1} lines of product data (Serial).')
+            
+            # TAC = {"TAC": "RGIC/06A/0620/S(20-2463)"}
+
+            # responseIMEI = requests.post("http://ecommdev.esource.my/restapi/api/GetProductRegistration", json=TAC)
+            # print(responseIMEI.status_code)
+            # product = json.loads(responseIMEI.content)
+
+            # line_count = 0
+            # for row in product['ProductReg']:
+            #     for row2 in row['IMEIList']:
+            #         if line_count==0:
+            #             line_count +=1   
+            #         Product = {
+            #                 #  database: json
+            #                 'SLPID': row["SLP_ID"],
+            #                 'ProductRegistrationNo': row["ProductRegNo"],
+            #                 'RegType': row["RegType"],
+            #                 # 'SerialNo': row2["SerialNo"],
+            #                 'IMEI': row2['IMEINo'],
+            #             }
+            #         line_count += 1
+            #             # print(json.dumps(certification))
+            #         # requests.post('http://192.168.11.136/v1/ProductRegistration/', data=Product)
+            #         print(Product)
+            # print(f'Processed {line_count -1} lines of product data (IMEI).')
+
+            
+        except:
+            
+            # Sending fail email function through services
+            obj = {
+                "template_code": "2",
+                "context": "",
+                }
+
+            sendMail=requests.post('http://127.0.0.1:8000/v1/emailTemplate/send_email/', json=obj)
+            print(sendMail.response.code)
         
-        TAC = {"TAC": "RGIC/06A/0620/S(20-2463)"}
+        finally:
+            
+            # Sending success email function through services
+            obj = {
+                "template_code": "1",
+                "context": "",
+                }
 
-        responseIMEI = requests.post("http://ecommdev.esource.my/restapi/api/GetProductRegistration", json=TAC)
-        print(responseIMEI.status_code)
-        product = json.loads(responseIMEI.content)
-
-        line_count = 0
-        for row in product['ProductReg']:
-            for row2 in row['IMEIList']:
-                if line_count==0:
-                    line_count +=1   
-                Product = {
-                        #  database: json
-                        'SLPID': row["SLP_ID"],
-                        'ProductRegistrationNo': row["ProductRegNo"],
-                        'RegType': row["RegType"],
-                        # 'SerialNo': row2["SerialNo"],
-                        'IMEI': row2['IMEINo'],
-                    }
-                line_count += 1
-                    # print(json.dumps(certification))
-                # requests.post('http://192.168.11.136/v1/ProductRegistration/', data=Product)
-                print(Product)
-        print(f'Processed {line_count -1} lines of product data (IMEI).')
-
-        
-        # Sending email function through services
-        obj = {
-            "template_code": "1",
-            "context": "",
-            }
-
-        sendMail=requests.post('http://127.0.0.1:8000/v1/emailTemplate/send_email/', json=obj)
-        print(sendMail.response.code)
-        
+            sendMail=requests.post('http://127.0.0.1:8000/v1/emailTemplate/send_email/', json=obj)
+            print(sendMail.response.code)
+            
         return Response({"data": urlData})
 
 class APIDetailsViewSet(NestedViewSetMixin, viewsets.ModelViewSet):

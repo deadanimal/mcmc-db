@@ -72,11 +72,13 @@ class SLPViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         ApproveDate = request.GET.get('ApproveDate', '')
         SLPID_owner = request.GET.get('SLPID_owner', '')
         principal_certificate = request.GET.get('principal_certificate', '')
+        CA_owner = request.GET.get('CA_owner','')
 
         result = SLP.objects.filter(SLP_ID__icontains=SLP_ID,
                                     ApproveDate__icontains=ApproveDate,
                                     SLPID_owner__icontains=SLPID_owner,
-                                    principal_certificate__icontains=principal_certificate)
+                                    principal_certificate__icontains=principal_certificate,
+                                    CA_owner__icontains=CA_owner)
 
         serializer = SLPSerializer(result, many=True)
         return Response(serializer.data)

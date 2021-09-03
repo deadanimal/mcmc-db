@@ -27,12 +27,20 @@
                 Total Visitors
               </h5>
 
-              <span class="h2 font-weight-bold mb-0"> {{this.VisitorGetTable.length}} </span>
+              <span class="h2 font-weight-bold mb-0">
+                {{ this.VisitorGetTable.length }}
+              </span>
             </div>
 
             <div class="col-auto">
               <div
-                class="icon icon-shape bg-gradient-red text-white rounded-circle shadow"
+                class="
+                  icon icon-shape
+                  bg-gradient-red
+                  text-white
+                  rounded-circle
+                  shadow
+                "
               >
                 <i class="ni ni-active-40"> </i>
               </div>
@@ -59,12 +67,18 @@
                 Total Data
               </h5>
 
-              <span class="h2 font-weight-bold mb-0"> {{this.TACData}} </span>
+              <span class="h2 font-weight-bold mb-0"> {{ this.TACData }} </span>
             </div>
 
             <div class="col-auto">
               <div
-                class="icon icon-shape bg-gradient-orange text-white rounded-circle shadow"
+                class="
+                  icon icon-shape
+                  bg-gradient-orange
+                  text-white
+                  rounded-circle
+                  shadow
+                "
               >
                 <i class="ni ni-chart-pie-35"> </i>
               </div>
@@ -91,12 +105,20 @@
                 IMEI Number
               </h5>
 
-              <span class="h2 font-weight-bold mb-0"> {{this.IMEIData}} </span>
+              <span class="h2 font-weight-bold mb-0">
+                {{ this.IMEIData }}
+              </span>
             </div>
 
             <div class="col-auto">
               <div
-                class="icon icon-shape bg-gradient-green text-white rounded-circle shadow"
+                class="
+                  icon icon-shape
+                  bg-gradient-green
+                  text-white
+                  rounded-circle
+                  shadow
+                "
               >
                 <i class="ni ni-money-coins"> </i>
               </div>
@@ -123,12 +145,20 @@
                 Serial Number
               </h5>
 
-              <span class="h2 font-weight-bold mb-0"> {{this.serialData}} </span>
+              <span class="h2 font-weight-bold mb-0">
+                {{ this.serialData }}
+              </span>
             </div>
 
             <div class="col-auto">
               <div
-                class="icon icon-shape bg-gradient-info text-white rounded-circle shadow"
+                class="
+                  icon icon-shape
+                  bg-gradient-info
+                  text-white
+                  rounded-circle
+                  shadow
+                "
               >
                 <i class="ni ni-chart-bar-32"> </i>
               </div>
@@ -149,59 +179,61 @@
 </div>
 
 <div class="container-fluid">
-
   <div class="row">
-            <div class="col">
-              <div class="card mt-4">
-                <div id="datatable_filter" class="mt-4 ml-4 mr-4">
-                  <div class="row">
-                    <label class="form-control-label">
-                      Search by column:
-                    </label>
-                  </div>
-                  <div class="row">
-                    <div class="col-4">
-                      <form [formGroup]="dataSearchForm">
-                        <div class="form-group">
-                          <label class="form-control-label" for="Action">
-                            Action
-                          </label>
-                          <select
-                            type="search"
-                            class="form-control form-control-sm"
-                            aria-controls="datatable"
-                            formControlName="Action"
-                          >
-                            <option value="++">Log In</option>
-                            <option value="--">Log Out</option>
-                            <option value="+">Post</option>
-                            <option value="~">Update</option>
-                            <option value="-">Delete</option>
-                            <option value="" selected class="text-muted">
-                              -- Please Choose --
-                            </option>
-                          </select>
-                        </div>
-                      </form>
-                    </div>
-                    <div class="col-4">
-                      <form [formGroup]="dataSearchForm">
-                        <div class="form-group">
-                          <label class="form-control-label" for="history_date">
-                            Date
-                          </label>
-                          <input
-                            class="form-control form-control-sm"
-                            id="example2cols1Input"
-                            placeholder="Show All"
-                            type="text"
-                            formControlName="history_date"
-                          />
-                        </div>
-             
-                      </form>
-                    </div>
-                    <!--<div class="col-4">
+    <div class="col">
+      <div class="card mt-4">
+        <div id="datatable_filter" class="mt-4 ml-4 mr-4">
+          <div class="row">
+            <label class="form-control-label"> Search by column: </label>
+          </div>
+          <div class="row">
+            <div class="col-4">
+              <form [formGroup]="dataSearchForm">
+                <div class="form-group">
+                  <label class="form-control-label" for="Action">
+                    Action
+                  </label>
+                  <select
+                    type="search"
+                    class="form-control form-control-sm"
+                    aria-controls="datatable"
+                    formControlName="Action"
+                  >
+                    <option value="++">Log In</option>
+                    <option value="--">Log Out</option>
+                    <!--<option value="+">Post</option>-->
+                    <option value="~">Update</option>
+                    <option value="-">Delete</option>
+                    <option value="" selected class="text-muted">
+                      -- Please Choose --
+                    </option>
+                  </select>
+                </div>
+              </form>
+            </div>
+            <div class="col-4">
+              <form [formGroup]="dataSearchForm">
+                <div class="form-group">
+                  <label class="form-control-label" for="history_date">
+                    Date
+                  </label>
+                  <input
+                    placeholder="Show All"
+                    class="form-control form-control-sm"
+                    formControlName="history_date"
+                    #dp="bsDaterangepicker"
+                    bsDaterangepicker
+                    [(ngModel)]="selectedDate"
+                    [bsConfig]="{
+                      isAnimated: true,
+                      dateInputFormat: 'yyyy-MM-dd',
+                      containerClass: 'theme-dark-blue'
+                    }"
+                  />
+                </div>
+              </form>
+            </div>
+            <!--<div class="col-4">
                       <form [formGroup]="RegisterSearchForm">
                         <div class="form-group">
                           <label
@@ -220,21 +252,18 @@
                         </div>
                       </form>
                     </div>-->
-                  </div>
-                  <div class="row">
-                    <div class="col text-right mb-4 ml--4">
-                      <button
-                        class="btn btn-sm btn-neutral"
-                        (click)="searchFunction()"
-                      >
-                        Search
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
+          </div>
+          <div class="row">
+            <div class="col text-right mb-4 ml--4">
+              <button class="btn btn-sm btn-neutral" (click)="searchFunction()">
+                Search
+              </button>
             </div>
           </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <div class="row">
     <!--<div class="col-lg-3">
@@ -339,19 +368,6 @@
                 </label>
               </div>
             </div>
-            <div class="col-sm-12 col-md-6">
-              <div id="datatable_filter" class="dataTables_filter">
-                <label>
-                  <input
-                    type="search"
-                    class="form-control form-control-sm"
-                    placeholder="Search records"
-                    aria-controls="datatable"
-                    (keyup)="filterTable($event)"
-                  />
-                </label>
-              </div>
-            </div>
           </div>
 
           <ngx-datatable
@@ -363,18 +379,18 @@
             [limit]="tableEntries != -1 ? tableEntries : undefined"
             [rows]="array"
             (activate)="onActivate($event)"
-            [sorts]= "[{prop: 'date', dir: 'desc'}]"
+            [sorts]="[{ prop: 'date', dir: 'desc' }]"
           >
-              <ngx-datatable-column [sortable]="false" name="No">
-                <ng-template
-                  let-rowIndex="rowIndex"
-                  let-row="row"
-                  ngx-datatable-cell-template
-                >
-                  <strong>{{ rowIndex + 1 }}</strong>
-                </ng-template>
-              </ngx-datatable-column>
-              <ngx-datatable-column name="user">
+            <ngx-datatable-column [sortable]="false" name="No">
+              <ng-template
+                let-rowIndex="rowIndex"
+                let-row="row"
+                ngx-datatable-cell-template
+              >
+                <strong>{{ rowIndex + 1 }}</strong>
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="user">
               <ng-template ngx-datatable-header-template>
                 <span>User</span>
               </ng-template>
@@ -427,9 +443,26 @@
                 <span>Description</span>
               </ng-template>
               <ng-template let-row="row" ngx-datatable-cell-template>
-                <b>{{ row.history_user?.username }}</b> has 
-                <b *ngIf="row.history_type =='+'">create new</b><b *ngIf="row.history_type =='++'">succesfully log in into the system</b><b *ngIf="row.history_type =='--'">succesfully log out into the system</b> <b *ngIf="row.history_type =='-'">delete</b> <b *ngIf="row.history_type =='~'">edit</b>
-                <b *ngIf="row.category"> category {{row.category}} in the FAQ</b><b *ngIf="row.email"> {{row.email}} in the email notification</b><b *ngIf="row.template_name"> {{row.template_name}} in the email template</b><b *ngIf="row.variable_name"> {{row.variable_name}} in the system variable</b><b *ngIf="row.ca_name"> {{row.ca_name}} in the API Configuration</b>
+                <b>{{ row.history_user?.username }}</b> has
+                <b *ngIf="row.history_type == '+'">create new</b
+                ><b *ngIf="row.history_type == '++'"
+                  >succesfully log in into the system</b
+                ><b *ngIf="row.history_type == '--'"
+                  >succesfully log out into the system</b
+                >
+                <b *ngIf="row.history_type == '-'">delete</b>
+                <b *ngIf="row.history_type == '~'">edit</b>
+                <b *ngIf="row.category">
+                  category {{ row.category }} in the FAQ</b
+                ><b *ngIf="row.email">
+                  {{ row.email }} in the email notification</b
+                ><b *ngIf="row.template_name">
+                  {{ row.template_name }} in the email template</b
+                ><b *ngIf="row.variable_name">
+                  {{ row.variable_name }} in the system variable</b
+                ><b *ngIf="row.ca_name">
+                  {{ row.ca_name }} in the API Configuration</b
+                >
               </ng-template>
             </ngx-datatable-column>
           </ngx-datatable>

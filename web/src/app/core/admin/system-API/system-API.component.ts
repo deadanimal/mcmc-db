@@ -75,7 +75,6 @@ export class SystemAPIComponent implements OnInit, OnDestroy {
     this.newAgencyForm = this.formBuilder.group({
       Id: new FormControl(""),
       ca_name: new FormControl(""),
-      ca_id: new FormControl(""),
       appoint_date: new FormControl(""),
       expiry_date: new FormControl(""),
       remarks: new FormControl(""),

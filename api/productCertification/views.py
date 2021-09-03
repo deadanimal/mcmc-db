@@ -93,6 +93,7 @@ class productCertificationViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         MarketingName = request.GET.get('MarketingName', '')
         ApproveDate = request.GET.get('ApproveDate', '')
         ProductCategory = request.GET.get('ProductCategory', '')
+        CA_owner = request.GET.get('CA_owner','')
         ROCROB = request.GET.get('ROCROB', '')
 
         result = productCertification.objects.filter(FileNo__icontains=FileNo,
@@ -103,7 +104,8 @@ class productCertificationViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
                                                      MarketingName__icontains=MarketingName,
                                                      ROCROB__icontains=ROCROB,
                                                      ProductCategory__icontains=ProductCategory,
-                                                     ApproveDate__icontains=ApproveDate)
+                                                     ApproveDate__icontains=ApproveDate,
+                                                     CA_owner__icontains=CA_owner)
 
         serializer = productCertificationSerializer(result, many=True)
         return Response(serializer.data)

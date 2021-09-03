@@ -22,6 +22,8 @@ import { SLPService } from "src/app/shared/services/SLP/SLP.service";
 import { productCertificationService } from "src/app/shared/services/productCertification/productCertification.service";
 import { NgxSpinnerService } from "ngx-spinner";
 import { VisitorCounterService } from 'src/app/shared/services/VisitorCounter/VisitorCounter.service';
+import { formatDate } from "@angular/common";
+import { DateAxisDataItem } from "@amcharts/amcharts4/charts";
 
 // import jsPDF from 'jspdf';
 // import html2canvas from 'html2canvas';
@@ -70,6 +72,17 @@ export class DataSearchComponent implements OnInit, OnDestroy {
   IMEIData = []
   serialData = []
   rows = []
+
+  dateFromApproveCert
+  dateToApproveCert
+  dateFromExpiryCert
+  dateToExpiryCert
+  temp
+  temp2 = []
+  ApproveDateCert: any | null | undefined = null;
+  ExpiryDateSLP;
+  ExpiryDateCert2: any | null | undefined = null;
+
 
   //Export table
   isSummaryTableHidden: boolean = true
@@ -132,6 +145,7 @@ export class DataSearchComponent implements OnInit, OnDestroy {
       SerialNo: new FormControl(""),
       RegType: new FormControl(""),
       ProductRegistrationNo: new FormControl(""),
+      ca_owner: new FormControl(""),
     });
 
     this.SLPSearchForm = this.formBuilder.group({
@@ -139,6 +153,7 @@ export class DataSearchComponent implements OnInit, OnDestroy {
       SLPID_owner: new FormControl(""),
       principal_certificate: new FormControl(""),
       ApproveDate: new FormControl(""),
+      ca_owner: new FormControl(""),
     });
 
     this.CertificationSearchForm = this.formBuilder.group({
@@ -149,6 +164,7 @@ export class DataSearchComponent implements OnInit, OnDestroy {
       Brand: new FormControl(""),
       ROCROB: new FormControl(""),
       ApproveDate: new FormControl(""),
+      ca_owner: new FormControl(""),
     });
 
   }
@@ -181,7 +197,8 @@ export class DataSearchComponent implements OnInit, OnDestroy {
       "&SerialNo=" +
       this.RegisterSearchForm.value.SerialNo +
       "&ProductRegistrationNo=" +
-      this.RegisterSearchForm.value.ProductRegistrationNo;
+      this.RegisterSearchForm.value.ProductRegistrationNo +
+      "&CA_owner=" + this.RegisterSearchForm.value.ca_owner
     console.log(datafield);
     this.spinner.show()
     this.productGenerationService.filterMix(datafield).subscribe(
@@ -199,7 +216,7 @@ export class DataSearchComponent implements OnInit, OnDestroy {
       () => {
       }
     );
-  } 
+  }
 
   filterTableSLP() {
     let datafield =
@@ -210,8 +227,10 @@ export class DataSearchComponent implements OnInit, OnDestroy {
       "&principal_certificate=" +
       this.SLPSearchForm.value.principal_certificate +
       "&ApproveDate=" +
-      this.SLPSearchForm.value.ApproveDate;
+      this.SLPSearchForm.value.ApproveDate +
+      "&CA_owner=" + this.SLPSearchForm.value.ca_owner
     console.log(datafield);
+    console.log(this.ExpiryDateSLP);
     this.spinner.show()
     this.SLPService.filterMix(datafield).subscribe(
       (res) => {
@@ -242,9 +261,22 @@ export class DataSearchComponent implements OnInit, OnDestroy {
       "&Model=" +
       this.CertificationSearchForm.value.Model +
       "&Brand=" + this.CertificationSearchForm.value.Brand +
-      "&ApproveDate=" + this.CertificationSearchForm.value.ApproveDate +
-      "&ROCROB=" + this.CertificationSearchForm.value.ROCROB;
-    console.log(datafield);
+      "&ROCROB=" + this.CertificationSearchForm.value.ROCROB+
+      "&CA_owner=" + this.CertificationSearchForm.value.ca_owner
+    console.log(this.ExpiryDateCert2);
+
+    this.dateFromApproveCert = this.ApproveDateCert[0]
+    this.dateToApproveCert = this.ApproveDateCert[1]
+
+    this.dateFromExpiryCert = this.ExpiryDateCert2[0]
+    this.dateToExpiryCert = this.ExpiryDateCert2[1]
+
+    console.log('fromApprove',this.dateFromApproveCert)
+    console.log('to',this.dateToApproveCert)
+
+    console.log('fromExpiry',this.dateFromExpiryCert)
+    console.log('to',this.dateToExpiryCert)
+
     this.spinner.show()
     this.productCertificationService.filterMix(datafield).subscribe(
       (res) => {
@@ -259,7 +291,22 @@ export class DataSearchComponent implements OnInit, OnDestroy {
       },
       (err) => {},
       () => {
-        console.log("HTTP request completed.");
+        let temp = this.productCertificationTable
+
+            for (let i in temp) {
+              if (temp[i].created_date) {
+                if (
+                  formatDate(temp[i].created_date, "yyyy-MM-dd", "en_US") >=
+                    formatDate(this.dateFromApproveCert, "yyyy-MM-dd", "en_US") &&
+                  formatDate(temp[i].created_date, "yyyy-MM-dd", "en_US") <=
+                    formatDate(this.dateToApproveCert, "yyyy-MM-dd", "en_US")
+                ) {
+                  console.log('temp2',temp[i])
+                  this.temp2.push(temp[i]);
+                }
+              }
+            }
+          this.productCertificationTable = this.temp2;
       }
     );
   }

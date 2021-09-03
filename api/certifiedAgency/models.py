@@ -16,6 +16,13 @@ from users.models import (
 )
 
 class certifiedAgency(models.Model):
+    
+    def number():
+        no = certifiedAgency.objects.count()
+        if no == None:
+            return 1
+        else:
+            return no + 1
 
     Id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     ca_name  = models.CharField(max_length=255, blank=True, null=True)
@@ -31,8 +38,9 @@ class certifiedAgency(models.Model):
     path = models.CharField(max_length=255, blank=True, null=True)
     port = models.CharField(max_length=255, blank=True, null=True)
     remarks = models.CharField(max_length=255, blank=True, null=True)
-    ca_id = models.CharField(max_length=255, blank=True, null=True)
+    ca_id = models.IntegerField(('Code'), unique=True, default=number)
     history = HistoricalRecords(user_model=CustomUser)
+    
 
     class Meta:
         ordering = ['created_date']

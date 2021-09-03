@@ -26,7 +26,6 @@ class FAQCategory(models.Model):
     content = models.CharField(max_length=1000000, blank=True)
     history = HistoricalRecords(user_model=CustomUser)
  
-
     class Meta:
         ordering = ['created_date']
 

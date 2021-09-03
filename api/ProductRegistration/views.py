@@ -96,6 +96,7 @@ class ProductRegistrationViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         ProductRegistrationNo = request.GET.get('ProductRegistrationNo', '')
         SerialNo = request.GET.get('SerialNo', '')
         RegType = request.GET.get('RegType', '')
+        CA_owner = request.GET.get('CA_owner','')
 
         result = ProductRegistration.objects.filter(FileNo__icontains=FileNo,
                                                     TAC__icontains=TAC,
@@ -103,7 +104,8 @@ class ProductRegistrationViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
                                                     IMEI__icontains=IMEI,
                                                     SerialNo__icontains=SerialNo,
                                                     ProductRegistrationNo__icontains=ProductRegistrationNo,
-                                                    RegType__icontains=RegType)
+                                                    RegType__icontains=RegType,
+                                                    CA_owner__icontains=CA_owner)
 
         serializer = ProductRegistrationSerializer(result, many=True)
         return Response(serializer.data)
@@ -123,16 +125,17 @@ class ProductRegistrationViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
 
         return JsonResponse(response.json())
 
-    @action(methods=['GET'], detail=False)
-    def filter_daterange(self, request, *args, **kwargs):
+    @action(methods=['POST'], detail=False)
+    def filter_daterange(self, request):
 
-        approveDate = request.GET.get('approveDate', '')
+        data = json.loads(request.body)
 
-        result = ProductRegistration.objects.filter(
-            approveDate__range=[approveDate])
+        start_date = data['start_date']
+        end_date = data['end_date']
 
-        serializer = ProductRegistrationSerializer(result, many=True)
-        return Response(serializer.data)
+        queryset = ProductRegistration.objects.filter(date__range=(start_date, end_date)).values('created_date')
+
+        return Response(queryset)
 
 
     @action(methods=['GET'], detail=False)

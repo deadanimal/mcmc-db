@@ -181,7 +181,6 @@
                           </label>
                           <input
                             class="form-control form-control-sm"
-                            id="example2cols1Input"
                             placeholder="Show All"
                             type="text"
                             formControlName="imei"
@@ -214,7 +213,6 @@
                           </label>
                           <input
                             class="form-control form-control-sm"
-                            id="example2cols1Input"
                             placeholder="Show All"
                             type="text"
                             formControlName="SerialNo"
@@ -226,7 +224,6 @@
                           </label>
                           <input
                             class="form-control form-control-sm"
-                            id="example2cols1Input"
                             placeholder="Show All"
                             type="text"
                             formControlName="TAC"
@@ -245,10 +242,20 @@
                           </label>
                           <input
                             class="form-control form-control-sm"
-                            id="example2cols1Input"
                             placeholder="Show All"
                             type="text"
                             formControlName="ProductRegistrationNo"
+                          />
+                        </div>
+                        <div class="form-group">
+                          <label class="form-control-label" for="CA">
+                            CA 
+                          </label>
+                          <input
+                            class="form-control form-control-sm"
+                            placeholder="Show All"
+                            type="text"
+                            formControlName="ca_owner"
                           />
                         </div>
                       </form>
@@ -384,6 +391,14 @@
                         {{ row.SerialNo }}
                       </ng-template>
                     </ngx-datatable-column>
+                    <ngx-datatable-column>
+                      <ng-template ngx-datatable-header-template>
+                        <span>CA</span>
+                      </ng-template>
+                      <ng-template let-row="row" ngx-datatable-cell-template>
+                        {{ row.CA_owner }}
+                      </ng-template>
+                    </ngx-datatable-column>
                   </ngx-datatable>
                 </div>
               </div>
@@ -410,7 +425,6 @@
                           </label>
                           <input
                             class="form-control form-control-sm"
-                            id="example2cols1Input"
                             placeholder="Show All"
                             type="text"
                             formControlName="FileNo"
@@ -422,7 +436,6 @@
                           </label>
                           <input
                             class="form-control form-control-sm"
-                            id="example2cols1Input"
                             placeholder="Show All"
                             type="text"
                             formControlName="TAC"
@@ -453,12 +466,62 @@
                     <div class="col-4">
                       <form [formGroup]="CertificationSearchForm">
                         <div class="form-group">
+                          <label class="form-control-label" for="ApproveDate">
+                            Approved Date
+                          </label>
+                          <input
+                            placeholder="Show All"
+                            class="form-control form-control-sm"
+                            formControlName="ApproveDate"
+                            #dp="bsDaterangepicker"
+                             bsDaterangepicker
+                            [(ngModel)]="ApproveDateCert"
+                            [bsConfig]="{
+                              isAnimated: true,
+                              dateInputFormat: 'YYYY-MM-DD',
+                              containerClass: 'theme-dark-blue'
+                            }"
+                          />
+                        </div>
+                        <div class="form-group">
+                          <label class="form-control-label" for="ExpiryDate">
+                            Expiry Date
+                          </label>
+                          <input
+                            placeholder="Show All"
+                            class="form-control form-control-sm"
+                            formControlName="ExpiryDate"
+                            #dp="bsDaterangepicker"
+                             bsDaterangepicker
+                            [(ngModel)]="ExpiryDateCert2"
+                            [bsConfig]="{
+                              isAnimated: true,
+                              dateInputFormat: 'YYYY-MM-DD',
+                              containerClass: 'theme-dark-blue'
+                            }"
+                          />
+                        </div>
+                        <div class="form-group">
+                          <label class="form-control-label" for="CA">
+                            CA 
+                          </label>
+                          <input
+                            class="form-control form-control-sm"
+                            placeholder="Show All"
+                            type="text"
+                            formControlName="ca_owner"
+                          />
+                        </div>
+                      </form>
+                    </div>
+                    <div class="col-4">
+                      <form [formGroup]="CertificationSearchForm">
+                        <div class="form-group">
                           <label class="form-control-label" for="Model">
                             Model
                           </label>
                           <input
                             class="form-control form-control-sm"
-                            id="example2cols1Input"
                             placeholder="Show All"
                             type="text"
                             formControlName="Model"
@@ -470,52 +533,12 @@
                           </label>
                           <input
                             class="form-control form-control-sm"
-                            id="example2cols1Input"
                             placeholder="Show All"
                             type="text"
                             formControlName="Brand"
                           />
                         </div>
-                        <div class="form-group">
-                          <label class="form-control-label" for="ROCROB">
-                            ROC/ROB
-                          </label>
-                          <input
-                            class="form-control form-control-sm"
-                            id="example2cols1Input"
-                            placeholder="Show All"
-                            type="text"
-                            formControlName="ROCROB"
-                          />
-                        </div>
-                      </form>
-                    </div>
-                    <div class="col-4">
-                      <form [formGroup]="CertificationSearchForm">
-                        <div class="form-group">
-                          <label class="form-control-label" for="ApproveDate">
-                            Approved Date
-                          </label>
-                          <input
-                            class="form-control form-control-sm"
-                            id="example2cols1Input"
-                            placeholder="Show All"
-                            type="text"
-                            formControlName="ApproveDate"
-                          />
-                        </div>
-                        <div class="form-group">
-                          <label class="form-control-label" for="ExpiryDate">
-                            Expiry Date
-                          </label>
-                          <input
-                            class="form-control form-control-sm"
-                            id="example2cols1Input"
-                            placeholder="Show All"
-                            type="text"
-                            formControlName="ExpiryDate"
-                          />
-                        </div>
+                       
                       </form>
                     </div>
                   </div>
@@ -719,6 +742,14 @@
                         {{ row.ExpiryDate }}
                       </ng-template>
                     </ngx-datatable-column>
+                    <ngx-datatable-column>
+                      <ng-template ngx-datatable-header-template>
+                        <span>CA</span>
+                      </ng-template>
+                      <ng-template let-row="row" ngx-datatable-cell-template>
+                        {{ row.CA_owner }}
+                      </ng-template>
+                    </ngx-datatable-column>
                   </ngx-datatable>
                 </div>
               </div>
@@ -745,7 +776,6 @@
                           </label>
                           <input
                             class="form-control form-control-sm"
-                            id="example2cols1Input"
                             placeholder="Show All"
                             type="text"
                             formControlName="SLP_ID"
@@ -757,10 +787,48 @@
                           </label>
                           <input
                             class="form-control form-control-sm"
-                            id="example2cols1Input"
                             placeholder="Show All"
                             type="text"
                             formControlName="SLPID_owner"
+                          />
+                        </div>
+                      </form>
+                    </div>
+                    <div class="col-4">
+                      <form [formGroup]="SLPSearchForm">
+                        <div class="form-group">
+                          <label class="form-control-label" for="ApproveDate">
+                            Approved Date
+                          </label>
+                          
+                          <input
+                            placeholder="Show All"
+                            class="form-control form-control-sm"
+                            formControlName="ApproveDate"
+                            #dp="bsDaterangepicker"
+                             bsDaterangepicker
+                            [bsConfig]="{
+                              isAnimated: true,
+                              dateInputFormat: 'YYYY-MM-DD',
+                              containerClass: 'theme-dark-blue'
+                            }"
+                          />
+                        </div>
+                        <div class="form-group">
+                          <label class="form-control-label" for="ExpiryDate">
+                            Expiry Date
+                          </label>
+                          <input
+                            placeholder="Show All"
+                            class="form-control form-control-sm"
+                            #dp="bsDaterangepicker"
+                             bsDaterangepicker
+                            [(ngModel)]="ExpiryDateSLP"
+                            [bsConfig]="{
+                              isAnimated: true,
+                              dateInputFormat: 'YYYY-MM-DD',
+                              containerClass: 'theme-dark-blue'
+                            }"
                           />
                         </div>
                       </form>
@@ -776,38 +844,20 @@
                           </label>
                           <input
                             class="form-control form-control-sm"
-                            id="example2cols1Input"
                             placeholder="Show All"
                             type="text"
                             formControlName="principal_certificate"
                           />
                         </div>
                         <div class="form-group">
-                          <label class="form-control-label" for="ExpiryDate">
-                            Expiry Date
+                          <label class="form-control-label" for="CA">
+                            CA 
                           </label>
                           <input
                             class="form-control form-control-sm"
-                            id="example2cols1Input"
                             placeholder="Show All"
                             type="text"
-                            formControlName="ExpiryDate"
-                          />
-                        </div>
-                      </form>
-                    </div>
-                    <div class="col-4">
-                      <form [formGroup]="SLPSearchForm">
-                        <div class="form-group">
-                          <label class="form-control-label" for="ApproveDate">
-                            Approved Date
-                          </label>
-                          <input
-                            class="form-control form-control-sm"
-                            id="example2cols1Input"
-                            placeholder="Show All"
-                            type="text"
-                            formControlName="ApproveDate"
+                            formControlName="ca_owner"
                           />
                         </div>
                       </form>
