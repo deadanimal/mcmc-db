@@ -201,7 +201,7 @@
                   >
                     <option value="++">Log In</option>
                     <option value="--">Log Out</option>
-                    <!--<option value="+">Post</option>-->
+                    <option value="+">Post</option>
                     <option value="~">Update</option>
                     <option value="-">Delete</option>
                     <option value="" selected class="text-muted">
@@ -358,10 +358,11 @@
                     name="datatable_length"
                     aria-controls="datatable"
                     class="form-control form-control-sm"
+                    (change)="entriesChange($event)"
                   >
-                    <option value="10">5</option>
-                    <option value="25">10</option>
-                    <option value="50">15</option>
+                    <option value="10">10</option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
                     <option value="-1">All</option>
                   </select>
                   records

@@ -268,8 +268,13 @@
               id="toggleEmail2"
               (change)="toggleEmail2($event.target.value)"
             >
-              <option value="new">2020</option>
-              <option value="exist" selected="selected">2021</option>
+              <optgroup label="By Total">
+                <option value="total">Total</option>
+              </optgroup>
+              <optgroup label="By Year">
+                <option value="new">2020</option>
+                <option value="exist" selected="selected">2021</option>
+              </optgroup>
             </select><br></div>
             <div class="chart">
               <!--change to bar chart-->
@@ -297,8 +302,13 @@
               id="toggleEmail"
               (change)="toggleEmail($event.target.value)"
             >
-              <option value="new">2020</option>
-              <option value="exist" selected="selected">2021</option>
+              <optgroup label="By Total">
+                <option value="total">Total</option>
+              </optgroup>
+              <optgroup label="By Year">
+                <option value="new">2020</option>
+                <option value="exist" selected="selected">2021</option>
+              </optgroup>
             </select><br></div>
             <div class="chart">
               <div class="amchart" id="systemChart"></div>
@@ -327,8 +337,10 @@
                 id="toggleEmail3"
                 (change)="toggleEmail3($event.target.value)"
               >
-                <option value="new">2020</option>
-                <option value="exist" selected="selected">2021</option>
+              <optgroup label="For 2020">
+                <option value="new">Year</option>
+                <option value="exist" selected="selected">Month</option>
+              </optgroup>
               </select><br>
             </div>
             <div class="chart">
@@ -369,8 +381,13 @@
                 id="toggleEmail4"
                 (change)="toggleEmail4($event.target.value)"
               >
+                <optgroup label="By Total">
+                <option value="total">Total</option>
+              </optgroup>
+              <optgroup label="By Year">
                 <option value="new">2020</option>
                 <option value="exist" selected="selected">2021</option>
+              </optgroup>
               </select><br>
             </div>
         </div>

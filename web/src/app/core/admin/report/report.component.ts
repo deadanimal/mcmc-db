@@ -26,6 +26,7 @@ import { SLPService } from "src/app/shared/services/SLP/SLP.service";
 import { ProductGenerationService } from "src/app/shared/services/ProductRegistration/ProductGeneration.service";
 import { productCertificationService } from "src/app/shared/services/productCertification/productCertification.service";
 import { VisitorCounterService } from "src/app/shared/services/VisitorCounter/VisitorCounter.service";
+import { forkJoin, Subscription } from "rxjs";
 am4core.useTheme(am4themes_animated);
 am4core.addLicense('ch-custom-attribution');
 
@@ -84,9 +85,11 @@ export class ReportComponent implements OnInit, OnDestroy {
   IMEIcount = []
   SERIALcount = []
   thisMonthSearch: any = []
-  totalSearch = []
+  totalSearch: any
   currentProduct = []
   userdata=[]
+  searchMonthly
+  searchMonth
   dataSearchForm: FormGroup
   percent: any 
 
@@ -94,6 +97,8 @@ export class ReportComponent implements OnInit, OnDestroy {
   exist
 
   event = 'new'
+
+  subscription: Subscription;
 
   state: boolean = false
   isSummaryTableHidden: boolean = true
@@ -123,7 +128,6 @@ export class ReportComponent implements OnInit, OnDestroy {
     this.calculateCharts();
     this.getData()
     setTimeout(() => {
-      this.getCharts()
       this.chartData = [
         {
           year: "Jan",
@@ -170,7 +174,6 @@ export class ReportComponent implements OnInit, OnDestroy {
           search: this.searchbymonth['november'],
         },
       ]
-      this.getChart2()
       this.chartData2 = [
         {
           year: "Jan",
@@ -220,19 +223,19 @@ export class ReportComponent implements OnInit, OnDestroy {
       this.chartdata3 = [
         {
           item: "Product Info",
-          value: this.filterPRODUCT.length,
+          value: this.searchMonthly['product'],
         },
         {
           item: "IMEI",
-          value: this.filterIMEI.length,
+          value: this.searchMonthly['imei'],
         },
         {
           item: "Serial",
-          value: this.filterSERIAL.length,
+          value: this.searchMonthly['serial'],
         },
         {
           item: "SLP ID",
-          value: this.filterLABEL.length,
+          value: this.searchMonthly['label'],
         }
       ]
       this.chartdataMaster = [
@@ -309,9 +312,9 @@ export class ReportComponent implements OnInit, OnDestroy {
           TAC: this.tacData['december']
         }
       ];
-      this.getChart()
+      this.getCharts()
       this.calculate()
-    }, 10000);
+    }, 20000);
   }
 
   ngOnDestroy() {
@@ -412,7 +415,7 @@ export class ReportComponent implements OnInit, OnDestroy {
   getCharts() {
     this.zone.runOutsideAngular(() => {
       this.getChart()
-      // this.getChart2()
+      this.getChart2()
       this.getChart3()
     });
   }
@@ -551,48 +554,16 @@ export class ReportComponent implements OnInit, OnDestroy {
   }
 
   calculateCharts() {
-    this.SearchCounterService.filter("Name=IMEI").subscribe(
+    this.subscription = forkJoin([
+      this.SearchCounterService.getSearchMonthly(),
+      this.SearchCounterService.getSearchMonth()
+    ]).subscribe(
       (res) => {
-        this.filterIMEI = res;
-        console.log("Chart imei", this.filterIMEI);
-        console.log("imei count", this.filterIMEI.length);
-      },
-      (err) => {
-        console.log(err);
-      },
-      () => {}
-    );
+        this.searchMonthly = res[0]
+        console.log('searchMonthly', this.searchMonthly)
+        this.searchMonth = res[1]
+      })
 
-    this.SearchCounterService.filter("Name=SERIAL").subscribe(
-      (res) => {
-        this.filterSERIAL = res;
-      },
-      (err) => {
-        console.log(err);
-      },
-      () => {}
-    );
-
-    this.SearchCounterService.filter("Name=PRODUCT").subscribe(
-      (res) => {
-        this.filterPRODUCT = res;
-      },
-      (err) => {
-        console.log(err);
-      },
-      () => {}
-    );
-
-    this.SearchCounterService.filter("Name=LABEL").subscribe(
-      (res) => {
-        this.filterLABEL = res;
-        console.log("label", this.filterLABEL.length);
-      },
-      (err) => {
-        console.log(err);
-      },
-      () => {}
-    );
   }
 
   getChart3() {
@@ -726,6 +697,80 @@ export class ReportComponent implements OnInit, OnDestroy {
 
   changeState = () => {
     this.state = !this.state;
+    this.chartdataMaster = [
+      {
+        year: "Jan",
+        IMEI: this.imeiData['january'],
+        Serial: this.serialData['january'],
+        TAC: this.tacData['january']
+      },
+      {
+        year: "Feb",
+        IMEI: this.imeiData['february'],
+        Serial: this.serialData['february'],
+        TAC: this.tacData['february']
+      },
+      {
+        year: "Mar",
+        IMEI: this.imeiData['march'],
+        Serial: this.serialData['march'],
+        TAC: this.tacData['march']
+      },
+      {
+        year: "Apr",
+        IMEI: this.imeiData['april'],
+        Serial: this.serialData['april'],
+        TAC: this.tacData['april'],
+      },
+      {
+        year: "May",
+        IMEI: this.imeiData['may'],
+        Serial: this.serialData['may'],
+        TAC: this.tacData['may']
+      },
+      {
+        year: "Jun",
+        IMEI: this.imeiData['june'],
+        Serial: this.serialData['june'],
+        TAC: this.tacData['june'],
+      },
+      {
+        year: "Jul",
+        IMEI: this.imeiData['july'],
+        Serial: this.serialData['july'],
+        TAC: this.tacData['july']
+      },
+      {
+        year: "Aug",
+        IMEI: this.imeiData['august'],
+        Serial: this.serialData['august'],
+        TAC: this.tacData['august']
+      },
+      {
+        year: "Sept",
+        IMEI: this.imeiData['september'],
+        Serial: this.serialData['september'],
+        TAC: this.tacData['september']
+      },
+      {
+        year: "Oct",
+        IMEI: this.imeiData['october'],
+        Serial: this.serialData['october'],
+        TAC: this.tacData['october']
+      },
+      {
+        year: "Nov",
+        IMEI: this.imeiData['november'],
+        Serial: this.serialData['november'],
+        TAC: this.tacData['november']
+      },
+      {
+        year: "Dec",
+        IMEI: this.imeiData['december'],
+        Serial: this.serialData['december'],
+        TAC: this.tacData['december']
+      }
+    ];
     setTimeout(() => {
       this.MasterChart()
     }, 3000);
@@ -786,6 +831,19 @@ export class ReportComponent implements OnInit, OnDestroy {
       ]
         this.getChart2()
     }
+    else if (event ==='total'){
+      this.chartData = [
+        {
+          year: "2020",
+          search: 0
+        },
+        {
+          year:"2021",
+          search: this.totalSearch
+        }
+      ]
+      this.getChart2()
+    }
     else{
       this.chartData = [
         {
@@ -843,22 +901,68 @@ export class ReportComponent implements OnInit, OnDestroy {
 
   toggleEmail2(event){
     console.log(event)
-    if(event ==='new'){
-      console.log("new",this.VisitorGetTable.length)
+    if(event ==='total'){
       this.chartData2 = [{
         year: "2020",
         visitor: 25,
       }, {
         "year": "2021",
         visitor: this.VisitorGetTable.length,
-      }, {
-        year: "2022",
-        visitor: 0,
-      }, {
-        year: "2023",
-        visitor: 0,
       }
       ];
+        this.getChart()
+    }
+    else if(event === 'new') {
+      this.chartData2 = [
+        {
+          year: "Jan",
+          visitor: 0,
+        },
+        {
+          year: "Feb",
+          visitor: 0,
+        },
+        {
+          year: "Mar",
+          visitor: 0,
+        },
+        {
+          year: "Apr",
+          visitor: 0,
+        },
+        {
+          year: "May",
+          visitor:0,
+        },
+        {
+          year: "Jun",
+          visitor: 0,
+        },
+        {
+          year: "Jul",
+          visitor: 0,
+        },
+        {
+          year: "Aug",
+          visitor: 0,
+        },
+        {
+          year: "Sept",
+          visitor:0,
+        },
+        {
+          year: "Oct",
+          visitor: 0,
+        },
+        {
+          year: "Nov",
+          visitor: 0
+        },
+        {
+          year: "Dec",
+          visitor: 0
+        }
+      ]
         this.getChart()
     }
     else{
@@ -918,56 +1022,72 @@ export class ReportComponent implements OnInit, OnDestroy {
 
   toggleEmail3(event){
     console.log(event)
-    console.log('data chart pie1', this.filterPRODUCT.length)
-    console.log('data chart pie2', this.filterIMEI.length)
-    console.log('data chart pie3', this.filterSERIAL.length)
-    console.log('data chart pie4', this.filterLABEL.length)
     if(event ==='new'){
       this.chartdata3 = [
         {
           item: "Product Info",
-          value: this.filterPRODUCT.length,
+          value: this.searchMonth['product'],
         },
         {
           item: "IMEI",
-          value: this.filterIMEI.length,
+          value: this.searchMonth['imei'],
         },
         {
           item: "Serial",
-          value: this.filterSERIAL.length,
+          value: this.searchMonth['serial'],
         },
         {
           item: "SLP ID",
-          value: this.filterLABEL.length,
+          value: this.searchMonth['label'],
         }
       ]
       this.getChart3()
     }
-    else{
+    else {
       this.chartdata3 = [
         {
           item: "Product Info",
-          value: 2,
+          value: this.searchMonthly['product'],
         },
         {
           item: "IMEI",
-          value: 2,
+          value: this.searchMonthly['imei'],
         },
         {
           item: "Serial",
-          value: 2,
+          value: this.searchMonthly['serial'],
         },
         {
           item: "SLP ID",
-          value: 2,
-        },
+          value: this.searchMonthly['label'],
+        }
       ]
-        this.getChart3()
+      this.getChart3()
     }
+    // else{
+    //   this.chartdata3 = [
+    //     {
+    //       item: "Product Info",
+    //       value: 2,
+    //     },
+    //     {
+    //       item: "IMEI",
+    //       value: 2,
+    //     },
+    //     {
+    //       item: "Serial",
+    //       value: 2,
+    //     },
+    //     {
+    //       item: "SLP ID",
+    //       value: 2,
+    //     },
+    //   ]
+    //     this.getChart3()
+    // }
   }
 
   toggleEmail4(event){
-    console.log(event)
     if(event ==='new'){
       this.chartdataMaster = [
         {
@@ -1043,6 +1163,23 @@ export class ReportComponent implements OnInit, OnDestroy {
           TAC: 0
         }
       ];
+      this.MasterChart()
+    }
+    else if (event === 'total') {
+      this.chartdataMaster = [
+        {
+          year: "2020",
+          IMEI: 0,
+          Serial: 0,
+          TAC: 0
+        },
+        {
+          year: "2021",
+          IMEI: this.IMEIcount,
+          Serial: this.SERIALcount,
+          TAC: this.TACcount
+        },
+      ]
       this.MasterChart()
     }
     else{
@@ -1236,7 +1373,7 @@ export class ReportComponent implements OnInit, OnDestroy {
   }
 
   calculate(){
-    this.percent = (this.thisMonthSearch/this.CounterTable.length*100).toFixed(2)
+    this.percent = (this.thisMonthSearch/this.totalSearch*100).toFixed(2)
   }
 
 }

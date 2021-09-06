@@ -1,3 +1,4 @@
+import { forkJoin, Subscription } from "rxjs";
 import {
   Component,
   OnInit,
@@ -77,11 +78,16 @@ export class DataSearchComponent implements OnInit, OnDestroy {
   dateToApproveCert
   dateFromExpiryCert
   dateToExpiryCert
+  dateFromApproveSLP
+  dateToApproveSLP
+  dateFromExpirySLP
+  dateToExpirySLP
   temp
   temp2 = []
   ApproveDateCert: any | null | undefined = null;
-  ExpiryDateSLP;
-  ExpiryDateCert2: any | null | undefined = null;
+  ApproveDateSLP: any | null | undefined = null;
+  ExpiryDateSLP: any | null | undefined = null;
+  ExpiryDateCert: any | null | undefined = null;
 
 
   //Export table
@@ -93,10 +99,18 @@ export class DataSearchComponent implements OnInit, OnDestroy {
   private categoryAxis: any;
 
   tableEntries: number = 5;
+  tableEntries2: number = 5;
+  tableEntries3: number = 5;
   tableSelected: any[] = [];
+  tableSelected2: any[] = [];
+  tableSelected3: any[] = [];
   tableTemp = [];
   tableActiveRow: any;
+  tableActiveRow2: any;
+  tableActiveRow3: any;
   SelectionType = SelectionType;
+
+  subscription: Subscription;
 
   modal: BsModalRef;
   modalConfig = {
@@ -117,7 +131,7 @@ export class DataSearchComponent implements OnInit, OnDestroy {
     this.productGeneration();
     this.productCertificationGet();
     this.SLPGet();
-    this.VisitorCounterGet();
+    this.widgetDataGet();
   }
 
   ngOnInit() {
@@ -153,6 +167,7 @@ export class DataSearchComponent implements OnInit, OnDestroy {
       SLPID_owner: new FormControl(""),
       principal_certificate: new FormControl(""),
       ApproveDate: new FormControl(""),
+      ExpiryDate: new FormControl(""),
       ca_owner: new FormControl(""),
     });
 
@@ -164,23 +179,13 @@ export class DataSearchComponent implements OnInit, OnDestroy {
       Brand: new FormControl(""),
       ROCROB: new FormControl(""),
       ApproveDate: new FormControl(""),
+      ExpiryDate: new FormControl(""),
       ca_owner: new FormControl(""),
     });
 
   }
 
   ngOnDestroy() {}
-
-  filterTable() {
-    let datafield = "consigneeName=" + this.searchForm.value.brand;
-    console.log(datafield);
-    this.productGenerationService.filter(datafield).subscribe(
-      (res) => {
-        this.infoTable = res;
-      },
-      (err) => {},
-    );
-  }
 
   entriesChange($event) {
     this.entries = $event.target.value;
@@ -226,11 +231,7 @@ export class DataSearchComponent implements OnInit, OnDestroy {
       this.SLPSearchForm.value.SLPID_owner +
       "&principal_certificate=" +
       this.SLPSearchForm.value.principal_certificate +
-      "&ApproveDate=" +
-      this.SLPSearchForm.value.ApproveDate +
-      "&CA_owner=" + this.SLPSearchForm.value.ca_owner
-    console.log(datafield);
-    console.log(this.ExpiryDateSLP);
+    console.log('ExpiryDateSLP',this.ExpiryDateSLP);
     this.spinner.show()
     this.SLPService.filterMix(datafield).subscribe(
       (res) => {
@@ -245,7 +246,7 @@ export class DataSearchComponent implements OnInit, OnDestroy {
       },
       (err) => {},
       () => {
-        console.log("HTTP request completed.");
+        this.SearchDateRangeSLP()
       }
     );
   }
@@ -263,20 +264,6 @@ export class DataSearchComponent implements OnInit, OnDestroy {
       "&Brand=" + this.CertificationSearchForm.value.Brand +
       "&ROCROB=" + this.CertificationSearchForm.value.ROCROB+
       "&CA_owner=" + this.CertificationSearchForm.value.ca_owner
-    console.log(this.ExpiryDateCert2);
-
-    this.dateFromApproveCert = this.ApproveDateCert[0]
-    this.dateToApproveCert = this.ApproveDateCert[1]
-
-    this.dateFromExpiryCert = this.ExpiryDateCert2[0]
-    this.dateToExpiryCert = this.ExpiryDateCert2[1]
-
-    console.log('fromApprove',this.dateFromApproveCert)
-    console.log('to',this.dateToApproveCert)
-
-    console.log('fromExpiry',this.dateFromExpiryCert)
-    console.log('to',this.dateToExpiryCert)
-
     this.spinner.show()
     this.productCertificationService.filterMix(datafield).subscribe(
       (res) => {
@@ -291,22 +278,7 @@ export class DataSearchComponent implements OnInit, OnDestroy {
       },
       (err) => {},
       () => {
-        let temp = this.productCertificationTable
-
-            for (let i in temp) {
-              if (temp[i].created_date) {
-                if (
-                  formatDate(temp[i].created_date, "yyyy-MM-dd", "en_US") >=
-                    formatDate(this.dateFromApproveCert, "yyyy-MM-dd", "en_US") &&
-                  formatDate(temp[i].created_date, "yyyy-MM-dd", "en_US") <=
-                    formatDate(this.dateToApproveCert, "yyyy-MM-dd", "en_US")
-                ) {
-                  console.log('temp2',temp[i])
-                  this.temp2.push(temp[i]);
-                }
-              }
-            }
-          this.productCertificationTable = this.temp2;
+        this.SearchDateRangeCert()
       }
     );
   }
@@ -325,7 +297,15 @@ export class DataSearchComponent implements OnInit, OnDestroy {
   }
 
   entryChange($event) {
-    this.tableEntries = $event.target.value;
+    this.tableEntries = +$event.target.value;
+  }
+
+  entryChange2($event) {
+    this.tableEntries2 = +$event.target.value;
+  }
+
+  entryChange3($event) {
+    this.tableEntries3 = +$event.target.value;
   }
 
   onSelect({ selected }) {
@@ -333,8 +313,26 @@ export class DataSearchComponent implements OnInit, OnDestroy {
     this.tableSelected.push(...selected);
   }
 
+  onSelect2({ selected }) {
+    this.tableSelected2.splice(0, this.tableSelected2.length);
+    this.tableSelected2.push(...selected);
+  }
+
+  onSelect3({ selected }) {
+    this.tableSelected3.splice(0, this.tableSelected3.length);
+    this.tableSelected3.push(...selected);
+  }
+
   onActivate(event) {
     this.tableActiveRow = event.row;
+  }
+
+  onActivate2(event) {
+    this.tableActiveRow2 = event.row;
+  }
+
+  onActivate3(event) {
+    this.tableActiveRow3 = event.row;
   }
 
   NewData() {
@@ -382,36 +380,106 @@ export class DataSearchComponent implements OnInit, OnDestroy {
     );
   }
 
-  VisitorCounterGet() {
-    this.VisitorCounterService.get().subscribe(
-      (res) => {
-        this.VisitorGetTable = res;
-        console.log("counter visitor",this.VisitorGetTable.length);
-      },
-      (err) => {},
-      () => {
-        console.log("HTTP request completed.");
+  SearchDateRangeCert() {
+    if (this.ApproveDateCert != null){
+      this.dateFromApproveCert = this.ApproveDateCert[0]
+      this.dateToApproveCert = this.ApproveDateCert[1]
+      console.log('dateFromApproveCert',this.dateFromApproveCert)
+      console.log('dateToApproveCert',this.dateToApproveCert)
+      let temp = this.productCertificationTable
+      for (let i in temp) {
+        if (temp[i].created_date) {
+          if (formatDate(temp[i].created_date, "yyyy-MM-dd", "en_US") >=
+          formatDate(this.dateFromApproveCert, "yyyy-MM-dd", "en_US") &&
+          formatDate(temp[i].created_date, "yyyy-MM-dd", "en_US") <=
+          formatDate(this.dateToApproveCert, "yyyy-MM-dd", "en_US")) {
+            console.log('temp2',temp[i])
+            this.temp2.push(temp[i]);
+          }
+        }
+      }
+    }
+
+    if(this.ExpiryDateCert != null){
+      this.dateFromExpiryCert = this.ExpiryDateCert[0]
+      this.dateToExpiryCert = this.ExpiryDateCert[1]
+      console.log('dateFromApproveCert',this.dateFromExpiryCert)
+      console.log('dateToApproveCert',this.dateToExpiryCert)
+
+      let temp3 = this.productCertificationTable
+      for (let i in temp3) {
+        if (temp3[i].created_date) {
+          if (formatDate(temp3[i].created_date, "yyyy-MM-dd", "en_US") >=
+          formatDate(this.dateFromExpiryCert, "yyyy-MM-dd", "en_US") &&
+          formatDate(temp3[i].created_date, "yyyy-MM-dd", "en_US") <=
+          formatDate(this.dateToExpiryCert, "yyyy-MM-dd", "en_US")) {
+            console.log('temp3',temp3[i])
+            this.temp2.push(temp3[i]);
+          }
+        }
+      }
+    }
+
+    this.productCertificationTable = this.temp2
+  }
+
+  SearchDateRangeSLP(){
+    if (this.ApproveDateSLP != null){
+      this.dateFromApproveSLP = this.ApproveDateSLP[0]
+      this.dateToApproveSLP = this.ApproveDateSLP[1]
+      console.log('dateFromApproveSLP',this.dateFromApproveSLP)
+      console.log('dateToApproveSLP',this.dateToApproveSLP)
+      let temp = this.productCertificationTable
+      for (let i in temp) {
+        if (temp[i].created_date) {
+          if (formatDate(temp[i].created_date, "yyyy-MM-dd", "en_US") >=
+          formatDate(this.dateFromApproveSLP, "yyyy-MM-dd", "en_US") &&
+          formatDate(temp[i].created_date, "yyyy-MM-dd", "en_US") <=
+          formatDate(this.dateToApproveSLP, "yyyy-MM-dd", "en_US")) {
+            console.log('temp2',temp[i])
+            this.temp2.push(temp[i]);
+          }
+        }
+      }
+    }
+
+    if(this.ExpiryDateSLP != null){
+      this.dateFromExpirySLP = this.ExpiryDateSLP[0]
+      this.dateToExpirySLP = this.ExpiryDateSLP[1]
+      console.log('dateFromApproveCert',this.dateFromExpirySLP)
+      console.log('dateToApproveCert',this.dateToExpirySLP)
+
+      let temp3 = this.productCertificationTable
+      for (let i in temp3) {
+        if (temp3[i].created_date) {
+          if (formatDate(temp3[i].created_date, "yyyy-MM-dd", "en_US") >=
+          formatDate(this.dateFromExpirySLP, "yyyy-MM-dd", "en_US") &&
+          formatDate(temp3[i].created_date, "yyyy-MM-dd", "en_US") <=
+          formatDate(this.dateToExpirySLP, "yyyy-MM-dd", "en_US")) {
+            console.log('temp3',temp3[i])
+            this.temp2.push(temp3[i]);
+          }
+        }
+      }
+    }
+
+    this.SLPTable = this.temp2
+  }
+
+  widgetDataGet() {
+    this.subscription = forkJoin([
+      this.VisitorCounterService.get(),
+      this.productCertificationService.get_TAC(),
+      this.productGenerationService.get_IMEI(),
+      this.productGenerationService.get_serial()
+    ]).subscribe(
+      (res)=>{
+        this.VisitorGetTable = res[0]
+        this.TACData = res[1]['TAC_count']
+        this.IMEIData = res[2]['IMEI_count']
+        this.serialData = res[3]['serial_count']
       }
     );
-
-    this.productCertificationService.get_TAC().subscribe(
-      (res)=>{
-        this.TACData = res['TAC_count']
-
-      },
-    )
-
-    this.productGenerationService.get_IMEI().subscribe(
-      (res)=>{
-        this.IMEIData = res['IMEI_count']
-      }
-    )
-
-    this.productGenerationService.get_serial().subscribe(
-      (res)=>{
-        this.serialData = res['serial_count']
-      }
-    )
   }
 
   SLPGet() {

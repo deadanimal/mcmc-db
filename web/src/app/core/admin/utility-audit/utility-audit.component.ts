@@ -48,13 +48,11 @@ export class UtilityAuditComponent implements OnInit {
   temp2 = [];
 
   // Table
-  tableEntries: number = 5;
+  tableEntries: number = 10;
   tableSelected: any[] = [];
   tableTemp = [];
   tableActiveRow: any;
-  tableRows: any[] = [];
   SelectionType = SelectionType;
-  entries: number = 10;
 
   subscription: Subscription;
 
@@ -69,7 +67,7 @@ export class UtilityAuditComponent implements OnInit {
 
   ngOnInit() {
     this.history();
-    this.VisitorCounterGet();
+    this.widgetDataGet();
 
     this.dataSearchForm = this.formBuilder.group({
       Action: new FormControl(""),
@@ -122,30 +120,11 @@ export class UtilityAuditComponent implements OnInit {
   searchFunction() {
     let datafield = "history_type=" + this.dataSearchForm.value.Action;
 
-    this.dateFrom = this.selectedDate[0];
-    this.dateTo = this.selectedDate[1];
-
-    console.log("dateFrom", this.dateFrom);
-    console.log("dateTo", this.dateTo);
-
     if (datafield === 'history_type=++' ){
       this.faqCategoriesService.searchHistory6("history_type=%2B%2B").subscribe(
         (res)=> {
           this.array = res
-          let temp = this.array
-            for (let i in temp) {
-              if (temp[i].history_date) {
-                if (
-                  formatDate(temp[i].history_date, "yyyy-MM-dd", "en_US") >=
-                    formatDate(this.dateFrom, "yyyy-MM-dd", "en_US") &&
-                  formatDate(temp[i].history_date, "yyyy-MM-dd", "en_US") <=
-                    formatDate(this.dateTo, "yyyy-MM-dd", "en_US")
-                ) {
-                  this.temp2.push(temp[i]);
-                }
-              }
-            }
-          this.array = this.temp2;
+          this.SearchDateRange()
         }
       )
     }
@@ -154,22 +133,51 @@ export class UtilityAuditComponent implements OnInit {
       this.faqCategoriesService.searchHistory6(datafield).subscribe(
         (res)=> {
           this.array = res
-          let temp = this.array
-            for (let i in temp) {
-              if (temp[i].history_date) {
-                if (
-                  formatDate(temp[i].history_date, "yyyy-MM-dd", "en_US") >=
-                    formatDate(this.dateFrom, "yyyy-MM-dd", "en_US") &&
-                  formatDate(temp[i].history_date, "yyyy-MM-dd", "en_US") <=
-                    formatDate(this.dateTo, "yyyy-MM-dd", "en_US")
-                ) {
-                  this.temp2.push(temp[i]);
-                }
-              }
-            }
-          this.array = this.temp2;
+          this.SearchDateRange()
         }
       )
+    }
+
+    else if (datafield === 'history_type=+'){
+
+      this.subscription = forkJoin([
+        this.faqCategoriesService.searchHistory("history_type=%2B"),
+        this.faqCategoriesService.searchHistory2("history_type=%2B"),
+        this.faqCategoriesService.searchHistory3("history_type=%2B"),
+        this.faqCategoriesService.searchHistory4("history_type=%2B"),
+        this.faqCategoriesService.searchHistory5("history_type=%2B"),
+      ]).subscribe(
+        (res) => {
+          let arrayZero = [];
+          let arrayOne = [];
+          let arrayTwo = [];
+          let arrayThree = [];
+          let arrayFour = [];
+          // let arrayFive = [];
+  
+          arrayZero = res[0];
+          arrayOne = res[1];
+          arrayTwo = res[2];
+          arrayThree = res[3];
+          arrayFour = res[4];
+          // arrayFive = res[5];
+          this.array = [
+            ...arrayZero,
+            ...arrayOne,
+            ...arrayTwo,
+            ...arrayThree,
+            ...arrayFour,
+            // ...arrayFive,
+          ];
+          this.array.sort(
+            (x, y) => +new Date(y.history_date) - +new Date(x.history_date)
+          );
+          this.SearchDateRange()
+        },
+        (err) => {
+          console.log("error", err);
+        }
+      );
     }
 
     else {
@@ -195,7 +203,7 @@ export class UtilityAuditComponent implements OnInit {
         arrayThree = res[3];
         arrayFour = res[4];
         // arrayFive = res[5];
-        this.temp = [
+        this.array = [
           ...arrayZero,
           ...arrayOne,
           ...arrayTwo,
@@ -207,28 +215,40 @@ export class UtilityAuditComponent implements OnInit {
           (x, y) => +new Date(y.history_date) - +new Date(x.history_date)
         );
 
-        let temp = this.temp;
-
-        for (let i in temp) {
-          if (temp[i].history_date) {
-            if (
-              formatDate(temp[i].history_date, "yyyy-MM-dd", "en_US") >=
-                formatDate(this.dateFrom, "yyyy-MM-dd", "en_US") &&
-              formatDate(this.temp[i].history_date, "yyyy-MM-dd", "en_US") <=
-                formatDate(this.dateTo, "yyyy-MM-dd", "en_US")
-            ) {
-              console.log(temp[i])
-              this.temp2.push(temp[i]);
-            }
-          }
-        }
-        this.array = this.temp2;
+        this.SearchDateRange()
       },
       (err) => {
         console.log("error", err);
       }
     );
 
+    }
+  }
+
+  SearchDateRange() {
+    console.log("dateRange", this.selectedDate)
+    if (this.selectedDate != null){
+      this.dateFrom = this.selectedDate[0];
+      this.dateTo = this.selectedDate[1];
+      let temp = this.array;
+
+          for (let i in temp) {
+            if (temp[i].history_date) {
+              if (
+                formatDate(temp[i].history_date, "yyyy-MM-dd", "en_US") >=
+                  formatDate(this.dateFrom, "yyyy-MM-dd", "en_US") &&
+                formatDate(temp[i].history_date, "yyyy-MM-dd", "en_US") <=
+                  formatDate(this.dateTo, "yyyy-MM-dd", "en_US")
+              ) {
+                console.log(temp[i])
+                this.temp2.push(temp[i]);
+              }
+            }
+          }
+          this.array = this.temp2;
+          this.array.sort(
+            (x, y) => +new Date(y.history_date) - +new Date(x.history_date)
+          );
     }
   }
 
@@ -242,31 +262,22 @@ export class UtilityAuditComponent implements OnInit {
   }
 
   entriesChange($event) {
-    this.entries = $event.target.value;
+    this.tableEntries = +$event.target.value;
   }
 
-  VisitorCounterGet() {
-    this.visitorCounterService.get().subscribe(
-      (res) => {
-        this.VisitorGetTable = res;
-        console.log("counter visitor", this.VisitorGetTable.length);
-      },
-      (err) => {},
-      () => {
-        console.log("HTTP request completed.");
+  widgetDataGet() {
+    this.subscription = forkJoin([
+      this.visitorCounterService.get(),
+      this.productCertificationService.get_TAC(),
+      this.productGenerationService.get_IMEI(),
+      this.productGenerationService.get_serial()
+    ]).subscribe(
+      (res)=>{
+        this.VisitorGetTable = res[0]
+        this.TACData = res[1]['TAC_count']
+        this.IMEIData = res[2]['IMEI_count']
+        this.serialData = res[3]['serial_count']
       }
     );
-
-    this.productCertificationService.get_TAC().subscribe((res) => {
-      this.TACData = res["TAC_count"];
-    });
-
-    this.productGenerationService.get_IMEI().subscribe((res) => {
-      this.IMEIData = res["IMEI_count"];
-    });
-
-    this.productGenerationService.get_serial().subscribe((res) => {
-      this.serialData = res["serial_count"];
-    });
   }
 }

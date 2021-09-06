@@ -493,7 +493,7 @@
                             formControlName="ExpiryDate"
                             #dp="bsDaterangepicker"
                              bsDaterangepicker
-                            [(ngModel)]="ExpiryDateCert2"
+                            [(ngModel)]="ExpiryDateCert"
                             [bsConfig]="{
                               isAnimated: true,
                               dateInputFormat: 'YYYY-MM-DD',
@@ -577,7 +577,7 @@
                             name="datatable_length"
                             aria-controls="datatable"
                             class="form-control form-control-sm"
-                            (change)="entryChange($event)"
+                            (change)="entryChange2($event)"
                           >
                             <option value="5">5</option>
                             <option value="25">25</option>
@@ -612,9 +612,9 @@
                     [headerHeight]="50"
                     [footerHeight]="50"
                     [rowHeight]="'auto'"
-                    [limit]="tableEntries != -1 ? tableEntries : undefined"
+                    [limit]="tableEntries2 != -1 ? tableEntries2 : undefined"
                     [rows]="productCertificationTable"
-                    (activate)="onActivate($event)"
+                    (activate)="onActivate2($event)"
                     [scrollbarH]="true"
                   >
                     <ngx-datatable-column name="No" [width]="100">
@@ -806,7 +806,8 @@
                             class="form-control form-control-sm"
                             formControlName="ApproveDate"
                             #dp="bsDaterangepicker"
-                             bsDaterangepicker
+                            [(ngModel)]="ApproveDateSLP"
+                            bsDaterangepicker
                             [bsConfig]="{
                               isAnimated: true,
                               dateInputFormat: 'YYYY-MM-DD',
@@ -821,9 +822,10 @@
                           <input
                             placeholder="Show All"
                             class="form-control form-control-sm"
+                            formControlName="ExpiryDate"
                             #dp="bsDaterangepicker"
-                             bsDaterangepicker
                             [(ngModel)]="ExpiryDateSLP"
+                             bsDaterangepicker
                             [bsConfig]="{
                               isAnimated: true,
                               dateInputFormat: 'YYYY-MM-DD',
@@ -896,7 +898,7 @@
                             name="datatable_length"
                             aria-controls="datatable"
                             class="form-control form-control-sm"
-                            (change)="entryChange($event)"
+                            (change)="entryChange3($event)"
                           >
                             <option value="5">5</option>
                             <option value="25">25</option>
@@ -931,9 +933,9 @@
                     [headerHeight]="50"
                     [footerHeight]="50"
                     [rowHeight]="'auto'"
-                    [limit]="tableEntries != -1 ? tableEntries : undefined"
+                    [limit]="tableEntries3 != -1 ? tableEntries3 : undefined"
                     [rows]="SLPTable"
-                    (activate)="onActivate($event)"
+                    (activate)="onActivate3($event)"
                     [sorts]="[{ prop: 'email', dir: 'asc' }]"
                   >
                     <ngx-datatable-column name="No">

@@ -7,6 +7,7 @@ import { SearchCounterService } from "src/app/shared/services/SearchCounter/Sear
 import { ProductGenerationService } from "src/app/shared/services/ProductRegistration/ProductGeneration.service";
 import { productCertificationService } from "src/app/shared/services/productCertification/productCertification.service";
 import { VisitorCounterService } from "src/app/shared/services/VisitorCounter/VisitorCounter.service";
+import { forkJoin, Subscription } from "rxjs";
 import * as moment from 'moment';
 
 am4core.useTheme(am4themes_animated);
@@ -44,25 +45,28 @@ export class DashboardComponent implements OnInit, OnDestroy {
   filterSERIAL = [];
   filterPRODUCT = [];
   filterLABEL = [];
-  newdata = []
   checkerDate = []
   TACData = []
   serialData = []
   IMEIData = []
+  searchMonthly = []
+
+  subscription: Subscription;
 
   constructor(
     private zone: NgZone,
     private SearchCounterService: SearchCounterService,
-    private ProductGenerationService: ProductGenerationService,
+    private productGenerationService: ProductGenerationService,
     private productCertificationService: productCertificationService,
     private VisitorCounterService: VisitorCounterService
   ) {}
 
   ngOnInit() {
+    this.widgetDataGet();
     this.getData();
-    this.calculateCharts();
-    this.CounterSearchGet();
-    this.VisitorCounterGet();
+    setTimeout(() => {
+      this.getCharts()
+    }, 8000);
   }
 
   ngOnDestroy() {
@@ -88,54 +92,19 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   getData(){
-    this.productCertificationService.get_TAC().subscribe(
-      (res)=>{
-        this.TACData = res['TAC_count']
-
-      },
-
-    )
-
-    this.ProductGenerationService.get_IMEI().subscribe(
-      (res)=>{
-        this.IMEIData = res['IMEI_count']
+    this.subscription = forkJoin([
+      this.productGenerationService.getProductChart(),
+      this.VisitorCounterService.getVisitorChart(),
+      this.SearchCounterService.getSearchChart(),
+      this.SearchCounterService.getSearchMonthly()
+    ]).subscribe(
+      (res) => {
+        this.productData = res[0]['product_by_month']
+        this.visitorbymonth = res[1]['visitor_by_month']
+        this.searchbymonth = res[2]['search_by_month']
+        this.searchMonthly = res[3]
       }
     )
-
-    this.ProductGenerationService.get_serial().subscribe(
-      (res)=>{
-        this.serialData = res['serial_count']
-      }
-    )
-
-    this.ProductGenerationService.getProductChart().subscribe(
-      () =>{},
-      () =>{},
-      () =>{
-        this.counter = this.ProductGenerationService.ProductRegistration
-        this.productData = this.counter['product_by_month']
-        this.getChart2()
-      }
-    )
-    this.VisitorCounterService.getVisitorChart().subscribe(
-      () => {},
-      () => {},
-      () => {
-        this.counter = this.VisitorCounterService.VisitorCounter
-        this.visitorbymonth = this.counter['visitor_by_month']
-        console.log("visitorchart",this.visitorbymonth )
-        this.getCharts()
-      })
-
-      this.SearchCounterService.getSearchChart().subscribe(
-        () => {},
-        () => {},
-        () => {
-          this.counter = this.SearchCounterService.SearchCounter
-          this.searchbymonth = this.counter['search_by_month']
-          console.log("searchchart",this.visitorbymonth )
-          this.getCharts()
-        })
   }
 
   getChart1() {
@@ -144,22 +113,27 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     chart.data = [
       {
-        item: "Product Info",
-        value: this.filterPRODUCT.length,
+        item:"Product Info",
+        value: this.searchMonthly['product'],
+        color: am4core.color("#007ac0")
       },
       {
-        item: "IMEI",
-        value: this.filterIMEI.length,
+        item:"IMEI",
+        value: this.searchMonthly['imei'],
+        color: am4core.color("#fabb00")
       },
       {
-        item: "Serial",
-        value: this.filterSERIAL.length,
+        item:"Serial",
+        value: this.searchMonthly['serial'],
+        color: am4core.color("#c7f0ff")
       },
       {
-        item: "SLP ID",
-        value: this.filterLABEL.length,
-      },
-    ];
+        item:"SLP ID",
+        value: this.searchMonthly['label'],
+        color: am4core.color("#e64687")
+      }
+    ]
+
     console.log("chart.data", chart.data);
     chart.radius = am4core.percent(70);
     chart.innerRadius = am4core.percent(40);
@@ -169,6 +143,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     let series = chart.series.push(new am4charts.PieSeries());
     series.dataFields.value = "value";
     series.dataFields.category = "item";
+    series.slices.template.propertyFields.fill = "color";
     series.ticks.template.disabled = true;
     series.labels.template.disabled = true;
 
@@ -185,10 +160,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   getChart2() {
     let chart = am4core.create("data", am4charts.XYChart);
-    console.log("new data", this.productData)
 
     // Add data
     chart.data = this.productData
+    console.log("getChart2", this.productData)
     // Set input format for the dates
     chart.dateFormatter.inputDateFormat = "yyyy-MM-dd";
 
@@ -306,7 +281,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
         visitor: this.visitorbymonth['november'],
         search: this.searchbymonth['november'],
       },
+      {
+        year: "Dec",
+        visitor: this.visitorbymonth['december'],
+        search: this.searchbymonth['december'],
+      },
     ];
+
+    console.log("getChart3", chart.data)
 
     chart.exporting.menu = new am4core.ExportMenu();
 
@@ -347,6 +329,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     series3.name = "Total Search";
     series3.tooltipText = "{name}: {valueY}";
     series3.legendSettings.valueText = "{valueY}";
+    series3.fill = am4core.color("#ff4d4d")
 
     // Add chart cursor
     chart.cursor = new am4charts.XYCursor();
@@ -381,142 +364,18 @@ export class DashboardComponent implements OnInit, OnDestroy {
     // })
   }
 
-  calculateCharts() {
-    this.SearchCounterService.filter("Name=IMEI").subscribe(
-      (res) => {
-        this.filterIMEI = res;
-        console.log("Chart imei", this.filterIMEI);
-        console.log("imei count", this.filterIMEI.length);
-      },
-      (err) => {
-        console.log(err);
-      },
-      () => {}
-    );
-
-    this.SearchCounterService.filter("Name=SERIAL").subscribe(
-      (res) => {
-        this.filterSERIAL = res;
-      },
-      (err) => {
-        console.log(err);
-      },
-      () => {}
-    );
-
-    this.SearchCounterService.filter("Name=PRODUCT").subscribe(
-      (res) => {
-        this.filterPRODUCT = res;
-      },
-      (err) => {
-        console.log(err);
-      },
-      () => {}
-    );
-
-    this.SearchCounterService.filter("Name=LABEL").subscribe(
-      (res) => {
-        this.filterLABEL = res
-        console.log("label", this.filterLABEL.length)
-        label = this.filterLABEL.length
-      },
-      (err) => {
-        console.log(err);
-      },
-      () => {}
-    );
-
-    this.ProductGenerationService.get().subscribe(
-      (res) => {
-         this.newdata = res
-        console.log("new data", this.newdata)
-      },
-      (err) => {
-        console.log(err);
-      },
-      () => {}
-    );
-
-    let label = this.filterLABEL.length;
-    let serial = this.filterSERIAL.length;
-    let imei = this.filterIMEI.length;
-    let product = this.filterPRODUCT.length;
-    console.log(
-      "label = ",
-      label,
-      " serial = ",
-      serial,
-      " imei = ",
-      imei,
-      "product = ",
-      product
-    );
-  }
-
-  CounterSearchGet() {
-    this.SearchCounterService.get().subscribe(
-      (res) => {
-        this.CounterTable = res;
-      },
-      (err) => {},
-      () => {}
-    );
-
-    this.ProductGenerationService.get().subscribe(
-      (res) => {
-        this.SLPTable = res;
-      },
-      (err) => {},
-      () => {}
-    );
-
-    let imei = "RegType=IMEI";
-    this.ProductGenerationService.filter(imei).subscribe(
-      (res) => {
-        this.IMEITable = res;
-        console.log(this.IMEITable.length);
-      },
-      (err) => {},
-      () => {}
-    );
-
-    let serial = "RegType=SerialNo";
-    this.ProductGenerationService.filter(serial).subscribe(
-      (res) => {
-        this.SerialTable = res;
-        console.log(this.SerialTable.length);
-      },
-      (err) => {},
-      () => {}
-    );
-
-    this.productCertificationService.get().subscribe(
-      (res) => {
-        this.CertTable = res;
-        console.log(this.CertTable.length);
-      },
-      (err) => {},
-      () => {}
-    );
-    this.productCertificationService.filter("ProductCategory=RADIO").subscribe(
-      (res) => {
-        console.log("radio",res.length);
-      },
-      (err) => {},
-      () => {}
-    );
-
-  }
-
-  VisitorCounterGet() {
-    this.VisitorCounterService.get().subscribe(
-      (res) => {
-        this.VisitorGetTable = res;
-        console.log("counter visitor", this.VisitorGetTable.length);
-      },
-      (err) => {},
-      () => {
-        console.log("HTTP request completed.");
+  widgetDataGet() {
+    this.subscription = forkJoin([
+      this.VisitorCounterService.get(),
+      this.productCertificationService.get_TAC(),
+      this.productGenerationService.get_IMEI(),
+      this.productGenerationService.get_serial()
+    ]).subscribe(
+      (res)=>{
+        this.VisitorGetTable = res[0]
+        this.TACData = res[1]['TAC_count']
+        this.IMEIData = res[2]['IMEI_count']
+        this.serialData = res[3]['serial_count']
       }
     );
   }

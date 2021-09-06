@@ -175,7 +175,7 @@ export class SystemAPIComponent implements OnInit, OnDestroy {
     );
   }
 
-  
+
 
   NewData() {
     console.log()
