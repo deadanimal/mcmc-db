@@ -396,7 +396,8 @@
                 <span>User</span>
               </ng-template>
               <ng-template let-row="row" ngx-datatable-cell-template>
-                {{ row.history_user?.username }}
+                <b *ngIf="row.history_user != null">{{ row.history_user?.username }}</b>
+                <b *ngIf="row.history_user == null">{{ row.username }}</b>
               </ng-template>
             </ngx-datatable-column>
             <ngx-datatable-column prop="date" name="date">

@@ -83,6 +83,7 @@ export class UtilityAuditComponent implements OnInit {
       this.faqCategoriesService.getHistory4(),
       this.faqCategoriesService.getHistory5(),
       this.faqCategoriesService.getHistory6(),
+      this.faqCategoriesService.getHistory7(),
     ]).subscribe(
       (res) => {
         let arrayZero = [];
@@ -91,6 +92,7 @@ export class UtilityAuditComponent implements OnInit {
         let arrayThree = [];
         let arrayFour = [];
         let arrayFive = [];
+        let arraySix = [];
         // let rangeArray = []
 
         arrayZero = res[0];
@@ -99,6 +101,7 @@ export class UtilityAuditComponent implements OnInit {
         arrayThree = res[3];
         arrayFour = res[4];
         arrayFive = res[5];
+        arraySix = res[6];
         this.array = [
           ...arrayZero,
           ...arrayOne,
@@ -106,6 +109,7 @@ export class UtilityAuditComponent implements OnInit {
           ...arrayThree,
           ...arrayFour,
           ...arrayFive,
+          ...arraySix,
         ];
         this.array.sort(
           (x, y) => +new Date(y.history_date) - +new Date(x.history_date)
@@ -146,6 +150,7 @@ export class UtilityAuditComponent implements OnInit {
         this.faqCategoriesService.searchHistory3("history_type=%2B"),
         this.faqCategoriesService.searchHistory4("history_type=%2B"),
         this.faqCategoriesService.searchHistory5("history_type=%2B"),
+        this.faqCategoriesService.searchHistory6("history_type=%2B"),
       ]).subscribe(
         (res) => {
           let arrayZero = [];
@@ -153,21 +158,21 @@ export class UtilityAuditComponent implements OnInit {
           let arrayTwo = [];
           let arrayThree = [];
           let arrayFour = [];
-          // let arrayFive = [];
+          let arrayFive = [];
   
           arrayZero = res[0];
           arrayOne = res[1];
           arrayTwo = res[2];
           arrayThree = res[3];
           arrayFour = res[4];
-          // arrayFive = res[5];
+          arrayFive = res[5];
           this.array = [
             ...arrayZero,
             ...arrayOne,
             ...arrayTwo,
             ...arrayThree,
             ...arrayFour,
-            // ...arrayFive,
+            ...arrayFive,
           ];
           this.array.sort(
             (x, y) => +new Date(y.history_date) - +new Date(x.history_date)
@@ -188,6 +193,7 @@ export class UtilityAuditComponent implements OnInit {
       this.faqCategoriesService.searchHistory3(datafield),
       this.faqCategoriesService.searchHistory4(datafield),
       this.faqCategoriesService.searchHistory5(datafield),
+      this.faqCategoriesService.searchHistory6(datafield),
     ]).subscribe(
       (res) => {
         let arrayZero = [];
@@ -195,21 +201,21 @@ export class UtilityAuditComponent implements OnInit {
         let arrayTwo = [];
         let arrayThree = [];
         let arrayFour = [];
-        // let arrayFive = [];
+        let arrayFive = [];
 
         arrayZero = res[0];
         arrayOne = res[1];
         arrayTwo = res[2];
         arrayThree = res[3];
         arrayFour = res[4];
-        // arrayFive = res[5];
+        arrayFive = res[5];
         this.array = [
           ...arrayZero,
           ...arrayOne,
           ...arrayTwo,
           ...arrayThree,
           ...arrayFour,
-          // ...arrayFive,
+          ...arrayFive,
         ];
         this.array.sort(
           (x, y) => +new Date(y.history_date) - +new Date(x.history_date)

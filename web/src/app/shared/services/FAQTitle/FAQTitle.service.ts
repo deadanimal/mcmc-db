@@ -25,7 +25,7 @@ export class FAQTitleService {
       })
     );
   }
-  
+
   get(): Observable<FAQTitle[]> {
     return this.http.get<FAQTitle[]>(this.url).pipe(
       tap((res) => {
@@ -34,7 +34,7 @@ export class FAQTitleService {
       })
     );
   }
-  
+
   update(body, id: string): Observable<FAQTitle> {
     let urlPatch = this.url + id + "/";
     return this.http.patch<FAQTitle>(urlPatch, body).pipe(
@@ -43,7 +43,7 @@ export class FAQTitleService {
       })
     );
   }
-  
+
   delete(id: string): Observable<FAQTitle> {
     let urlDelete = this.url + id + "/";
     return this.http.delete<FAQTitle>(urlDelete).pipe(
@@ -52,7 +52,7 @@ export class FAQTitleService {
       })
     );
   }
-  
+
   filter(field: String): Observable<FAQTitle[]> {
     let urlFilter = this.url + "?" + field;
     return this.http.get<FAQTitle[]>(urlFilter).pipe(
@@ -61,7 +61,7 @@ export class FAQTitleService {
       })
     );
   }
-  
+
   extended(): Observable<FAQTitle[]> {
     return this.http.get<FAQTitle[]>(this.url + "extended").pipe(
       tap((res) => {
@@ -70,6 +70,5 @@ export class FAQTitleService {
       })
     );
   }
-  
+
   }
-  

@@ -15,8 +15,8 @@ class SLP(models.Model):
 
     Id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     SLP_ID = models.CharField(max_length=255, blank=True)
-    ExpiryDate = models.CharField(max_length=255, blank=True)
-    ApproveDate = models.CharField(max_length=255, blank=True)
+    ExpiryDate = models.DateTimeField(blank=True)
+    ApproveDate = models.DateTimeField(blank=True)
     SLPID_owner = models.CharField(max_length=255, blank=True)
     principal_certificate = models.CharField(max_length=255, blank=True)
     CA_owner = models.CharField(max_length=255, blank=True)

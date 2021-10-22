@@ -36,7 +36,7 @@ from users.models import (
 
 from users.serializers import (
     CustomUserSerializer,
-    CustomuserHistorySerializer
+    CustomUserHistorySerializer
 )
 
 class CustomUserViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
@@ -93,7 +93,7 @@ class CustomUserViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
 
 class CustomUserHistoryViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     queryset = CustomUser.history.all()
-    serializer_class = CustomuserHistorySerializer
+    serializer_class = CustomUserHistorySerializer
     filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
     # filterset_fields = []
 

@@ -36,7 +36,7 @@ class CustomUserSerializer(serializers.ModelSerializer):
         read_only_fields = ('email', 'id')
 
 
-class CustomuserHistorySerializer(serializers.ModelSerializer):
+class CustomUserHistorySerializer(serializers.ModelSerializer):
     
     class Meta:
         model = CustomUser.history.model

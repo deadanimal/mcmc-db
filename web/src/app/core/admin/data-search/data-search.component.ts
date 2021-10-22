@@ -48,6 +48,7 @@ export class DataSearchComponent implements OnInit, OnDestroy {
   @ViewChild(BsDatepickerDirective, { static: false })
   datepicker: BsDatepickerDirective;
   entries: number = 10;
+  datafield1: any
   infoTable = [];
   IMEITable = [];
   SerialTable = [];
@@ -73,6 +74,7 @@ export class DataSearchComponent implements OnInit, OnDestroy {
   IMEIData = []
   serialData = []
   rows = []
+  getDataDB = []
 
   dateFromApproveCert
   dateToApproveCert
@@ -82,7 +84,10 @@ export class DataSearchComponent implements OnInit, OnDestroy {
   dateToApproveSLP
   dateFromExpirySLP
   dateToExpirySLP
-  temp
+  dateTo
+  dateFrom
+  selectedDate
+  temp = []
   temp2 = []
   ApproveDateCert: any | null | undefined = null;
   ApproveDateSLP: any | null | undefined = null;
@@ -98,7 +103,7 @@ export class DataSearchComponent implements OnInit, OnDestroy {
 
   private categoryAxis: any;
 
-  tableEntries: number = 5;
+  tableEntries: number = 20; //israa 
   tableEntries2: number = 5;
   tableEntries3: number = 5;
   tableSelected: any[] = [];
@@ -111,6 +116,15 @@ export class DataSearchComponent implements OnInit, OnDestroy {
   SelectionType = SelectionType;
 
   subscription: Subscription;
+
+  //pagination product registration
+  //update total counter
+  productRegistrationTotalCount;
+  curPageSize = 20;
+
+  searching_mode: boolean = false;
+  searching_mode_url;
+
 
   modal: BsModalRef;
   modalConfig = {
@@ -160,6 +174,7 @@ export class DataSearchComponent implements OnInit, OnDestroy {
       RegType: new FormControl(""),
       ProductRegistrationNo: new FormControl(""),
       ca_owner: new FormControl(""),
+      CreatedDate: new FormControl("")
     });
 
     this.SLPSearchForm = this.formBuilder.group({
@@ -192,7 +207,8 @@ export class DataSearchComponent implements OnInit, OnDestroy {
   }
 
   filterTableRegister() {
-    let datafield =
+    this.searching_mode = true;
+    this.datafield1 =
       "TAC=" +
       this.RegisterSearchForm.value.TAC +
       "&IMEI=" +
@@ -204,11 +220,12 @@ export class DataSearchComponent implements OnInit, OnDestroy {
       "&ProductRegistrationNo=" +
       this.RegisterSearchForm.value.ProductRegistrationNo +
       "&CA_owner=" + this.RegisterSearchForm.value.ca_owner
-    console.log(datafield);
+    console.log(this.datafield1);
     this.spinner.show()
-    this.productGenerationService.filterMix(datafield).subscribe(
+    this.productGenerationService.filter(this.datafield1).subscribe(
       (res) => {
-        this.infoTable = res;
+        this.infoTable = res['results'];
+        console.log(res)
         this.spinner.hide()
         this.infoTable = this.infoTable.map((prop, key) => {
           return {
@@ -219,6 +236,7 @@ export class DataSearchComponent implements OnInit, OnDestroy {
       },
       (err) => {},
       () => {
+        this.SearchDateRange()
       }
     );
   }
@@ -231,6 +249,7 @@ export class DataSearchComponent implements OnInit, OnDestroy {
       this.SLPSearchForm.value.SLPID_owner +
       "&principal_certificate=" +
       this.SLPSearchForm.value.principal_certificate +
+      "&CA_owner=" + this.SLPSearchForm.value.ca_owner
     console.log('ExpiryDateSLP',this.ExpiryDateSLP);
     this.spinner.show()
     this.SLPService.filterMix(datafield).subscribe(
@@ -246,7 +265,10 @@ export class DataSearchComponent implements OnInit, OnDestroy {
       },
       (err) => {},
       () => {
-        this.SearchDateRangeSLP()
+        if (this.ExpiryDateSLP != null || this.ApproveDateSLP != null){
+          this.SearchDateRangeSLP()
+        }
+
       }
     );
   }
@@ -278,7 +300,9 @@ export class DataSearchComponent implements OnInit, OnDestroy {
       },
       (err) => {},
       () => {
-        this.SearchDateRangeCert()
+        if (this.ExpiryDateSLP != null || this.ApproveDateSLP != null){
+          this.SearchDateRangeCert()
+        }
       }
     );
   }
@@ -286,7 +310,8 @@ export class DataSearchComponent implements OnInit, OnDestroy {
   productGeneration() {
     this.productGenerationService.get().subscribe(
       (res) => {
-        this.infoTable = res;
+        this.infoTable = res["results"];
+        this.productRegistrationTotalCount = res["count"];
       },
       (err) => {
         console.log("HTTP Error", err)
@@ -297,7 +322,8 @@ export class DataSearchComponent implements OnInit, OnDestroy {
   }
 
   entryChange($event) {
-    this.tableEntries = +$event.target.value;
+    //this.tableEntries = +$event.target.value;
+    this.tableEntries = 20;
   }
 
   entryChange2($event) {
@@ -381,17 +407,17 @@ export class DataSearchComponent implements OnInit, OnDestroy {
   }
 
   SearchDateRangeCert() {
-    if (this.ApproveDateCert != null){
+    if (this.ApproveDateCert != null && this.ExpiryDateCert == null){
       this.dateFromApproveCert = this.ApproveDateCert[0]
       this.dateToApproveCert = this.ApproveDateCert[1]
-      console.log('dateFromApproveCert',this.dateFromApproveCert)
-      console.log('dateToApproveCert',this.dateToApproveCert)
+      console.log('dateFromApproveCert1',this.dateFromApproveCert)
+      console.log('dateToApproveCert1',this.dateToApproveCert)
       let temp = this.productCertificationTable
       for (let i in temp) {
-        if (temp[i].created_date) {
-          if (formatDate(temp[i].created_date, "yyyy-MM-dd", "en_US") >=
+        if (temp[i].ApproveDate) {
+          if (formatDate(temp[i].ApproveDate, "yyyy-MM-dd", "en_US") >=
           formatDate(this.dateFromApproveCert, "yyyy-MM-dd", "en_US") &&
-          formatDate(temp[i].created_date, "yyyy-MM-dd", "en_US") <=
+          formatDate(temp[i].ApproveDate, "yyyy-MM-dd", "en_US") <=
           formatDate(this.dateToApproveCert, "yyyy-MM-dd", "en_US")) {
             console.log('temp2',temp[i])
             this.temp2.push(temp[i]);
@@ -400,18 +426,52 @@ export class DataSearchComponent implements OnInit, OnDestroy {
       }
     }
 
-    if(this.ExpiryDateCert != null){
+    else if (this.ApproveDateCert != null && this.ExpiryDateCert != null){
+      this.dateFromApproveCert = this.ApproveDateCert[0]
+      this.dateToApproveCert = this.ApproveDateCert[1]
       this.dateFromExpiryCert = this.ExpiryDateCert[0]
       this.dateToExpiryCert = this.ExpiryDateCert[1]
-      console.log('dateFromApproveCert',this.dateFromExpiryCert)
-      console.log('dateToApproveCert',this.dateToExpiryCert)
+      console.log('dateFromApproveCert2',this.dateFromApproveCert)
+      console.log('dateToApproveCert2',this.dateToApproveCert)
+      let temp = this.productCertificationTable
+      for (let i in temp) {
+        if (temp[i].ApproveDate) {
+          if (formatDate(temp[i].ApproveDate, "yyyy-MM-dd", "en_US") >=
+          formatDate(this.dateFromApproveCert, "yyyy-MM-dd", "en_US") &&
+          formatDate(temp[i].ApproveDate, "yyyy-MM-dd", "en_US") <=
+          formatDate(this.dateToApproveCert, "yyyy-MM-dd", "en_US")) {
+            console.log('temp2',temp[i])
+            this.temp.push(temp[i]);
+          }
+        }
+      }
+
+      let temp3 = this.temp
+      for (let i in temp3) {
+        if (temp3[i].ExpiryDate) {
+          if (formatDate(temp3[i].ExpiryDate, "yyyy-MM-dd", "en_US") >=
+          formatDate(this.dateFromExpiryCert, "yyyy-MM-dd", "en_US") &&
+          formatDate(temp3[i].ExpiryDate, "yyyy-MM-dd", "en_US") <=
+          formatDate(this.dateToExpiryCert, "yyyy-MM-dd", "en_US")) {
+            console.log('temp3',temp3[i])
+            this.temp2.push(temp3[i]);
+          }
+        }
+      }
+    }
+
+    else if(this.ExpiryDateCert != null && this.ApproveDateCert == null){
+      this.dateFromExpiryCert = this.ExpiryDateCert[0]
+      this.dateToExpiryCert = this.ExpiryDateCert[1]
+      console.log('dateFromApproveCert3',this.dateFromExpiryCert)
+      console.log('dateToApproveCert3',this.dateToExpiryCert)
 
       let temp3 = this.productCertificationTable
       for (let i in temp3) {
-        if (temp3[i].created_date) {
-          if (formatDate(temp3[i].created_date, "yyyy-MM-dd", "en_US") >=
+        if (temp3[i].ExpiryDate) {
+          if (formatDate(temp3[i].ExpiryDate, "yyyy-MM-dd", "en_US") >=
           formatDate(this.dateFromExpiryCert, "yyyy-MM-dd", "en_US") &&
-          formatDate(temp3[i].created_date, "yyyy-MM-dd", "en_US") <=
+          formatDate(temp3[i].ExpiryDate, "yyyy-MM-dd", "en_US") <=
           formatDate(this.dateToExpiryCert, "yyyy-MM-dd", "en_US")) {
             console.log('temp3',temp3[i])
             this.temp2.push(temp3[i]);
@@ -421,20 +481,21 @@ export class DataSearchComponent implements OnInit, OnDestroy {
     }
 
     this.productCertificationTable = this.temp2
+    this.temp2 = []
   }
 
   SearchDateRangeSLP(){
-    if (this.ApproveDateSLP != null){
+    if (this.ApproveDateSLP != null && this.ExpiryDateSLP == null){
       this.dateFromApproveSLP = this.ApproveDateSLP[0]
       this.dateToApproveSLP = this.ApproveDateSLP[1]
-      console.log('dateFromApproveSLP',this.dateFromApproveSLP)
-      console.log('dateToApproveSLP',this.dateToApproveSLP)
-      let temp = this.productCertificationTable
+      console.log('dateFromApproveSLP1',this.dateFromApproveSLP)
+      console.log('dateToApproveSLP1',this.dateToApproveSLP)
+      let temp = this.SLPTable
       for (let i in temp) {
-        if (temp[i].created_date) {
-          if (formatDate(temp[i].created_date, "yyyy-MM-dd", "en_US") >=
+        if (temp[i].ApproveDate) {
+          if (formatDate(temp[i].ApproveDate, "yyyy-MM-dd", "en_US") >=
           formatDate(this.dateFromApproveSLP, "yyyy-MM-dd", "en_US") &&
-          formatDate(temp[i].created_date, "yyyy-MM-dd", "en_US") <=
+          formatDate(temp[i].ApproveDate, "yyyy-MM-dd", "en_US") <=
           formatDate(this.dateToApproveSLP, "yyyy-MM-dd", "en_US")) {
             console.log('temp2',temp[i])
             this.temp2.push(temp[i]);
@@ -443,18 +504,53 @@ export class DataSearchComponent implements OnInit, OnDestroy {
       }
     }
 
-    if(this.ExpiryDateSLP != null){
+    else if(this.ExpiryDateSLP != null && this.ApproveDateSLP != null){
+      this.dateFromApproveSLP = this.ApproveDateSLP[0]
+      this.dateToApproveSLP = this.ApproveDateSLP[1]
       this.dateFromExpirySLP = this.ExpiryDateSLP[0]
       this.dateToExpirySLP = this.ExpiryDateSLP[1]
-      console.log('dateFromApproveCert',this.dateFromExpirySLP)
-      console.log('dateToApproveCert',this.dateToExpirySLP)
+      console.log('dateFromApproveSLP2',this.dateFromExpirySLP)
+      console.log('dateToApproveSLP2',this.dateToExpirySLP)
 
-      let temp3 = this.productCertificationTable
+      let temp = this.SLPTable
+      for (let i in temp) {
+        if (temp[i].ApproveDate) {
+          if (formatDate(temp[i].ApproveDate, "yyyy-MM-dd", "en_US") >=
+          formatDate(this.dateFromApproveSLP, "yyyy-MM-dd", "en_US") &&
+          formatDate(temp[i].ApproveDate, "yyyy-MM-dd", "en_US") <=
+          formatDate(this.dateToApproveSLP, "yyyy-MM-dd", "en_US")) {
+            console.log('temp2',temp[i])
+            this.temp.push(temp[i]);
+          }
+        }
+      }
+
+      let temp3 = this.temp
       for (let i in temp3) {
-        if (temp3[i].created_date) {
-          if (formatDate(temp3[i].created_date, "yyyy-MM-dd", "en_US") >=
+        if (temp3[i].ExpiryDate) {
+          if (formatDate(temp3[i].ExpiryDate, "yyyy-MM-dd", "en_US") >=
           formatDate(this.dateFromExpirySLP, "yyyy-MM-dd", "en_US") &&
-          formatDate(temp3[i].created_date, "yyyy-MM-dd", "en_US") <=
+          formatDate(temp3[i].ExpiryDate, "yyyy-MM-dd", "en_US") <=
+          formatDate(this.dateToExpirySLP, "yyyy-MM-dd", "en_US")) {
+            console.log('temp3',temp3[i])
+            this.temp2.push(temp3[i]);
+          }
+        }
+      }
+    }
+
+    else if(this.ExpiryDateSLP != null && this.ApproveDateSLP == null){
+      this.dateFromExpirySLP = this.ExpiryDateSLP[0]
+      this.dateToExpirySLP = this.ExpiryDateSLP[1]
+      console.log('dateFromApproveSLP3',this.dateFromExpirySLP)
+      console.log('dateToApproveSLP3',this.dateToExpirySLP)
+
+      let temp3 = this.SLPTable
+      for (let i in temp3) {
+        if (temp3[i].ExpiryDate) {
+          if (formatDate(temp3[i].ExpiryDate, "yyyy-MM-dd", "en_US") >=
+          formatDate(this.dateFromExpirySLP, "yyyy-MM-dd", "en_US") &&
+          formatDate(temp3[i].ExpiryDate, "yyyy-MM-dd", "en_US") <=
           formatDate(this.dateToExpirySLP, "yyyy-MM-dd", "en_US")) {
             console.log('temp3',temp3[i])
             this.temp2.push(temp3[i]);
@@ -464,20 +560,21 @@ export class DataSearchComponent implements OnInit, OnDestroy {
     }
 
     this.SLPTable = this.temp2
+    this.temp2 = []
   }
 
   widgetDataGet() {
     this.subscription = forkJoin([
       this.VisitorCounterService.get(),
       this.productCertificationService.get_TAC(),
-      this.productGenerationService.get_IMEI(),
-      this.productGenerationService.get_serial()
+      this.productGenerationService.getWidget(),
     ]).subscribe(
       (res)=>{
         this.VisitorGetTable = res[0]
         this.TACData = res[1]['TAC_count']
-        this.IMEIData = res[2]['IMEI_count']
-        this.serialData = res[3]['serial_count']
+        this.getDataDB = res[2]
+        this.IMEIData = this.getDataDB[0]['imei_count']
+        this.serialData = this.getDataDB[0]['serial_count']
       }
     );
   }
@@ -525,6 +622,7 @@ export class DataSearchComponent implements OnInit, OnDestroy {
           RegType: loopval.RegType,
           SerialNo: loopval.SerialNo,
           IMEI: loopval.IMEI,
+          CA_owner: loopval.CA_owner
         },
       ];
 
@@ -658,5 +756,69 @@ export class DataSearchComponent implements OnInit, OnDestroy {
     XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
     /* save to file */
     XLSX.writeFile(wb, this.fileNameSLPID);
+  }
+
+  SearchDateRange() {
+    console.log("dateRange", this.selectedDate)
+    if (this.selectedDate != null){
+      this.dateFrom = this.selectedDate[0];
+      this.dateTo = this.selectedDate[1];
+      let temp = this.infoTable;
+        for (let i in temp) {
+          if (temp[i].created_date) {
+            if (
+              formatDate(temp[i].created_date, "yyyy-MM-dd", "en_US") >=
+                formatDate(this.dateFrom, "yyyy-MM-dd", "en_US") &&
+              formatDate(temp[i].created_date, "yyyy-MM-dd", "en_US") <=
+                formatDate(this.dateTo, "yyyy-MM-dd", "en_US")
+            ) {
+              console.log(temp[i])
+              this.temp2.push(temp[i]);
+            }
+          }
+        }
+        this.infoTable = this.temp2
+        this.temp2 = []
+    }
+  }
+
+
+  // pagination function
+  onFooterPage1($event) {
+      this.spinner.show()
+
+      if (this.searching_mode) {
+        this.productGenerationService.filterMix_pagination(this.datafield1+"&page="+$event.page).subscribe(
+          (res) => {
+            this.infoTable = []
+            this.infoTable = res["results"];
+            this.productRegistrationTotalCount = res["count"];
+            this.spinner.hide()
+          },
+          (err) => {
+            console.log("HTTP Error", err)
+            this.spinner.hide()
+          },
+          () => {
+          }
+        );
+
+      }
+      else {
+
+        this.productGenerationService.get_pagination($event.page).subscribe(
+          (res) => {
+            this.infoTable = []
+            this.infoTable = res["results"];
+            this.spinner.hide()
+          },
+          (err) => {
+            console.log("HTTP Error", err)
+            this.spinner.hide()
+          },
+          () => {
+          }
+        );
+      }
   }
 }

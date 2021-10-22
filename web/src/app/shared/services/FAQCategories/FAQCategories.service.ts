@@ -21,6 +21,7 @@ export class FAQCategoriesService {
   public urlHistory4: string = environment.baseUrl + "v1/variableConfigureHistory/"
   public urlHistory5: string = environment.baseUrl + "v1/certifiedAgencyHistory/"
   public urlHistory6: string = environment.baseUrl + "v1/userHistory/"
+  public urlHistory7: string = environment.baseUrl + "v1/usersLog/"
 
   constructor(private http: HttpClient) { }
 
@@ -83,6 +84,14 @@ export class FAQCategoriesService {
 
   getHistory6(): Observable<FAQCategories[]> {
     return this.http.get<FAQCategories[]>(this.urlHistory6).pipe(
+      tap((res) => {
+        this.FAQCategories = res;
+      })
+    );
+  }
+
+  getHistory7(): Observable<FAQCategories[]> {
+    return this.http.get<FAQCategories[]>(this.urlHistory7).pipe(
       tap((res) => {
         this.FAQCategories = res;
       })
@@ -164,6 +173,15 @@ export class FAQCategoriesService {
   searchHistory6(field: String): Observable<FAQCategories[]> {
     let History6 = this.urlHistory6 + "?" + field;
     return this.http.get<FAQCategories[]>(History6).pipe(
+      tap((res) => {
+
+      })
+    );
+  }
+
+  searchHistory7(field: String): Observable<FAQCategories[]> {
+    let History7 = this.urlHistory6 + "?" + field;
+    return this.http.get<FAQCategories[]>(History7).pipe(
       tap((res) => {
 
       })

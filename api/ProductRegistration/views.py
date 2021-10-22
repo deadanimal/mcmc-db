@@ -1,3 +1,4 @@
+from ProductRegistration.serializers import SerialDataSerializer
 import time
 import uuid
 import datetime
@@ -24,22 +25,26 @@ from rest_framework.pagination import PageNumberPagination
 from django_filters.rest_framework import DjangoFilterBackend
 
 from ProductRegistration.models import (
-    ProductRegistration
+    ProductRegistration, 
+    SerialData
 )
 
 from ProductRegistration.serializers import (
-    ProductRegistrationSerializer
+    ProductRegistrationSerializer,
+    SerialDataSerializer
 )
 
-# class StandardResultsSetPagination(PageNumberPagination):
-#     page_size = 100
-#     page_size_query_param = 'page_size'
-#     max_page_size = 1000
+from rest_framework import pagination
 
+
+class StandardResultsSetPagination(pagination.PageNumberPagination):
+    page_size = 20
+    page_size_query_param = 'page_size'
+    max_page_size = 1000
 
 class ProductRegistrationViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
     queryset = ProductRegistration.objects.all()
-    # pagination_class = StandardResultsSetPagination
+    pagination_class = StandardResultsSetPagination
     serializer_class = ProductRegistrationSerializer
     filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
     filterset_fields = [
@@ -307,9 +312,56 @@ class ProductRegistrationViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
         current_month = str(datetime.datetime.now(timezone_).month)
         serial_current_month = len(ProductRegistration.objects.filter(created_date__month=current_month))
         serial_counter = len(ProductRegistration.objects.filter(RegType='SerialNo'))
+        IMEI_counter = len(ProductRegistration.objects.filter(RegType='IMEI'))
+        product_counter = ProductRegistration.objects.all().count()
+
+        
+        serial_data = SerialData.objects.create()
+        serial_data.serial_count = serial_counter
+        serial_data.imei_count = IMEI_counter
+        serial_data.total_product = product_counter
+        serial_data.total_product_month = serial_current_month
+        
+        SerialData.objects.all().delete()
+        serial_data.save()
+        
         data = {
-            "serial_count" : serial_counter,
-            "current_product" : serial_current_month
+            "message": "SerialNo Counter Initialised"
         }
         
         return JsonResponse(data)
+    
+class SerialDataViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
+    queryset = SerialData.objects.all()
+    serializer_class = SerialDataSerializer
+    filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
+    
+    def get_permissions(self):
+        if self.action == 'list':
+            permission_classes = [AllowAny]
+        else:
+            permission_classes = [AllowAny]
+
+        return [permission() for permission in permission_classes]
+
+    def get_queryset(self):
+        queryset = SerialData.objects.all()
+        # queryset = CustomUser.objects.filter(string__contains=CustomUser.name)
+
+        """
+        if self.request.user.is_anonymous:
+            queryset = Company.objects.none()
+
+        else:
+            user = self.request.user
+            company_employee = CompanyEmployee.objects.filter(employee=user)
+            company = company_employee[0].company
+            
+            if company.company_type == 'AD':
+                queryset = User.objects.all()
+            else:
+                queryset = User.objects.filter(company=company.id)
+        """
+        return queryset
+
+

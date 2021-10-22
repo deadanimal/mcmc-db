@@ -10,7 +10,8 @@ from django.utils.timezone import now
 #from api.settings import AWS_S3_ENDPOINT_URL, AWS_STORAGE_BUCKET_NAME
 
 from .models import (
-    ProductRegistration
+    ProductRegistration,
+    SerialData
 )
 
 class ProductRegistrationSerializer(serializers.ModelSerializer):
@@ -33,3 +34,14 @@ class ProductRegistrationSerializer(serializers.ModelSerializer):
         )
         # read_only_fields = ('email', 'id', 'TACInd')
 
+class SerialDataSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = SerialData
+        fields = (
+            'id',
+            'serial_count',
+            'imei_count',
+            'total_product',
+            'total_product_month',
+        )

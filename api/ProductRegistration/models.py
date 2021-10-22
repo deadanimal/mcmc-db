@@ -40,3 +40,10 @@ class ProductRegistration(models.Model):
     def __str__(self):
         return self.SLPID
 
+
+class SerialData(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    serial_count = models.IntegerField(blank=True, null=True)
+    total_product = models.IntegerField(blank=True, null=True)
+    imei_count = models.IntegerField(blank=True, null=True)
+    total_product_month = models.IntegerField(blank=True, null=True)

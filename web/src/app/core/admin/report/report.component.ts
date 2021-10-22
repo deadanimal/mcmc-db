@@ -81,17 +81,22 @@ export class ReportComponent implements OnInit, OnDestroy {
   filterPRODUCT = []
   filterLABEL = []
   VisitorGetTable = []
-  TACcount = []
-  IMEIcount = []
-  SERIALcount = []
+  TACData = []
+  IMEIData = []
+  SERIALData = []
+  TOTALData = []
+  getDataDB = []
   thisMonthSearch: any = []
   totalSearch: any
   currentProduct = []
+  IMEIcount = []
+  SERIALcount = []
+  TACcount = []
   userdata=[]
   searchMonthly
   searchMonth
   dataSearchForm: FormGroup
-  percent: any 
+  percent: any
 
   new
   exist
@@ -123,8 +128,9 @@ export class ReportComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    this.widgetDataGet();
     this.productGeneration();
-    this.VisitorCounterGet();
+    // this.VisitorCounterGet();
     this.calculateCharts();
     this.getData()
     setTimeout(() => {
@@ -1326,50 +1332,76 @@ export class ReportComponent implements OnInit, OnDestroy {
     );
   }
 
-  VisitorCounterGet() {
-    this.VisitorCounterService.get().subscribe(
-      (res) => {
-        this.VisitorGetTable = res;
-        console.log("counter visitor", this.VisitorGetTable.length);
-      },
-      (err) => {},
-      () => {
-        console.log("HTTP request completed.");
-      }
-    )
+  // VisitorCounterGet() {
+  //   this.VisitorCounterService.get().subscribe(
+  //     (res) => {
+  //       this.VisitorGetTable = res;
+  //       console.log("counter visitor", this.VisitorGetTable.length);
+  //     },
+  //     (err) => {},
+  //     () => {
+  //       console.log("HTTP request completed.");
+  //     }
+  //   )
 
-    this.productCertificationService.get_TAC().subscribe(
+  //   this.productCertificationService.get_TAC().subscribe(
+  //     (res)=>{
+  //       this.TACcount = res['TAC_count']
+
+  //     },
+  //   )
+
+  //   this.ProductGenerationService.get_IMEI().subscribe(
+  //     (res)=>{
+  //       this.IMEIcount = res['IMEI_count']
+  //     }
+  //   )
+
+  //   this.ProductGenerationService.get_serial().subscribe(
+  //     (res)=>{
+  //       this.SERIALcount = res['serial_count']
+  //       this.currentProduct = res['current_product']
+  //     }
+  //   )
+
+  //   this.SearchCounterService.getSearchCounter().subscribe(
+  //     (res) => {
+  //       this.thisMonthSearch = res['get_current_counter']
+  //       this.totalSearch = res['get_counter']
+  //     }
+  //   )
+
+  //   this.usersService.getAll().subscribe(
+  //     (res)=>{
+  //       this.userdata = res
+  //     }
+  //   )
+  // }
+
+  widgetDataGet() {
+    this.subscription = forkJoin([
+      this.VisitorCounterService.get(),
+      this.productCertificationService.get_TAC(),
+      this.ProductGenerationService.getWidget(),
+      this.SearchCounterService.getSearchCounter(),
+      this.usersService.getAll(),
+    ]).subscribe(
       (res)=>{
-        this.TACcount = res['TAC_count']
-
-      },
-    )
-
-    this.ProductGenerationService.get_IMEI().subscribe(
-      (res)=>{
-        this.IMEIcount = res['IMEI_count']
+        this.VisitorGetTable = res[0]
+        this.TACData = res[1]['TAC_count']
+        this.getDataDB = res[2]
+        this.thisMonthSearch = res[3]['get_current_counter']
+        this.totalSearch = res[3]['get_counter']
+        this.userdata = res[4]
+        this.IMEIData = this.getDataDB[0]['imei_count']
+        this.SERIALData = this.getDataDB[0]['serial_count']
+        this.TOTALData = this.getDataDB[0]['total_product']
+        this.currentProduct = this.getDataDB[0]['total_product_month']
+        console.log('this.currentProduct',this.currentProduct)
+        console.log('thisMonthSearch',this.thisMonthSearch)
+        console.log('this.totalSearch',this.totalSearch)
       }
-    )
-
-    this.ProductGenerationService.get_serial().subscribe(
-      (res)=>{
-        this.SERIALcount = res['serial_count']
-        this.currentProduct = res['current_product']
-      }
-    )
-
-    this.SearchCounterService.getSearchCounter().subscribe(
-      (res) => {
-        this.thisMonthSearch = res['get_current_counter']
-        this.totalSearch = res['get_counter']
-      }
-    )
-
-    this.usersService.getAll().subscribe(
-      (res)=>{
-        this.userdata = res
-      }
-    )
+    );
   }
 
   calculate(){

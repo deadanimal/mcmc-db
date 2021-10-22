@@ -134,6 +134,14 @@ export class AuthService {
     )
   }
 
+  isAuthenticated(): boolean {
+    let jwtHelper: JwtHelperService = new JwtHelperService()
+    const token = localStorage.getItem('accessToken');
+    // Check whether the token is expired and return
+    // true or false
+    return !jwtHelper.isTokenExpired(token);
+  }
+
   getUserDetail(): Observable<any> {
     // console.log('getuserdetail')
     let selfInformationUrl = this.urlUser + this.userID + '/'
@@ -146,7 +154,7 @@ export class AuthService {
         }
 
         else if (this.userType == 'US'){
-          this.userRole = 1
+          this.userRole = 2
         }
         console.log('User detail', this.userDetail)
       })

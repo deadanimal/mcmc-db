@@ -1,4 +1,5 @@
 
+from ProductRegistration.models import SerialData
 from datetime import datetime, timedelta
 
 from django.conf import settings
@@ -36,11 +37,16 @@ organisations_router = router.register(
 # Users app
 
 from users.views import (
-    CustomUserViewSet
+    CustomUserViewSet,
+    CustomUserHistoryViewSet
 )
 
 users_router = router.register(
     'users', CustomUserViewSet
+)
+
+usersLog_router = router.register(
+    'usersLog', CustomUserHistoryViewSet
 )
 
 from usersHistory.views import(
@@ -69,11 +75,16 @@ ViewListingVariable2_router = router.register(
 )
 
 from ProductRegistration.views import (
-    ProductRegistrationViewSet
+    ProductRegistrationViewSet,
+    SerialDataViewSet
 )
 
 ProductRegistration_router = router.register(
     'ProductRegistration', ProductRegistrationViewSet
+)
+
+SerialData_router = router.register(
+    'widgetCount', SerialDataViewSet
 )
 
 from dataSearch.views import (

@@ -7,6 +7,7 @@ import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.compon
 import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component';
 import { PresentationComponent } from './examples/presentation/presentation.component';
 import { PublicLayoutComponent } from './layouts/public-layout/public-layout.component';
+import { AuthGuard } from './shared/guard/auth.guard';
 
 const routes: Routes = [
   {
@@ -24,53 +25,21 @@ const routes: Routes = [
     children: [
       {
         path: 'admin',
-        loadChildren: './core/admin/admin.module#AdminModule'
+        loadChildren: './core/admin/admin.module#AdminModule',
+        canActivate: [AuthGuard],
+        data: {
+          expectedRole:'AD'
+        }
       },
       {
         path: 'user',
-        loadChildren: './core/user/user.module#UserModule'
+        loadChildren: './core/user/user.module#UserModule',
       },
     //  {
     //    path: 'global',
     //    loadChildren: './core/global/global.module#GlobalModule'
     //  },
       // Example
-      {
-        path: 'dashboards',
-        loadChildren: './examples/dashboards/dashboards.module#DashboardsModule'
-      },
-      {
-        path: 'components',
-        loadChildren: './examples/components/components.module#ComponentsModule'
-      },
-      {
-        path: 'forms',
-        loadChildren: './examples/forms/forms.module#FormsModules'
-      },
-      {
-        path: 'tables',
-        loadChildren: './examples/tables/tables.module#TablesModule'
-      },
-      {
-        path: 'maps',
-        loadChildren: './examples/maps/maps.module#MapsModule'
-      },
-      {
-        path: 'widgets',
-        loadChildren: './examples/widgets/widgets.module#WidgetsModule'
-      },
-      {
-        path: 'charts',
-        loadChildren: './examples/charts/charts.module#ChartsModule'
-      },
-      {
-        path: 'calendar',
-        loadChildren: './examples/calendar/calendar.module#CalendarModule'
-      },
-      {
-        path: 'examples',
-        loadChildren: './examples/examples/examples.module#ExamplesModule'
-      }
     ]
   },
   {

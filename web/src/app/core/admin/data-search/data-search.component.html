@@ -61,7 +61,7 @@
               </h5>
 
               <span class="h2 font-weight-bold mb-0">
-                {{ this.TACData }}
+                {{this.TACData}}
               </span>
             </div>
 
@@ -95,7 +95,7 @@
               </h5>
 
               <span class="h2 font-weight-bold mb-0">
-                {{ this.IMEIData }}
+                {{this.IMEIData}}
               </span>
             </div>
 
@@ -129,7 +129,7 @@
               </h5>
 
               <span class="h2 font-weight-bold mb-0">
-                {{ this.serialData }}
+                {{ this.serialData}}
               </span>
             </div>
 
@@ -203,6 +203,17 @@
                             </option>
                           </select>
                         </div>
+                        <div class="form-group">
+                          <label class="form-control-label" for="TAC">
+                            TAC
+                          </label>
+                          <input
+                            class="form-control form-control-sm"
+                            placeholder="Show All"
+                            type="text"
+                            formControlName="TAC"
+                          />
+                        </div>
                       </form>
                     </div>
                     <div class="col-4">
@@ -219,16 +230,25 @@
                           />
                         </div>
                         <div class="form-group">
-                          <label class="form-control-label" for="TAC">
-                            TAC
+                          <label class="form-control-label" for="CreatedDate">
+                            Created Date
                           </label>
+                          
                           <input
-                            class="form-control form-control-sm"
                             placeholder="Show All"
-                            type="text"
-                            formControlName="TAC"
+                            class="form-control form-control-sm"
+                            formControlName="CreatedDate"
+                            #dp="bsDaterangepicker"
+                            [(ngModel)]="selectedDate"
+                            bsDaterangepicker
+                            [bsConfig]="{
+                              isAnimated: true,
+                              dateInputFormat: 'YYYY-MM-DD',
+                              containerClass: 'theme-dark-blue'
+                            }"
                           />
                         </div>
+
                       </form>
                     </div>
                     <div class="col-4">
@@ -290,10 +310,11 @@
                             class="form-control form-control-sm"
                             (change)="entryChange($event)"
                           >
-                            <option value="5">5</option>
+                            <!--<option value="5">5</option>
                             <option value="25">25</option>
                             <option value="50">50</option>
-                            <option value="-1">All</option>
+                            <option value="-1">All</option>-->
+                            <option value="20">20</option>-->
                           </select>
                           records
                         </label>
@@ -318,6 +339,7 @@
                   </div>
 
                   <ngx-datatable
+                    #table
                     class="bootstrap selection-cell"
                     [columnMode]="'force'"
                     [headerHeight]="50"
@@ -327,6 +349,7 @@
                     [limit]="tableEntries != -1 ? tableEntries : undefined"
                     (activate)="onActivate($event)"
                     [sorts]="[{ prop: 'email', dir: 'asc' }]"
+                    [paging]="false"
                   >
                     <ngx-datatable-column name="No">
                       <ng-template
@@ -374,14 +397,14 @@
                       </ng-template>
                     </ngx-datatable-column>
 
-                    <ngx-datatable-column>
+                    <!--<ngx-datatable-column>
                       <ng-template ngx-datatable-header-template>
                         <span>File No</span>
                       </ng-template>
                       <ng-template let-row="row" ngx-datatable-cell-template>
                         {{ row.FileNo }}
                       </ng-template>
-                    </ngx-datatable-column>
+                    </ngx-datatable-column>-->
 
                     <ngx-datatable-column>
                       <ng-template ngx-datatable-header-template>
@@ -398,7 +421,44 @@
                       <ng-template let-row="row" ngx-datatable-cell-template>
                         {{ row.CA_owner }}
                       </ng-template>
+                      
                     </ngx-datatable-column>
+                    <ngx-datatable-column>
+                      <ng-template ngx-datatable-header-template>
+                        <span>Created Date</span>
+                      </ng-template>
+                      <ng-template let-row="row" ngx-datatable-cell-template>
+                        {{ row.created_date | date: "dd/MM/yyyy"  }}
+                      </ng-template>
+                      
+                    </ngx-datatable-column>
+                    <ngx-datatable-footer>
+                      <ng-template 
+                        ngx-datatable-footer-template
+                        let-rowCount="rowCount"
+                        let-pageSize="pageSize"
+                        let-selectedCount="selectedCount"
+                        let-curPage="curPage"
+                        let-offset="offset"
+                        let-isVisible="isVisible">
+                          <div class="page-count">
+                            <span *ngIf="selectedMessage">
+                              {{selectedCount.toLocaleString()}} {{selectedMessage}} / 
+                            </span>
+                            {{this.productRegistrationTotalCount.toLocaleString()}} {{totalMessage}}
+                          </div>
+                          <datatable-pager
+                              [pagerLeftArrowIcon]="'datatable-icon-left'"
+                              [pagerRightArrowIcon]="'datatable-icon-right'"
+                              [pagerPreviousIcon]="'datatable-icon-prev'"
+                              [pagerNextIcon]="'datatable-icon-skip'"
+                              [page]="curPage"
+                              [size]="curPageSize"
+                              [count]="productRegistrationTotalCount"
+                              (change)="onFooterPage1($event)">
+                          </datatable-pager>
+                      </ng-template>
+                    </ngx-datatable-footer>
                   </ngx-datatable>
                 </div>
               </div>
@@ -981,7 +1041,7 @@
                         <span>Approved Date</span>
                       </ng-template>
                       <ng-template let-row="row" ngx-datatable-cell-template>
-                        {{ row.ApproveDate }}
+                        {{ row.ApproveDate | date: "dd/MM/yyyy" }}
                       </ng-template>
                     </ngx-datatable-column>
 
@@ -990,7 +1050,7 @@
                         <span>Expiry Date</span>
                       </ng-template>
                       <ng-template let-row="row" ngx-datatable-cell-template>
-                        {{ row.ExpiryDate }}
+                        {{ row.ExpiryDate | date: "dd/MM/yyyy" }}
                       </ng-template>
                     </ngx-datatable-column>
 

@@ -50,6 +50,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   serialData = []
   IMEIData = []
   searchMonthly = []
+  getDataDB = []
 
   subscription: Subscription;
 
@@ -66,7 +67,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.getData();
     setTimeout(() => {
       this.getCharts()
-    }, 8000);
+    }, 12000);
   }
 
   ngOnDestroy() {
@@ -368,14 +369,17 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.subscription = forkJoin([
       this.VisitorCounterService.get(),
       this.productCertificationService.get_TAC(),
-      this.productGenerationService.get_IMEI(),
-      this.productGenerationService.get_serial()
+      // this.productGenerationService.get_IMEI(),
+      // this.productGenerationService.get_serial()
+      this.productGenerationService.getWidget()
     ]).subscribe(
       (res)=>{
         this.VisitorGetTable = res[0]
         this.TACData = res[1]['TAC_count']
-        this.IMEIData = res[2]['IMEI_count']
-        this.serialData = res[3]['serial_count']
+        this.getDataDB = res[2]
+        this.IMEIData = this.getDataDB[0]['imei_count']
+        this.serialData = this.getDataDB[0]['serial_count']
+
       }
     );
   }

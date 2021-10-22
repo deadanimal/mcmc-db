@@ -80,7 +80,7 @@ except:
     #     "TAC":"RDDO/12A/0220/S(20-0410)"
     #     }
     
-TAC = {"TAC":"ROAE/40A/0920/S(20-3704)"}
+TAC = {"TAC": "RGIC/06A/0620/S(20-2463)"}
 
     # response3 = requests.post("https://ecommptest.sirim.my/RESTAPI/api/GetProductRegistration", json=AuthProduct)
 response3 = requests.post("http://ecommdev.esource.my/restapi/api/GetProductRegistration", json=TAC)

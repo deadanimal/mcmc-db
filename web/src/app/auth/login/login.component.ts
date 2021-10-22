@@ -71,7 +71,6 @@ export class LoginComponent implements OnInit {
       (err) => {
         this.loadingBar.complete();
         this.errorMessage();
-        // console.log("HTTP Error", err), this.errorMessage();
       },
       () => {
         this.usersService.getOne(this.authService.userID).subscribe(

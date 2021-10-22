@@ -2,7 +2,7 @@ import csv
 import requests
 import json
 
-with open('serial.csv', mode='r', encoding='utf-8-sig') as csv_file:
+with open('SLPID.csv', mode='r', encoding='utf-8-sig') as csv_file:
     csv_reader = csv.DictReader(csv_file)
     line_count = 0
     for row in csv_reader:
@@ -12,22 +12,34 @@ with open('serial.csv', mode='r', encoding='utf-8-sig') as csv_file:
         # print(f'\tworks in the {row["Email Address"]}')
 
 
-        account = {
-         #  database: file(xlsx/csv)
-            'fileNo': row["ProductRegNo"],
-            'productCategory': row["productCategory"],
-            'TAC': row["TAC"],
-            'modelId': row["modelID"],
-            'modelDescription': row["modelDescription"],
-            'consigneeName': row["consigneeName"],
-            # 'submissionDate': row["SUBMISSION DATE"],
-            # 'approveDate': row["APPROVE DATE"],
-            # 'expiryDate': row["EXPIRY DATE"],
-            'category': row["RegType"],
-            'serialNo': row["SerialNo"],
-            'SLPID': row["SLPID"],
-        }
+        # account = {
+        #  #  database: file(xlsx/csv)
+        #     'SLPID': row["SLPID"],
+        #     # 'FileNo': row["FileNo"],
+        #     'TAC': row["TAC"],
+        #     'ProductRegistrationNo': row["ProdRegNo"],
+        #     'RegType': row["RegType"],
+        #     'SerialNo': row["SerialNo"],
+        #     # 'IMEI': row["IMEI"],
+        #     'CA_owner': "SIRIM",
+        #     # 'SLPID': row["SLPID"],
+        # }
+        SLPID = {
+                # #      #  database: json
+                        'SLP_ID': row["SLPID"],
+                        'ExpiryDate': row["ExpiryDate"],
+                        'SLPID_owner': row["SLPID_owner"],
+                        'principal_certificate': row["principal_certificate"],
+                        'ApproveDate': row["ApproveDate"],
+                        'CA_owner': "SIRIM",
+                    }
         line_count += 1
         #print(json.dumps(account))
-        requests.post('http://127.0.0.1:8000/v1/ProductRegistration/', data=account)
-    print(f'Processed {line_count} lines.')
+        requestsUpload = requests.post('http://127.0.0.1:8000/v1/SLP/', data=SLPID)
+        if (requestsUpload.status_code == 201):
+            print(line_count-1, "Success")
+        else:
+            print(line_count-1, requestsUpload.status_code)
+        
+        # print(account)
+    print(f'Processed {line_count -1} lines.')

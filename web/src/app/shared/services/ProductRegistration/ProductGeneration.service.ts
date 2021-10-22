@@ -14,6 +14,7 @@ export class ProductGenerationService {
 
     // URL
     public url: string = environment.baseUrl + "v1/ProductRegistration/";
+    public widget: string = environment.baseUrl + "v1/widgetCount/";
     // Data
     public ProductRegistration: ProductRegistration[] = [];
   
@@ -29,6 +30,15 @@ export class ProductGenerationService {
   
     get(): Observable<ProductRegistration[]> {
       return this.http.get<ProductRegistration[]>(this.url).pipe(
+        tap((res) => {
+          this.ProductRegistration = res;
+          console.log("ProductRegistration: ", res);
+        })
+      );
+    }
+
+    getWidget(): Observable<ProductRegistration[]> {
+      return this.http.get<ProductRegistration[]>(this.widget).pipe(
         tap((res) => {
           this.ProductRegistration = res;
           console.log("ProductRegistration: ", res);
@@ -135,4 +145,24 @@ export class ProductGenerationService {
         })
       )
     }
+
+    //pagination get
+    get_pagination(page): Observable<any[]> {
+      return this.http.get<any[]>(this.url + "?page=" + page).pipe(
+        tap((res) => {
+          this.ProductRegistration = res;
+          console.log("ProductRegistration: ", res);
+        })
+      );
+    }
+
+    filterMix_pagination(field: String): Observable<ProductRegistration[]> {
+      let urlFilter = this.url+ "?" + field;
+      return this.http.get<ProductRegistration[]>(urlFilter).pipe(
+        tap((res) => {
+          console.log("EmployeeDirectories: ", res);
+        })
+      );
+    }
+
   }
